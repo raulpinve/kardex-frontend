@@ -9,6 +9,8 @@ import axios from "axios";
 import { login, logout } from "./store/authSlice";
 import { RiLoader4Fill } from "react-icons/ri";
 import PrivateRoute from "./shared/components/PrivateRoute";
+import SolicitarRestablecerContrasena from "./pages/auth/SolicitarRestablecerContrasena";
+import RestablecerContrasena from "./pages/auth/RestablecerContrasena";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +54,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PrivateRoute Component={Layout} />} />
+        <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />
+        <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>

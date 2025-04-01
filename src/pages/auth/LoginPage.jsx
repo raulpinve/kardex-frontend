@@ -131,7 +131,7 @@ const LoginPage = () => {
                     {/* Mensaje de error general */}
                     {messageError && <p className="message-error">{messageError}</p>}
 
-                    <Link to="/app/solicitar-restablecer-contrasena" className="text-indigo-700 underline dark:text-white">
+                    <Link to="/solicitar-restablecer-contrasena" className="text-indigo-700 underline dark:text-white">
                         ¿Olvidó su contraseña?
                     </Link>
                     
