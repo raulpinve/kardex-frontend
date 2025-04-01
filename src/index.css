@@ -15,3 +15,39 @@
 .sidebar-li.active{
   @apply bg-blue-100 text-blue-600;
 }
+
+@layer components {
+  .input-form {
+    @apply border border-gray-200 w-full rounded-lg py-2 px-3 outline-none dark:bg-slate-700 dark:border-transparent dark:text-white text-sm
+  }
+  .input-form-error {
+    @apply border-red-600 dark:border-red-600 
+  }
+  .select-form{
+    @apply border w-full rounded-lg py-2 px-3 outline-none dark:bg-slate-600 dark:border-transparent dark:text-white text-sm
+  }
+  .label-form{
+    @apply font-medium dark:text-white text-sm select-none
+  }
+  .button-form{
+    @apply  text-white py-1.5 px-2.5 rounded-2xl text-sm flex items-center gap-1 cursor-pointer justify-center 
+  }
+  .button-form-primary{
+    @apply bg-blue-600 dark:bg-slate-700  
+  }
+  .button-form-disabled{
+    @apply bg-slate-800 text-white cursor-not-allowed
+  }
+  .message-error{
+    @apply bg-red-600 text-white text-sm rounded-xl py-2 px-4 
+  }
+  .input-message-error{
+    @apply text-red-600 text-sm  dark:font-semibold
+  }
+  .button-form-secondary{
+    @apply bg-slate-600 dark:bg-slate-700 
+  }
+  .button-form-danger{
+    @apply bg-red-600 dark:bg-slate-700 
+  }
+}

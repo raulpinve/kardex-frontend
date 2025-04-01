@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 import { LuCircleUser, LuSettings2, LuLogOut } from 'react-icons/lu';
+import { logout } from '../../store/authSlice';
+import { useDispatch } from 'react-redux';
+import { removeUser } from '../../store/userSlice';
 
 const DropdownProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const dispatch = useDispatch();
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -58,7 +62,13 @@ const DropdownProfile = () => {
           </li>
         </ul>
 
-        <button className="header-profile-li">
+        <button 
+          className="header-profile-li"
+          onClick={() => {
+            dispatch(logout())
+            dispatch(removeUser())
+          }}
+        >
           <LuLogOut />
           <span>Salir</span>
         </button>
