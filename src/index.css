@@ -10,44 +10,100 @@
   @apply flex items-center w-full gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-200 dark:hover:bg-white/5 dark:hover:text-gray-300 cursor-pointer
 }
 .sidebar-li {
-  @apply flex items-center gap-3 px-3 py-2 cursor-pointer rounded-lg hover:bg-gray-100 transition dark:hover:bg-slate-800 dark:hover:text-white
+  @apply flex items-center gap-3 px-3 py-2 cursor-pointer rounded-lg hover:bg-gray-100 transition dark:hover:bg-gray-800 dark:hover:text-white/90
 }
 .sidebar-li.active{
-  @apply bg-blue-100 text-blue-600;
+  @apply bg-blue-100 text-blue-600 dark:bg-gray-800 dark:text-white/90;
 }
 
 @layer components {
   .input-form {
-    @apply border border-gray-200 w-full rounded-lg py-2 px-3 outline-none dark:bg-slate-700 dark:border-transparent dark:text-white text-sm
+    @apply h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 
+      text-sm text-gray-800 placeholder:text-gray-400 
+      focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-300/50 
+      dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:border-gray-800 ;
   }
   .input-form-error {
     @apply border-red-600 dark:border-red-600 
+      ring-4 ring-red-300/50 /* Resplandor rojo por defecto */;
   }
-  .select-form{
-    @apply border w-full rounded-lg py-2 px-3 outline-none dark:bg-slate-600 dark:border-transparent dark:text-white text-sm
+  .input-form-error:focus {
+      @apply border-red-600 ring-red-300/50 /* Mantiene el error en focus */;
+  }
+  .input-message-error{
+    @apply text-red-600 text-sm  dark:font-medium 
+  }
+  .select-form {
+    @apply h-11 w-full appearance-none rounded-lg border bg-transparent px-4 py-2.5 pr-11 
+      text-sm text-gray-800 placeholder:text-gray-400 
+      focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-300/50 
+      border-gray-300 
+      dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 
+      dark:focus:border-blue-400 dark:focus:ring-blue-400/20;
+  }
+  .select-form-error {
+    @apply border-red-600 ring-4 ring-red-300/50 dark:border-red-600;
+  }
+  .select-form-error:focus {
+      @apply border-red-600 ring-red-300/50;
   }
   .label-form{
-    @apply font-medium dark:text-white text-sm select-none
+    @apply mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400
   }
   .button-form{
-    @apply  text-white py-1.5 px-2.5 rounded-2xl text-sm flex items-center gap-1 cursor-pointer justify-center 
+    @apply inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium  
+      transition rounded-lg cursor-pointer border text-gray-600 border-gray-300
+      focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-300/50 
+      dark:bg-gray-800  dark:text-white/90 dark:border-gray-800; 
+  }
+  .button-form.small{
+    @apply py-1 px-2
   }
   .button-form-primary{
     @apply bg-blue-600 dark:bg-slate-700  
   }
-  .button-form-disabled{
-    @apply bg-slate-800 text-white cursor-not-allowed
+  .button-form-secondary{
+    @apply bg-white border dark:bg-gray-900
   }
   .message-error{
     @apply bg-red-600 text-white text-sm rounded-xl py-2 px-4 
   }
-  .input-message-error{
-    @apply text-red-600 text-sm  dark:font-semibold
+  /* .button-form-disabled{
+    @apply bg-slate-800 text-white cursor-not-allowed
   }
-  .button-form-secondary{
-    @apply bg-slate-600 dark:bg-slate-700 
-  }
-  .button-form-danger{
+  */
+  /* .button-form-danger{
     @apply bg-red-600 dark:bg-slate-700 
-  }
+  } */
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin; /* Firefox: Scroll delgado */
+  scrollbar-color: #d1d5db transparent; /* Color del thumb y sin fondo */
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px; /* Grosor del scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Sin imagen de fondo */
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #d1d5db; /* Color del thumb */
+  border-radius: 4px;
+  border: 2px solid transparent; /* Hace que se vea más delgado */
+}
+
+/* Ocultar las flechas en WebKit */
+.custom-scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Cambiar color al hacer hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
 }

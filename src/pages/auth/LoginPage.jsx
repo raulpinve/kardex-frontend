@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginService } from '../services/loginService'
 import { login } from '../../store/authSlice'
 import { handleErrors } from '../../utils/handleErrors'
-import { RiLoader4Fill } from 'react-icons/ri'
 
 const LoginPage = () => {
     const dispatch = useDispatch()
@@ -55,7 +54,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         setValue("username", "raulpinve");
-        setValue("password", "Bogota123@");
+        setValue("password", "Bogota123*");
       }, [])
 
     return (

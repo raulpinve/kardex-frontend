@@ -11,22 +11,24 @@ const Header = () => {
     const { darkMode, toggleDarkMode } = useDarkMode();  // Usamos el hook
 
     return (
-        <header className="sticky top-0 w-full border-b border-gray-200 z-99999 bg-white px-3 lg:px-0 dark:bg-gray-900 dark:text-gray-200">
+        <header className="sticky top-0 w-full border-b border-gray-200 z-50 bg-white px-3 lg:px-0 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-800">
         <div className="flex grow  items-center justify-between lg:px-6 py-3">
           <div className="flex items-center">
             {/* Menú hamburguesa */}
-            <button onClick={() => dispatch(toggleSidebar())} 
-              className="w-10 h-10 rounded-lg p-3 border flex items-center justify-center border-gray-200 text-2xl mr-3 cursor-pointer">
+            <button 
+                onClick={() => dispatch(toggleSidebar())} 
+                className="w-10 h-10 border border-gray-200 dark:border-gray-800 rounded-lg mr-2 flex items-center justify-center relative text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200  cursor-pointer"
+              >
                 <RiMenu2Fill />
             </button>
 
             {/* Search input */}
             <div className="relative hidden xl:block">
-              <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-200" />
+              <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
               <input 
                 type="text" 
                 placeholder="Buscar medicamentos o dispositivos..." 
-                className="dark:bg-dark-900 shadow-theme-xs h-11 w-[300px] rounded-lg border border-gray-200 bg-transparent py-2.5 pr-3 pl-10 text-sm outline-0"/>
+                className="input-form pl-10"/>
             </div>
           </div>
 
@@ -35,13 +37,13 @@ const Header = () => {
             {/* Botón de Modo Nocturno */}
             <button
               onClick={toggleDarkMode}
-              className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center relative text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200  cursor-pointer"
+              className="w-10 h-10 border border-gray-200 dark:border-gray-800 rounded-full flex items-center justify-center relative text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200  cursor-pointer"
             >
               {darkMode ? <LuMoon /> : <LuSun />}
             </button>
 
             {/* Bell */}
-            <button className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center relative text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200  cursor-pointer">
+            <button className="w-10 h-10 border border-gray-200 dark:border-gray-800  rounded-full flex items-center justify-center relative text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200  cursor-pointer">
                 <div className="w-2 h-2 bg-orange-400 rounded-full z-20 absolute top-0 right-0"></div>
                 <div className="w-2 h-2 bg-orange-400 absolute top-0 right-0 rounded-full flex justify-center items-center animate-ping z-10"></div>
               <LuBell />

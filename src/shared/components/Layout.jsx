@@ -2,7 +2,9 @@ import React from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
 
-const Layout = () => {
+const Layout = (props) => {
+    const {children} = props;
+
     const [sidebarOpen, setSidebarOpen] = React.useState(() => {
         if (typeof window !== "undefined") {
             const savedState = localStorage.getItem("sidebarOpen");
@@ -35,6 +37,9 @@ const Layout = () => {
             <Sidebar sidebarOpen={sidebarOpen} />
             <div className="relative flex flex-col flex-1 overflow-x-hidden">
                 <Header setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
+                <div className='px-3 lg:px-8 py-4'>
+                    {children}
+                </div>
             </div>
         </div>
     );

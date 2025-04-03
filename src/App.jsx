@@ -11,6 +11,8 @@ import { RiLoader4Fill } from "react-icons/ri";
 import PrivateRoute from "./shared/components/PrivateRoute";
 import SolicitarRestablecerContrasena from "./pages/auth/SolicitarRestablecerContrasena";
 import RestablecerContrasena from "./pages/auth/RestablecerContrasena";
+import ConfiguracionPage from "./pages/configuracion/ConfiguracionPage";
+import { host } from "./utils/config";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,7 +22,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('token')
     if(token){
-      axios.get('http://localhost:3000/validateToken', {
+      axios.get(`${host}/validateToken`, {
           headers: {
             Authorization: `Bearer ${token}` // Reemplaza 'token' con tu token de autorización
           }
@@ -56,6 +58,7 @@ function App() {
         <Route path="/" element={<PrivateRoute Component={Layout} />} />
         <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />
         <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
+        <Route path="/configuracion" element={<PrivateRoute Component={ConfiguracionPage} />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>

@@ -7,8 +7,8 @@ import { solicitarRestablecer } from '../services/restablecerContrasenaService'
 
 const SolicitarRestablecerContrasena = () => {
     const [ loading, setLoading ] = useState(false)
-    const [ messageError, setMessageError ] = useState(null)
     const token = useSelector(state => state.auth.token)
+    const [ messageError, setMessageError ] = useState(null)
     const { register, handleSubmit, setError, formState: { errors }, setValue } = useForm({ mode: "onChange"})
     const [instruccionesEnviadas, setInstruccionesEnviadas] = useState(false);
 

@@ -61,7 +61,7 @@ const SignupPage = () => {
       setValue("apellidos", "Velásquez Pinto");
       setValue("email", "raulpinve@gmail.com");
       setValue("username", "raulpinve");
-      setValue("password", "Bogota123@");
+      setValue("password", "Bogota123*");
     }, [])
 
     return (
