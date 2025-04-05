@@ -9,6 +9,8 @@ import Pagination from '../../../../shared/components/Pagination';
 import ModalEditarUsuario from './ModalEditarUsuario';
 import ModalEditarPrivilegiosAlmacen from './ModalEditarPrivilegiosAlmacen';
 import ModalEliminarUsuario from './ModalEliminarUsuario';
+import Card from '../../../../shared/components/Card';
+import CardTitulo from '../../../../shared/components/CardTitulo';
 
 const Usuarios = () => {
     const [modalActivo, setModalActivo] = useState(null); // 'crear', 'editar', 'eliminar', etc.
@@ -50,11 +52,9 @@ const Usuarios = () => {
 
     return (
         <>
-            <div className='mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-white/[0.03]'>
+            <Card>
                 <div className='flex justify-between items-center'>
-                    <h3 className='text-lg font-semibold text-gray-800 dark:text-white/90 py-1'>
-                        Usuarios
-                    </h3>
+                    <CardTitulo>Usuarios</CardTitulo>
                     <div className='flex gap-1 items-center justify-between'>
                         <Button
                             type="button"
@@ -182,7 +182,7 @@ const Usuarios = () => {
                     totalPaginas={totalPaginas}
                     onPageChange={setPaginaActual}
                 />
-            </div>
+            </Card>
 
             {modalActivo === "crear" && (
                 <ModalCrearUsuario 
