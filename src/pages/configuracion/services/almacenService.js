@@ -1,7 +1,16 @@
 import { apiClient } from "../../../utils/authUtils";
 
-const obtenerAlmacenes = (token) => {
-    const request = apiClient(token).get(`/almacenes`);
+const crearAlmacen = (token, data) => {
+    const request = apiClient(token).post(`/almacenes`, data);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
+const obtenerAlmacenes = (token, paginaActual) => {
+    const request = apiClient(token).get(`/almacenes?pagina=${paginaActual}`);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -9,6 +18,27 @@ const obtenerAlmacenes = (token) => {
         })
 } 
 
+const editarAlmacen = (token, almacenId, data) => {
+    const request = apiClient(token).put(`/almacenes/${almacenId}`, data);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
+const eliminarAlmacen = (token, almacenId) => {
+    const request = apiClient(token).delete(`/almacenes/${almacenId}`);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
 export {
-    obtenerAlmacenes
+    obtenerAlmacenes, 
+    crearAlmacen, 
+    editarAlmacen,
+    eliminarAlmacen
 }

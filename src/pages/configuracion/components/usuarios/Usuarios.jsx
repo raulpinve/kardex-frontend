@@ -75,7 +75,6 @@ const Usuarios = () => {
                         >
                             <LuRefreshCcw />
                         </Button>
-                       
                     </div>
                 </div>
                 <table className='min-w-full mt-3'>
@@ -187,14 +186,14 @@ const Usuarios = () => {
             {modalActivo === "crear" && (
                 <ModalCrearUsuario 
                     isOpenModal = {true}
-                    setIsOpenModal={() => setModalActivo(null)}
+                    cerrarModal={() => setModalActivo(null)}
                     setUsuarios = {setUsuarios}
                 />
             )}
             {modalActivo === "editar" && usuarioSeleccionado && (
                 <ModalEditarUsuario 
                     isOpenModal = {true}
-                    setIsOpenModal={() => setModalActivo(null)}
+                    cerrarModal={() => setModalActivo(null)}
                     setUsuarios = {setUsuarios}
                     usuarioSeleccionado = {usuarioSeleccionado}
                 />
@@ -203,7 +202,7 @@ const Usuarios = () => {
             {modalActivo === "privilegios" && usuarioSeleccionado && (
                 <ModalEditarPrivilegiosAlmacen 
                     isOpenModal = {true}
-                    setIsOpenModal={() => setModalActivo(null)}
+                    cerrarModal={() => setModalActivo(null)}
                     usuarioSeleccionado = {usuarioSeleccionado}
                     setUsuarioSeleccionado = {setUsuarioSeleccionado}
                 />
@@ -212,7 +211,7 @@ const Usuarios = () => {
             {modalActivo === "eliminar" && usuarioSeleccionado && (
                 <ModalEliminarUsuario 
                     isOpenModal = {true}
-                    setIsOpenModal={() => setModalActivo(null)}
+                    cerrarModal={() => setModalActivo(null)}
                     setUsuarios = {setUsuarios}
                     usuarioSeleccionado = {usuarioSeleccionado}
                 />

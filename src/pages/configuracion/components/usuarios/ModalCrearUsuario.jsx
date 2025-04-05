@@ -9,7 +9,7 @@ import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
 
 const ModalCrearUsuario = (props) => {
-    const {isOpenModal, setIsOpenModal, setUsuarios} = props;
+    const {cerrarModal, setUsuarios} = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
@@ -25,13 +25,12 @@ const ModalCrearUsuario = (props) => {
             const data = result?.data
             if(data){
                 setUsuarios(prevUsuarios => [data, ...prevUsuarios]);
-                setIsOpenModal(false)
+                cerrarModal()
                 setValue("primerNombre", "")
                 setValue("apellidos", "")
                 setValue("email", "")
                 setValue("username", "")
                 setValue("password", "")  
-                setIsOpenModal(false)
             } 
             toast.success('Usuario creado correctamente.');
         } catch (error) {
@@ -42,8 +41,8 @@ const ModalCrearUsuario = (props) => {
     }
     return (
         <Modal
-            isOpenModal={isOpenModal}
-            setIsOpenModal={setIsOpenModal}
+            isOpenModal={true}
+            setIsOpenModal={cerrarModal}
             title="Crear Usuario"
             description="Agrega un nuevo usuario con los permisos necesarios para acceder a la aplicación."
             size="lg"
@@ -198,7 +197,7 @@ const ModalCrearUsuario = (props) => {
                         textButton={`Cerrar`}
                         type= "button"
                         onClick={() => {
-                            setIsOpenModal(false);
+                            cerrarModal(false);
                         }}
                     />
                     <Button 

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { LuX } from 'react-icons/lu';
-import Button from './Button';
 
 const Modal = (props) => {
      const {
@@ -34,7 +33,7 @@ const Modal = (props) => {
             : "";
 
     const onCloseModal = () => {
-        setIsOpenModal(false);
+        setIsOpenModal();
         if (onClose) onClose(); // Ejecuta el callback de cierre si existe
     };
 
@@ -105,7 +104,7 @@ const Modal = (props) => {
                     )}
                    
                     {/* Título */}
-                    <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
+                    <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90 px-2">
                         {title}
                     </h4>
                     {/* Descripción */}

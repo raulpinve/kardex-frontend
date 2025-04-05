@@ -10,7 +10,7 @@ import { actualizarPrivilegiosUsuario } from '../../services/usuarioService';
 import { handleErrorsBasic } from '../../../../utils/handleErrors';
 
 const ModalEditarPrivilegiosAlmacen = (props) => {
-    const {isOpenModal, setIsOpenModal, usuarioSeleccionado, setUsuarioSeleccionado} = props;
+    const {cerrarModal, usuarioSeleccionado, setUsuarioSeleccionado} = props;
     const [almacenes, setAlmacenes] = useState([]);
     const [almacenesSeleccionados, setAlmacenesSeleccionados] = useState([]);
     const [loadingData, setLoadingData] = useState(false);
@@ -23,7 +23,6 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
         const cargarDatos = async () => {
             setLoadingData(true);
             setMessageErrorCargarData(null);
-
             try {
                 const [resAlmacenes, resPrivilegios] = await Promise.all([
                     obtenerAlmacenes(token),
@@ -34,7 +33,7 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
                 setAlmacenesSeleccionados(resPrivilegios?.data || []);
             } catch {
                 toast.error("Ha ocurrido un error al momento de obtener los privilegios del usuario.");
-                setIsOpenModal(false);
+                cerrarModal();
                 setUsuarioSeleccionado(null);
             } finally {
                 setLoadingData(false);
@@ -54,7 +53,7 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
                 almacenesIds: almacenesSeleccionados
             })
             toast.success('Privilegios actualizados correctamente.');
-            setIsOpenModal(false)
+            cerrarModal(false)
         } catch (error) {
             handleErrorsBasic(error, setMessageError);
         } finally{
@@ -64,8 +63,8 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
     
     return (
         <Modal
-            isOpenModal={isOpenModal}
-            setIsOpenModal={setIsOpenModal}
+            isOpenModal={true}
+            setIsOpenModal={cerrarModal}
             title="Editar privilegios"
             description="Asigna al usuario los privilegios necesarios para acceder a los almacenes que elijas"
             size="ms"
@@ -107,7 +106,7 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
                                                         }}
                                                     />
                                                 </div>
-                                                Chia
+                                                {almacen.nombre}
                                             </label>
                                         </div>
                                     ))
@@ -128,7 +127,7 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
                             textButton={`Cerrar`}
                             type= "button"
                             onClick={() => {
-                                setIsOpenModal(false);
+                                cerrarModal(false);
                             }}
                         />
                         <Button 

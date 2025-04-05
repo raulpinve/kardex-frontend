@@ -9,7 +9,7 @@ import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
 
 const ModalEditarUsuario = (props) => {
-    const {isOpenModal, setIsOpenModal, setUsuarios, usuarioSeleccionado} = props;
+    const {cerrarModal, setUsuarios, usuarioSeleccionado} = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
@@ -30,12 +30,11 @@ const ModalEditarUsuario = (props) => {
                         return usuario.id === data.id ? { ...usuario, ...data } : usuario
                     })
                 );
-                setIsOpenModal(false)
+                cerrarModal()
                 setValue("primerNombre", "")
                 setValue("apellidos", "")
                 setValue("username", "")
                 setValue("password", "")  
-                setIsOpenModal(false)
             } 
             toast.success('Usuario editado correctamente.');
         } catch (error) {
@@ -56,8 +55,8 @@ const ModalEditarUsuario = (props) => {
 
     return (
         <Modal
-            isOpenModal={isOpenModal}
-            setIsOpenModal={setIsOpenModal}
+            isOpenModal={true}
+            setIsOpenModal={cerrarModal}
             title="Editar Usuario"
             description="Edita un usuario con los permisos necesarios para acceder a la aplicación."
             size="lg"
@@ -169,7 +168,7 @@ const ModalEditarUsuario = (props) => {
                         textButton={`Cerrar`}
                         type= "button"
                         onClick={() => {
-                            setIsOpenModal(false);
+                            cerrarModal(false);
                         }}
                     />
                     <Button 
