@@ -1,10 +1,52 @@
-import React, { useState } from 'react';
+import { LuChevronLeft, LuChevronRight, LuEraser, LuLock, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
+import React, { useEffect, useState } from 'react';
 import Button from '../../../../shared/components/Button';
-import { LuChevronLeft, LuChevronRight, LuEraser, LuListFilter, LuLock, LuPencil, LuSearch } from 'react-icons/lu';
 import ModalCrearUsuario from './ModalCrearUsuario';
+import { useSelector } from 'react-redux';
+import { obtenerUsuarios } from '../../services/usuarioService';
+import SkeletonTable from '../../../../shared/components/SkeletonTable';
+import Pagination from '../../../../shared/components/Pagination';
+import ModalEditarUsuario from './ModalEditarUsuario';
+import ModalEditarPrivilegiosAlmacen from './ModalEditarPrivilegiosAlmacen';
+import ModalEliminarUsuario from './ModalEliminarUsuario';
 
 const Usuarios = () => {
-    const [isOpenModalCrearUsuario, setIsOpenModalCrearUsuario] = useState(false);
+    const [modalActivo, setModalActivo] = useState(null); // 'crear', 'editar', 'eliminar', etc.
+    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(false);
+    const [usuarios, setUsuarios] = useState([]);
+    const [loading, setLoading] = useState(null);
+    const [error, setError] = useState(null);
+    const token = useSelector(state => state.auth.token);
+    const [refresh, setRefresh] = useState(0); 
+    const [paginaActual, setPaginaActual] = useState(1);
+    const [totalPaginas, setTotalPaginas] = useState(1);
+
+    const ROLES = {
+        "admin": "Administrador",
+        "viewer": "Lector", 
+        "editor": "Editor"
+    }
+
+    // Obtener usuarios
+    useEffect(() => {
+        const fetchUsuarios = async () => {
+            setLoading(true);
+            setError(null); // Limpia el error antes de realizar la consulta
+
+            try {
+                const respuesta = await obtenerUsuarios(token, paginaActual)
+                setUsuarios(respuesta.data)
+                setPaginaActual(respuesta.paginacion.paginaActual);
+                setTotalPaginas(respuesta.paginacion.totalPaginas);
+
+            } catch (error) {
+                setError(error?.response?.data?.message || "Ha ocurrido un error interno");
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchUsuarios();
+    }, [token, refresh, paginaActual])
 
     return (
         <>
@@ -13,99 +55,168 @@ const Usuarios = () => {
                     <h3 className='text-lg font-semibold text-gray-800 dark:text-white/90 py-1'>
                         Usuarios
                     </h3>
-                    <div className='flex gap-2 items-center justify-between'>
+                    <div className='flex gap-1 items-center justify-between'>
                         <Button
                             type="button"
                             colorButton="secondary"
                             onClick={() => {
-                                setIsOpenModalCrearUsuario(true)
+                                setModalActivo("crear")
                             }}
                         >   
-                            <span>+</span>  Crear
+                           Crear
                         </Button>
-                        <div className="relative hidden xl:block">
-                            <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-200" />
-                            <input 
-                                type="text" 
-                                placeholder="Buscar usuario..." 
-                                className="pl-10 input-form"
-                            />
-                        </div>
+                        <Button
+                            type="button"
+                            colorButton="secondary"
+                            onClick={() => {
+                                setPaginaActual(1)
+                                setRefresh((prev) => prev + 1)
+                            }}
+                        >
+                            <LuRefreshCcw />
+                        </Button>
+                       
                     </div>
                 </div>
                 <table className='min-w-full mt-3'>
                     <thead>
                         <tr className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>
                             <th className='py-3'>
-                                <p className='font-medium text-gray-500 dark:text-gray-400'>Nombres</p>
+                                <p className='font-medium text-gray-700 dark:text-gray-400'>Nombres</p>
                             </th>
                             <th className='py-3'>
-                                <p className='font-medium text-gray-500 dark:text-gray-400'>E-mail</p>
+                                <p className='font-medium text-gray-700 dark:text-gray-400'>E-mail</p>
                             </th>
                             <th className='py-3'>
-                                <p className='font-medium text-gray-500 dark:text-gray-400'>Username</p>
+                                <p className='font-medium text-gray-700 dark:text-gray-400'>Username</p>
                             </th>
                             <th className='py-3'>
-                                <p className='font-medium text-gray-500 dark:text-gray-400'>Rol</p>
+                                <p className='font-medium text-gray-700 dark:text-gray-400'>Rol</p>
                             </th>
                             <th className='py-3'>
-                                <p className='font-medium text-gray-500 dark:text-gray-400'>Acciones</p>
+                                <p className='font-medium text-gray-700 dark:text-gray-400'>Acciones</p>
                             </th>
                         </tr>
                     </thead>
-                    <tbody className='divide-y divide-gray-100  text-sm dark:divide-gray-800'>
-                        <tr>
-                            <td className='py-3'>
-                                <div className='items-center flex gap-3 rounded-full'>
-                                    <img 
-                                        src="https://picsum.photos/100"
-                                        alt=""
-                                        className='w-10 h-10 object-cover rounded-full'
-                                    />
-                                    <p className='text-gray-500 dark:text-gray-400'> Raúl Velásquez Pinto </p>
-                                </div>
-                            </td>
-                            <td className='py-3'>
-                                <p className='text-gray-500 dark:text-gray-400'> raulpinve@gmail.com </p>
-                            </td>
-                            <td className='py-3'>
-                                <p className='text-gray-500 dark:text-gray-400'> raulpinve </p>
-                            </td>
-                            <td className='py-3'>
-                                <p className='text-gray-500 dark:text-gray-400'> Editor </p>
-                            </td>
-                            <td className='py-3'>
-                                <div className='text-gray-500 dark:text-gray-400 flex gap-2'>
-                                    <button className='cursor-pointer'>
-                                        <LuPencil />
-                                    </button>
-                                    <button className='cursor-pointer'>
-                                        <LuLock  />
-                                    </button>
-                                    <button className='cursor-pointer'>
-                                        <LuEraser />
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                    </tbody>
+                    {loading ? <SkeletonTable rows={7} columns={5}/>: 
+                        <tbody className='divide-y divide-gray-100  text-sm dark:divide-gray-800'>
+                            {error ? <tr>
+                                <td colSpan="5" className='py-3'>
+                                    <p className='text-gray-700 dark:text-gray-400 text-center'> {error}</p>
+                                </td>
+                            </tr> : 
+                            <>
+                                {usuarios.length === 0 ? 
+                                    <tr>
+                                        <td colSpan="5" className='py-3'>
+                                            <p className='text-gray-700 dark:text-gray-400 text-center'> No hay usuarios por mostrar</p>
+                                        </td>
+                                    </tr>: 
+                                    <>
+                                        {usuarios.map(usuario => {
+                                            return <tr key={usuario.id}>
+                                                <td className='py-3'>
+                                                    <div className='items-center flex gap-3 rounded-full'>
+                                                        {/* <img 
+                                                            src="https://picsum.photos/100"
+                                                            alt=""
+                                                            className='w-10 h-10 object-cover rounded-full'
+                                                        /> */}
+                                                        <p className='text-gray-700 dark:text-gray-400'> {usuario.primerNombre} {usuario.apellidos}</p>
+                                                    </div>
+                                                </td>
+                                                <td className='py-3'>
+                                                    <p className='text-gray-700 dark:text-gray-400'> {usuario.email} </p>
+                                                </td>
+                                                <td className='py-3'>
+                                                    <p className='text-gray-700 dark:text-gray-400'> {usuario.username} </p>
+                                                </td>
+                                                <td className='py-3'>
+                                                    <p className='text-gray-700 dark:text-gray-400'> {ROLES[usuario.rol]} </p>
+                                                </td>
+                                                <td className='py-3'>
+                                                    <div className='text-gray-700 dark:text-gray-400 flex gap-2'>
+                                                        <button 
+                                                            className='cursor-pointer'
+                                                            title='Editar usuario'
+                                                            onClick={() => {
+                                                                setModalActivo('editar'); 
+                                                                setUsuarioSeleccionado(usuario);
+                                                            }}    
+                                                        >
+                                                            <LuPencil />
+                                                        </button>
+                                                        <button 
+                                                            className='cursor-pointer'
+                                                            title='Editar privilegios'
+                                                            onClick={() => {
+                                                                setUsuarioSeleccionado(usuario);
+                                                                setModalActivo('privilegios'); 
+                                                            }}  
+                                                        >
+                                                            <LuLock  />
+                                                        </button>
+                                                        <button 
+                                                            className='cursor-pointer'
+                                                            title='Eliminar usuario'
+                                                            onClick={() => {
+                                                                setUsuarioSeleccionado(usuario);
+                                                                setModalActivo('eliminar'); 
+                                                            }} 
+                                                        >
+                                                            <LuEraser />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        })}
+                                    </>
+                                    
+                                    }
+                                </>}
+                        </tbody>
+                    }
                 </table>
-
-                <nav className="flex items-center text-sm mt-4">
-                    <a href="#" className="px-3 py-2 text-gray-500 hover:text-gray-700"><LuChevronLeft /></a>
-                    <a href="#" className="px-3 py-2 font-semibold text-blue-600 border-b-2 border-blue-600">1</a>
-                    <a href="#" className="px-3 py-2 text-gray-500 hover:text-gray-700">2</a>
-                    <a href="#" className="px-3 py-2 text-gray-500 hover:text-gray-700">3</a>
-                    <span className="px-3 py-2 text-gray-500">...</span>
-                    <a href="#" className="px-3 py-2 text-gray-500 hover:text-gray-700">8</a>
-                    <a href="#" className="px-3 py-2 text-gray-500 hover:text-gray-700"><LuChevronRight /></a>
-                </nav>
+                <Pagination
+                    paginaActual={paginaActual}
+                    totalPaginas={totalPaginas}
+                    onPageChange={setPaginaActual}
+                />
             </div>
-            <ModalCrearUsuario 
-                isOpenModal = {isOpenModalCrearUsuario}
-                setIsOpenModal = {setIsOpenModalCrearUsuario}
-            />
+
+            {modalActivo === "crear" && (
+                <ModalCrearUsuario 
+                    isOpenModal = {true}
+                    setIsOpenModal={() => setModalActivo(null)}
+                    setUsuarios = {setUsuarios}
+                />
+            )}
+            {modalActivo === "editar" && usuarioSeleccionado && (
+                <ModalEditarUsuario 
+                    isOpenModal = {true}
+                    setIsOpenModal={() => setModalActivo(null)}
+                    setUsuarios = {setUsuarios}
+                    usuarioSeleccionado = {usuarioSeleccionado}
+                />
+            )}
+
+            {modalActivo === "privilegios" && usuarioSeleccionado && (
+                <ModalEditarPrivilegiosAlmacen 
+                    isOpenModal = {true}
+                    setIsOpenModal={() => setModalActivo(null)}
+                    usuarioSeleccionado = {usuarioSeleccionado}
+                    setUsuarioSeleccionado = {setUsuarioSeleccionado}
+                />
+            )}
+
+            {modalActivo === "eliminar" && usuarioSeleccionado && (
+                <ModalEliminarUsuario 
+                    isOpenModal = {true}
+                    setIsOpenModal={() => setModalActivo(null)}
+                    setUsuarios = {setUsuarios}
+                    usuarioSeleccionado = {usuarioSeleccionado}
+                />
+            )}
         </>
     );
 };

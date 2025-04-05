@@ -10,6 +10,7 @@ const Modal = (props) => {
         title = "Advertencia",
         zIndex = "z-100",
         showAgreeButton = false,
+        description= null,
         onClose,
         position = "center",
         size = "lg",
@@ -91,7 +92,6 @@ const Modal = (props) => {
             >
                 {/* Header de la modal */}
                 <div>
-
                     {/* Close button */}
                     {allowClose && (
                         <button 
@@ -104,18 +104,20 @@ const Modal = (props) => {
                         </button>
                     )}
                    
-                    {/* Subtítulo */}
+                    {/* Título */}
                     <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-                        Crear un usuario
+                        {title}
                     </h4>
                     {/* Descripción */}
-                    <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-                        Agrega un nuevo usuario con los permisos necesarios para acceder a la aplicación.
-                    </p>
+                    {description && 
+                        <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
+                            {description}
+                        </p>
+                    }
                 </div>
 
                 {/* Cuerpo de la modal */}
-                <div>
+                <div className='text-gray-700 dark:text-gray-200'>
                     {children}
                 </div>
                 {showAgreeButton && (

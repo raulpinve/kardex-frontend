@@ -13,6 +13,7 @@ import SolicitarRestablecerContrasena from "./pages/auth/SolicitarRestablecerCon
 import RestablecerContrasena from "./pages/auth/RestablecerContrasena";
 import ConfiguracionPage from "./pages/configuracion/ConfiguracionPage";
 import { host } from "./utils/config";
+import { Toaster } from 'sonner';
 
 function App() {
   const dispatch = useDispatch();
@@ -44,7 +45,13 @@ function App() {
       setLoading(false)
     }
   }, [dispatch])
-    
+
+  // Configuración para toaster
+  const [isDark, setIsDark] = useState();
+  useEffect(() => {
+    setIsDark(localStorage.getItem("theme") === "dark")
+  }, [])
+
   if (loading) {
     return (
       <div className="min-h-screen min-w-screen flex justify-center items-center bg-slate-100">
@@ -52,6 +59,7 @@ function App() {
       </div>
     );
   }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -62,6 +70,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
+      <Toaster richColors theme={isDark ? "dark" : "light"}/>
     </BrowserRouter>
   )
 }

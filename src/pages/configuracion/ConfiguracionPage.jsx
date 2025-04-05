@@ -7,7 +7,7 @@ const ConfiguracionPage = () => {
     return (
         <Layout>
             <Title>Configuración</Title>      
-            <div className='grid grid-cols-[1.2fr_1fr] gap-3'>
+            <div>
                 <Usuarios />
             </div>
         </Layout>

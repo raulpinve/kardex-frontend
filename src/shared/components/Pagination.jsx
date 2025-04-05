@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 const Pagination = ({ paginaActual, totalPaginas, onPageChange }) => {
     const [expandirIzquierda, setExpandirIzquierda] = useState(false);
@@ -36,13 +37,13 @@ const Pagination = ({ paginaActual, totalPaginas, onPageChange }) => {
     };
 
     return (
-        <nav className="flex items-center justify-center">
+        <nav className="flex items-center text-sm">
             <button
                 onClick={() => onPageChange(paginaActual - 1)}
                 disabled={paginaActual === 1}
-                className={`px-3 py-2 text-gray-500 hover:text-gray-700 ${paginaActual === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`px-3 py-2 text-gray-500 hover:text-gray-700 cursor-pointer ${paginaActual === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-                &#9664;
+               <LuChevronLeft />
             </button>
             {generarPaginacion().map((pagina, index) => (
                 <button
@@ -52,7 +53,7 @@ const Pagination = ({ paginaActual, totalPaginas, onPageChange }) => {
                         else if (pagina === "right-dots") setExpandirDerecha(true);
                         else if (typeof pagina === "number") onPageChange(pagina);
                     }}
-                    className={`px-3 py-2 ${paginaActual === pagina ? "font-semibold text-blue-600 border-b-2 border-blue-600 dark:text-white/70 dark:border-gray-200" : "text-gray-500 hover:text-gray-700"}`}
+                    className={`px-3 py-2 cursor-pointer ${paginaActual === pagina ? " text-blue-600  dark:text-white/70 " : "text-gray-500 hover:text-gray-700"}`}
                 >
                     {pagina === "left-dots" || pagina === "right-dots" ? "..." : pagina}
                 </button>
@@ -60,9 +61,9 @@ const Pagination = ({ paginaActual, totalPaginas, onPageChange }) => {
             <button
                 onClick={() => onPageChange(paginaActual + 1)}
                 disabled={paginaActual === totalPaginas}
-                className={`px-3 py-2 text-gray-500 hover:text-gray-700 ${paginaActual === totalPaginas ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`px-3 py-2 text-gray-500 hover:text-gray-700 cursor-pointer ${paginaActual === totalPaginas ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-                &#9654;
+               <LuChevronRight />
             </button>
         </nav>
     );
