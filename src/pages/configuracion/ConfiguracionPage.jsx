@@ -3,13 +3,15 @@ import Layout from '../../shared/components/Layout';
 import Title from '../../shared/components/Title';
 import Usuarios from './components/usuarios/Usuarios';
 import Almacenes from './components/almacenes/Almacenes';
+import Categorias from './components/categorias/Categorias';
 
 const ConfiguracionPage = () => {
     return (
         <Layout>
             <Title>Configuración</Title>      
             <div>
-                <Almacenes />
+                <Categorias />
+                {/* <Almacenes /> */}
                 <Usuarios />
             </div>
         </Layout>

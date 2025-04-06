@@ -5,41 +5,46 @@ import Button from "../../../../shared/components/Button";
 import { LuEraser, LuLock, LuPencil, LuRefreshCcw } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import Pagination from "../../../../shared/components/Pagination";
-import ModalCrearAlmacen from "./ModalCrearAlmacen";
-import { obtenerAlmacenes } from "../../services/almacenService";
+import { obtenerCategorias } from "../../services/categoriaService";
 import SkeletonTable from "../../../../shared/components/SkeletonTable";
-import ModalEditarAlmacen from "./ModalEditarAlmacen";
-import ModalEliminarAlmacen from "./ModalEliminarAlmacen";
+import ModalCrearCategoria from "./ModalCrearCategoria";
+import ModalEditarCategoria from "./ModalEditarCategoria";
+import ModalEliminarCategoria from "./ModalEliminarCategoria";
 
-const Almacenes = () => {
-    const [modalActivo, setModalActivo] = useState(null); // Establece la modal que estará activa
-    const [almacenes, setAlmacenes] = useState([]);
+const Categorias = () => {
+    const token = useSelector(state => state.auth.token);
+    const [modalActivo, setModalActivo] = useState(null); 
+    const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
-    const token = useSelector(state => state.auth.token);
-    const [almacenSeleccionado, setAlmacenSeleccionado] = useState(null);
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
     const [refresh, setRefresh] = useState(0); 
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
+    
+    const TIPO = {
+        "dispositivo": "Dispositivo", 
+        "medicamento": "Medicamento"
+    }
 
-    // Obtener almacenes
+    // Obtener categorias
     useEffect(() => {
-        const fetchUsuarios = async () => {
+        const fetchCategorias = async () => {
             setLoading(true);
             setError(null); 
             try {
-                const respuesta = await obtenerAlmacenes(token, paginaActual)
-                setAlmacenes(respuesta.data)
+                const respuesta = await obtenerCategorias(token, paginaActual);
+                setCategorias(respuesta.data);
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
-
             } catch (error) {
-                setError(error?.response?.data?.message || "Ha ocurrido un error interno");
+                console.log(error)
+                setError(error?.response?.data?.message || "Ha ocurrido un error interno 1");
             } finally {
                 setLoading(false);
             }
         }
-        fetchUsuarios();
+        fetchCategorias();
     }, [token, refresh, paginaActual])
 
     return (
@@ -47,7 +52,7 @@ const Almacenes = () => {
             <Card>
                 {/* Header */}
                 <div className="flex justify-between items-center">
-                    <CardTitulo>Almacenes</CardTitulo>
+                    <CardTitulo>Categorías</CardTitulo>
                     <div className="flex gap-1 items-center justify-between">
                         <Button
                             type="button"
@@ -75,7 +80,10 @@ const Almacenes = () => {
                     <thead>
                         <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
                             <th className="py-3">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Nombre del almacén</p>
+                                <p className="font-medium text-gray-700 dark:text-gray-400">Nombre de la categoría</p>
+                            </th>
+                            <th className="py-3">
+                                <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
                             </th>
                             <th className="py-3 w-[100px]">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
@@ -90,35 +98,38 @@ const Almacenes = () => {
                                 </td>
                             </tr> : 
                             <>
-                                {almacenes.length === 0 ? 
+                                {categorias.length === 0 ? 
                                     <tr>
                                         <td colSpan="5" className="py-3">
-                                            <p className="text-gray-700 dark:text-gray-400 text-center"> No hay almacenes por mostrar</p>
+                                            <p className="text-gray-700 dark:text-gray-400 text-center"> No hay categorias por mostrar</p>
                                         </td>
                                     </tr>: 
                                     <>
-                                        {almacenes.map(almacen => {
-                                            return <tr key={almacen.id}>
+                                        {categorias.map(categoria => {
+                                            return <tr key={categoria.id}>
                                                 <td className="py-3">
-                                                    <p className="text-gray-700 dark:text-gray-400"> {almacen.nombre} </p>
+                                                    <p className="text-gray-700 dark:text-gray-400"> {categoria.nombre} </p>
+                                                </td>
+                                                <td className="py-3">
+                                                    <p className="text-gray-700 dark:text-gray-400"> {TIPO[categoria.tipo]} </p>
                                                 </td>
                                                 <td className="py-3">
                                                     <div className="text-gray-700 dark:text-gray-400 flex gap-2">
                                                         <button 
                                                             className="cursor-pointer"
-                                                            title="Editar almacén"
+                                                            title="Editar categoria"
                                                             onClick={() => {
                                                                 setModalActivo("editar"); 
-                                                                setAlmacenSeleccionado(almacen);
+                                                                setCategoriaSeleccionada(categoria);
                                                             }}    
                                                         >
                                                             <LuPencil />
                                                         </button>
                                                         <button 
                                                             className="cursor-pointer"
-                                                            title="Eliminar almacén"
+                                                            title="Eliminar categoria"
                                                             onClick={() => {
-                                                                setAlmacenSeleccionado(almacen);
+                                                                setCategoriaSeleccionada(categoria);
                                                                 setModalActivo("eliminar"); 
                                                             }} 
                                                         >
@@ -140,29 +151,31 @@ const Almacenes = () => {
                 />
             </Card>
 
-            {modalActivo === "crear" && (
-                <ModalCrearAlmacen 
+             {modalActivo === "crear" && (
+                <ModalCrearCategoria 
                     cerrarModal={() => setModalActivo(null)} 
-                    setAlmacenes = {setAlmacenes}
+                    setCategorias = {setCategorias}
                 />
             )}
             {modalActivo === "editar" && (
-                <ModalEditarAlmacen 
+                <ModalEditarCategoria 
                     cerrarModal={() => setModalActivo(null)} 
-                    setAlmacenes = {setAlmacenes}
-                    almacenSeleccionado = {almacenSeleccionado}
+                    setAlmacenes = {setCategorias}
+                    categoriaSeleccionada = {categoriaSeleccionada}
+                    setCategorias = {setCategorias}
                 />
             )}
+             
             {modalActivo === "eliminar" && (
-                <ModalEliminarAlmacen 
+                <ModalEliminarCategoria 
                     cerrarModal={() => setModalActivo(null)} 
-                    setAlmacenes = {setAlmacenes}
-                    almacenSeleccionado = {almacenSeleccionado}
+                    setCategorias = {setCategorias}
+                    categoriaSeleccionada = {categoriaSeleccionada}
                 />
-            )}
+            )} 
 
         </>
     );
 };
 
-export default Almacenes;
+export default Categorias;
