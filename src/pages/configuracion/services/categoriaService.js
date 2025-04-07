@@ -1,13 +1,17 @@
 import { apiClient } from "../../../utils/authUtils";
 
-const obtenerCategorias = (token, paginaActual) => {
-    const request = apiClient(token).get(`/categorias?pagina=${paginaActual}`);
-    return request
-        .then(response => response.data)
-        .catch(err => {
-            throw err
-        })
-} 
+const obtenerCategorias = async (token, filtros = {}) => {
+    const { pagina = 1, tipo, consulta } = filtros;
+
+    const respuesta = await apiClient(token).get("/categorias", {
+        params: {
+            pagina,
+            ...(tipo && { tipo }),
+            ...(consulta && { consulta })
+        }
+    });
+    return respuesta.data;
+};
 
 const crearCategoria = (token, data) => {
     const request = apiClient(token).post(`/categorias`, data);

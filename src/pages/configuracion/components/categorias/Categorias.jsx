@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../../../../shared/components/Card";
 import CardTitulo from "../../../../shared/components/CardTitulo";
 import Button from "../../../../shared/components/Button";
-import { LuEraser, LuLock, LuPencil, LuRefreshCcw } from "react-icons/lu";
+import { LuEraser, LuLock, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import Pagination from "../../../../shared/components/Pagination";
 import { obtenerCategorias } from "../../services/categoriaService";
@@ -10,6 +10,7 @@ import SkeletonTable from "../../../../shared/components/SkeletonTable";
 import ModalCrearCategoria from "./ModalCrearCategoria";
 import ModalEditarCategoria from "./ModalEditarCategoria";
 import ModalEliminarCategoria from "./ModalEliminarCategoria";
+import useDebounce from "../../../../shared/hooks/useDebounce";
 
 const Categorias = () => {
     const token = useSelector(state => state.auth.token);
@@ -21,11 +22,15 @@ const Categorias = () => {
     const [refresh, setRefresh] = useState(0); 
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
-    
+    const [tipo, setTipo] = useState("");
+    const [consulta, setConsulta] = useState("");
+
     const TIPO = {
         "dispositivo": "Dispositivo", 
         "medicamento": "Medicamento"
     }
+
+    const debouncedConsulta = useDebounce(consulta, 500);
 
     // Obtener categorias
     useEffect(() => {
@@ -33,19 +38,18 @@ const Categorias = () => {
             setLoading(true);
             setError(null); 
             try {
-                const respuesta = await obtenerCategorias(token, paginaActual);
+                const respuesta = await obtenerCategorias(token, paginaActual, tipo, debouncedConsulta);
                 setCategorias(respuesta.data);
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
             } catch (error) {
-                console.log(error)
-                setError(error?.response?.data?.message || "Ha ocurrido un error interno 1");
+                setError(error?.response?.data?.message || "Ha ocurrido un error interno.");
             } finally {
                 setLoading(false);
             }
         }
         fetchCategorias();
-    }, [token, refresh, paginaActual])
+    }, [debouncedConsulta, tipo, paginaActual, token, refresh]);
 
     return (
         <>
@@ -63,9 +67,36 @@ const Categorias = () => {
                         >   
                             Crear
                         </Button>
+                        <div className="relative hidden md:block">
+                            <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
+                            <input 
+                                type="text" 
+                                placeholder="Buscar categoría..." 
+                                className="input-form pl-10 dark:bg-gray-900"
+                                value={consulta}
+                                onChange={(e) => {
+                                    setConsulta(e.currentTarget.value);
+                                }}
+                            />
+                        </div>
+                        <select 
+                            name="" 
+                            className="select-form w-[150px]" 
+                            id="" 
+                            placeholder="Todos..."
+                            value={tipo}
+                            onChange={(e) => {
+                                setTipo(e.currentTarget.value)
+                            }}
+                        >
+                            <option value="">Todos</option>
+                            <option value="dispositivo">Dispositivo</option>
+                            <option value="medicamento">Medicamento</option>
+                        </select>
                         <Button
                             type="button"
                             colorButton="secondary"
+                            className="hidden md:block"
                             onClick={() => {
                                 setPaginaActual(1)
                                 setRefresh((prev) => prev + 1)
@@ -75,7 +106,7 @@ const Categorias = () => {
                         </Button>
                     </div>
                 </div>
-    
+                {/* Cuerpo */}
                 <table className="min-w-full mt-3">
                     <thead>
                         <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
