@@ -1,7 +1,12 @@
 import { apiClient } from "../../../utils/authUtils";
 
-const obtenerUsuarios = (token, paginaActual) => {
-    const request = apiClient(token).get(`/usuarios?pagina=${paginaActual}`);
+const obtenerUsuarios = (token, pagina = 1, consulta) => {
+    const request = apiClient(token).get(`/usuarios`, {
+        params: {
+            pagina,
+            ...(consulta && { consulta })
+        }
+    });
     return request
         .then(response => response.data)
         .catch(err => {

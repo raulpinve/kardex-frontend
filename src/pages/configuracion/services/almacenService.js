@@ -9,8 +9,13 @@ const crearAlmacen = (token, data) => {
         })
 }
 
-const obtenerAlmacenes = (token, paginaActual) => {
-    const request = apiClient(token).get(`/almacenes?pagina=${paginaActual}`);
+const obtenerAlmacenes = (token, pagina = 1, consulta) => {
+    const request = apiClient(token).get(`/almacenes`, {
+        params: {
+            pagina,
+            ...(consulta && { consulta })
+        }
+    });
     return request
         .then(response => response.data)
         .catch(err => {

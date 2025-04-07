@@ -11,7 +11,7 @@ const ConfiguracionPage = () => {
             <Title>Configuración</Title>      
             <div>
                 <Categorias />
-                {/* <Almacenes /> */}
+                <Almacenes />
                 <Usuarios />
             </div>
         </Layout>

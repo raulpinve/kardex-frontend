@@ -11,6 +11,7 @@ import ModalEditarPrivilegiosAlmacen from './ModalEditarPrivilegiosAlmacen';
 import ModalEliminarUsuario from './ModalEliminarUsuario';
 import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
+import useDebounce from '../../../../shared/hooks/useDebounce';
 
 const Usuarios = () => {
     const [modalActivo, setModalActivo] = useState(null); // 'crear', 'editar', 'eliminar', etc.
@@ -22,12 +23,15 @@ const Usuarios = () => {
     const [refresh, setRefresh] = useState(0); 
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
+    const [consulta, setConsulta] = useState("");
 
     const ROLES = {
         "admin": "Administrador",
         "viewer": "Lector", 
         "editor": "Editor"
     }
+
+    const debouncedConsulta = useDebounce(consulta, 500);
 
     // Obtener usuarios
     useEffect(() => {
@@ -36,7 +40,7 @@ const Usuarios = () => {
             setError(null); // Limpia el error antes de realizar la consulta
 
             try {
-                const respuesta = await obtenerUsuarios(token, paginaActual)
+                const respuesta = await obtenerUsuarios(token, paginaActual, debouncedConsulta)
                 setUsuarios(respuesta.data)
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
@@ -48,7 +52,7 @@ const Usuarios = () => {
             }
         }
         fetchUsuarios();
-    }, [token, refresh, paginaActual])
+    }, [debouncedConsulta, token, refresh, paginaActual])
 
     return (
         <>
@@ -65,6 +69,18 @@ const Usuarios = () => {
                         >   
                            Crear
                         </Button>
+                        <div className="relative hidden md:block">
+                            <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
+                            <input 
+                                type="text" 
+                                placeholder="Buscar usuario..." 
+                                className="input-form pl-10 dark:bg-gray-900"
+                                value={consulta}
+                                onChange={(e) => {
+                                    setConsulta(e.currentTarget.value);
+                                }}
+                            />
+                        </div>
                         <Button
                             type="button"
                             colorButton="secondary"

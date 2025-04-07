@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../../../../shared/components/Card";
 import CardTitulo from "../../../../shared/components/CardTitulo";
 import Button from "../../../../shared/components/Button";
-import { LuEraser, LuLock, LuPencil, LuRefreshCcw } from "react-icons/lu";
+import { LuEraser, LuLock, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import Pagination from "../../../../shared/components/Pagination";
 import ModalCrearAlmacen from "./ModalCrearAlmacen";
@@ -10,6 +10,7 @@ import { obtenerAlmacenes } from "../../services/almacenService";
 import SkeletonTable from "../../../../shared/components/SkeletonTable";
 import ModalEditarAlmacen from "./ModalEditarAlmacen";
 import ModalEliminarAlmacen from "./ModalEliminarAlmacen";
+import useDebounce from "../../../../shared/hooks/useDebounce";
 
 const Almacenes = () => {
     const [modalActivo, setModalActivo] = useState(null); // Establece la modal que estará activa
@@ -21,6 +22,9 @@ const Almacenes = () => {
     const [refresh, setRefresh] = useState(0); 
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
+    const [consulta, setConsulta] = useState("");
+
+    const debouncedConsulta = useDebounce(consulta, 500);
 
     // Obtener almacenes
     useEffect(() => {
@@ -28,7 +32,7 @@ const Almacenes = () => {
             setLoading(true);
             setError(null); 
             try {
-                const respuesta = await obtenerAlmacenes(token, paginaActual)
+                const respuesta = await obtenerAlmacenes(token, paginaActual, debouncedConsulta)
                 setAlmacenes(respuesta.data)
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
@@ -40,7 +44,7 @@ const Almacenes = () => {
             }
         }
         fetchUsuarios();
-    }, [token, refresh, paginaActual])
+    }, [debouncedConsulta, token, refresh, paginaActual])
 
     return (
         <>
@@ -58,6 +62,18 @@ const Almacenes = () => {
                         >   
                             Crear
                         </Button>
+                        <div className="relative hidden md:block">
+                            <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
+                            <input 
+                                type="text" 
+                                placeholder="Buscar almacén..." 
+                                className="input-form pl-10 dark:bg-gray-900"
+                                value={consulta}
+                                onChange={(e) => {
+                                    setConsulta(e.currentTarget.value);
+                                }}
+                            />
+                        </div>
                         <Button
                             type="button"
                             colorButton="secondary"

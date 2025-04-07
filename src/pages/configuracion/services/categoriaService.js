@@ -2,7 +2,6 @@ import { apiClient } from "../../../utils/authUtils";
 
 const obtenerCategorias = async (token, filtros = {}) => {
     const { pagina = 1, tipo, consulta } = filtros;
-
     const respuesta = await apiClient(token).get("/categorias", {
         params: {
             pagina,
