@@ -14,6 +14,15 @@ const obtenerMedicamentos = (token, almacenId, pagina = 1, consulta) => {
         })
 } 
 
+const obtenerMedicamento = (token, medicamentoId) => {
+    const request = apiClient(token).get(`/medicamentos/${medicamentoId}`);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
 const crearMedicamento = (token, data) => {
     const request = apiClient(token).post(`/medicamentos`, data);
     return request
@@ -42,6 +51,7 @@ const eliminarMedicamento = (token, medicamentoId) => {
 
 export {
     obtenerMedicamentos,
+    obtenerMedicamento, 
     crearMedicamento,
     editarMedicamento,
     eliminarMedicamento

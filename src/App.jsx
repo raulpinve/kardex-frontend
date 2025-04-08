@@ -14,8 +14,9 @@ import RestablecerContrasena from "./pages/auth/RestablecerContrasena";
 import ConfiguracionPage from "./pages/configuracion/ConfiguracionPage";
 import { host } from "./utils/config";
 import { Toaster } from 'sonner';
-import MedicamentoPagina from "./pages/medicamentos/MedicamentoPagina";
+import MedicamentosListaPagina from "./pages/medicamentos/MedicamentosListaPagina";
 import MedicamentoSeleccionarAlmacen from "./pages/medicamentos/MedicamentoSeleccionarAlmacen";
+import MedicamentoPagina from "./pages/medicamentos/MedicamentoPagina";
 
 function App() {
   const dispatch = useDispatch();
@@ -70,7 +71,8 @@ function App() {
         <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
         <Route path="/configuracion" element={<PrivateRoute Component={ConfiguracionPage} />} />
         <Route path="/medicamentos" element={<PrivateRoute Component={MedicamentoSeleccionarAlmacen} />} />
-        <Route path="/medicamentos/:almacenId" element={<PrivateRoute Component={MedicamentoPagina} />} />
+        <Route path="/medicamentos/:almacenId/almacen" element={<PrivateRoute Component={MedicamentosListaPagina} />} />
+        <Route path="/medicamentos/:medicamentoId" element={<PrivateRoute Component={MedicamentoPagina} />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
