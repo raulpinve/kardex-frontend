@@ -104,7 +104,7 @@ const Modal = (props) => {
                     )}
                    
                     {/* Título */}
-                    <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90 px-2">
+                    <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
                         {title}
                     </h4>
                     {/* Descripción */}

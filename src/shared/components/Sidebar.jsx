@@ -38,12 +38,15 @@ const Sidebar = () => {
                 </div>
                 
                 {/* Medicamentos */}
-                <div className="sidebar-li">
+                <NavLink 
+                    to="/medicamentos"
+                    className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
+                >
                     <LuPill className="text-xl min-w-[24px]" />
                     <span className={`transition-all duration-200 ${sidebarOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden"}`}>
                         Medicamentos
                     </span>
-                </div>
+                </NavLink>
 
                 {/* Dispositivos */}
                 <div className="sidebar-li">

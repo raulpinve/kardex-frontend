@@ -10,9 +10,13 @@ const ConfiguracionPage = () => {
         <Layout>
             <Title>Configuración</Title>      
             <div>
-                <Categorias />
-                <Almacenes />
-                <Usuarios />
+                <div className="grid gap-4 2xl:grid-cols-2">
+                    <Categorias />
+                    <Almacenes />
+                </div>
+                <div className='mt-4'>
+                    <Usuarios />
+                </div>
             </div>
         </Layout>
     );
