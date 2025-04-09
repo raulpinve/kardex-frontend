@@ -33,18 +33,17 @@ const MedicamentoSeleccionarAlmacen = () => {
 
     return (
         <Layout>
-            <div className="flex justify-center text-gray-700 dark:text-gray-400">
-                <div className="w-full md:w-[500px]">
+            <div className="flex text-gray-700 dark:text-gray-400">
+                <div className="w-full md:w-[700px] mx-auto mt-4">
                     <Card>
                         <div>
                             <CardTitulo>Seleccionar almacén</CardTitulo>
                             <p className='text-sm'>Para continuar, por favor selecciona un almacén: </p>
                         </div>
-                        <div className='mt-3 text-sm'>
-
+                        <div className='grid grid-cols-3 gap-4 mt-5 text-sm'>
                             {/* Loading  */}
                             {loading && <>{
-                                [...Array(5)].map((_,index) => <div key={index} className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded h-[25px] mb-3">
+                                [...Array(5)].map((_,index) => <div key={index} className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded-xl h-[70px] mb-3">
                                 </div>)
                             }</>}
                             {/* Mostrando contenido */}
@@ -53,7 +52,7 @@ const MedicamentoSeleccionarAlmacen = () => {
                                     {almacenes.map(almacen => (
                                     <button 
                                         key={almacen.id} 
-                                        className="block py-1 cursor-pointer hover:font-medium hover:text-black dark:hover:text-gray-400"
+                                        className="bg-white p-4 rounded-lg border border-gray-200 hover:bg-blue-50 cursor-pointer"
                                         onClick={() => seleccionarAlmacen(almacen.id)}
                                     >
                                         {almacen.nombre}

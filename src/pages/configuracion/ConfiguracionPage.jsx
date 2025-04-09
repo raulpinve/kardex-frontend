@@ -9,7 +9,7 @@ const ConfiguracionPage = () => {
     return (
         <Layout>
             <Title>Configuración</Title>      
-            <div>
+            <div className='mt-4'>
                 <div className="grid gap-4 2xl:grid-cols-2">
                     <Categorias />
                     <Almacenes />

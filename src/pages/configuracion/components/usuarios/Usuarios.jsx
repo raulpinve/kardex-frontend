@@ -57,6 +57,7 @@ const Usuarios = () => {
     return (
         <>
             <Card>
+                {/* Header */}
                 <div className='flex justify-between items-center'>
                     <CardTitulo>Usuarios</CardTitulo>
                     <div className='flex gap-1 items-center justify-between'>
@@ -93,6 +94,8 @@ const Usuarios = () => {
                         </Button>
                     </div>
                 </div>
+
+                {/* Body */}
                 <table className='min-w-full mt-3'>
                     <thead>
                         <tr className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>

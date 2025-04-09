@@ -59,152 +59,154 @@ const MedicamentosListaPagina = () => {
     return (
         <>
             <Layout>
-                <Card>
-                    {/* Header */}
-                    <div className='flex justify-between items-center'>
-                        <CardTitulo>Medicamentos</CardTitulo>
-                        <div className='flex gap-1 items-center justify-between'>
-                            <Button
-                                type="button"
-                                colorButton="secondary"
-                                onClick={() => {
-                                    setModalActivo("crear")
-                                }}
-                            >   
-                                Crear
-                            </Button>
-                            <div className="relative hidden md:block">
-                                <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
-                                <input 
-                                    type="text" 
-                                    placeholder="Buscar medicamento..." 
-                                    className="input-form pl-10 dark:bg-gray-900"
-                                    value={consulta}
-                                    onChange={(e) => {
-                                        setConsulta(e.currentTarget.value);
+                <div className='mt-4'>
+                    <Card>
+                        {/* Header */}
+                        <div className='flex justify-between items-center'>
+                            <CardTitulo>Medicamentos </CardTitulo>
+                            <div className='flex gap-1 items-center justify-between'>
+                                <Button
+                                    type="button"
+                                    colorButton="secondary"
+                                    onClick={() => {
+                                        setModalActivo("crear")
                                     }}
-                                />
+                                >   
+                                    Crear
+                                </Button>
+                                <div className="relative hidden md:block">
+                                    <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
+                                    <input 
+                                        type="text" 
+                                        placeholder="Buscar medicamento..." 
+                                        className="input-form pl-10 dark:bg-gray-900"
+                                        value={consulta}
+                                        onChange={(e) => {
+                                            setConsulta(e.currentTarget.value);
+                                        }}
+                                    />
+                                </div>
+                                <Button
+                                    type="button"
+                                    colorButton="secondary"
+                                    onClick={() => {
+                                        setPaginaActual(1)
+                                        setRefresh((prev) => prev + 1)
+                                    }}
+                                >
+                                    <LuRefreshCcw />
+                                </Button>
                             </div>
-                            <Button
-                                type="button"
-                                colorButton="secondary"
-                                onClick={() => {
-                                    setPaginaActual(1)
-                                    setRefresh((prev) => prev + 1)
-                                }}
-                            >
-                                <LuRefreshCcw />
-                            </Button>
                         </div>
-                    </div>
-                    <table className='min-w-full mt-3'>
-                        <thead>
-                            <tr className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>
-                                <th className='py-3'>
-                                    <p className='font-medium text-gray-700 dark:text-gray-400'>Principio activo</p>
-                                </th>
-                                <th className='py-3'>
-                                    <p className='font-medium text-gray-700 dark:text-gray-400'>Forma farmacéutica</p>
-                                </th>
-                                <th className='py-3'>
-                                    <p className='font-medium text-gray-700 dark:text-gray-400'>Concentración</p>
-                                </th>
-                                <th className='py-3'>
-                                    <p className='font-medium text-gray-700 dark:text-gray-400'>Presentación</p>
-                                </th>
-                                <th className='py-3'>
-                                    <p className='font-medium text-gray-700 dark:text-gray-400'>Unidad médica</p>
-                                </th>
-                                <th className='py-3'>
-                                    <p className='font-medium text-gray-700 dark:text-gray-400'>Stock requerido</p>
-                                </th>
-                                <th className='py-3'>
-                                    <p className='font-medium text-gray-700 dark:text-gray-400'>Acciones</p>
-                                </th>
-                            </tr>
-                        </thead>
+                        <table className='min-w-full mt-3'>
+                            <thead>
+                                <tr className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>
+                                    <th className='py-3'>
+                                        <p className='font-medium text-gray-700 dark:text-gray-400'>Principio activo</p>
+                                    </th>
+                                    <th className='py-3'>
+                                        <p className='font-medium text-gray-700 dark:text-gray-400'>Forma farmacéutica</p>
+                                    </th>
+                                    <th className='py-3'>
+                                        <p className='font-medium text-gray-700 dark:text-gray-400'>Concentración</p>
+                                    </th>
+                                    <th className='py-3'>
+                                        <p className='font-medium text-gray-700 dark:text-gray-400'>Presentación</p>
+                                    </th>
+                                    <th className='py-3'>
+                                        <p className='font-medium text-gray-700 dark:text-gray-400'>Unidad médica</p>
+                                    </th>
+                                    <th className='py-3'>
+                                        <p className='font-medium text-gray-700 dark:text-gray-400'>Stock requerido</p>
+                                    </th>
+                                    <th className='py-3'>
+                                        <p className='font-medium text-gray-700 dark:text-gray-400'>Acciones</p>
+                                    </th>
+                                </tr>
+                            </thead>
 
-                        {loading ? <SkeletonTable rows={7} columns={7}/>: 
-                            <tbody className='divide-y divide-gray-100  text-sm dark:divide-gray-800'>
-                                {error ? <tr>
-                                    <td colSpan="7" className='py-3'>
-                                        <p className='text-gray-700 dark:text-gray-400 text-center'> {error}</p>
-                                    </td>
-                                </tr> : 
-                                <>
-                                    {medicamentos.length === 0 ? 
-                                        <tr>
-                                            <td colSpan="7" className='py-3'>
-                                                <p className='text-gray-700 dark:text-gray-400 text-center'> No hay medicamentos por mostrar</p>
-                                            </td>
-                                        </tr>: 
-                                        <>
-                                            {medicamentos.map(medicamento => {
-                                                return <tr 
-                                                    key={medicamento.id}
-                                                    onClick={() => irAMedicamento(medicamento.id)}
-                                                    className='cursor-pointer'
-                                                >
-                                                    <td className='py-3'>
-                                                        <div className='items-center flex gap-3 rounded-full'>
-                                                            <p className='text-gray-700 dark:text-gray-400'> {medicamento.nombre}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td className='py-3'>
-                                                        <p className='text-gray-700 dark:text-gray-400'> {medicamento.formaFarmaceutica} </p>
-                                                    </td>
-                                                    <td className='py-3'>
-                                                        <p className='text-gray-700 dark:text-gray-400'> {medicamento.concentracion} </p>
-                                                    </td>
-                                                    <td className='py-3'>
-                                                        <p className='text-gray-700 dark:text-gray-400'> {medicamento.presentacionComercial} </p>
-                                                    </td>
-                                                    <td className='py-3'>
-                                                        <p className='text-gray-700 dark:text-gray-400'> {medicamento.unidadMedida} </p>
-                                                    </td>
-                                                    <td className='py-3'>
-                                                        <p className='text-gray-700 dark:text-gray-400'> {medicamento.stockRequerido} </p>
-                                                    </td>
-                                                    <td className='py-3'>
-                                                        <div className='text-gray-700 dark:text-gray-400 flex gap-2'>
-                                                            
-                                                            <button 
-                                                                className='cursor-pointer'
-                                                                title='Editar medicamento'
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation(); // evita que se dispare el onClick del <tr>
-                                                                    setModalActivo('editar'); 
-                                                                    setMedicamentoSeleccionado(medicamento);
-                                                                }}    
-                                                            >
-                                                                <LuPencil />
-                                                            </button>
-                                                            <button 
-                                                                className='cursor-pointer'
-                                                                title='Eliminar medicamento'
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation(); // evita que se dispare el onClick del <tr>
-                                                                    setModalActivo('eliminar'); 
-                                                                    setMedicamentoSeleccionado(medicamento);
-                                                                }} 
-                                                            >
-                                                                <LuEraser />
-                                                            </button> 
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            })}
-                                        </>
-                                        }
-                                    </>}
-                            </tbody>}
-                    </table>
-                    <Pagination
-                        paginaActual={paginaActual}
-                        totalPaginas={totalPaginas}
-                        onPageChange={setPaginaActual}
-                    />
-                </Card>
+                            {loading ? <SkeletonTable rows={7} columns={7}/>: 
+                                <tbody className='divide-y divide-gray-100  text-sm dark:divide-gray-800'>
+                                    {error ? <tr>
+                                        <td colSpan="7" className='py-3'>
+                                            <p className='text-gray-700 dark:text-gray-400 text-center'> {error}</p>
+                                        </td>
+                                    </tr> : 
+                                    <>
+                                        {medicamentos.length === 0 ? 
+                                            <tr>
+                                                <td colSpan="7" className='py-3'>
+                                                    <p className='text-gray-700 dark:text-gray-400 text-center'> No hay medicamentos por mostrar</p>
+                                                </td>
+                                            </tr>: 
+                                            <>
+                                                {medicamentos.map(medicamento => {
+                                                    return <tr 
+                                                        key={medicamento.id}
+                                                        onClick={() => irAMedicamento(medicamento.id)}
+                                                        className='cursor-pointer'
+                                                    >
+                                                        <td className='py-3'>
+                                                            <div className='items-center flex gap-3 rounded-full'>
+                                                                <p className='text-gray-700 dark:text-gray-400'> {medicamento.nombre}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td className='py-3'>
+                                                            <p className='text-gray-700 dark:text-gray-400'> {medicamento.formaFarmaceutica} </p>
+                                                        </td>
+                                                        <td className='py-3'>
+                                                            <p className='text-gray-700 dark:text-gray-400'> {medicamento.concentracion} </p>
+                                                        </td>
+                                                        <td className='py-3'>
+                                                            <p className='text-gray-700 dark:text-gray-400'> {medicamento.presentacionComercial} </p>
+                                                        </td>
+                                                        <td className='py-3'>
+                                                            <p className='text-gray-700 dark:text-gray-400'> {medicamento.unidadMedida} </p>
+                                                        </td>
+                                                        <td className='py-3'>
+                                                            <p className='text-gray-700 dark:text-gray-400'> {medicamento.stockRequerido} </p>
+                                                        </td>
+                                                        <td className='py-3'>
+                                                            <div className='text-gray-700 dark:text-gray-400 flex gap-2'>
+                                                                
+                                                                <button 
+                                                                    className='cursor-pointer'
+                                                                    title='Editar medicamento'
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation(); // evita que se dispare el onClick del <tr>
+                                                                        setModalActivo('editar'); 
+                                                                        setMedicamentoSeleccionado(medicamento);
+                                                                    }}    
+                                                                >
+                                                                    <LuPencil />
+                                                                </button>
+                                                                <button 
+                                                                    className='cursor-pointer'
+                                                                    title='Eliminar medicamento'
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation(); // evita que se dispare el onClick del <tr>
+                                                                        setModalActivo('eliminar'); 
+                                                                        setMedicamentoSeleccionado(medicamento);
+                                                                    }} 
+                                                                >
+                                                                    <LuEraser />
+                                                                </button> 
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                })}
+                                            </>
+                                            }
+                                        </>}
+                                </tbody>}
+                        </table>
+                        <Pagination
+                            paginaActual={paginaActual}
+                            totalPaginas={totalPaginas}
+                            onPageChange={setPaginaActual}
+                        />
+                    </Card>
+                </div>
             </Layout>
 
             {modalActivo === "crear" && (

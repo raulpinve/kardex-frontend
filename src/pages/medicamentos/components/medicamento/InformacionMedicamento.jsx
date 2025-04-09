@@ -33,7 +33,7 @@ const InformacionMedicamento = ({medicamentoId}) => {
     },[medicamentoId])
 
     return (
-        <div className="w-80 text-sm text-gray-700 dark:text-gray-400">
+        <div className="text-sm text-gray-700 dark:text-gray-400">
             <Card>
                 {/* Loading */}
                 <div>
@@ -50,43 +50,44 @@ const InformacionMedicamento = ({medicamentoId}) => {
                 {!loading && error && <MessageError>{error}</MessageError>}
                 {!loading && medicamento && ( <>
                     <CardTitulo>{medicamento.nombre}</CardTitulo>
-                    <div className="flex justify-center items-center mt-5">
+                    <div className="flex justify-center items-center">
                         <img 
-                            src="https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg" 
+                            src="https://admision.udp.cl/cms/wp-content/themes/portable_udp/images/default.png" 
                             alt="" 
-                            className="w-44 max-h-44 object-contain rounded-lg"
+                            className="w-24 h-24 object-cover rounded-full"
                         />
                     </div>
                     <div className="mt-5">
                         {/* Forma farmacéutica */}
                         <div>
-                            <h3 className="font-semibold">Forma farmacéutica</h3>
-                            <p>{medicamento.formaFarmaceutica}</p>
+                            <p>Forma farmacéutica</p>
+                            <p className="font-semibold">{medicamento.formaFarmaceutica}</p>
                         </div>
 
                         {/* Concentración */}
-                        <div className="mt-3">
-                            <h3 className="font-semibold">Concentración</h3>
-                            <p>{medicamento.concentracion}</p>
+                        <div className="mt-4">
+                            <p>Concentración</p>
+                            <p className="font-semibold">{medicamento.concentracion}</p>
                         </div>
 
                         {/* Presentación */}
-                        <div className="mt-3">
-                            <h3 className="font-semibold">Presentación</h3>
-                            <p>{medicamento.presentacionComercial}</p>
+                        <div className="mt-4">
+                            <p>Presentación</p>
+                            <p className="font-semibold">{medicamento.presentacionComercial}</p>
                         </div>
 
                         {/* Unidad de médica */}
-                        <div className="mt-3">
-                            <h3 className="font-semibold">Unidad médica</h3>
-                            <p>{medicamento.unidadMedida}</p>
+                        <div className="mt-4">
+                            <p>Unidad médica</p>
+                            <p className="font-semibold">{medicamento.unidadMedida}</p>
                         </div>
 
                         {/* Stock requerido */}
-                        <div className="mt-3">
-                            <h3 className="font-semibold">Stock requerido</h3>
-                            <p>{medicamento.stockRequerido}</p>
+                        <div className="mt-4">
+                            <p>Stock requerido</p>
+                            <p className="font-semibold">{medicamento.stockRequerido}</p>
                         </div>
+                        
                     </div>
                 </>
                 )}

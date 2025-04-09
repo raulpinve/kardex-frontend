@@ -1,0 +1,48 @@
+import { apiClient } from "../../../utils/authUtils";
+
+const obtenerLotes = (token, medicamentoId, pagina = 1, consulta) => {
+    const request = apiClient(token).get(`/lotes/${medicamentoId}/medicamento`, {
+        params: {
+            pagina,
+            ...(consulta && { consulta })
+        }
+    });
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+} 
+const crearLote = (token, data) => {
+    const request = apiClient(token).post(`/lotes`, data);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
+const editarLote = (token, loteId, data) => {
+    const request = apiClient(token).put(`/lotes/${loteId}`, data);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
+const eliminarLote = (token, loteId, data) => {
+    const request = apiClient(token).delete(`/lotes/${loteId}`, data);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
+export {
+    obtenerLotes,
+    crearLote, 
+    editarLote,
+    eliminarLote
+}

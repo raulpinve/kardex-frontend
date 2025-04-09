@@ -24,13 +24,11 @@ const Categorias = () => {
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [tipo, setTipo] = useState("");
     const [consulta, setConsulta] = useState("");
-
+    const debouncedConsulta = useDebounce(consulta, 500);
     const TIPO = {
         "dispositivo": "Dispositivo", 
         "medicamento": "Medicamento"
     }
-
-    const debouncedConsulta = useDebounce(consulta, 500);
 
     // Obtener categorias
     useEffect(() => {
