@@ -65,7 +65,6 @@ const Header = () => {
                 <div className="w-2 h-2 bg-orange-400 absolute top-0 right-0 rounded-full flex justify-center items-center animate-ping z-10"></div>
               <LuBell />
             </button>
-
             {/* Profile */}
             <DropdownProfile />
           </div>

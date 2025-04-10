@@ -131,6 +131,9 @@ const SeleccionarAlmacen = () => {
                                         onClick={() => {
                                             localStorage.setItem('almacenSeleccionado', JSON.stringify(almacen));
                                             dispatch(setAlmacen(almacen));
+
+                                            const primerSegmento = location.pathname.split('/')[1]; // te da 'medicamentos', 'configuracion', etc.
+                                            navigate(`/${primerSegmento}`);
                                         }}
                                     >
                                         {almacen.nombre}

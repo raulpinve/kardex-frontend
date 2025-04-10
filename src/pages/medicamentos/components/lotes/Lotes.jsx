@@ -81,7 +81,7 @@ const Lotes = ({medicamentoId}) => {
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
                             <input 
                                 type="text" 
-                                placeholder="Buscar categoría..." 
+                                placeholder="Buscar lote..." 
                                 className="input-form pl-10 dark:bg-gray-900"
                                 value={consulta}
                                 onChange={(e) => {
