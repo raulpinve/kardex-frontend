@@ -25,8 +25,8 @@ const Sidebar = () => {
             {/* Menú */}
             <nav className="flex flex-col gap-3 text-md font-medium text-gray-700 dark:text-white/90">
                 {/* Título de Menú */}
-                <h3 className="mb-2 text-xs uppercase leading-[20px] text-gray-400">
-                    <p className={`${sidebarOpen? "text-left" : "text-center"}`}>MENÚ</p>
+                <h3 className={`mb-2 text-xs uppercase leading-[20px] text-gray-400 ellipsis ${sidebarOpen? "text-left" : "text-center"}`}>
+                    Chapinero
                 </h3>
                 
                 {/* Dashboard */}

@@ -1,6 +1,29 @@
 import React from 'react';
-import { LuBox, LuPackageCheck, LuPackageOpen, LuPackagePlus, LuShoppingBag, LuTarget } from 'react-icons/lu';
+import { LuPackageCheck, LuPackageOpen, LuPackagePlus } from 'react-icons/lu';
 
+function analizarStock(stockRequerido, stockDisponible) {
+    const cantidadAPedir = Math.max(stockRequerido - stockDisponible, 0);
+  
+    const limiteExceso = stockRequerido * 1.25;
+    const hayExceso = stockDisponible > limiteExceso;
+    const hayFaltante = stockDisponible < stockRequerido;
+  
+    let estado = "";
+    if (hayExceso) {
+      estado = "⚠️ Exceso de stock";
+    } else if (hayFaltante) {
+      estado = "🔻 Stock bajo";
+    }
+  
+    return {
+      cantidadAPedir,
+      hayExceso,
+      hayFaltante,
+      estado
+    };
+  }
+  
+  
 const TarjetasInformacionMedicamento = ({medicamento, loading, error}) => {
     return (
         <div className='grid gap-4'>
@@ -43,19 +66,23 @@ const TarjetasInformacionMedicamento = ({medicamento, loading, error}) => {
                 </div>
 
                 {/* Cantidad a pedir */}
-                <div className="rounded-2xl border border-gray-200 bg-white p-3 dark:border-gray-800 dark:bg-white/[0.03] md:p-5 flex items-center gap-4">
+                <div className="relative rounded-2xl border border-gray-200 bg-white p-3 dark:border-gray-800 dark:bg-white/[0.03] md:p-5 flex items-center gap-4">
                     <div className="flex text-xl h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:text-gray-200">
                         <LuPackagePlus />
                     </div>
-                    <div className="flex items-end justify-between">
+                    <div className="flex flex-col justify-between">
                         <div>
                             <span className="text-sm text-gray-500 dark:text-gray-400">Cantidad a pedir</span>
                             <h4 className="text-2xl font-bold text-gray-800 dark:text-white/90">
-                                {medicamento.stockDisponible - medicamento.stockRequerido}
+                                {analizarStock(medicamento.stockRequerido, medicamento.stockDisponible, medicamento.stockMaximo)?.cantidadAPedir}
                             </h4>
                         </div>
+                        <span className="text-xs text-gray-500 dark:text-gray-400 absolute bottom-2 right-4 ">
+                            {analizarStock(medicamento.stockRequerido, medicamento.stockDisponible, medicamento.stockMaximo)?.estado}
+                        </span>
                     </div>
                 </div>
+
             </div>)}
         </div>);
 };
