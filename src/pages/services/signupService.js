@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { host } from '../../utils/config'
 
 const signUpService = (data) =>{
-    const request = axios.post('http://localhost:3001/signup', data)
+    const request = axios.post(`${host}/signup`, data)
     return request
     .then(response => response.data)
     .catch(err => {

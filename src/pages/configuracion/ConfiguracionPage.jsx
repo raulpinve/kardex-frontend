@@ -11,8 +11,8 @@ const ConfiguracionPage = () => {
             <Title>Configuración</Title>      
             <div className='mt-4'>
                 <div className="grid gap-4 2xl:grid-cols-2">
-                    <Categorias />
                     <Almacenes />
+                    <Categorias />
                 </div>
                 <div className='mt-4'>
                     <Usuarios />

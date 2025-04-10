@@ -103,7 +103,7 @@ const Lotes = ({medicamentoId}) => {
                         </Button>
                     </div>
                 </div>
-                <table className="min-w-full mt-3 text-sm text-gray-700 dark:text-gray-200">
+                <table className="min-w-full mt-3 text-gray-700 dark:text-gray-200">
                         <thead>
                             <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
                                 <th className="py-3">
@@ -124,7 +124,7 @@ const Lotes = ({medicamentoId}) => {
                             </tr>
                         </thead>
                         {loading && <SkeletonTable rows={7} columns={5}/>}
-                        <tbody>
+                        <tbody className="text-sm">
                             {/* Display error */}
                             {!loading && error && (<tr>
                                     <td colSpan="5" className="py-3">
@@ -148,48 +148,48 @@ const Lotes = ({medicamentoId}) => {
                                     const { estado, color } = obtenerEstadoVencimiento(lote.fechaVencimiento);
 
                                     return (
-                                        <tr key={lote.id}>
-                                        <td className="py-3">
-                                            <div className="items-center flex gap-3 rounded-full">
-                                            <p className="text-gray-700 dark:text-gray-400">{lote.numeroLote}</p>
-                                            </div>
-                                        </td>
-                                        <td className="py-3">
-                                            <p className="text-gray-700 dark:text-gray-400">{lote.registroSanitario}</p>
-                                        </td>
-                                        <td className="py-3 flex gap-2 items-center">
-                                            <span className="text-gray-700 dark:text-gray-400">{dateColombiaFormat(lote.fechaVencimiento)}</span>
-                                            <span className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${color}`}>
-                                                {estado}
-                                            </span>
-                                        </td>
-                                        <td className="py-3">
-                                            <p className="text-gray-700 dark:text-gray-400">{lote.stockDisponible}</p>
-                                        </td>
-                                        <td className="py-3">
-                                            <div className="text-gray-700 dark:text-gray-400 flex gap-2">
-                                            <button
-                                                className="cursor-pointer"
-                                                title="Editar lote"
-                                                onClick={() => {
-                                                    setModalActivo("editar");
-                                                    setLoteSeleccionado(lote);
-                                                }}
-                                            >
-                                                <LuPencil />
-                                            </button>
-                                            <button
-                                                className="cursor-pointer"
-                                                title="Eliminar lote"
-                                                onClick={() => {
-                                                    setLoteSeleccionado(lote);
-                                                    setModalActivo("eliminar");
-                                                }}
-                                            >
-                                                <LuEraser />
-                                            </button>
-                                            </div>
-                                        </td>
+                                        <tr key={lote.id} className=" text-sm">
+                                            <td className="py-3 ">
+                                                <div className="items-center flex gap-3 rounded-full">
+                                                    <p className="text-gray-700 dark:text-gray-400 text-sm">{lote.numeroLote}</p>
+                                                </div>
+                                            </td>
+                                            <td className="py-3">
+                                                <p className="text-gray-700 dark:text-gray-400">{lote.registroSanitario}</p>
+                                            </td>
+                                            <td className="py-3 flex gap-2 items-center">
+                                                <span className="text-gray-700 dark:text-gray-400">{dateColombiaFormat(lote.fechaVencimiento)}</span>
+                                                <span className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${color}`}>
+                                                    {estado}
+                                                </span>
+                                            </td>
+                                            <td className="py-3">
+                                                <p className="text-gray-700 dark:text-gray-400">{lote.stockDisponible}</p>
+                                            </td>
+                                            <td className="py-3">
+                                                <div className="text-gray-700 dark:text-gray-400 flex gap-2">
+                                                <button
+                                                    className="cursor-pointer"
+                                                    title="Editar lote"
+                                                    onClick={() => {
+                                                        setModalActivo("editar");
+                                                        setLoteSeleccionado(lote);
+                                                    }}
+                                                >
+                                                    <LuPencil />
+                                                </button>
+                                                <button
+                                                    className="cursor-pointer"
+                                                    title="Eliminar lote"
+                                                    onClick={() => {
+                                                        setLoteSeleccionado(lote);
+                                                        setModalActivo("eliminar");
+                                                    }}
+                                                >
+                                                    <LuEraser />
+                                                </button>
+                                                </div>
+                                            </td>
                                         </tr>
                                     );
                                     })}

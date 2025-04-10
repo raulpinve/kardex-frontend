@@ -1,14 +1,19 @@
 import React from 'react';
 import { LuBell, LuMoon, LuSearch, LuSun } from 'react-icons/lu';
 import { RiMenu2Fill } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../store/sidebarSlice';
 import DropdownProfile from './DropdownProfile';
 import { useDarkMode } from "../hooks/useDarkMode";  // Importamos el hook
+import { useLocation } from 'react-router-dom';
+import { deleteAlmacen } from '../../store/almacenSlice';
 
 const Header = () => {
     const dispatch = useDispatch();
     const { darkMode, toggleDarkMode } = useDarkMode();  // Usamos el hook
+
+    const almacen = useSelector(state => state.almacen.almacen);
+    const location = useLocation();
 
     return (
         <header className="sticky top-0 w-full border-b border-gray-200 z-50 bg-white px-3 lg:px-0 dark:bg-gray-900 bg- dark:text-gray-200 dark:border-gray-800 transition-colors">
@@ -33,7 +38,19 @@ const Header = () => {
           </div>
 
           {/* Profile, modo nocturno y notificaciones */}
-          <div className="flex justify-between gap-3">
+          <div className="flex justify-between items-center gap-3">
+             {/* Nombre almacén */}
+              <h3 className={`text-xs uppercase leading-[20px] text-gray-500 font-medium ellipsis select-none cursor-pointer`}>
+                  {almacen?.nombre && location.pathname !== "/configuracion" && (
+                      <p
+                          onClick={() => {
+                              localStorage.removeItem('almacenSeleccionado');
+                              dispatch(deleteAlmacen());
+                          }}
+                      >{almacen.nombre}</p>
+                  )}
+              </h3>
+
             {/* Botón de Modo Nocturno */}
             <button
               onClick={toggleDarkMode}

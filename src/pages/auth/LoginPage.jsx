@@ -54,7 +54,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         setValue("username", "raulpinve");
-        setValue("password", "Bogota123*");
+        setValue("password", "Bogota123@");
       }, [])
 
     return (
@@ -88,13 +88,11 @@ const LoginPage = () => {
                             {...register('username', {
                                 required: {
                                     value: true,
-                                    message:
-                                        'El username debe tener entre 3 y 20 caracteres y solo puede contener letras, números y guiones bajos.',
+                                    message: 'El username debe tener entre 3 y 20 caracteres y solo puede contener letras, números y guiones bajos.',
                                 },
                                 pattern: {
                                 value: /^[a-zA-Z0-9_]{3,20}$/,
-                                message:
-                                    'El username debe tener entre 3 y 20 caracteres y solo puede contener letras, números y guiones bajos.',
+                                message: 'El username debe tener entre 3 y 20 caracteres y solo puede contener letras, números y guiones bajos.',
                                 },
                             })}
                         />

@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import SeleccionarAlmacen from './SeleccionarAlmacen'
 // import VerificarEmail from "./VerificarEmail"
 // import VerificarDowngrade from './VerificarDowngrade'
 
@@ -8,7 +9,7 @@ const PrivateRoute = ({ Component, ...rest}) => {
     return isAuthenticated ?
     <>
         <Component {...rest}/>
-        {/* <VerificarEmail/> */}
+        <SeleccionarAlmacen/>
         {/* <VerificarDowngrade /> */}
     </> : <Navigate to="/login"/>
 }

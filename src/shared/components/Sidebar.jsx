@@ -25,15 +25,15 @@ const Sidebar = () => {
             {/* Menú */}
             <nav className="flex flex-col gap-3 text-md font-medium text-gray-700 dark:text-white/90">
                 {/* Título de Menú */}
-                <h3 className={`mb-2 text-xs uppercase leading-[20px] text-gray-400 ellipsis ${sidebarOpen? "text-left" : "text-center"}`}>
-                    Chapinero
+                <h3 className={`mb-2 text-xs uppercase leading-[20px] hidden text-gray-400 ellipsis ${sidebarOpen? "text-left" : "text-center"}`}>
+                    Menú
                 </h3>
                 
                 {/* Dashboard */}
                 <div className="sidebar-li">
                     <LuLayoutDashboard className="text-xl min-w-[24px]" />
                     <span className={`transition-all duration-200 ${sidebarOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden"}`}>
-                        Dashboard
+                        Cortes
                     </span>
                 </div>
                 

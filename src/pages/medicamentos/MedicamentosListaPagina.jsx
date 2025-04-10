@@ -25,8 +25,8 @@ const MedicamentosListaPagina = () => {
     const [medicamentoSeleccionado, setMedicamentoSeleccionado] = useState(null);
     const [refresh, setRefresh] = useState(0); 
     const [error, setError] = useState(null);
-    const {almacenId} = useParams();
     const navigate = useNavigate();
+    const almacen = useSelector(state => state.almacen.almacen);
 
     const debouncedConsulta = useDebounce(consulta, 500);
 
@@ -37,19 +37,23 @@ const MedicamentosListaPagina = () => {
             setError(null); 
             
             try {
-                const respuesta = await obtenerMedicamentos(token, almacenId, paginaActual, debouncedConsulta)
+                const respuesta = await obtenerMedicamentos(token, almacen.id, paginaActual, debouncedConsulta)
                 setMedicamentos(respuesta.data)
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
 
             } catch (error) {
+                console.log(error)
+
                 setError(error?.response?.data?.message || "Ha ocurrido un error interno");
             } finally {
                 setLoading(false);
             }
         }
-        fetchUsuarios();
-    }, [debouncedConsulta, token, refresh, paginaActual]);
+        if(almacen){
+            fetchUsuarios();
+        }
+    }, [debouncedConsulta, almacen, token, refresh, paginaActual]);
 
     // Redireccionar   
     const irAMedicamento = (id) => {
@@ -209,11 +213,11 @@ const MedicamentosListaPagina = () => {
                 </div>
             </Layout>
 
-            {modalActivo === "crear" && (
+            {modalActivo === "crear" && almacen && (
                 <ModalCrearMedicamento 
                     cerrarModal={() => setModalActivo(null)} 
                     setMedicamentos = {setMedicamentos}
-                    almacenId = {almacenId}
+                    almacenId = {almacen.id}
                 />
             )}
 
