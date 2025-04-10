@@ -81,7 +81,7 @@ const Modal = (props) => {
 
     return (
         <div 
-            className={`fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[26px] ${zIndex} flex items-${position} justify-center p-4 md:p-0`}
+            className={`fixed inset-0 h-full w-full bg-gray-400/50 dark:bg-gray-800/50 backdrop-blur-[26px] ${zIndex} flex items-${position} justify-center p-4 md:p-0`}
             onMouseDown={handleMouseDown} // Detecta el inicio del clic
             onMouseUp={handleMouseUp} // Detecta el final del clic
         >

@@ -50,13 +50,13 @@ const MedicamentoSeleccionarAlmacen = () => {
                             {!loading && (
                                 <>
                                     {almacenes.map(almacen => (
-                                    <button 
-                                        key={almacen.id} 
-                                        className="bg-white p-4 rounded-lg border border-gray-200 hover:bg-blue-50 cursor-pointer"
-                                        onClick={() => seleccionarAlmacen(almacen.id)}
-                                    >
-                                        {almacen.nombre}
-                                    </button>
+                                        <button 
+                                            key={almacen.id} 
+                                            className="bg-white dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-800 dark:hover:bg-gray-800 hover:bg-blue-50 cursor-pointer"
+                                            onClick={() => seleccionarAlmacen(almacen.id)}
+                                        >
+                                            {almacen.nombre}
+                                        </button>
                                     ))}
                                 </>
                             )}
