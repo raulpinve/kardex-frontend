@@ -4,7 +4,7 @@ import MessageError from "../../../../shared/components/MessageError";
 
 const InformacionMedicamento = ({medicamento, loading, error}) => {
     return (
-        <div className="text-sm text-gray-700 dark:text-gray-400">
+        <div className="text-sm text-gray-700 dark:text-gray-400 max-w-[450px]">
             <Card>
                 {/* Loading */}
                 {loading && (<div>

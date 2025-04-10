@@ -13,8 +13,6 @@ const ModalEliminarMedicamento = (props) => {
     const [inputNombre, setInputNombre] = useState("");
     const token = useSelector(state => state.auth.token);
 
-    console.log(medicamentoSeleccionado.id)
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const nombreMedicamento = `${medicamentoSeleccionado.nombre}`.trim();

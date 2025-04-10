@@ -77,7 +77,7 @@ const Lotes = ({medicamentoId}) => {
                         >   
                             Crear
                         </Button>
-                        <div className="relative hidden md:block">
+                        <div className="relative hidden lg:block">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
                             <input 
                                 type="text" 
@@ -103,101 +103,104 @@ const Lotes = ({medicamentoId}) => {
                         </Button>
                     </div>
                 </div>
-                <table className="min-w-full mt-3 text-gray-700 dark:text-gray-200">
-                        <thead>
-                            <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
-                                <th className="py-3">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Número de lote</p>
-                                </th>
-                                <th className="py-3">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Registro sanitario</p>
-                                </th>
-                                <th className="py-3">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Fecha de vencimiento</p>
-                                </th>
-                                <th className="py-3">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Stock disponible</p>
-                                </th>
-                                <th className="py-3">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                                </th>
-                            </tr>
-                        </thead>
-                        {loading && <SkeletonTable rows={7} columns={5}/>}
-                        <tbody className="text-sm">
-                            {/* Display error */}
-                            {!loading && error && (<tr>
-                                    <td colSpan="5" className="py-3">
-                                        <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
-                                    </td>
-                                </tr>)
-                            }
-
-                            {/* No hay lotes por mostrar */}
-                            {!loading && !error && lotes.length === 0 && (<tr>
-                                    <td colSpan="5" className="py-3">
-                                        <p className="text-gray-700 dark:text-gray-400 text-center"> No hay lotes por mostrar</p>
-                                    </td>
+                <div className="min-w-0">
+                    <div className="overflow-x-auto w-full">
+                        <table className="mt-3 min-w-full  text-gray-700 dark:text-gray-200">
+                            <thead>
+                                <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
+                                    <th className="py-3 px-4">
+                                        <p className="font-medium text-gray-700 dark:text-gray-400">Número de lote</p>
+                                    </th>
+                                    <th className="py-3 px-4">
+                                        <p className="font-medium text-gray-700 dark:text-gray-400">Registro sanitario</p>
+                                    </th>
+                                    <th className="py-3 px-4 min-w-[120px]">
+                                        <p className="font-medium text-gray-700 dark:text-gray-400">Fecha de vencimiento</p>
+                                    </th>
+                                    <th className="py-3 px-4">
+                                        <p className="font-medium text-gray-700 dark:text-gray-400">Stock disponible</p>
+                                    </th>
+                                    <th className="py-3 px-4">
+                                        <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
+                                    </th>
                                 </tr>
-                            )}
+                            </thead>
+                            {loading && <SkeletonTable rows={7} columns={5}/>}
+                            <tbody className="text-sm">
+                                {/* Display error */}
+                                {!loading && error && (<tr>
+                                        <td colSpan="5" className="py-3 px-4">
+                                            <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
+                                        </td>
+                                    </tr>)
+                                }
 
-                            {/* Mapeado de lotes */}
-                            {!loading && !error && lotes.length > 0 && (
-                                <>
-                                    {lotes.map((lote) => {
-                                    const { estado, color } = obtenerEstadoVencimiento(lote.fechaVencimiento);
-
-                                    return (
-                                        <tr key={lote.id} className=" text-sm">
-                                            <td className="py-3 ">
-                                                <div className="items-center flex gap-3 rounded-full">
-                                                    <p className="text-gray-700 dark:text-gray-400 text-sm">{lote.numeroLote}</p>
-                                                </div>
-                                            </td>
-                                            <td className="py-3">
-                                                <p className="text-gray-700 dark:text-gray-400">{lote.registroSanitario}</p>
-                                            </td>
-                                            <td className="py-3 flex gap-2 items-center">
-                                                <span className="text-gray-700 dark:text-gray-400">{dateColombiaFormat(lote.fechaVencimiento)}</span>
-                                                <span className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${color}`}>
-                                                    {estado}
-                                                </span>
-                                            </td>
-                                            <td className="py-3">
-                                                <p className="text-gray-700 dark:text-gray-400">{lote.stockDisponible}</p>
-                                            </td>
-                                            <td className="py-3">
-                                                <div className="text-gray-700 dark:text-gray-400 flex gap-2">
-                                                <button
-                                                    className="cursor-pointer"
-                                                    title="Editar lote"
-                                                    onClick={() => {
-                                                        setModalActivo("editar");
-                                                        setLoteSeleccionado(lote);
-                                                    }}
-                                                >
-                                                    <LuPencil />
-                                                </button>
-                                                <button
-                                                    className="cursor-pointer"
-                                                    title="Eliminar lote"
-                                                    onClick={() => {
-                                                        setLoteSeleccionado(lote);
-                                                        setModalActivo("eliminar");
-                                                    }}
-                                                >
-                                                    <LuEraser />
-                                                </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    );
-                                    })}
-                                </>
+                                {/* No hay lotes por mostrar */}
+                                {!loading && !error && lotes.length === 0 && (<tr>
+                                        <td colSpan="5" className="py-3 px-4">
+                                            <p className="text-gray-700 dark:text-gray-400 text-center"> No hay lotes por mostrar</p>
+                                        </td>
+                                    </tr>
                                 )}
 
-                        </tbody>
-                </table>
+                                {/* Mapeado de lotes */}
+                                {!loading && !error && lotes.length > 0 && (
+                                    <>
+                                        {lotes.map((lote) => {
+                                        const { estado, color } = obtenerEstadoVencimiento(lote.fechaVencimiento);
+
+                                        return (
+                                            <tr key={lote.id} className=" text-sm">
+                                                <td className="py-3 px-4 ">
+                                                    <div className="items-center flex gap-3 rounded-full">
+                                                        <p className="text-gray-700 dark:text-gray-400 text-sm">{lote.numeroLote}</p>
+                                                    </div>
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <p className="text-gray-700 dark:text-gray-400">{lote.registroSanitario}</p>
+                                                </td>
+                                                <td className="py-3 px-4 lg:flex lg:gap-2 items-center">
+                                                    <p className="text-gray-700 dark:text-gray-400">{dateColombiaFormat(lote.fechaVencimiento)}</p>
+                                                    <p className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${color}`}>
+                                                        {estado}
+                                                    </p>
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <p className="text-gray-700 dark:text-gray-400">{lote.stockDisponible}</p>
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <div className="text-gray-700 dark:text-gray-400 flex gap-2">
+                                                    <button
+                                                        className="cursor-pointer"
+                                                        title="Editar lote"
+                                                        onClick={() => {
+                                                            setModalActivo("editar");
+                                                            setLoteSeleccionado(lote);
+                                                        }}
+                                                    >
+                                                        <LuPencil />
+                                                    </button>
+                                                    <button
+                                                        className="cursor-pointer"
+                                                        title="Eliminar lote"
+                                                        onClick={() => {
+                                                            setLoteSeleccionado(lote);
+                                                            setModalActivo("eliminar");
+                                                        }}
+                                                    >
+                                                        <LuEraser />
+                                                    </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                        })}
+                                    </>
+                                    )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <Pagination
                     paginaActual={paginaActual}
                     totalPaginas={totalPaginas}

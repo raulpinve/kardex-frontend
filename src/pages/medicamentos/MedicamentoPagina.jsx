@@ -37,13 +37,13 @@ const MedicamentoPagina = () => {
 
     return (
         <Layout>
-            <div className="grid grid-cols-[320px_1fr] gap-4 items-start mt-4">
+            <div className="grid w-full md:grid-cols-[320px_1fr] gap-4 items-start mt-4">
                 <InformacionMedicamento 
                     medicamento={medicamento}
                     loading={loading}
                     error={error}
                 />
-                <div>
+                <div  className="min-w-0">
                     <TarjetasInformacionMedicamento
                         medicamento={medicamento}
                         loading={loading}

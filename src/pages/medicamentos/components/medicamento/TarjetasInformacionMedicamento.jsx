@@ -1,5 +1,5 @@
-import React from 'react';
-import { LuPackageCheck, LuPackageOpen, LuPackagePlus } from 'react-icons/lu';
+import React from "react";
+import { LuPackageCheck, LuPackageOpen, LuPackagePlus } from "react-icons/lu";
 
 function analizarStock(stockRequerido, stockDisponible) {
     const cantidadAPedir = Math.max(stockRequerido - stockDisponible, 0);
@@ -26,15 +26,15 @@ function analizarStock(stockRequerido, stockDisponible) {
   
 const TarjetasInformacionMedicamento = ({medicamento, loading, error}) => {
     return (
-        <div className='grid gap-4'>
-{           /* Loading */}
-            {loading && (<div className='grid grid-cols-3 gap-4'>
+        <div className="grid gap-4">
+            {/* Loading */}
+            {loading && (<div className="grid grid-cols-3 gap-4">
                 <div className="animate-pulse bg-slate-200 dark:bg-slate-700 h-[98px] rounded-2xl mb-3"></div>
                 <div className="animate-pulse bg-slate-200 dark:bg-slate-700 h-[98px] rounded-2xl mb-3"></div>
                 <div className="animate-pulse bg-slate-200 dark:bg-slate-700 h-[98px] rounded-2xl mb-3"></div>
             </div>)}
 
-            {!loading && !error && medicamento && ( <div className='grid grid-cols-3 gap-4 mb-4'>
+            {!loading && !error && medicamento && ( <div className="grid xl:grid-cols-3 gap-4 mb-4">
                 {/* Stock requerido */}
                 <div className="rounded-2xl border border-gray-200 bg-white p-3 dark:border-gray-800 dark:bg-white/[0.03] md:p-5 flex items-center gap-4">
                     <div className="flex text-xl h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:text-gray-200">
