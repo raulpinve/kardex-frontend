@@ -23,8 +23,49 @@ const dateColombiaFormat = (isoDate) => {
     return `${day}-${month}-${year}`;
 };
 
+const obtenerEstadoVencimiento = (fechaVencimientoStr) => {
+    const hoy = new Date();
+    const vencimiento = new Date(fechaVencimientoStr);
+    const msEnUnDia = 1000 * 60 * 60 * 24;
+    const diasRestantes = Math.ceil((vencimiento - hoy) / msEnUnDia);
+  
+    if (diasRestantes < 0) {
+      return { estado: "Vencido", color: "text-red-600 bg-red-600/10" };
+    } else if (diasRestantes <= 30) {
+      return { estado: "Por vencer", color: "text-orange-600 bg-orange-600/10" };
+    } else if (diasRestantes <= 90) {
+      return { estado: "Próximo", color: "text-yellow-600 bg-yellow-600/10" };
+    } else {
+      return { estado: "Ok", color: "text-green-600 bg-green-600/10" };
+    }
+}
+
+const analizarStock = (stockRequerido, stockDisponible) => {
+    const cantidadAPedir = Math.max(stockRequerido - stockDisponible, 0);
+  
+    const limiteExceso = stockRequerido * 1.25;
+    const hayExceso = stockDisponible > limiteExceso;
+    const hayFaltante = stockDisponible < stockRequerido;
+  
+    let estado = "";
+    if (hayExceso) {
+      estado = "⚠️ Exceso de stock";
+    } else if (hayFaltante) {
+      estado = "🔻 Stock bajo";
+    }
+  
+    return {
+      cantidadAPedir,
+      hayExceso,
+      hayFaltante,
+      estado
+    };
+}
+  
 export {
     formatDateLetters,
     formatDate,
-    dateColombiaFormat
+    dateColombiaFormat,
+    obtenerEstadoVencimiento,
+    analizarStock
 }

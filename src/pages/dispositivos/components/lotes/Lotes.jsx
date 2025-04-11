@@ -3,17 +3,17 @@ import Card from "../../../../shared/components/Card";
 import CardTitulo from "../../../../shared/components/CardTitulo";
 import Button from "../../../../shared/components/Button";
 import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
-import ModalCrearLote from "./ModalCrearLote";
 import { obtenerLotes } from "../../services/loteServices";
 import { useSelector } from "react-redux";
 import useDebounce from "../../../../shared/hooks/useDebounce";
 import SkeletonTable from "../../../../shared/components/SkeletonTable";
-import { dateColombiaFormat, formatDate, obtenerEstadoVencimiento } from "../../../../utils/utilities";
+import { dateColombiaFormat, obtenerEstadoVencimiento } from "../../../../utils/utilities";
+import ModalCrearLote from "./ModalCrearLote";
+import Pagination from "../../../../shared/components/Pagination";
 import ModalEditarLote from "./ModalEditarLote";
 import ModalEliminarLote from "./ModalEliminarLote";
-import Pagination from "../../../../shared/components/Pagination";
 
-const Lotes = ({medicamentoId}) => {
+const Lotes = ({dispositivoId}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [lotes, setLotes] = useState([]);
@@ -28,11 +28,11 @@ const Lotes = ({medicamentoId}) => {
 
     // Obtener lotes
     useEffect(() => {
-        const fetchCategorias = async () => {
+        const fetchLotes = async () => {
             setLoading(true);
             setError(null); 
             try {
-                const respuesta = await obtenerLotes(token, medicamentoId, paginaActual, debouncedConsulta);
+                const respuesta = await obtenerLotes(token, dispositivoId, paginaActual, debouncedConsulta);
                 setLotes(respuesta.data);
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
@@ -42,7 +42,7 @@ const Lotes = ({medicamentoId}) => {
                 setLoading(false);
             }
         }
-        fetchCategorias();
+        fetchLotes();
     }, [debouncedConsulta, paginaActual, token, refresh]);
     
     return (
@@ -184,6 +184,7 @@ const Lotes = ({medicamentoId}) => {
                         </table>
                     </div>
                 </div>
+                
                 <Pagination
                     paginaActual={paginaActual}
                     totalPaginas={totalPaginas}
@@ -194,16 +195,14 @@ const Lotes = ({medicamentoId}) => {
                 <ModalCrearLote 
                     cerrarModal={() => setModalActivo(null)} 
                     setLotes = {setLotes}
-                    medicamentoId = {medicamentoId}
+                    dispositivoId = {dispositivoId}
                     loteSeleccionado = {loteSeleccionado}
                 />
             )}
-
             {modalActivo === "editar" && (
                 <ModalEditarLote 
                     cerrarModal={() => setModalActivo(null)} 
                     setLotes = {setLotes}
-                    medicamentoId = {medicamentoId}
                     loteSeleccionado = {loteSeleccionado}
                 />
             )}
@@ -211,10 +210,9 @@ const Lotes = ({medicamentoId}) => {
                 <ModalEliminarLote 
                     cerrarModal={() => setModalActivo(null)} 
                     setLotes = {setLotes}
-                    medicamentoId = {medicamentoId}
                     loteSeleccionado = {loteSeleccionado}
                 />
-            )}
+            )} 
         </>
     );
 };

@@ -5,29 +5,28 @@ import Button from "../../shared/components/Button";
 import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import Card from "../../shared/components/Card";
 import useDebounce from "../../shared/hooks/useDebounce";
-import { obtenerMedicamentos } from "./services/medicamentosServices";
+import { obtenerDispositivos } from "./services/dispositivoServices";
 import { useSelector } from "react-redux";
 import SkeletonTable from "../../shared/components/SkeletonTable";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../shared/components/Pagination";
-import ModalCrearMedicamento from "./components/medicamentos/ModalCrearMedicamento";
-import ModalEditarMedicamento from "./components/medicamentos/ModalEditarMedicamento";
-import ModalEliminarMedicamento from "./components/medicamentos/ModalEliminarMedicamento";
+import ModalCrearDispositivo from "./components/dispositivos/ModalCrearDispositivo";
+import ModalEditarDispositivo from "./components/dispositivos/ModalEditarDispositivo";
+import ModalEliminarDispositivo from "./components/dispositivos/ModalEliminarDispositivo";
 
-const MedicamentosListaPagina = () => {
+const DispositivosListaPagina = () => {
     const [modalActivo, setModalActivo] = useState(); // Establece la modal que estará activa
     const [consulta, setConsulta] = useState("");
     const [loading, setLoading] = useState(null);
     const token = useSelector(state => state.auth.token);
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
-    const [medicamentos, setMedicamentos] = useState([]);
-    const [medicamentoSeleccionado, setMedicamentoSeleccionado] = useState(null);
+    const [dispositivos, setDispositivos] = useState([]);
+    const [dispositivoSeleccionado, setDispositivoSeleccionado] = useState(null);
     const [refresh, setRefresh] = useState(0); 
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const almacen = useSelector(state => state.almacen.almacen);
-
     const debouncedConsulta = useDebounce(consulta, 500);
 
     // Obtener usuarios
@@ -37,8 +36,8 @@ const MedicamentosListaPagina = () => {
             setError(null); 
             
             try {
-                const respuesta = await obtenerMedicamentos(token, almacen.id, paginaActual, debouncedConsulta)
-                setMedicamentos(respuesta.data)
+                const respuesta = await obtenerDispositivos(token, almacen.id, paginaActual, debouncedConsulta)
+                setDispositivos(respuesta.data)
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
 
@@ -56,8 +55,8 @@ const MedicamentosListaPagina = () => {
     }, [debouncedConsulta, almacen, token, refresh, paginaActual]);
 
     // Redireccionar   
-    const irAMedicamento = (id) => {
-        navigate(`/medicamentos/${id}`);
+    const irADispositivo = (id) => {
+        navigate(`/dispositivos/${id}`);
     };
 
     return (
@@ -67,7 +66,7 @@ const MedicamentosListaPagina = () => {
                     <Card>
                         {/* Header */}
                         <div className="flex justify-between items-center">
-                            <CardTitulo>Medicamentos </CardTitulo>
+                            <CardTitulo>Dispositivos </CardTitulo>
                             <div className="flex gap-1 items-center justify-between">
                                 <Button
                                     type="button"
@@ -107,90 +106,82 @@ const MedicamentosListaPagina = () => {
                                 <thead>
                                     <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
                                         <th className="py-3 px-4">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Principio activo</p>
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Nombre</p>
                                         </th>
                                         <th className="py-3 px-4">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Forma farmacéutica</p>
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Serie</p>
                                         </th>
                                         <th className="py-3 px-4">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Concentración</p>
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Presentación comercial</p>
                                         </th>
                                         <th className="py-3 px-4">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Presentación</p>
-                                        </th>
-                                        <th className="py-3 px-4">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Unidad médica</p>
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Riesgo</p>
                                         </th>
                                         <th className="py-3 px-4">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Stock requerido</p>
                                         </th>
                                         <th className="py-3 px-4 w-[100px]">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
+                                            <p className="font-medium text-gray-700 dark:text-gray-400 ">Acciones</p>
                                         </th>
                                     </tr>
                                 </thead>
 
-                                {loading ? <SkeletonTable rows={7} columns={7}/>: 
-                                    <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
+                                {loading ? <SkeletonTable rows={7} columns={5}/>: 
+                                    <tbody className="divide-y divide-gray-100 text-sm dark:divide-gray-800">
                                         {error ? <tr>
-                                            <td colSpan="7" className="py-3">
+                                            <td colSpan="5" className="py-3">
                                                 <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
                                             </td>
                                         </tr> : 
                                         <>
-                                            {medicamentos.length === 0 ? 
+                                            {dispositivos.length === 0 ? 
                                                 <tr>
-                                                    <td colSpan="7" className="py-3">
-                                                        <p className="text-gray-700 dark:text-gray-400 text-center"> No hay medicamentos por mostrar</p>
+                                                    <td colSpan="5" className="py-3">
+                                                        <p className="text-gray-700 dark:text-gray-400 text-center"> No hay dispositivos por mostrar</p>
                                                     </td>
                                                 </tr>: 
                                                 <>
-                                                    {medicamentos.map(medicamento => {
+                                                    {dispositivos.map(dispositivo => {
                                                         return <tr 
-                                                            key={medicamento.id}
-                                                            onClick={() => irAMedicamento(medicamento.id)}
+                                                            key={dispositivo.id}
+                                                            onClick={() => irADispositivo(dispositivo.id)}
                                                             className="cursor-pointer"
                                                         >
                                                             <td className="py-3 px-4">
-                                                                <div className="items-center flex gap-3 rounded-full">
-                                                                    <p className="text-gray-700 dark:text-gray-400"> {medicamento.nombre}</p>
-                                                                </div>
+                                                                <p className="text-gray-700 dark:text-gray-400"> {dispositivo.nombre}</p>
                                                             </td>
                                                             <td className="py-3 px-4">
-                                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.formaFarmaceutica} </p>
+                                                                <p className="text-gray-700 dark:text-gray-400"> {dispositivo.serie} </p>
                                                             </td>
                                                             <td className="py-3 px-4">
-                                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.concentracion} </p>
+                                                                <p className="text-gray-700 dark:text-gray-400"> {dispositivo.presentacionComercial} </p>
                                                             </td>
                                                             <td className="py-3 px-4">
-                                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.presentacionComercial} </p>
+                                                                <p className="text-gray-700 dark:text-gray-400"> {dispositivo.riesgo} </p>
                                                             </td>
                                                             <td className="py-3 px-4">
-                                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.unidadMedida} </p>
+                                                                <p className="text-gray-700 dark:text-gray-400"> {dispositivo.stockRequerido} </p>
                                                             </td>
                                                             <td className="py-3 px-4">
-                                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.stockRequerido} </p>
-                                                            </td>
-                                                            <td className="py-3 px-4">
-                                                                <div className="text-gray-700 dark:text-gray-400 flex gap-2">
+                                                                <div className="text-gray-700 dark:text-gray-400 flex">
                                                                     <button 
                                                                         className="cursor-pointer p-2"
-                                                                        title="Editar medicamento"
+                                                                        title="Editar dispositivo"
                                                                         onClick={(e) => {
                                                                             e.stopPropagation(); // evita que se dispare el onClick del <tr>
                                                                             setModalActivo("editar"); 
-                                                                            setMedicamentoSeleccionado(medicamento);
+                                                                            setDispositivoSeleccionado(dispositivo);
                                                                         }}    
                                                                     >
                                                                         <LuPencil />
                                                                     </button>
                                                                     <button 
                                                                         className="cursor-pointer p-2"
-                                                                        title="Eliminar medicamento"
+                                                                        title="Eliminar dispositivo"
                                                                         onClick={(e) => {
                                                                             e.stopPropagation(); // evita que se dispare el onClick del <tr>
                                                                             setModalActivo("eliminar"); 
-                                                                            setMedicamentoSeleccionado(medicamento);
+                                                                            setDispositivoSeleccionado(dispositivo);
                                                                         }} 
                                                                     >
                                                                         <LuEraser />
@@ -215,30 +206,30 @@ const MedicamentosListaPagina = () => {
             </Layout>
 
             {modalActivo === "crear" && almacen && (
-                <ModalCrearMedicamento 
+                <ModalCrearDispositivo
                     cerrarModal={() => setModalActivo(null)} 
-                    setMedicamentos = {setMedicamentos}
+                    setDispositivos = {setDispositivos}
                     almacenId = {almacen.id}
                 />
             )}
 
             {modalActivo === "editar" && (
-                <ModalEditarMedicamento 
+                <ModalEditarDispositivo 
                     cerrarModal={() => setModalActivo(null)} 
-                    setMedicamentos = {setMedicamentos}
-                    medicamentoSeleccionado = {medicamentoSeleccionado}
+                    setDispositivos = {setDispositivos}
+                    dispositivoSeleccionado = {dispositivoSeleccionado}
                 />
             )}
             
             {modalActivo === "eliminar" && (
-                <ModalEliminarMedicamento 
+                <ModalEliminarDispositivo 
                     cerrarModal={() => setModalActivo(null)} 
-                    setMedicamentos = {setMedicamentos}
-                    medicamentoSeleccionado = {medicamentoSeleccionado}
+                    setDispositivos = {setDispositivos}
+                    dispositivoSeleccionado = {dispositivoSeleccionado}
                 />
-            )}
+            )} 
         </>
     );
 };
 
-export default MedicamentosListaPagina;
+export default DispositivosListaPagina;

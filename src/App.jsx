@@ -16,6 +16,8 @@ import { host } from "./utils/config";
 import { Toaster } from 'sonner';
 import MedicamentosListaPagina from "./pages/medicamentos/MedicamentosListaPagina";
 import MedicamentoPagina from "./pages/medicamentos/MedicamentoPagina";
+import DispositivosListaPagina from "./pages/dispositivos/DispositivosListaPagina";
+import DispositivoPagina from "./pages/dispositivos/DispositivoPagina";
 
 function App() {
   const dispatch = useDispatch();
@@ -71,6 +73,8 @@ function App() {
         <Route path="/configuracion" element={<PrivateRoute Component={ConfiguracionPage} />} />
         <Route path="/medicamentos" element={<PrivateRoute Component={MedicamentosListaPagina} />} />
         <Route path="/medicamentos/:medicamentoId" element={<PrivateRoute Component={MedicamentoPagina} />} />
+        <Route path="/dispositivos" element={<PrivateRoute Component={DispositivosListaPagina} />} />
+        <Route path="/dispositivos/:dispositivoId" element={<PrivateRoute Component={DispositivoPagina} />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
