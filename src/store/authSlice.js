@@ -23,11 +23,9 @@ const authSlice = createSlice({
             localStorage.removeItem("token")
         },
         updateUser: (state, action) => {
-            const updatedFields = action.payload;
-            state.usuario = {
-              ...state.usuario,
-              ...updatedFields,
-            };
+            const { token, ...usuario } = action.payload;
+            state.usuario = usuario;
+            state.token = token;
         },
     }
 })

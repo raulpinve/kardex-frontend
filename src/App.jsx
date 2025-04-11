@@ -18,6 +18,7 @@ import MedicamentosListaPagina from "./pages/medicamentos/MedicamentosListaPagin
 import MedicamentoPagina from "./pages/medicamentos/MedicamentoPagina";
 import DispositivosListaPagina from "./pages/dispositivos/DispositivosListaPagina";
 import DispositivoPagina from "./pages/dispositivos/DispositivoPagina";
+import PerfilPagina from "./pages/perfil/perfilPagina";
 
 function App() {
   const dispatch = useDispatch();
@@ -75,6 +76,7 @@ function App() {
         <Route path="/medicamentos/:medicamentoId" element={<PrivateRoute Component={MedicamentoPagina} />} />
         <Route path="/dispositivos" element={<PrivateRoute Component={DispositivosListaPagina} />} />
         <Route path="/dispositivos/:dispositivoId" element={<PrivateRoute Component={DispositivoPagina} />} />
+        <Route path="/perfil" element={<PrivateRoute Component={PerfilPagina} />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>

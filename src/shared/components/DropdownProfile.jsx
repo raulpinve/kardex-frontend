@@ -3,7 +3,7 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 import { LuCircleUser, LuSettings2, LuLogOut } from 'react-icons/lu';
 import { logout } from '../../store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeUser } from '../../store/userSlice';
+import { Link } from 'react-router-dom';
 
 const DropdownProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,22 +52,18 @@ const DropdownProfile = () => {
         <h4 className="text-sm text-gray-500 dark:text-white/90">{usuario?.email}</h4>
 
         <ul className="mt-1 border-b border-gray-200 mb-2 py-2 text-gray-600 dark:text-white/90 text-md dark:border-gray-800">
-          <li className="header-profile-li">
+          <Link 
+            to={`/perfil`}
+            className="header-profile-li">
             <LuCircleUser />
             <span>Editar perfil</span>
-          </li>
-
-          <li className="header-profile-li">
-            <LuSettings2 />
-            <span>Configuración</span>
-          </li>
+          </Link>
         </ul>
 
         <button 
           className="header-profile-li"
           onClick={() => {
             dispatch(logout())
-            dispatch(removeUser())
           }}
         >
           <LuLogOut />
