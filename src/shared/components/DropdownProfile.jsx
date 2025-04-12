@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
-import { LuCircleUser, LuSettings2, LuLogOut } from 'react-icons/lu';
+import { LuCircleUser, LuLogOut } from 'react-icons/lu';
 import { logout } from '../../store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { host } from '../../utils/config';
 
 const DropdownProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,18 +23,20 @@ const DropdownProfile = () => {
         setIsOpen(false);
       }
     }
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
   return (
     <div className="relative" ref={dropdownRef}>
       <button className="flex items-center cursor-pointer focus:outline-none" onClick={toggleDropdown}>
         <img 
-          src="https://picsum.photos/50" 
+          src={`${host}/uploads/avatar-usuarios/${usuario.id}/${usuario.avatarThumbnail}`}
+          onError={(e) => {
+            e.target.onerror = null; // Evita bucle si la imagen de fallback también falla
+            e.target.src = "https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg"; 
+          }}
           alt="Perfil" 
           className="w-10 h-10 object-cover rounded-full ml-1 mr-3"  
         />

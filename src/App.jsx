@@ -3,7 +3,7 @@ import "./index.css";
 import Layout from "./shared/components/Layout";
 import SignupPage from "./pages/auth/SignupPage";
 import LoginPage from "./pages/auth/LoginPage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { login, logout } from "./store/authSlice";
@@ -22,34 +22,34 @@ import PerfilPagina from "./pages/perfil/perfilPagina";
 
 function App() {
   const dispatch = useDispatch();
+  const avatarUrl = useSelector(state => state.auth.avatarUrl);
   const [ loading, setLoading ] = useState(true);
 
   /* Validate the token */
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if(token){
-      axios.get(`${host}/validateToken`, {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      axios
+        .get(`${host}/validateToken`, {
           headers: {
-            Authorization: `Bearer ${token}` // Reemplaza 'token' con tu token de autorización
-          }
+            Authorization: `Bearer ${token}`,
+          },
         })
-        .then(result => {
-          dispatch(login({
-            ...result.data.data, 
-            token
-          }))
+        .then((result) => {
+          dispatch(login({ ...result.data.data, token }));
         })
         .catch(() => {
-          dispatch(logout())
+          dispatch(logout());
         })
         .finally(() => {
-          setLoading(false)
-        })
-    }else{
-      dispatch(logout())
-      setLoading(false)
+          setLoading(false);
+        });
+    } else {
+      dispatch(logout());
+      setLoading(false);
     }
-  }, [dispatch])
+  }, [dispatch]);
 
   // Configuración para toaster
   const [isDark, setIsDark] = useState();

@@ -9,6 +9,22 @@ const actualizarPerfil = (token, data) => {
         })
 }
 
+const subirAvatar = (token, archivo) => {
+    const formData = new FormData();
+    formData.append("avatar", archivo);
+
+    return apiClient(token).put(`/perfiles/avatar`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    })
+    .then(response => response.data)
+    .catch(err => {
+        throw err;
+    });
+};
+
 export {
-    actualizarPerfil
+    actualizarPerfil,
+    subirAvatar
 }

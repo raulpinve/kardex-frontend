@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     isAuthenticated: null,
     usuario: null,
-    token: null
+    token: null, 
 };
 
 const authSlice = createSlice({
@@ -27,9 +27,15 @@ const authSlice = createSlice({
             state.usuario = usuario;
             state.token = token;
         },
+        actualizarAvatar: (state, action) => {
+            if (state.usuario) {
+                state.usuario.avatarThumbnail = action.payload.avatar;
+                state.usuario.thumbnail = action.payload.avatarThumbnail;
+            }
+        },
     }
 })
 
-export const { login, logout, updateUser } = authSlice.actions;
+export const { login, logout, updateUser, actualizarAvatar } = authSlice.actions;
 export const selectAuth = (state) => state.auth;
 export default authSlice.reducer;

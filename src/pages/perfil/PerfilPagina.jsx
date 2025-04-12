@@ -7,11 +7,11 @@ import Button from '../../shared/components/Button';
 import { LuPencil } from 'react-icons/lu';
 import { useSelector } from 'react-redux';
 import ModalEditarPerfil from './components/ModalEditarPerfil';
+import SubirImagenPerfil from './components/SubirImagenPerfil';
 
 const PerfilPagina = () => {
     const usuario = useSelector(state => state.auth.usuario);
     const [modalActivo, setModalActivo] = useState("");
-
     return (
         <>
             <Layout>
@@ -20,14 +20,8 @@ const PerfilPagina = () => {
                     <Card>
                         <CardTitulo>Perfil</CardTitulo>
                         <div className='p-5 mb-6 mt-4 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between items-center'>
-                            <div className='flex'>
-                                <div>
-                                    <img 
-                                        src="https://picsum.photos/50" 
-                                        alt="Perfil" 
-                                        className="w-20 h-20 object-cover rounded-full ml-1 mr-3"  
-                                    />
-                                </div>
+                            <div className='flex gap-3'>
+                                <SubirImagenPerfil usuario={usuario} />
                                 <div className="order-3 mt-3 xl:order-2">
                                     <h4 className="text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
                                         {usuario?.primerNombre} {usuario?.apellidos}
@@ -43,7 +37,6 @@ const PerfilPagina = () => {
                                     </div>
                                 </div>
                             </div>
-                        
                         </div>
                         <div className=''>
                             <div className='p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between'>
