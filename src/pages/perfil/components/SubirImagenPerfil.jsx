@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { subirAvatar } from '../services/perfilService';
 import { actualizarAvatar } from '../../../store/authSlice';
 import { host } from '../../../utils/config';
+import imageDefault from '../../../assets/image-default.png'
 
 const SubirImagenPerfil = ({usuario}) => {
     const [avatarPreview, setAvatarPreview] = useState(usuario.avatarThumbnail);
@@ -49,7 +50,7 @@ const SubirImagenPerfil = ({usuario}) => {
                 onClick={handleImageClick}
                 onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg"; 
+                    e.target.src = imageDefault; 
                 }}
                 alt="Perfil" 
                 className="w-20 h-20 object-cover rounded-full cursor-pointer transition hover:opacity-80"  

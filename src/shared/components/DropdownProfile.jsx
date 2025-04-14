@@ -5,6 +5,7 @@ import { logout } from '../../store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { host } from '../../utils/config';
+import imageDefault from '../../assets/image-default.png'
 
 const DropdownProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,10 +33,10 @@ const DropdownProfile = () => {
     <div className="relative" ref={dropdownRef}>
       <button className="flex items-center cursor-pointer focus:outline-none" onClick={toggleDropdown}>
         <img 
-          src={`${host}/uploads/avatar-usuarios/${usuario.id}/${usuario.avatarThumbnail}`}
+          src={`${host}/uploads/avatar-usuarios/${usuario.id}/${usuario.avatarThumbnail}fdf`}
           onError={(e) => {
             e.target.onerror = null; // Evita bucle si la imagen de fallback también falla
-            e.target.src = "https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg"; 
+            e.target.src = imageDefault; 
           }}
           alt="Perfil" 
           className="w-10 h-10 object-cover rounded-full ml-1 mr-3"  
