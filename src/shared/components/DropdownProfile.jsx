@@ -33,7 +33,7 @@ const DropdownProfile = () => {
     <div className="relative" ref={dropdownRef}>
       <button className="flex items-center cursor-pointer focus:outline-none" onClick={toggleDropdown}>
         <img 
-          src={`${host}/uploads/avatar-usuarios/${usuario.id}/${usuario.avatarThumbnail}fdf`}
+          src={`${host}/uploads/avatar-usuarios/${usuario.id}/${usuario.avatarThumbnail}`}
           onError={(e) => {
             e.target.onerror = null; // Evita bucle si la imagen de fallback también falla
             e.target.src = imageDefault; 

@@ -29,7 +29,7 @@ const authSlice = createSlice({
         },
         actualizarAvatar: (state, action) => {
             if (state.usuario) {
-                state.usuario.avatarThumbnail = action.payload.avatar;
+                state.usuario.avatar = action.payload.avatar;
                 state.usuario.thumbnail = action.payload.avatarThumbnail;
             }
         },

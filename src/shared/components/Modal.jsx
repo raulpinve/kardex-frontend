@@ -87,7 +87,7 @@ const Modal = (props) => {
         >
             <div 
                 ref={modalRef} // Asigna la referencia al contenedor del modal
-                className={`no-scrollbar relative w-full ${sizePixels} overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11 ${shake ? "shake" : ""}`}
+                className={`no-scrollbar relative w-full ${sizePixels}  rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11 ${shake ? "shake" : ""}`}
             >
                 {/* Header de la modal */}
                 <div>
