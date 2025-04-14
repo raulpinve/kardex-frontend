@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from '../../../shared/components/Modal';
 import { host } from '../../../utils/config';
+import imageDefault from "../../../assets/image-default.png";
+import SkeletonElement from '../../../shared/components/SkeletonElement';
+import Loader from '../../../shared/components/Loader';
 
 const ModalAbrirImagenPerfil = (props) => {
     const {cerrarModal, usuario} = props;
+    const [isLoading, setIsLoading] = useState(true); // Estado para manejar el loading
+
+    const handleImageLoad = () => {
+        setIsLoading(false); // Cuando la imagen se haya cargado, se desactiva el loader
+    };
+
     return (
         <Modal
             isOpenModal={true}
@@ -11,11 +20,19 @@ const ModalAbrirImagenPerfil = (props) => {
             title="Imagen de perfil"
             size="lg"
         >
-            <div className='max-h-[70vh] overflow-y-auto'>
+            <div>
+                {isLoading && <Loader />} {/* Mostrar el loader mientras la imagen carga */}
                 <img 
                     src={`${host}/uploads/avatar-usuarios/${usuario.id}/${usuario.avatar}`}
                     alt="" 
+                    onLoad={handleImageLoad} 
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = imageDefault; 
+                    }}
+                    style={{ display: isLoading ? 'none' : 'block' }}  // Ocultar la imagen hasta que se haya cargado
                 />
+                
             </div>
         </Modal>
     );

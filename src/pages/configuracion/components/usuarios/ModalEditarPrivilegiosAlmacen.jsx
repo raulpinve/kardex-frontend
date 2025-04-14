@@ -67,7 +67,7 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
             setIsOpenModal={cerrarModal}
             title="Editar privilegios"
             description="Asigna al usuario los privilegios necesarios para acceder a los almacenes que elijas"
-            size="ms"
+            size="md"
         >
             <form action="">
                 {almacenes.length === 0 ? <p className='text-center text-sm'>No hay almacenes creados</p>: <>

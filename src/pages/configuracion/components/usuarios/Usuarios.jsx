@@ -1,20 +1,24 @@
-import { LuChevronLeft, LuChevronRight, LuEraser, LuLock, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
-import React, { useEffect, useState } from 'react';
-import Button from '../../../../shared/components/Button';
-import ModalCrearUsuario from './ModalCrearUsuario';
-import { useSelector } from 'react-redux';
-import { obtenerUsuarios } from '../../services/usuarioService';
-import SkeletonTable from '../../../../shared/components/SkeletonTable';
-import Pagination from '../../../../shared/components/Pagination';
-import ModalEditarUsuario from './ModalEditarUsuario';
-import ModalEditarPrivilegiosAlmacen from './ModalEditarPrivilegiosAlmacen';
-import ModalEliminarUsuario from './ModalEliminarUsuario';
-import Card from '../../../../shared/components/Card';
-import CardTitulo from '../../../../shared/components/CardTitulo';
-import useDebounce from '../../../../shared/hooks/useDebounce';
+import { LuChevronLeft, LuChevronRight, LuEraser, LuLock, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import React, { useEffect, useState } from "react";
+import Button from "../../../../shared/components/Button";
+import ModalCrearUsuario from "./ModalCrearUsuario";
+import { useDispatch, useSelector } from "react-redux";
+import { obtenerUsuarios } from "../../services/usuarioService";
+import SkeletonTable from "../../../../shared/components/SkeletonTable";
+import Pagination from "../../../../shared/components/Pagination";
+import ModalEditarUsuario from "./ModalEditarUsuario";
+import ModalEditarPrivilegiosAlmacen from "./ModalEditarPrivilegiosAlmacen";
+import ModalEliminarUsuario from "./ModalEliminarUsuario";
+import Card from "../../../../shared/components/Card";
+import CardTitulo from "../../../../shared/components/CardTitulo";
+import useDebounce from "../../../../shared/hooks/useDebounce";
+import { useNavigate } from "react-router-dom";
+import { host } from "../../../../utils/config";
+import imageDefault from "../../../../assets/image-default.png";
+import ModalAbrirImagenPerfil from "../../../perfil/components/ModalAbrirImagenPerfil";
 
 const Usuarios = () => {
-    const [modalActivo, setModalActivo] = useState(null); // 'crear', 'editar', 'eliminar', etc.
+    const [modalActivo, setModalActivo] = useState(null); // "crear", "editar", "eliminar", etc.
     const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(false);
     const [usuarios, setUsuarios] = useState([]);
     const [loading, setLoading] = useState(null);
@@ -24,6 +28,7 @@ const Usuarios = () => {
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [consulta, setConsulta] = useState("");
+    const navigate = useNavigate();
 
     const ROLES = {
         "admin": "Administrador",
@@ -54,13 +59,17 @@ const Usuarios = () => {
         fetchUsuarios();
     }, [debouncedConsulta, token, refresh, paginaActual])
 
+    const redireccionarUsuario = (usuarioId) => {
+        navigate(`/perfil/${usuarioId}`)
+    }
+
     return (
         <>
             <Card>
                 {/* Header */}
-                <div className='flex justify-between items-center'>
+                <div className="flex justify-between items-center">
                     <CardTitulo>Usuarios</CardTitulo>
-                    <div className='flex gap-1 items-center justify-between'>
+                    <div className="flex gap-1 items-center justify-between">
                         <Button
                             type="button"
                             colorButton="secondary"
@@ -96,90 +105,106 @@ const Usuarios = () => {
                 </div>
 
                 {/* Body */}
-                <table className='min-w-full mt-3'>
+                <table className="min-w-full mt-3">
                     <thead>
-                        <tr className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>
-                            <th className='py-3'>
-                                <p className='font-medium text-gray-700 dark:text-gray-400'>Nombres</p>
+                        <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
+                            <th className="py-3">
+                                <p className="font-medium text-gray-700 dark:text-gray-400">Nombres</p>
                             </th>
-                            <th className='py-3'>
-                                <p className='font-medium text-gray-700 dark:text-gray-400'>E-mail</p>
+                            <th className="py-3">
+                                <p className="font-medium text-gray-700 dark:text-gray-400">E-mail</p>
                             </th>
-                            <th className='py-3'>
-                                <p className='font-medium text-gray-700 dark:text-gray-400'>Username</p>
+                            <th className="py-3">
+                                <p className="font-medium text-gray-700 dark:text-gray-400">Username</p>
                             </th>
-                            <th className='py-3'>
-                                <p className='font-medium text-gray-700 dark:text-gray-400'>Rol</p>
+                            <th className="py-3">
+                                <p className="font-medium text-gray-700 dark:text-gray-400">Rol</p>
                             </th>
-                            <th className='py-3'>
-                                <p className='font-medium text-gray-700 dark:text-gray-400'>Acciones</p>
+                            <th className="py-3">
+                                <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
                             </th>
                         </tr>
                     </thead>
                     {loading ? <SkeletonTable rows={7} columns={5}/>: 
-                        <tbody className='divide-y divide-gray-100  text-sm dark:divide-gray-800'>
+                        <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
                             {error ? <tr>
-                                <td colSpan="5" className='py-3'>
-                                    <p className='text-gray-700 dark:text-gray-400 text-center'> {error}</p>
+                                <td colSpan="5" className="py-3">
+                                    <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
                                 </td>
                             </tr> : 
                             <>
                                 {usuarios.length === 0 ? 
                                     <tr>
-                                        <td colSpan="5" className='py-3'>
-                                            <p className='text-gray-700 dark:text-gray-400 text-center'> No hay usuarios por mostrar</p>
+                                        <td colSpan="5" className="py-3">
+                                            <p className="text-gray-700 dark:text-gray-400 text-center"> No hay usuarios por mostrar</p>
                                         </td>
                                     </tr>: 
                                     <>
                                         {usuarios.map(usuario => {
-                                            return <tr key={usuario.id}>
-                                                <td className='py-3'>
-                                                    <div className='items-center flex gap-3 rounded-full'>
-                                                        {/* <img 
-                                                            src="https://picsum.photos/100"
-                                                            alt=""
-                                                            className='w-10 h-10 object-cover rounded-full'
-                                                        /> */}
-                                                        <p className='text-gray-700 dark:text-gray-400'> {usuario.primerNombre} {usuario.apellidos}</p>
+                                            return <tr 
+                                                key={usuario.id}
+                                                className="cursor-pointer"
+                                                onClick={() => redireccionarUsuario(usuario.id)}
+                                            >
+                                                <td className="py-3">
+                                                    <div className="items-center flex gap-3 rounded-full">
+                                                        <img 
+                                                            src={`${host}/uploads/avatar-usuarios/${usuario.id}/${usuario.avatar}`}
+                                                            onError={(e) => {
+                                                                e.target.onerror = null;
+                                                                e.target.src = imageDefault; 
+                                                            }}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setUsuarioSeleccionado(usuario);
+                                                                setModalActivo("imagen-perfil");
+                                                            }}
+                                                            alt="Perfil" 
+                                                            className="w-10 h-10 object-cover rounded-full select-none cursor-pointer"  
+                                                        />
+                                                        <p className="text-gray-700 dark:text-gray-400"> {usuario.primerNombre} {usuario.apellidos}</p>
                                                     </div>
                                                 </td>
-                                                <td className='py-3'>
-                                                    <p className='text-gray-700 dark:text-gray-400'> {usuario.email} </p>
+                                                <td className="py-3">
+                                                    <p className="text-gray-700 dark:text-gray-400"> {usuario.email} </p>
                                                 </td>
-                                                <td className='py-3'>
-                                                    <p className='text-gray-700 dark:text-gray-400'> {usuario.username} </p>
+                                                <td className="py-3">
+                                                    <p className="text-gray-700 dark:text-gray-400"> {usuario.username} </p>
                                                 </td>
-                                                <td className='py-3'>
-                                                    <p className='text-gray-700 dark:text-gray-400'> {ROLES[usuario.rol]} </p>
+                                                <td className="py-3">
+                                                    <p className="text-gray-700 dark:text-gray-400"> {ROLES[usuario.rol]} </p>
                                                 </td>
-                                                <td className='py-3'>
-                                                    <div className='text-gray-700 dark:text-gray-400 flex gap-2'>
+                                                <td className="py-3">
+                                                    <div className="text-gray-700 dark:text-gray-400 flex gap-2">
                                                         <button 
-                                                            className='cursor-pointer'
-                                                            title='Editar usuario'
-                                                            onClick={() => {
-                                                                setModalActivo('editar'); 
+                                                            className="cursor-pointer"
+                                                            title="Editar usuario"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setModalActivo("editar"); 
                                                                 setUsuarioSeleccionado(usuario);
                                                             }}    
                                                         >
                                                             <LuPencil />
                                                         </button>
                                                         <button 
-                                                            className='cursor-pointer'
-                                                            title='Editar privilegios'
-                                                            onClick={() => {
+                                                            className="cursor-pointer"
+                                                            title="Editar privilegios"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
                                                                 setUsuarioSeleccionado(usuario);
-                                                                setModalActivo('privilegios'); 
+                                                                setModalActivo("privilegios"); 
                                                             }}  
                                                         >
                                                             <LuLock  />
                                                         </button>
                                                         <button 
-                                                            className='cursor-pointer'
-                                                            title='Eliminar usuario'
-                                                            onClick={() => {
+                                                            className="cursor-pointer"
+                                                            title="Eliminar usuario"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
                                                                 setUsuarioSeleccionado(usuario);
-                                                                setModalActivo('eliminar'); 
+                                                                setModalActivo("eliminar"); 
                                                             }} 
                                                         >
                                                             <LuEraser />
@@ -233,6 +258,12 @@ const Usuarios = () => {
                     cerrarModal={() => setModalActivo(null)}
                     setUsuarios = {setUsuarios}
                     usuarioSeleccionado = {usuarioSeleccionado}
+                />
+            )}
+            {modalActivo === "imagen-perfil" && (
+                <ModalAbrirImagenPerfil 
+                    cerrarModal={() => setModalActivo(null)}
+                    usuario = {usuarioSeleccionado}
                 />
             )}
         </>

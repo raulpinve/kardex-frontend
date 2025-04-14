@@ -57,7 +57,7 @@ const DropdownProfile = () => {
 
         <ul className="mt-1 border-b border-gray-200 mb-2 py-2 text-gray-600 dark:text-white/90 text-md dark:border-gray-800">
           <Link 
-            to={`/perfil`}
+            to={`/editar-perfil`}
             className="header-profile-li">
             <LuCircleUser />
             <span>Editar perfil</span>

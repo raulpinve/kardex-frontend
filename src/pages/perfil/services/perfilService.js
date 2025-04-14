@@ -24,7 +24,17 @@ const subirAvatar = (token, archivo) => {
     });
 };
 
+const obtenerPerfil = (token, perfilId) => {
+    const request = apiClient(token).get(`/perfiles/${perfilId}`)
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
 export {
     actualizarPerfil,
-    subirAvatar
+    subirAvatar,
+    obtenerPerfil
 }
