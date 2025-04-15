@@ -33,8 +33,18 @@ const obtenerPerfil = (token, perfilId) => {
         })
 }
 
+const cambiarContrasena = (token, data) => {
+    const request = apiClient(token).put(`/perfiles/password`, data);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
 export {
     actualizarPerfil,
     subirAvatar,
-    obtenerPerfil
+    obtenerPerfil,
+    cambiarContrasena
 }

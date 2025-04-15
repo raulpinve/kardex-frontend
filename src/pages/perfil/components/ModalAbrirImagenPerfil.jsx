@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Modal from '../../../shared/components/Modal';
 import { host } from '../../../utils/config';
 import imageDefault from "../../../assets/image-default.png";
-import SkeletonElement from '../../../shared/components/SkeletonElement';
 import Loader from '../../../shared/components/Loader';
 
 const ModalAbrirImagenPerfil = (props) => {

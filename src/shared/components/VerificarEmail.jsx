@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Modal from './Modal'
 import { useSelector } from 'react-redux'
 import Button from './Button'
-// import { enviarCodigoVerificacionEmail } from '../../pages/configuracion/services/profileService'
 import {handleErrorsBasic } from '../../utils/handleErrors'
 import { solicitarVerificarEmail } from '../services/verificarEmailService'
 

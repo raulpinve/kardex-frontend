@@ -110,7 +110,7 @@ const Modal = (props) => {
                 </div>
 
                 {/* Body con scroll */}
-                <div className="overflow-y-auto grow text-gray-700 dark:text-gray-200">
+                <div className="overflow-y-auto grow text-gray-700 dark:text-gray-200 px-2">
                     {children}
                 </div>
 

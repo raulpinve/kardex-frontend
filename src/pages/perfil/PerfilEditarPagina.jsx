@@ -4,11 +4,12 @@ import Title from "../../shared/components/Title";
 import Card from "../../shared/components/Card";
 import CardTitulo from "../../shared/components/CardTitulo";
 import Button from "../../shared/components/Button";
-import { LuPencil } from "react-icons/lu";
+import { LuLockKeyhole, LuLockOpen, LuPencil, LuPencilLine } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import ModalEditarPerfil from "./components/ModalEditarPerfil";
 import SubirImagenPerfil from "./components/SubirImagenPerfil";
 import ModalAbrirImagenPerfil from "./components/ModalAbrirImagenPerfil";
+import ModalEditarContrasena from "./components/ModalEditarContrasena";
 
 const PerfilPagina = () => {
     const usuario = useSelector(state => state.auth.usuario);
@@ -39,63 +40,79 @@ const PerfilPagina = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="">
-                            <div className="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between">
-                                <div>
-                                    <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
-                                        Información personal
-                                    </h4>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        {/* Primer nombre */}
-                                        <div>
-                                            <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                                Primer nombre
-                                            </p>
-                                            <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                                                {usuario?.primerNombre}
-                                            </p>
-                                        </div>
+                        <div className="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between">
+                            <div>
+                                <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
+                                    Información personal
+                                </h4>
+                                <div className="grid grid-cols-2 gap-4">
+                                    {/* Primer nombre */}
+                                    <div>
+                                        <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
+                                            Primer nombre
+                                        </p>
+                                        <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                                            {usuario?.primerNombre}
+                                        </p>
+                                    </div>
 
-                                        {/* Apellidos */}
-                                        <div>
-                                            <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                                Apellidos
-                                            </p>
-                                            <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                                                {usuario?.apellidos}
-                                            </p>
-                                        </div>
+                                    {/* Apellidos */}
+                                    <div>
+                                        <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
+                                            Apellidos
+                                        </p>
+                                        <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                                            {usuario?.apellidos}
+                                        </p>
+                                    </div>
 
-                                        {/* Username */}
-                                        <div>
-                                            <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                                Username
-                                            </p>
-                                            <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                                                {usuario?.username}
-                                            </p>
-                                        </div>
+                                    {/* Username */}
+                                    <div>
+                                        <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
+                                            Username
+                                        </p>
+                                        <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                                            {usuario?.username}
+                                        </p>
+                                    </div>
 
-                                        {/* E-mail */}
-                                        <div>
-                                            <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                                E-mail
-                                            </p>
-                                            <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                                                {usuario?.email}
-                                            </p>
-                                        </div>
+                                    {/* E-mail */}
+                                    <div>
+                                        <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
+                                            E-mail
+                                        </p>
+                                        <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                                            {usuario?.email}
+                                        </p>
                                     </div>
                                 </div>
+                            </div>
+                            <Button 
+                                className="rounded-full"
+                                colorButton={`secondary`}
+                                onClick={() => { setModalActivo("editar") }}
+                            >
+                                <LuPencil /> Editar  
+                            </Button>
+                        </div>
 
+                        <div className="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between">
+                            <div>
+                                <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
+                                    Seguridad
+                                </h4>
+                                
                                 <Button 
                                     className="rounded-full"
                                     colorButton={`secondary`}
-                                    onClick={() => { setModalActivo("editar") }}
-                                >
-                                    <LuPencil /> Editar  
+                                    onClick={() => { setModalActivo("editar-contrasena") }}
+                                >   
+                                    <LuPencil />
+                                    <LuLockKeyhole />
+                                    Editar contraseña
                                 </Button>
                             </div>
+
                         </div>
                     </Card>
                 </div>  
@@ -110,6 +127,12 @@ const PerfilPagina = () => {
                 <ModalAbrirImagenPerfil 
                     cerrarModal={() => setModalActivo(null)}
                     usuario = {usuario}
+                />
+            )}
+
+            {modalActivo === "editar-contrasena" && (
+                <ModalEditarContrasena 
+                    cerrarModal={() => setModalActivo(null)}
                 />
             )}
         </>
