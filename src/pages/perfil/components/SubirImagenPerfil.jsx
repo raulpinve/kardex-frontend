@@ -1,24 +1,70 @@
 import imageDefault from "../../../assets/image-default.png";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { subirAvatar } from "../services/perfilService";
+import { eliminarAvatar, subirAvatar } from "../services/perfilService";
 import { actualizarAvatar } from "../../../store/authSlice";
 import { host } from "../../../utils/config";
 import { toast } from "sonner";
-import { LuCamera } from "react-icons/lu";
+import { LuCamera, LuCloudUpload, LuRefreshCcw, LuTrash2 } from "react-icons/lu";
 
 const SubirImagenPerfil = ({usuario, setModalActivo}) => {
     const [avatarPreview, setAvatarPreview] = useState(usuario.avatarThumbnail);
     const [subiendoAvatar, setSubiendoAvatar] = useState(false);
     const fileInputRef = useRef(null);
-
+    const menuRef = useRef(null); 
+    const [tieneImagen, setTieneImagen] = useState(false);
     const dispatch = useDispatch();
     const token = useSelector(state => state.auth.token);
+    const [mostrarMenu, setMostrarMenu] = useState(false);
+    const toggleMenu = () => setMostrarMenu(!mostrarMenu);
 
     const handleImageClick = () => {
         fileInputRef.current.click();
     };
 
+    // Cambiar avatar
+    const handleOpcionCambiar = () => {
+        setMostrarMenu(false);
+        fileInputRef.current.click();
+    };
+
+    // Eliminar avatar
+    const handleOpcionEliminar = async () => {
+        try {
+            setSubiendoAvatar(true);
+            setMostrarMenu(true);
+
+            await eliminarAvatar(token);
+            setAvatarPreview(imageDefault);
+
+            toast.success("Avatar eliminado exitosamente.");
+            setTieneImagen(false);
+        } catch (error) {
+            console.log(error)
+            toast.error(error?.response?.data?.message || "No se pudo eliminar el avatar")            
+        } finally {
+            setMostrarMenu(false);
+            setSubiendoAvatar(false);
+        }
+    };
+
+    useEffect(() => {
+        const verificarImagen = async () => {
+            const url = `${host}/uploads/avatar-usuarios/${usuario.id}/${avatarPreview}`;
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                setTieneImagen(response.ok); // true si status 200
+            } catch (error) {
+                setTieneImagen(false);
+            }
+        };
+    
+        if (avatarPreview) {
+            verificarImagen();
+        }
+    }, [avatarPreview, usuario.id]);
+    
+        
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -43,14 +89,61 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
         }
     };
 
+    // Administrar dropdown apertura y cierre
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setMostrarMenu(false);
+            }
+        };
+
+        if (mostrarMenu) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [mostrarMenu]);
+
     return (
         <div className="relative">
-            <button 
-                className="absolute p-1.5 bottom-0 right-0 text-sm bg-blue-700 dark:bg-gray-700 text-white rounded-full  cursor-pointer transition"
-                onClick={handleImageClick}
+                <button 
+                className="absolute p-[7px] bottom-0 right-0 text-sm bg-blue-700 dark:bg-gray-700 text-white rounded-full cursor-pointer transition"
+                onClick={toggleMenu}
             >
                 <LuCamera />
             </button>
+
+            {/* Dropdown para editar y/o eliminar avatar */}
+            {mostrarMenu && (
+                <div 
+                    ref={menuRef}
+                    className="absolute top-[100%] left-[50%] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg w-[150px]"
+                >
+                    <button
+                        onClick={handleOpcionCambiar}
+                        className="flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
+                    >
+                        {tieneImagen ?  <>
+                            <LuRefreshCcw className="mr-2" /> Cambiar avatar
+                        </>
+                        : <>
+                            <LuCloudUpload className="mr-2" /> Subir avatar
+                        </>} 
+                    </button>
+                    {tieneImagen && (
+                        <button
+                            onClick={handleOpcionEliminar}
+                            className="flex items-center px-3 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
+                        >
+                            <LuTrash2 className="mr-2" /> Eliminar avatar
+                        </button>
+                    )}
+                </div>
+            )}
             <img 
                 src={`${host}/uploads/avatar-usuarios/${usuario.id}/${avatarPreview}`}
                 onError={(e) => {

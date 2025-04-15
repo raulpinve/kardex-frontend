@@ -42,9 +42,18 @@ const cambiarContrasena = (token, data) => {
         })
 }
 
+const eliminarAvatar = (token) => {
+    return apiClient(token).delete(`/perfiles/avatar`)
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+};
+
 export {
     actualizarPerfil,
     subirAvatar,
     obtenerPerfil,
-    cambiarContrasena
+    cambiarContrasena,
+    eliminarAvatar
 }

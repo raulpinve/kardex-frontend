@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LuCamera, LuCloudUpload, LuRefreshCcw, LuTrash2 } from "react-icons/lu";
-// import ModalAbrirImagenPerfil from "./ModalAbrirImagenPerfil";
+import ModalAbrirImagenPerfil from "./ModalAbrirImagenPerfil";
 import { eliminarAvatar, obtenerAvatarDispositivo, subirAvatar } from "../../services/dispositivoServices";
 
 const SubirImagenPerfilDispositivo = ({dispositivo}) => {
@@ -35,7 +35,6 @@ const SubirImagenPerfilDispositivo = ({dispositivo}) => {
             toast.success("Avatar eliminado exitosamente.");
             setTieneImagen(false);
         } catch (error) {
-            console.log(error)
             toast.error(error?.response?.data?.message || "No se pudo eliminar el avatar")            
         } finally {
             setMostrarMenu(false);
@@ -172,13 +171,13 @@ const SubirImagenPerfilDispositivo = ({dispositivo}) => {
                 accept="image/*"
                 className="hidden"
             />
-{/* 
+
             {modalActivo === "imagen-perfil" && (
                 <ModalAbrirImagenPerfil 
                     cerrarModal={() => setModalActivo(null)}
                     medicamento={dispositivo}
                 />
-            )} */}
+            )} 
         </div>
     );
 };
