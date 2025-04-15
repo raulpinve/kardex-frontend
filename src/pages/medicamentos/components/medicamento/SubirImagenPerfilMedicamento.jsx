@@ -30,11 +30,12 @@ const SubirImagenPerfilMedicamento = ({medicamento}) => {
             setMostrarMenu(true);
 
             await eliminarAvatar(token, medicamento.id);
-
             setImageSrc(imageDefault);
+
             toast.success("Avatar eliminado exitosamente.");
             setTieneImagen(false);
         } catch (error) {
+            console.log(error)
             toast.error(error?.response?.data?.message || "No se pudo eliminar el avatar")            
         } finally {
             setMostrarMenu(false);
@@ -50,18 +51,22 @@ const SubirImagenPerfilMedicamento = ({medicamento}) => {
             try {
                 urlTemporal = await obtenerAvatarMedicamento(token, medicamento.id);
                 setImageSrc(urlTemporal);
-                setTieneImagen(true);
+                
             } catch {
                 setImageSrc(imageDefault);
             }
         };
         cargarImagen();
+        if(medicamento.avatarThumbnail){
+            setTieneImagen(true);
+        }
+
         return () => {
             if (urlTemporal) {
                 URL.revokeObjectURL(urlTemporal);
             }
         };
-    }, [medicamento.id, token]);
+    }, [medicamento.id, medicamento.avatarThumbnail, token]);
 
     // Administrar dropdown apertura y cierre
     useEffect(() => {

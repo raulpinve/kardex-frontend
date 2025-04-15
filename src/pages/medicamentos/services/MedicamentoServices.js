@@ -33,11 +33,11 @@ const subirAvatar = (token, medicamentoId, archivo) => {
 
 const eliminarAvatar = (token, medicamentoId) => {
     return apiClient(token).delete(`/medicamentos/${medicamentoId}/avatar`)
-    .then(response => URL.createObjectURL(response.data)) // convierte el blob en URL usable
-    .catch(err => {
-        throw err;
-    });
-}
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+};
 
 export {
     obtenerAvatarMedicamento, 
