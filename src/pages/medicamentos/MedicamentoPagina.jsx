@@ -21,7 +21,7 @@ const MedicamentoPagina = () => {
             setLoading(true);
             setError(false);
             try {
-                const res = await obtenerMedicamento(token , medicamentoId);
+                const res = await obtenerMedicamento(token, medicamentoId);
                 setMedicamento(res.data);
             } catch (error) {
 

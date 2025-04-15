@@ -22,9 +22,9 @@ const SeleccionarAlmacen = () => {
     const enRutaExcluida = rutasSinModal.includes(location.pathname);
     const navigate = useNavigate();
 
-    // Verifica que el almacén seleccionado existe 
     useEffect(() => {
         const validarAlmacenGuardado = async () => {
+            setLoading(true);
             try {
                 const almacenLocal = localStorage.getItem('almacenSeleccionado');
                 const res = await obtenerAlmacenes(token);
@@ -36,51 +36,33 @@ const SeleccionarAlmacen = () => {
     
                     if (existe) {
                         dispatch(setAlmacen(almacenParseado));
-                    } else {
-                        localStorage.removeItem('almacenSeleccionado');
-                        dispatch(setAlmacen(null));
-                        setIsOpenModal(true);
+                        return; // Ya está todo bien, salimos
                     }
-                } else {
-                    setIsOpenModal(true);
+    
+                    localStorage.removeItem('almacenSeleccionado');
+                    dispatch(setAlmacen(null));
                 }
+    
+                setIsOpenModal(true); // Si no había almacenLocal o no existía en la lista
             } catch (error) {
                 console.error('Error al validar almacén:', error);
-                setIsOpenModal(true); // por seguridad
+                setIsOpenModal(true);
             } finally {
                 setValidandoAlmacen(false);
                 setLoading(false);
             }
         };
-        setLoading(true);
+    
         validarAlmacenGuardado();
     }, []);
-
+    
+    // Este useEffect está bien si se necesita que el modal se cierre automáticamente cuando se elige un almacén desde otro componente
     useEffect(() => {
-        const fetchAlmacenes = async () => {
-            setLoading(true);
-            try {
-                const res = await obtenerAlmacenes(token);
-                setAlmacenes(res.data)
-            } catch (error) {
-                console.error('Error al cargar almacenes:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchAlmacenes()
-    }, [])
-
-    useEffect(() => {
-        if(!almacen){
-            setIsOpenModal(true);
-        }else{
-            setIsOpenModal(false);
-        }
-    }, [almacen])
-
+        setIsOpenModal(!almacen);
+    }, [almacen]);
+    
     return (
-        !validandoAlmacen && !enRutaExcluida && (
+        !validandoAlmacen && !almacen && !enRutaExcluida && (
             <Modal
                 isOpenModal={isOpenModal}
                 setIsOpenModal={() => setIsOpenModal(false)}
