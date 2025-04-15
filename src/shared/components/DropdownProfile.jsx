@@ -12,7 +12,6 @@ const DropdownProfile = () => {
   const dropdownRef = useRef(null);
   const dispatch = useDispatch();
   const usuario = useSelector(state => state.auth.usuario);
-
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
