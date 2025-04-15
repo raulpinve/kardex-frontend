@@ -6,6 +6,8 @@ import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
     const sidebarOpen = useSelector((state) => state.sidebar.sidebarOpen);
+    const usuario = useSelector(state => state.auth.usuario);
+
     return (
         <aside 
             className={`fixed lg:static bg-white flex flex-col left-0 top-0 h-screen z-50 border-r border-gray-200 dark:border-gray-800
@@ -60,15 +62,17 @@ const Sidebar = () => {
                 </NavLink>
 
                 {/* Configuración */}
-                <NavLink 
-                    to="/configuracion"
-                    className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
-                >
-                    <LuSettings className="text-xl min-w-[24px]" />
-                    <span className={`transition-all duration-200 ${sidebarOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden"}`}>
-                        Configuración
-                    </span>
-                </NavLink>
+                {usuario?.rol === "superadmin" && (
+                    <NavLink 
+                        to="/configuracion"
+                        className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
+                    >
+                        <LuSettings className="text-xl min-w-[24px]" />
+                        <span className={`transition-all duration-200 ${sidebarOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden"}`}>
+                            Configuración
+                        </span>
+                    </NavLink>
+                )}
             </nav>
     </aside>
     );

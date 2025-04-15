@@ -43,8 +43,6 @@ const MedicamentosListaPagina = () => {
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
 
             } catch (error) {
-                console.log(error)
-
                 setError(error?.response?.data?.message || "Ha ocurrido un error interno");
             } finally {
                 setLoading(false);
