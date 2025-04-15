@@ -10,7 +10,7 @@ import { cambiarContrasena } from '../services/perfilService';
 import { useSelector } from 'react-redux';
 
 const ModalEditarContrasena = (props) => {
-    const { register, handleSubmit, setError,getValues,formState: { errors },setValue } = useForm({ mode: "onChange" });
+    const { register, handleSubmit, setError,getValues,formState: { errors } } = useForm({ mode: "onChange" });
     const { cerrarModal } = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);

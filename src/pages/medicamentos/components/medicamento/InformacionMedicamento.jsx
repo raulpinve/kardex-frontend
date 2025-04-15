@@ -1,6 +1,7 @@
 import Card from "../../../../shared/components/Card";
 import CardTitulo from "../../../../shared/components/CardTitulo";
 import MessageError from "../../../../shared/components/MessageError";
+import SubirImagenPerfilMedicamento from "./SubirImagenPerfilMedicamento";
 
 const InformacionMedicamento = ({medicamento, loading, error}) => {
     return (
@@ -17,13 +18,7 @@ const InformacionMedicamento = ({medicamento, loading, error}) => {
                 {!loading && error && <MessageError>{error}</MessageError>}
                 {!loading && medicamento && ( <>
                     <CardTitulo>{medicamento.nombre}</CardTitulo>
-                    <div className="flex justify-center items-center">
-                        <img 
-                            src="https://admision.udp.cl/cms/wp-content/themes/portable_udp/images/default.png" 
-                            alt="" 
-                            className="w-24 h-24 object-cover rounded-full"
-                        />
-                    </div>
+                    <SubirImagenPerfilMedicamento medicamento={medicamento} />
                     <div className="mt-5">
                         {/* Forma farmacéutica */}
                         <div>
@@ -48,13 +43,6 @@ const InformacionMedicamento = ({medicamento, loading, error}) => {
                             <p>Unidad médica</p>
                             <p className="font-semibold">{medicamento.unidadMedida}</p>
                         </div>
-
-                        {/* Stock requerido */}
-                        <div className="mt-4">
-                            <p>Stock requerido</p>
-                            <p className="font-semibold">{medicamento.stockRequerido}</p>
-                        </div>
-                        
                     </div>
                 </>
                 )}
