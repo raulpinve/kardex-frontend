@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
-import { crearDispositivo } from "../../services/dispositivoServices";
+import { crearDispositivo } from "../../services/dispositivosServices";
 
 const ModalCrearDispositivo = (props) => {
     const { cerrarModal, setDispositivos, almacenId} = props;

@@ -9,14 +9,14 @@ import { LuLogOut } from 'react-icons/lu';
 
 const SeleccionarAlmacen = () => {
     const almacen = useSelector(state => state.almacen.almacen);
+    const usuario = useSelector(state => state.auth.usuario);
+    const token = useSelector(state => state.auth.token);
+    const [validandoAlmacen, setValidandoAlmacen] = useState(true);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [almacenes, setAlmacenes] = useState([]);
-    const token = useSelector(state => state.auth.token);
-    const [validandoAlmacen, setValidandoAlmacen] = useState(true);
     const location = useLocation();
     const dispatch = useDispatch();
-    const usuario = useSelector(state => state.auth.usuario);
 
     const rutasSinModal = ['/configuracion', '/otra-ruta-opcional'];
     const enRutaExcluida = rutasSinModal.includes(location.pathname);
@@ -36,7 +36,7 @@ const SeleccionarAlmacen = () => {
     
                     if (existe) {
                         dispatch(setAlmacen(almacenParseado));
-                        return; // Ya está todo bien, salimos
+                        return; 
                     }
     
                     localStorage.removeItem('almacenSeleccionado');

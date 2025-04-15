@@ -5,7 +5,7 @@ import Button from "../../shared/components/Button";
 import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import Card from "../../shared/components/Card";
 import useDebounce from "../../shared/hooks/useDebounce";
-import { obtenerDispositivos } from "./services/dispositivoServices";
+import { obtenerDispositivos } from "./services/dispositivosServices";
 import { useSelector } from "react-redux";
 import SkeletonTable from "../../shared/components/SkeletonTable";
 import { useNavigate } from "react-router-dom";

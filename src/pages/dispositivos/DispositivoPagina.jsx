@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 // import TarjetasInformacionMedicamento from './components/medicamento/TarjetasInformacionMedicamento';
 import { handleErrorsBasic } from '../../utils/handleErrors';
 import { useSelector } from 'react-redux';
-import { obtenerDispositivo } from './services/dispositivoServices';
+import { obtenerDispositivo } from './services/dispositivosServices';
 import InformacionDispositivo from './components/dispositivo/InformacionDispositivo';
 import TarjetasInformacionDispositivo from './components/dispositivo/TarjetasInformacionDispositivo';
 import Lotes from './components/lotes/Lotes';

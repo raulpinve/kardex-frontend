@@ -1,6 +1,7 @@
 import Card from "../../../../shared/components/Card";
 import CardTitulo from "../../../../shared/components/CardTitulo";
 import MessageError from "../../../../shared/components/MessageError";
+import SubirImagenPerfilDispositivo from "./SubirImagenPerfilDispositivo";
 
 const InformacionDispositivo = ({dispositivo, loading, error}) => {
     return (
@@ -17,13 +18,7 @@ const InformacionDispositivo = ({dispositivo, loading, error}) => {
                 {!loading && error && <MessageError>{error}</MessageError>}
                 {!loading && dispositivo && ( <>
                     <CardTitulo>{dispositivo.nombre}</CardTitulo>
-                    <div className="flex justify-center items-center">
-                        <img 
-                            src="https://admision.udp.cl/cms/wp-content/themes/portable_udp/images/default.png" 
-                            alt="" 
-                            className="w-24 h-24 object-cover rounded-full"
-                        />
-                    </div>
+                    <SubirImagenPerfilDispositivo dispositivo={dispositivo} />
                     <div className="mt-5">
                         {/* Presentacion comercial */}
                         <div>

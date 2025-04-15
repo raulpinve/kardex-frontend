@@ -1,58 +1,46 @@
 import { apiClient } from "../../../utils/authUtils";
 
-const obtenerDispositivos = (token, almacenId, pagina = 1, consulta) => {
-    const request = apiClient(token).get(`/dispositivos/${almacenId}/almacen`, {
-        params: {
-            pagina,
-            ...(consulta && { consulta })
-        }
+const obtenerAvatarDispositivo = (token, dispositivoId) => {
+    return apiClient(token).get(`/dispositivos/${dispositivoId}/avatar/thumbnail`, {
+        responseType: 'blob',
+    })
+    .then(response => URL.createObjectURL(response.data)) // convierte el blob en URL usable
+    .catch(err => {
+        throw err;
     });
-    return request
-        .then(response => response.data)
-        .catch(err => {
-            throw err
-        })
-} 
+};
 
-const obtenerDispositivo = (token, dispositivoId) => {
-    const request = apiClient(token).get(`/dispositivos/${dispositivoId}`);
-    return request
-        .then(response => response.data)
-        .catch(err => {
-            throw err
-        })
-}
+const subirAvatar = (token, dispositivoId, archivo) => {
+    const formData = new FormData();
+    formData.append("avatar", archivo);
 
-const crearDispositivo = (token, data) => {
-    const request = apiClient(token).post(`/dispositivos`, data);
-    return request
-        .then(response => response.data)
-        .catch(err => {
-            throw err
-        })
-}
+    return apiClient(token).put(`/dispositivos/${dispositivoId}/avatar`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        },
+        responseType: 'arraybuffer',  // Asegúrate de recibir la respuesta como un buffer
+    })
+    .then(response => {
+        // Convierte el buffer a un blob y luego a una URL de objeto
+        const miniaturaBlob = new Blob([response.data], { type: "image/jpeg" });
+        const miniaturaUrl = URL.createObjectURL(miniaturaBlob);
+        return { archivo: { miniatura: miniaturaUrl } };
+    })
+    .catch(err => {
+        throw err;
+    });
+};
 
-const editarDispositivo = (token, dispositivoId, data) => {
-    const request = apiClient(token).put(`/dispositivos/${dispositivoId}`, data);
-    return request
+const eliminarAvatar = (token, dispositivoId) => {
+    return apiClient(token).delete(`/dispositivos/${dispositivoId}/avatar`)
         .then(response => response.data)
         .catch(err => {
-            throw err
-        })
-}
-const eliminarDispositivo = (token, dispositivoId) => {
-    const request = apiClient(token).delete(`/dispositivos/${dispositivoId}`);
-    return request
-        .then(response => response.data)
-        .catch(err => {
-            throw err
-        })
-}
+            throw err;
+        });
+};
 
 export {
-    obtenerDispositivos,
-    obtenerDispositivo, 
-    crearDispositivo,
-    editarDispositivo,
-    eliminarDispositivo
+    obtenerAvatarDispositivo, 
+    subirAvatar,
+    eliminarAvatar
 }

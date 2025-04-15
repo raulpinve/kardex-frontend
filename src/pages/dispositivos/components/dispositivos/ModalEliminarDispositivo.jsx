@@ -4,7 +4,7 @@ import MessageError from '../../../../shared/components/MessageError';
 import Button from '../../../../shared/components/Button';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
-import { eliminarDispositivo } from '../../services/dispositivoServices';
+import { eliminarDispositivo } from '../../services/dispositivosServices';
 
 const ModalEliminarDispositivo = (props) => {
     const {cerrarModal, dispositivoSeleccionado, setDispositivos} = props;
