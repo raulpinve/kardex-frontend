@@ -60,8 +60,6 @@ const DispositivosListaPagina = () => {
         navigate(`/dispositivos/${id}`);
     };
 
-    console.log(dispositivos)
-
     return (
         <>
             <Layout>
@@ -105,11 +103,11 @@ const DispositivosListaPagina = () => {
                             </div>
                         </div>
                         <div className="overflow-x-auto">
-                            <table className="min-w-full  mt-3">
+                            <table className="min-w-full mt-3">
                                 <thead>
                                     <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
                                         <th className="w-[50px]"></th>
-                                        <th className="py-3 px-4">
+                                        <th className="py-3 pl-1 pr-4">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Nombre</p>
                                         </th>
                                         <th className="py-3 px-4">
@@ -151,7 +149,7 @@ const DispositivosListaPagina = () => {
                                                             onClick={() => irADispositivo(dispositivo.id)}
                                                             className="cursor-pointer"
                                                         >
-                                                            <td className="flex justify-center items-center py-3">
+                                                            <td className="py-3 min-w-[50px] w-[50px]">
                                                                 <img 
                                                                     src={`${host}${dispositivo.avatarThumbnail}`}
                                                                     onError={(e) => {
@@ -167,7 +165,7 @@ const DispositivosListaPagina = () => {
                                                                     className="w-10 h-10 object-cover rounded-full select-none cursor-pointer"  
                                                                 />
                                                             </td>
-                                                            <td className="py-3 px-4">
+                                                            <td className="py-3  pl-1 pr-4">
                                                                 <p className="text-gray-700 dark:text-gray-400"> {dispositivo.nombre}</p>
                                                             </td>
                                                             <td className="py-3 px-4">

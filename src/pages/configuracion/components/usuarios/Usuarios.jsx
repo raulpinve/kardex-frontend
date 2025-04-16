@@ -105,49 +105,50 @@ const Usuarios = () => {
                 </div>
 
                 {/* Body */}
-                <table className="min-w-full mt-3">
-                    <thead>
-                        <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
-                            <th className="py-3">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Nombres</p>
-                            </th>
-                            <th className="py-3">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">E-mail</p>
-                            </th>
-                            <th className="py-3">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Username</p>
-                            </th>
-                            <th className="py-3">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Rol</p>
-                            </th>
-                            <th className="py-3">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                            </th>
-                        </tr>
-                    </thead>
-                    {loading ? <SkeletonTable rows={7} columns={5}/>: 
-                        <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
-                            {error ? <tr>
-                                <td colSpan="5" className="py-3">
-                                    <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
-                                </td>
-                            </tr> : 
-                            <>
-                                {usuarios.length === 0 ? 
-                                    <tr>
-                                        <td colSpan="5" className="py-3">
-                                            <p className="text-gray-700 dark:text-gray-400 text-center"> No hay usuarios por mostrar</p>
-                                        </td>
-                                    </tr>: 
-                                    <>
-                                        {usuarios.map(usuario => {
-                                            return <tr 
-                                                key={usuario.id}
-                                                className="cursor-pointer"
-                                                onClick={() => redireccionarUsuario(usuario.id)}
-                                            >
-                                                <td className="py-3">
-                                                    <div className="items-center flex gap-3 rounded-full">
+                <div className="overflow-x-auto">
+                    <table className="min-w-full table-auto mt-3">
+                        <thead>
+                            <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
+                                <th className="w-[50px] "></th>
+                                <th className="pl-1 pr-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Nombres</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">E-mail</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Username</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Rol</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        {loading ? <SkeletonTable rows={7} columns={5}/>: 
+                            <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
+                                {error ? <tr>
+                                    <td colSpan="5" className="py-3">
+                                        <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
+                                    </td>
+                                </tr> : 
+                                <>
+                                    {usuarios.length === 0 ? 
+                                        <tr>
+                                            <td colSpan="5" className="py-3">
+                                                <p className="text-gray-700 dark:text-gray-400 text-center"> No hay usuarios por mostrar</p>
+                                            </td>
+                                        </tr>: 
+                                        <>
+                                            {usuarios.map(usuario => {
+                                                return <tr 
+                                                    key={usuario.id}
+                                                    className="cursor-pointer"
+                                                    onClick={() => redireccionarUsuario(usuario.id)}
+                                                >
+                                                    <td className="py-3 min-w-[50px] w-[50px]">
                                                         <img 
                                                             src={`${host}/uploads/avatar-usuarios/${usuario.id}/${usuario.avatar}`}
                                                             onError={(e) => {
@@ -162,64 +163,66 @@ const Usuarios = () => {
                                                             alt="Perfil" 
                                                             className="w-10 h-10 object-cover rounded-full select-none cursor-pointer"  
                                                         />
+                                                    </td>
+                                                    <td className="pl-1 py-3 pr-4">
                                                         <p className="text-gray-700 dark:text-gray-400"> {usuario.primerNombre} {usuario.apellidos}</p>
-                                                    </div>
-                                                </td>
-                                                <td className="py-3">
-                                                    <p className="text-gray-700 dark:text-gray-400"> {usuario.email} </p>
-                                                </td>
-                                                <td className="py-3">
-                                                    <p className="text-gray-700 dark:text-gray-400"> {usuario.username} </p>
-                                                </td>
-                                                <td className="py-3">
-                                                    <p className="text-gray-700 dark:text-gray-400"> {ROLES[usuario.rol]} </p>
-                                                </td>
-                                                <td className="py-3">
-                                                    <div className="text-gray-700 dark:text-gray-400 flex gap-2">
-                                                        <button 
-                                                            className="cursor-pointer"
-                                                            title="Editar usuario"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                setModalActivo("editar"); 
-                                                                setUsuarioSeleccionado(usuario);
-                                                            }}    
-                                                        >
-                                                            <LuPencil />
-                                                        </button>
-                                                        <button 
-                                                            className="cursor-pointer"
-                                                            title="Editar privilegios"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                setUsuarioSeleccionado(usuario);
-                                                                setModalActivo("privilegios"); 
-                                                            }}  
-                                                        >
-                                                            <LuLock  />
-                                                        </button>
-                                                        <button 
-                                                            className="cursor-pointer"
-                                                            title="Eliminar usuario"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                setUsuarioSeleccionado(usuario);
-                                                                setModalActivo("eliminar"); 
-                                                            }} 
-                                                        >
-                                                            <LuEraser />
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        })}
-                                    </>
-                                    
-                                    }
-                                </>}
-                        </tbody>
-                    }
-                </table>
+                                                    </td>
+                                                    <td className="py-3 px-4">
+                                                        <p className="text-gray-700 dark:text-gray-400"> {usuario.email} </p>
+                                                    </td>
+                                                    <td className="py-3 px-4">
+                                                        <p className="text-gray-700 dark:text-gray-400"> {usuario.username} </p>
+                                                    </td>
+                                                    <td className="py-3 px-4">
+                                                        <p className="text-gray-700 dark:text-gray-400"> {ROLES[usuario.rol]} </p>
+                                                    </td>
+                                                    <td className="py-3 px-4">
+                                                        <div className="text-gray-700 dark:text-gray-400 flex gap-2">
+                                                            <button 
+                                                                className="cursor-pointer"
+                                                                title="Editar usuario"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setModalActivo("editar"); 
+                                                                    setUsuarioSeleccionado(usuario);
+                                                                }}    
+                                                            >
+                                                                <LuPencil />
+                                                            </button>
+                                                            <button 
+                                                                className="cursor-pointer"
+                                                                title="Editar privilegios"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setUsuarioSeleccionado(usuario);
+                                                                    setModalActivo("privilegios"); 
+                                                                }}  
+                                                            >
+                                                                <LuLock  />
+                                                            </button>
+                                                            <button 
+                                                                className="cursor-pointer"
+                                                                title="Eliminar usuario"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setUsuarioSeleccionado(usuario);
+                                                                    setModalActivo("eliminar"); 
+                                                                }} 
+                                                            >
+                                                                <LuEraser />
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            })}
+                                        </>
+                                        
+                                        }
+                                    </>}
+                            </tbody>
+                        }
+                    </table>
+                </div>
                 <Pagination
                     paginaActual={paginaActual}
                     totalPaginas={totalPaginas}
