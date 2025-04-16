@@ -5,6 +5,7 @@ import { obtenerAvatarMedicamento } from '../../services/MedicamentoServices';
 import { useSelector } from 'react-redux';
 import { host } from '../../../../utils/config';
 import { toast } from 'sonner';
+import imageDefault from "../../../../assets/image-default.png"
 
 const ModalAbrirImagenPerfil = (props) => {
     const {cerrarModal,  medicamento} = props;
@@ -49,7 +50,10 @@ const ModalAbrirImagenPerfil = (props) => {
                 {imageSrc && (
                     <img 
                         src={imageSrc}
-                        alt="" 
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = imageDefault; 
+                        }}
                         onLoad={handleImageLoad} 
                         style={{ display: loading ? 'none' : 'block' }}  // Ocultar la imagen hasta que se haya cargado
                     />

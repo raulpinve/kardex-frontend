@@ -1,8 +1,8 @@
-import { LuChevronLeft, LuChevronRight, LuEraser, LuLock, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { LuEraser, LuLock, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import React, { useEffect, useState } from "react";
 import Button from "../../../../shared/components/Button";
 import ModalCrearUsuario from "./ModalCrearUsuario";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { obtenerUsuarios } from "../../services/usuarioService";
 import SkeletonTable from "../../../../shared/components/SkeletonTable";
 import Pagination from "../../../../shared/components/Pagination";

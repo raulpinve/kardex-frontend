@@ -1,44 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import Modal from '../../../../shared/components/Modal';
-import { host } from '../../../../utils/config';
 import Loader from '../../../../shared/components/Loader';
+import { obtenerAvatarDispositivo } from '../../services/dispositivoServices';
 import { useSelector } from 'react-redux';
-import imageDefault from "../../../../assets/image-default.png";
+import { host } from '../../../../utils/config';
+import { toast } from 'sonner';
+import imageDefault from "../../../../assets/image-default.png"
 
 const ModalAbrirImagenPerfil = (props) => {
-    const {cerrarModal, medicamento} = props;
-    const [isLoading, setIsLoading] = useState(true); 
+    const {cerrarModal, dispositivo} = props;
+    const [loading, setLoading] = useState(true); 
     const token = useSelector(state => state.auth.token);
-    const [imageSrc, setImageSrc] = useState("");
-    
+    const [imageSrc, setImageSrc] = useState(false);
+
+    // Obtener información del medicamento 
     useEffect(() => {
-        const cargarImagen = async () => {
+        const fetchMedicamento = async() => {
             try {
-                const response = await fetch(`${host}/medicamentos/${medicamento.id}/avatar`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Error al cargar la imagen');
+                setLoading(true);
+                const response = await obtenerAvatarDispositivo(token, dispositivo.id)
+                if(response?.data?.avatar){
+                    setImageSrc(`${host}${response.data.avatar}`);
                 }
-
-                const imageBlob = await response.blob();
-                const imageUrl = URL.createObjectURL(imageBlob);
-                setImageSrc(imageUrl);  // Establece la imagen si se carga correctamente
             } catch (error) {
-                console.error('Error al obtener la imagen:', error);
-                setImageSrc(imageDefault);  // Si hay error, muestra la imagen por defecto
+                cerrarModal()
+                toast.error(error?.response?.data?.message || "Ha ocurrido un error al cargar la imagen")
+            } finally {
+                setLoading(false)
             }
-        };
-
-        cargarImagen();
-    }, [medicamento.id, token, imageDefault]);
+        }
+        if(dispositivo?.id){
+            fetchMedicamento();
+        }
+    },[dispositivo])
 
     const handleImageLoad = () => {
-        setIsLoading(false); // Cuando la imagen se haya cargado, se desactiva el loader
+        setLoading(false); // Cuando la imagen se haya cargado, se desactiva el loader
     };
 
     return (
@@ -49,13 +46,16 @@ const ModalAbrirImagenPerfil = (props) => {
             size="lg"
         >
             <div>
-                {isLoading && <Loader />} {/* Mostrar el loader mientras la imagen carga */}
+                {loading && <Loader />} {/* Mostrar el loader mientras la imagen carga */}
                 {imageSrc && (
                     <img 
                         src={imageSrc}
-                        alt="" 
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = imageDefault; 
+                        }}
                         onLoad={handleImageLoad} 
-                        style={{ display: isLoading ? 'none' : 'block' }}  // Ocultar la imagen hasta que se haya cargado
+                        style={{ display: loading ? 'none' : 'block' }}  // Ocultar la imagen hasta que se haya cargado
                     />
                 )}
             </div>

@@ -3,7 +3,7 @@ import CardTitulo from "../../../../shared/components/CardTitulo";
 import MessageError from "../../../../shared/components/MessageError";
 import SubirImagenPerfilDispositivo from "./SubirImagenPerfilDispositivo";
 
-const InformacionDispositivo = ({dispositivo, loading, error}) => {
+const InformacionDispositivo = ({dispositivo, setDispositivo, loading, error}) => {
     return (
         <div className="text-sm text-gray-700 dark:text-gray-400 max-w-[450px]">
             <Card>
@@ -18,7 +18,7 @@ const InformacionDispositivo = ({dispositivo, loading, error}) => {
                 {!loading && error && <MessageError>{error}</MessageError>}
                 {!loading && dispositivo && ( <>
                     <CardTitulo>{dispositivo.nombre}</CardTitulo>
-                    <SubirImagenPerfilDispositivo dispositivo={dispositivo} />
+                    <SubirImagenPerfilDispositivo dispositivo={dispositivo} setDispositivo = {setDispositivo}/>
                     <div className="mt-5">
                         {/* Presentacion comercial */}
                         <div>

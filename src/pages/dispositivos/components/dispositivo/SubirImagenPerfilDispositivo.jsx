@@ -4,13 +4,15 @@ import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LuCamera, LuCloudUpload, LuRefreshCcw, LuTrash2 } from "react-icons/lu";
 import ModalAbrirImagenPerfil from "./ModalAbrirImagenPerfil";
-import { eliminarAvatar, obtenerAvatarDispositivo, subirAvatar } from "../../services/dispositivoServices";
+import { eliminarAvatar, subirAvatar } from "../../services/dispositivoServices";
+import { host } from "../../../../utils/config";
 
-const SubirImagenPerfilDispositivo = ({dispositivo}) => {
+const SubirImagenPerfilDispositivo = ({dispositivo, setDispositivo}) => {
+    const [imageThumbnailSrc, setImageThumbnailSrc] = useState(imageDefault);
     const [imageSrc, setImageSrc] = useState(imageDefault);
     const [modalActivo, setModalActivo] = useState(false);
+    
     const [subiendoAvatar, setSubiendoAvatar] = useState(false);
-    const [tieneImagen, setTieneImagen] = useState(false);
     const fileInputRef = useRef(null);
     const token = useSelector(state => state.auth.token);
     const menuRef = useRef(null); 
@@ -30,42 +32,20 @@ const SubirImagenPerfilDispositivo = ({dispositivo}) => {
             setMostrarMenu(true);
 
             await eliminarAvatar(token, dispositivo.id);
-            setImageSrc(imageDefault);
-
+            setDispositivo(prev => ({
+                ...prev,
+                avatar: null,
+                avatarThumbnail: null
+            }));
             toast.success("Avatar eliminado exitosamente.");
-            setTieneImagen(false);
         } catch (error) {
+            console.log(error)
             toast.error(error?.response?.data?.message || "No se pudo eliminar el avatar")            
         } finally {
             setMostrarMenu(false);
             setSubiendoAvatar(false);
         }
     };
-
-    // Obtener la imagen de perfil del medicamento
-    useEffect(() => {
-        let urlTemporal = null;
-    
-        const cargarImagen = async () => {
-            try {
-                urlTemporal = await obtenerAvatarDispositivo(token, dispositivo.id);
-                setImageSrc(urlTemporal);
-                
-            } catch {
-                setImageSrc(imageDefault);
-            }
-        };
-        cargarImagen();
-        if(dispositivo.avatarThumbnail){
-            setTieneImagen(true);
-        }
-
-        return () => {
-            if (urlTemporal) {
-                URL.revokeObjectURL(urlTemporal);
-            }
-        };
-    }, [dispositivo.id, dispositivo.avatarThumbnail, token]);
 
     // Administrar dropdown apertura y cierre
     useEffect(() => {
@@ -74,13 +54,11 @@ const SubirImagenPerfilDispositivo = ({dispositivo}) => {
                 setMostrarMenu(false);
             }
         };
-
         if (mostrarMenu) {
             document.addEventListener("mousedown", handleClickOutside);
         } else {
             document.removeEventListener("mousedown", handleClickOutside);
         }
-
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -94,13 +72,12 @@ const SubirImagenPerfilDispositivo = ({dispositivo}) => {
         setSubiendoAvatar(true);
         try {
             const respuesta = await subirAvatar(token, dispositivo.id, file);
-            if (respuesta?.archivo) {
-                // revoca la imagen anterior
-                if (imageSrc.startsWith("blob:")) {
-                    URL.revokeObjectURL(imageSrc);
-                }
-                setTieneImagen(true);
-                setImageSrc(respuesta.archivo.miniatura);
+            if(respuesta?.data?.avatarThumbnail){
+                setDispositivo(prev => ({
+                    ...prev,
+                    avatar: respuesta.data.avatar,
+                    avatarThumbnail: respuesta.data.avatarThumbnail
+                }));
             }
         } catch (error){
             toast.error(error?.response?.data?.message || "No se pudo cambiar la imagen de perfil. Por favor, inténtalo de nuevo.");
@@ -108,6 +85,10 @@ const SubirImagenPerfilDispositivo = ({dispositivo}) => {
             setSubiendoAvatar(false);
         }
     };
+    useEffect(() => {
+        setImageThumbnailSrc(dispositivo.avatarThumbnail ? `${host}${dispositivo.avatarThumbnail}`: imageDefault)
+        setImageSrc(dispositivo.avatar ? `${host}${dispositivo.avatar}`: imageDefault)
+    }, [dispositivo.avatar, dispositivo.avatarThumbnail])
 
     return (
         <div className="relative w-20 h-20 my-5 mx-auto group">
@@ -128,14 +109,14 @@ const SubirImagenPerfilDispositivo = ({dispositivo}) => {
                         onClick={handleOpcionCambiar}
                         className="flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
                     >
-                        {tieneImagen ?  <>
+                        {dispositivo?.avatarThumbnail ?  <>
                             <LuRefreshCcw className="mr-2" /> Cambiar avatar
                         </>
                         : <>
                             <LuCloudUpload className="mr-2" /> Subir avatar
                         </>} 
                     </button>
-                    {tieneImagen && (
+                    {dispositivo?.avatarThumbnail && (
                         <button
                             onClick={handleOpcionEliminar}
                             className="flex items-center px-3 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
@@ -145,13 +126,8 @@ const SubirImagenPerfilDispositivo = ({dispositivo}) => {
                     )}
                 </div>
             )}
-
             <img 
-                src={imageSrc}
-                onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = imageDefault; 
-                }}
+                src={imageThumbnailSrc}
                 onClick={() => {
                     setModalActivo("imagen-perfil");
                 }}
@@ -171,7 +147,6 @@ const SubirImagenPerfilDispositivo = ({dispositivo}) => {
                 accept="image/*"
                 className="hidden"
             />
-
             {modalActivo === "imagen-perfil" && (
                 <ModalAbrirImagenPerfil 
                     cerrarModal={() => setModalActivo(null)}

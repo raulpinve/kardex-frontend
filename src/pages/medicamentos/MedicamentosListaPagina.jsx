@@ -15,6 +15,7 @@ import ModalEditarMedicamento from "./components/medicamentos/ModalEditarMedicam
 import ModalEliminarMedicamento from "./components/medicamentos/ModalEliminarMedicamento";
 import { host } from "../../utils/config";
 import ModalAbrirImagenPerfil from "./components/medicamento/ModalAbrirImagenPerfil";
+import imageDefault from "../../assets/image-default.png"
 
 const MedicamentosListaPagina = () => {
     const [modalActivo, setModalActivo] = useState(); // Establece la modal que estará activa
@@ -106,6 +107,7 @@ const MedicamentosListaPagina = () => {
                             <table className="min-w-full  mt-3">
                                 <thead>
                                     <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
+                                        <th className="w-[50px]"></th>
                                         <th className="py-3 px-4">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Principio activo</p>
                                         </th>
@@ -151,20 +153,24 @@ const MedicamentosListaPagina = () => {
                                                             onClick={() => irAMedicamento(medicamento.id)}
                                                             className="cursor-pointer"
                                                         >
+                                                            <td className="flex justify-center items-center py-3">
+                                                                <img 
+                                                                    src={`${host}${medicamento.avatarThumbnail}`}
+                                                                    onError={(e) => {
+                                                                        e.target.onerror = null;
+                                                                        e.target.src = imageDefault; 
+                                                                    }}
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setModalActivo("imagen-perfil");
+                                                                        setMedicamentoSeleccionado(medicamento);
+                                                                    }}
+                                                                    alt="Perfil" 
+                                                                    className="w-10 h-10 object-cover rounded-full select-none cursor-pointer"  
+                                                                />
+                                                            </td>
                                                             <td className="py-3 px-4">
-                                                                <div className="items-center flex gap-3 rounded-full">
-                                                                    <img 
-                                                                        src={`${host}${medicamento.avatarThumbnail}`}
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                            setModalActivo("imagen-perfil");
-                                                                            setMedicamentoSeleccionado(medicamento);
-                                                                        }}
-                                                                        alt="Perfil" 
-                                                                        className="w-10 h-10 object-cover rounded-full select-none cursor-pointer"  
-                                                                    />
-                                                                    <p className="text-gray-700 dark:text-gray-400"> {medicamento.nombre}</p>
-                                                                </div>
+                                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.nombre}</p>
                                                             </td>
                                                             <td className="py-3 px-4">
                                                                 <p className="text-gray-700 dark:text-gray-400"> {medicamento.formaFarmaceutica} </p>

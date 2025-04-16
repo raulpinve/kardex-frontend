@@ -41,6 +41,7 @@ const DispositivoPagina = () => {
             <div className="grid w-full md:grid-cols-[320px_1fr] gap-4 items-start mt-4">
                 <InformacionDispositivo 
                     dispositivo={dispositivo}
+                    setDispositivo ={setDispositivo}
                     loading={loading}
                     error={error}
                 />
