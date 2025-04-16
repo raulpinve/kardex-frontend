@@ -22,6 +22,7 @@ const ModalAbrirImagenPerfil = (props) => {
                     setImageSrc(`${host}${response.data.avatar}`);
                 }
             } catch (error) {
+                cerrarModal()
                 toast.error(error?.response?.data?.message || "Ha ocurrido un error al cargar la imagen")
             } finally {
                 setLoading(false)
@@ -30,7 +31,7 @@ const ModalAbrirImagenPerfil = (props) => {
         if(medicamento?.id){
             fetchMedicamento();
         }
-    },[medicamento.id])
+    },[medicamento])
 
     const handleImageLoad = () => {
         setLoading(false); // Cuando la imagen se haya cargado, se desactiva el loader

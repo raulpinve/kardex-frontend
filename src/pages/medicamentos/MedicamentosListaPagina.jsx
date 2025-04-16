@@ -13,6 +13,8 @@ import Pagination from "../../shared/components/Pagination";
 import ModalCrearMedicamento from "./components/medicamentos/ModalCrearMedicamento";
 import ModalEditarMedicamento from "./components/medicamentos/ModalEditarMedicamento";
 import ModalEliminarMedicamento from "./components/medicamentos/ModalEliminarMedicamento";
+import { host } from "../../utils/config";
+import ModalAbrirImagenPerfil from "./components/medicamento/ModalAbrirImagenPerfil";
 
 const MedicamentosListaPagina = () => {
     const [modalActivo, setModalActivo] = useState(); // Establece la modal que estará activa
@@ -151,6 +153,16 @@ const MedicamentosListaPagina = () => {
                                                         >
                                                             <td className="py-3 px-4">
                                                                 <div className="items-center flex gap-3 rounded-full">
+                                                                    <img 
+                                                                        src={`${host}${medicamento.avatarThumbnail}`}
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            setModalActivo("imagen-perfil");
+                                                                            setMedicamentoSeleccionado(medicamento);
+                                                                        }}
+                                                                        alt="Perfil" 
+                                                                        className="w-10 h-10 object-cover rounded-full select-none cursor-pointer"  
+                                                                    />
                                                                     <p className="text-gray-700 dark:text-gray-400"> {medicamento.nombre}</p>
                                                                 </div>
                                                             </td>
@@ -233,6 +245,13 @@ const MedicamentosListaPagina = () => {
                     cerrarModal={() => setModalActivo(null)} 
                     setMedicamentos = {setMedicamentos}
                     medicamentoSeleccionado = {medicamentoSeleccionado}
+                />
+            )}
+
+            {modalActivo === "imagen-perfil" && (
+                <ModalAbrirImagenPerfil 
+                    cerrarModal={() => setModalActivo(null)}
+                    medicamento = {medicamentoSeleccionado}
                 />
             )}
         </>
