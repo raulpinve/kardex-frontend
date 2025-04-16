@@ -3,7 +3,7 @@ import CardTitulo from "../../../../shared/components/CardTitulo";
 import MessageError from "../../../../shared/components/MessageError";
 import SubirImagenPerfilMedicamento from "./SubirImagenPerfilMedicamento";
 
-const InformacionMedicamento = ({medicamento, loading, error}) => {
+const InformacionMedicamento = ({medicamento, setMedicamento, loading, error}) => {
     return (
         <div className="text-sm text-gray-700 dark:text-gray-400 max-w-[450px]">
             <Card>
@@ -18,7 +18,7 @@ const InformacionMedicamento = ({medicamento, loading, error}) => {
                 {!loading && error && <MessageError>{error}</MessageError>}
                 {!loading && medicamento && ( <>
                     <CardTitulo>{medicamento.nombre}</CardTitulo>
-                    <SubirImagenPerfilMedicamento medicamento={medicamento} />
+                    <SubirImagenPerfilMedicamento medicamento={medicamento} setMedicamento= {setMedicamento} />
                     <div className="mt-5">
                         {/* Forma farmacéutica */}
                         <div>

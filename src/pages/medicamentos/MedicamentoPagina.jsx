@@ -24,7 +24,6 @@ const MedicamentoPagina = () => {
                 const res = await obtenerMedicamento(token, medicamentoId);
                 setMedicamento(res.data);
             } catch (error) {
-
                 handleErrorsBasic(error, setError);                
             } finally {
                 setLoading(false);
@@ -40,6 +39,7 @@ const MedicamentoPagina = () => {
             <div className="grid w-full md:grid-cols-[320px_1fr] gap-4 items-start mt-4">
                 <InformacionMedicamento 
                     medicamento={medicamento}
+                    setMedicamento={setMedicamento}
                     loading={loading}
                     error={error}
                 />

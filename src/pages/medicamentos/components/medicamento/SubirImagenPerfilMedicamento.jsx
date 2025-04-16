@@ -4,13 +4,15 @@ import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LuCamera, LuCloudUpload, LuRefreshCcw, LuTrash2 } from "react-icons/lu";
 import ModalAbrirImagenPerfil from "./ModalAbrirImagenPerfil";
-import { eliminarAvatar, obtenerAvatarMedicamento, subirAvatar } from "../../services/MedicamentoServices";
+import { eliminarAvatar, subirAvatar } from "../../services/MedicamentoServices";
+import { host } from "../../../../utils/config";
 
-const SubirImagenPerfilMedicamento = ({medicamento}) => {
+const SubirImagenPerfilMedicamento = ({medicamento, setMedicamento}) => {
+    const [imageThumbnailSrc, setImageThumbnailSrc] = useState(imageDefault);
     const [imageSrc, setImageSrc] = useState(imageDefault);
     const [modalActivo, setModalActivo] = useState(false);
+    
     const [subiendoAvatar, setSubiendoAvatar] = useState(false);
-    const [tieneImagen, setTieneImagen] = useState(false);
     const fileInputRef = useRef(null);
     const token = useSelector(state => state.auth.token);
     const menuRef = useRef(null); 
@@ -30,10 +32,12 @@ const SubirImagenPerfilMedicamento = ({medicamento}) => {
             setMostrarMenu(true);
 
             await eliminarAvatar(token, medicamento.id);
-            setImageSrc(imageDefault);
-
+            setMedicamento(prev => ({
+                ...prev,
+                avatar: null,
+                avatarThumbnail: null
+            }));
             toast.success("Avatar eliminado exitosamente.");
-            setTieneImagen(false);
         } catch (error) {
             console.log(error)
             toast.error(error?.response?.data?.message || "No se pudo eliminar el avatar")            
@@ -43,31 +47,6 @@ const SubirImagenPerfilMedicamento = ({medicamento}) => {
         }
     };
 
-    // Obtener la imagen de perfil del medicamento
-    useEffect(() => {
-        let urlTemporal = null;
-    
-        const cargarImagen = async () => {
-            try {
-                urlTemporal = await obtenerAvatarMedicamento(token, medicamento.id);
-                setImageSrc(urlTemporal);
-                
-            } catch {
-                setImageSrc(imageDefault);
-            }
-        };
-        cargarImagen();
-        if(medicamento.avatarThumbnail){
-            setTieneImagen(true);
-        }
-
-        return () => {
-            if (urlTemporal) {
-                URL.revokeObjectURL(urlTemporal);
-            }
-        };
-    }, [medicamento.id, medicamento.avatarThumbnail, token]);
-
     // Administrar dropdown apertura y cierre
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -75,13 +54,11 @@ const SubirImagenPerfilMedicamento = ({medicamento}) => {
                 setMostrarMenu(false);
             }
         };
-
         if (mostrarMenu) {
             document.addEventListener("mousedown", handleClickOutside);
         } else {
             document.removeEventListener("mousedown", handleClickOutside);
         }
-
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -95,13 +72,12 @@ const SubirImagenPerfilMedicamento = ({medicamento}) => {
         setSubiendoAvatar(true);
         try {
             const respuesta = await subirAvatar(token, medicamento.id, file);
-            if (respuesta?.archivo) {
-                // revoca la imagen anterior
-                if (imageSrc.startsWith("blob:")) {
-                    URL.revokeObjectURL(imageSrc);
-                }
-                setTieneImagen(true);
-                setImageSrc(respuesta.archivo.miniatura);
+            if(respuesta?.data?.avatarThumbnail){
+                setMedicamento(prev => ({
+                    ...prev,
+                    avatar: respuesta.data.avatar,
+                    avatarThumbnail: respuesta.data.avatarThumbnail
+                }));
             }
         } catch (error){
             toast.error(error?.response?.data?.message || "No se pudo cambiar la imagen de perfil. Por favor, inténtalo de nuevo.");
@@ -109,6 +85,11 @@ const SubirImagenPerfilMedicamento = ({medicamento}) => {
             setSubiendoAvatar(false);
         }
     };
+
+    useEffect(() => {
+        setImageThumbnailSrc(medicamento.avatarThumbnail ? `${host}${medicamento.avatarThumbnail}`: imageDefault)
+        setImageSrc(medicamento.avatar ? `${host}${medicamento.avatar}`: imageDefault)
+    }, [medicamento.avatar, medicamento.avatarThumbnail])
 
     return (
         <div className="relative w-20 h-20 my-5 mx-auto group">
@@ -129,14 +110,14 @@ const SubirImagenPerfilMedicamento = ({medicamento}) => {
                         onClick={handleOpcionCambiar}
                         className="flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
                     >
-                        {tieneImagen ?  <>
+                        {medicamento?.avatarThumbnail ?  <>
                             <LuRefreshCcw className="mr-2" /> Cambiar avatar
                         </>
                         : <>
                             <LuCloudUpload className="mr-2" /> Subir avatar
                         </>} 
                     </button>
-                    {tieneImagen && (
+                    {medicamento?.avatarThumbnail && (
                         <button
                             onClick={handleOpcionEliminar}
                             className="flex items-center px-3 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
@@ -146,13 +127,8 @@ const SubirImagenPerfilMedicamento = ({medicamento}) => {
                     )}
                 </div>
             )}
-
             <img 
-                src={imageSrc}
-                onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = imageDefault; 
-                }}
+                src={imageThumbnailSrc}
                 onClick={() => {
                     setModalActivo("imagen-perfil");
                 }}
@@ -172,13 +148,12 @@ const SubirImagenPerfilMedicamento = ({medicamento}) => {
                 accept="image/*"
                 className="hidden"
             />
-
             {modalActivo === "imagen-perfil" && (
                 <ModalAbrirImagenPerfil 
                     cerrarModal={() => setModalActivo(null)}
                     medicamento={medicamento}
                 />
-            )}
+            )} 
         </div>
     );
 };
