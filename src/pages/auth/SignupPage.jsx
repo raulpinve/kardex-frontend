@@ -169,7 +169,7 @@ const SignupPage = () => {
                                     })}
                                 />
                                 <button 
-                                    className="absolute z-30 text-gray-500 -translate-y-1/2 cursor-pointer right-4 top-1/2 dark:text-gray-400 text-xl"
+                                    className="absolute z-30 text-gray-500 -translate-y-1/2 cursor-pointer right-4 top-1/2 dark:text-gray-400"
                                     type="button"    
                                     onClick={() => setMostrarPassword(prev => !prev)}
                                 >

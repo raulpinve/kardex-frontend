@@ -7,12 +7,14 @@ import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 
 const ModalCrearUsuario = (props) => {
     const {cerrarModal, setUsuarios} = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
+    const [mostrarPassword, setMostrarPassword] = useState(false);
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ 
         mode: "onChange"
     })
@@ -138,26 +140,32 @@ const ModalCrearUsuario = (props) => {
                             {errors.username && (<p className="input-message-error">{errors.username.message}</p>)}
                         </div>
                         
-                        {/* Password */}
+                        {/* Contraseña */}
                         <div>
-                            <label htmlFor="password" className="label-form">
-                                Password <span className="input-required">*</span>
-                            </label>
-                            <input 
-                                type="password" 
-                                className={`${ errors.password ? 'input-form-error' : ''}  input-form`}
-                                {...register('password', {
-                                    required: {
-                                        value: true,
-                                        message: 'La contraseña debe tener al menos una letra mayúscula, un número, un carácter especial y tener entre 8 y 20 caracteres de longitud.',
-                                    },
-                                    pattern: {
-                                        value:/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}[\]:;"'<>,.?\\/]).{8,20}$/,
-                                        message: 'La contraseña debe tener al menos una letra mayúscula, un número, un carácter especial y tener entre 8 y 20 caracteres de longitud.',
-                                    },
-                                })}
-                            />
-                            {errors.password && (<p className="input-message-error">{errors.password.message}</p>)}
+                            <label htmlFor="password" className="font-semibold">Contraseña <span className="text-red-600">*</span></label>
+                            <div className="relative">
+                                <input 
+                                    className={`${errors.password ? "border-red-600": ""} input-form`}
+                                    type={mostrarPassword ? "text" : "password"}
+                                    {...register("password", {
+                                        required: {value: true, message: 'La contraseña debe tener al menos una letra mayúscula, un número, un carácter especial y tener entre 8 y 20 caracteres de longitud.'},
+                                        pattern: {
+                                            value: /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}[\]:;"'<>,.?\\/]).{8,20}$/,
+                                            message: 'La contraseña debe tener al menos una letra mayúscula, un número, un carácter especial y tener entre 8 y 20 caracteres de longitud.'
+                                        }
+                                    })}
+                                />
+                                <button 
+                                    className="absolute z-30 text-gray-500 -translate-y-1/2 cursor-pointer right-4 top-1/2 dark:text-gray-400"
+                                    type="button"    
+                                    onClick={() => setMostrarPassword(prev => !prev)}
+                                >
+                                    {mostrarPassword ? <LuEyeOff /> : <LuEye />}
+                                </button>
+                            </div>
+                            {(errors.password && errors.password.message ) && (
+                                <p className="input-message-error">{errors.password.message}</p>
+                            )}
                         </div>
                     </div>
 
