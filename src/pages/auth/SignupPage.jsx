@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from "react-redux"
 import Button from "../../shared/components/Button"
 import { handleErrors } from "../../utils/handleErrors"
 import { RiLoader4Fill } from "react-icons/ri"
-import { LuEye, LuEyeOff } from "react-icons/lu"
+import { LuEye, LuEyeOff, LuMoon, LuSun } from "react-icons/lu"
+import { useDarkMode } from "../../shared/hooks/useDarkMode"
 
 const SignupPage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { darkMode, toggleDarkMode } = useDarkMode();  // Usamos el hook
     const { register, handleSubmit, setError, formState: { errors }, setValue } = useForm({
         mode: "onChange"
     })
@@ -192,10 +194,10 @@ const SignupPage = () => {
                 </div>
             </div>
             <div className="relative items-center hidden w-full h-full bg-blue-900 dark:bg-white/5 lg:grid lg:w-1/2">
-                <div class="absolute right-0 top-0 w-full max-w-[250px] xl:max-w-[450px]">
+                <div className="absolute right-0 top-0 w-full max-w-[250px] xl:max-w-[450px]">
                     <img src="/src/assets/images/shape/grid-01.svg" alt="grid" className="z-200" />
                 </div>
-                <div class="absolute bottom-0 left-0 w-full max-w-[250px] rotate-180 xl:max-w-[450px]">
+                <div className="absolute bottom-0 left-0 w-full max-w-[250px] rotate-180 xl:max-w-[450px]">
                     <img src="src/assets/images/shape/grid-01.svg" alt="grid" />
                 </div>
                 <div>
@@ -203,6 +205,12 @@ const SignupPage = () => {
                     <p className="text-center text-gray-400 dark:text-white/60">De medicamentos, insumos y dispositivos médicos.</p>
                 </div>
             </div>
+            <button
+                onClick={toggleDarkMode}
+                className="absolute left-10 bottom-10 w-10 h-10 border border-gray-200 dark:border-gray-800 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200  cursor-pointer"
+            >
+                {darkMode ? <LuMoon /> : <LuSun />}
+            </button>
         </div>
     )
 }
