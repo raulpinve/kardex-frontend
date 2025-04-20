@@ -62,10 +62,20 @@ const analizarStock = (stockRequerido, stockDisponible) => {
     };
 }
   
+const formatDateCorte = (fechaISO) => {
+  const fecha = new Date(fechaISO);
+
+  return fecha.toLocaleDateString("es-ES", {
+    month: "long",
+    year: "numeric"
+  });
+}
+
 export {
     formatDateLetters,
     formatDate,
     dateColombiaFormat,
     obtenerEstadoVencimiento,
-    analizarStock
+    analizarStock,
+    formatDateCorte
 }

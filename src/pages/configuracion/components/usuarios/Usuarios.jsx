@@ -18,7 +18,7 @@ import imageDefault from "../../../../assets/image-default.png";
 import ModalAbrirImagenPerfil from "../../../perfil/components/ModalAbrirImagenPerfil";
 
 const Usuarios = () => {
-    const [modalActivo, setModalActivo] = useState(null); // "crear", "editar", "eliminar", etc.
+    const [modalActivo, setModalActivo] = useState(null);
     const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(false);
     const [usuarios, setUsuarios] = useState([]);
     const [loading, setLoading] = useState(null);
@@ -216,7 +216,6 @@ const Usuarios = () => {
                                                 </tr>
                                             })}
                                         </>
-                                        
                                         }
                                     </>}
                             </tbody>

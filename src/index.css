@@ -40,7 +40,7 @@
     @apply text-red-600 text-sm  dark:font-medium dark:text-red-600/80
   }
   .select-form {
-    @apply h-11 w-full appearance-none rounded-lg border bg-transparent px-4 py-2.5 pr-11 
+    @apply h-11 w-full appearance-none rounded-lg border bg-transparent px-4 py-3 pr-11 
       text-sm text-gray-800 placeholder:text-gray-400 
       focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-300/50 
       border-gray-300 
@@ -67,20 +67,20 @@
   .button-form-primary {
     @apply bg-blue-600 text-white dark:text-white/90 dark:bg-slate-700 
       focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-300/50 
-      dark:border-gray-800 h-[46px] rounded-md px-4 font-medium;
+      dark:border-gray-800 rounded-md px-4 font-medium;
   }
   .button-form-secondary {
     @apply bg-white text-gray-700 border border-gray-300 
       dark:bg-gray-900 dark:text-gray-200 dark:border-gray-800
       hover:bg-gray-50 dark:hover:bg-gray-800
       focus:outline-none focus:ring-4 focus:ring-blue-300/30
-      h-[46px] rounded-md px-4 font-medium transition-colors;
+     rounded-md px-4 font-medium transition-colors;
   }
   
   .button-form-danger {
     @apply bg-red-600 text-white dark:text-white/90 dark:bg-slate-700 
       focus:outline-none focus:border-red-500 focus:ring-4 focus:ring-red-400/50 
-      dark:border-gray-800 h-[46px] rounded-md px-4 font-medium;
+      dark:border-gray-800  rounded-md px-4 font-medium;
   }
   
   .message-error{
@@ -129,6 +129,7 @@
   background-color: #9ca3af;
 }
 
+
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
@@ -138,3 +139,14 @@
 .shake {
   animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both; /* Duración y efecto */
 }
+
+input[type="month"]::-webkit-calendar-picker-indicator {
+  filter: invert(32%) sepia(8%) saturate(293%) hue-rotate(175deg) brightness(96%) contrast(89%);
+  cursor: pointer;
+}
+.dark input[type="month"]::-webkit-calendar-picker-indicator {
+  filter: invert(95%) sepia(8%) saturate(316%) hue-rotate(180deg) brightness(108%) contrast(85%);
+}
+
+
+

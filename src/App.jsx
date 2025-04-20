@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./index.css";
 import Layout from "./shared/components/Layout";
 import SignupPage from "./pages/auth/SignupPage";
@@ -21,6 +21,7 @@ import DispositivoPagina from "./pages/dispositivos/DispositivoPagina";
 import PerfilEditarPagina from "./pages/perfil/PerfilEditarPagina";
 import PerfilPagina from "./pages/perfil/PerfilPagina";
 import VerificarEmailPage from "./pages/auth/VerificarEmailPage";
+import InventarioPagina from "./pages/inventario/inventarioPagina";
 
 function App() {
   const dispatch = useDispatch();
@@ -70,7 +71,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PrivateRoute Component={Layout} />} />
+        <Route path="/" element={<Navigate to="/inventarios" replace />} />
+        <Route path="/inventarios" element={<PrivateRoute Component={InventarioPagina} />} />
         <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />
         <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
         <Route path="/:token/verificar-email" element={<VerificarEmailPage />} />

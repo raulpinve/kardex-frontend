@@ -7,7 +7,7 @@ const Modal = (props) => {
         setIsOpenModal,
         children,
         title = "Advertencia",
-        zIndex = "z-100",
+        zIndex = "z-90",
         showAgreeButton = false,
         description = null,
         onClose,

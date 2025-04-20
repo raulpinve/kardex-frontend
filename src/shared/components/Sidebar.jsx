@@ -1,5 +1,5 @@
 import React from 'react';
-import { LuLayoutDashboard, LuSettings, LuSyringe } from "react-icons/lu";
+import { LuBox, LuLayoutDashboard, LuSettings, LuSyringe } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import { LuPill } from "react-icons/lu";
 import { NavLink } from 'react-router-dom';
@@ -32,12 +32,15 @@ const Sidebar = () => {
                 </h3>
                 
                 {/* Dashboard */}
-                <div className="sidebar-li">
-                    <LuLayoutDashboard className="text-xl min-w-[24px]" />
+                <NavLink 
+                    to="/inventarios"
+                    className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
+                >
+                    <LuBox className="text-xl min-w-[24px]" />
                     <span className={`transition-all duration-200 ${sidebarOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden"}`}>
-                        Cortes
+                        Inventarios
                     </span>
-                </div>
+                </NavLink>
                 
                 {/* Medicamentos */}
                 <NavLink 

@@ -1,73 +1,75 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../../../../shared/components/Modal";
 import Button from "../../../../shared/components/Button";
-import { useForm } from "react-hook-form";
+import MessageError from "../../../../shared/components/MessageError";
+import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
-import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
-import { crearAlmacen } from "../../services/almacenService";
+import "react-datepicker/dist/react-datepicker.css";
+// import { crearAlmacen } from "../../services/almacenService";
 
-const ModalCrearAlmacen = (props) => {
-    const { cerrarModal, setAlmacenes} = props;
+const ModalCrearCorte = (props) => {
+    const { cerrarModal, setCortes } = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
-    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ 
-        mode: "onChange"
-    })
+    const [selectedDate, setSelectedDate] = useState(null);
+    const {register, control, handleSubmit, setError, formState: { errors }, setValue} = useForm({  mode: "onChange" })
 
     const onSubmit = async(values) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await crearAlmacen(token, values)
-            const data = result?.data
-            if(data){
-                setAlmacenes(prevAlmacenes => [data, ...prevAlmacenes]);
+            // const result = await crearAlmacen(token, values)
+            // const data = result?.data
+            // if(data){
+                const numero = Math.floor(Math.random() * 1000000) + 1;
+                const data = {
+                   id: numero,
+                    ...values,
+                }
+                setCortes(prevCortes => [data, ...prevCortes]);
                 cerrarModal()
                 setValue("nombre", "")
-            } 
-            toast.success('Almacén creado exitosamente.');
+            // } 
+            toast.success('Corte creado exitosamente.');
         } catch (error) {
             handleErrors(error, setError, setMessageError);
         } finally{
             setLoading(false)
         }
     }
+
+    useEffect(() => {
+        setValue("mes", "2024-01")
+    }, [])
+    
     return (
         <Modal
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
-            title="Crear Almacén"
+            title="Crear corte"
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <div className="px-2">
-                    {/* Nombre */}
-                    <div>
-                        <label htmlFor="nombre" className="label-form">
-                            Nombre <span className="input-required">*</span>
+                    {/* Mes */}
+                    <div className="relative">
+                        <label htmlFor="mes" className="label-form">
+                            Mes <span className="input-required">*</span>
                         </label>
                         <input 
-                            className={`${errors.nombre && errors.nombre.message ? "input-form-error" : ""} input-form`}
-                            {...register("nombre", {
+                            type="month" 
+                            className={`${errors?.mes ? "input-form-error" : ""} input-form capitalize`}
+                            {...register("mes", {
                                 required: {
                                     value: true,
-                                    message: "Debe proporcionar un nombre.",
-                                },
-                                minLength: {
-                                    value: 2,
-                                    message: "El nombre debe tener al menos dos caracteres.",
-                                },
-                                maxLength: {
-                                    value: 100,
-                                    message: "El nombre no debe exceder los 100 caracteres.",
+                                    message: "Por favor, selecciona un mes.",
                                 },
                             })}
-                            id="nombre"
                         />
-                        {errors.nombre && errors.nombre.message && (<p className="input-message-error">{errors.nombre.message}</p>)} 
+                        {errors?.mes?.message && (<p className="input-message-error">{errors.mes.message}</p>)} 
                     </div>
                 </div>
 
@@ -97,4 +99,4 @@ const ModalCrearAlmacen = (props) => {
     );
 };
 
-export default ModalCrearAlmacen;
+export default ModalCrearCorte;
