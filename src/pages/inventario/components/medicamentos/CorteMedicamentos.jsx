@@ -3,11 +3,12 @@ import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import Pagination from '../../../../shared/components/Pagination';
 import Button from '../../../../shared/components/Button';
-import { LuBadgeAlert, LuBadgeCheck, LuInfo, LuRefreshCcw, LuSearch } from 'react-icons/lu';
+import { LuCircleAlert, LuCircleCheck, LuRefreshCcw, LuSearch } from 'react-icons/lu';
 import { obtenerCorteActivoMedicamentos } from '../../services/CorteMedicamentoServices';
 import { useSelector } from 'react-redux';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { Tooltip } from 'react-tooltip';
+import { useNavigate } from 'react-router-dom';
 
 // Componente para mostrar el estado del stock
 const StockStatus = ({ stockRequerido, stockFinal }) => {
@@ -18,29 +19,27 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
         if (cantidadApedir < 0) {
             return {
                 text: `${-cantidadApedir} unidades por debajo del nivel requerido`,
-                bgColor: 'bg-red-200',
+                bgColor: 'bg-red-200 dark:bg-gray-900',
                 textColor: 'text-red-600',
-                icon: <LuBadgeAlert className="inline-block relative -top-[2px] ml-1" />,
+                icon: <LuCircleAlert className="inline-block relative -top-[2px] ml-1" />,
                 cantidad: -cantidadApedir
             };
         }
     
         return {
             text: `${cantidadApedir === 0 ? "Stock justo al nivel requerido." : `${cantidadApedir} unidades por encima del nivel requerido`}`,
-            bgColor: 'bg-green-200',
+            bgColor: 'bg-green-200 dark:bg-gray-900',
             textColor: 'text-green-800',
-            icon: <LuBadgeCheck className="inline-block relative -top-[2px] ml-1" />,
+            icon: <LuCircleCheck className="inline-block relative -top-[2px] ml-1" />,
             cantidad: cantidadApedir
         };
     }
-        
-      
   
     const { text, bgColor, textColor, icon, cantidad } = renderStockStatus();
   
     return (
       <span
-        className={`inline-block dark:text-gray-400 ${bgColor} ${textColor} py-2 px-3 text-sm rounded-2xl`}
+        className={`inline-block dark:text-gray-400 ${bgColor} ${textColor} py-2 px-3 text-xs rounded-2xl`}
         data-tooltip-id="guardar"
         data-tooltip-content={text}
         aria-label={text}
@@ -62,6 +61,7 @@ const CorteMedicamentos = ({corteSeleccionado}) => {
     const [consulta, setConsulta] = useState("");
     const debouncedConsulta = useDebounce(consulta, 500);
     const [refresh, setRefresh] = useState(0); 
+    const navigate = useNavigate();
 
     const [medicamentos, setMedicamentos] = useState([
         {
@@ -172,8 +172,8 @@ const CorteMedicamentos = ({corteSeleccionado}) => {
         }
     }, [almacenId, paginaActual, refresh, debouncedConsulta]);
 
-    const analizarStock = (stockRequerido, stockDisponible) => {
-        return stockDisponible - stockRequerido;
+    const redireccionarProductoCorte = (corteId, productoId) => {
+        navigate(`/inventarios/${corteId}/${productoId}`)
     }
 
     return (<>
@@ -213,7 +213,7 @@ const CorteMedicamentos = ({corteSeleccionado}) => {
             
                 <div className="overflow-x-auto mt-3">
                     <table className="min-w-full table-auto text-sm">
-                        <thead className='border-gray-200 border-y top-0  bg-white'>
+                        <thead className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>
                             <tr className="text-sm text-left">
                                 <th className="w-[70px]"></th>
                                 <th className="py-3 pl-1 pr-4">
@@ -234,7 +234,6 @@ const CorteMedicamentos = ({corteSeleccionado}) => {
                                 <th className="py-3 px-4">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">Stock requerido</p>
                                 </th>
-                                
                                 <th className="py-3 px-4 min-w-[120px]">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">Pedidos</p>
                                 </th>
@@ -243,8 +242,7 @@ const CorteMedicamentos = ({corteSeleccionado}) => {
                         {loading && (
                             <SkeletonTable rows={7} columns={8}/>
                         )}
-                        <tbody className='divide-y divide-gray-100'>
-                        
+                        <tbody className='divide-y divide-gray-100  text-sm dark:divide-gray-800'>
                             {!loading && !error && medicamentos.length === 0 && (
                                 <tr>
                                     <td colSpan="9" className="py-3">
@@ -257,7 +255,7 @@ const CorteMedicamentos = ({corteSeleccionado}) => {
                                 {medicamentos.map(medicamento => {
                                     return <tr 
                                         key={medicamento.id}
-                                        // onClick={() => irAMedicamento(medicamento.id)}
+                                        onClick={() => redireccionarProductoCorte(medicamento.id, corteSeleccionado.id)}
                                         className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                                     >
                                         <td className="px-4 py-3">

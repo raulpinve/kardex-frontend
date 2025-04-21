@@ -24,20 +24,20 @@ const dateColombiaFormat = (isoDate) => {
 };
 
 const obtenerEstadoVencimiento = (fechaVencimientoStr) => {
-    const hoy = new Date();
-    const vencimiento = new Date(fechaVencimientoStr);
-    const msEnUnDia = 1000 * 60 * 60 * 24;
-    const diasRestantes = Math.ceil((vencimiento - hoy) / msEnUnDia);
-  
-    if (diasRestantes < 0) {
+  const hoy = new Date();
+  const vencimiento = new Date(fechaVencimientoStr);
+  const msEnUnDia = 1000 * 60 * 60 * 24;
+  const diasRestantes = Math.ceil((vencimiento - hoy) / msEnUnDia);
+
+  if (diasRestantes < 0) {
       return { estado: "Vencido", color: "text-red-600 bg-red-600/10" };
-    } else if (diasRestantes <= 30) {
+  } else if (diasRestantes <= 30) {
       return { estado: "Por vencer", color: "text-orange-600 bg-orange-600/10" };
-    } else if (diasRestantes <= 90) {
-      return { estado: "Próximo", color: "text-yellow-600 bg-yellow-600/10" };
-    } else {
-      return { estado: "Ok", color: "text-green-600 bg-green-600/10" };
-    }
+  } else if (diasRestantes <= 90) {
+      return { estado: "Por vencer", color: "text-yellow-600 bg-yellow-600/10" };
+  } else {
+      return { estado: "Vigente", color: "text-green-600 bg-green-600/10" };
+  }
 }
 
 const analizarStock = (stockRequerido, stockDisponible) => {

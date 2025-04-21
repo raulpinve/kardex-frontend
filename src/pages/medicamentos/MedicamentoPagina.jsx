@@ -43,7 +43,7 @@ const MedicamentoPagina = () => {
                     loading={loading}
                     error={error}
                 />
-                <div  className="min-w-0">
+                <div className="min-w-0">
                     <TarjetasInformacionMedicamento
                         medicamento={medicamento}
                         loading={loading}

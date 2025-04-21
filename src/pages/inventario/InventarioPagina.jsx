@@ -3,7 +3,7 @@ import Layout from "../../shared/components/Layout";
 import Card from "../../shared/components/Card";
 import CardTitulo from "../../shared/components/CardTitulo";
 import Button from "../../shared/components/Button";
-import { LuBadgeCheck, LuChevronDown, LuCircleAlert, LuSettings } from "react-icons/lu";
+import { LuBadgeCheck, LuChevronDown, LuCircleAlert, LuCircleCheck, LuSettings } from "react-icons/lu";
 import CorteMedicamentos from "./components/medicamentos/CorteMedicamentos";
 import ModalCrearCorte from "./components/cortes/ModalCrearCorte";
 import ModalSeleccionarCorte from "./components/cortes/ModalSeleccionarCorte";
@@ -37,7 +37,6 @@ const InventarioPagina = () => {
         setCorteSeleccionado(corteMasReciente);
     }, [cortes]);
 
-
     return (
         <Layout>
             <Card>
@@ -58,11 +57,11 @@ const InventarioPagina = () => {
                         
                         {/* Badge activo */}
                         <span className="flex items-center gap-1 rounded-full bg-green-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-green-600 dark:bg-green-500/15 dark:text-green-500">
-                            <LuBadgeCheck /> Activo
+                            <LuCircleCheck /> Corte activo
                         </span>
                         {/* Badge cerrado */}
                         <span className="flex items-center hidden gap-1 rounded-full bg-red-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-red-600 dark:bg-red-500/15 dark:text-red-500">
-                            <LuCircleAlert /> Cerrado
+                            Corte cerrado
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -81,7 +80,6 @@ const InventarioPagina = () => {
                             </select>   
                             <LuChevronDown className="absolute right-3.5 top-[13px] dark:text-gray-200" />                     
                         </div>
-
                         
                         <Button 
                             colorButton={`secondary`}
