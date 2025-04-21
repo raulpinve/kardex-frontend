@@ -181,9 +181,9 @@ const CorteMedicamentos = ({corteSeleccionado}) => {
             <p className="text-gray-700 dark:text-gray-400 text-center my-10 text-sm">{error}</p>
         )}
         {!loading && !error && (
-            <Card>
+            <Card className={`mt-4`}>
                 {/* Header */}
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center ">
                     <CardTitulo>Medicamentos</CardTitulo>
                     <div className="flex gap-1 items-center justify-between">
                         <div className="relative hidden md:block">

@@ -23,6 +23,7 @@ import PerfilPagina from "./pages/perfil/PerfilPagina";
 import VerificarEmailPage from "./pages/auth/VerificarEmailPage";
 import InventarioPagina from "./pages/inventario/inventarioPagina";
 import InventarioProductoPagina from "./pages/inventario/InventarioProductoPagina";
+import InventarioLotesPagina from "./pages/inventario/InventarioLotesPagina";
 
 function App() {
   const dispatch = useDispatch();
@@ -75,6 +76,7 @@ function App() {
         <Route path="/" element={<Navigate to="/inventarios" replace />} />
         <Route path="/inventarios" element={<PrivateRoute Component={InventarioPagina} />} />
         <Route path="/inventarios/:corteId/:productoId" element={<PrivateRoute Component={InventarioProductoPagina} />} />
+        <Route path="/inventarios/lote/:corteId/:productoId" element={<PrivateRoute Component={InventarioLotesPagina} />} />
         <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />
         <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
         <Route path="/:token/verificar-email" element={<VerificarEmailPage />} />

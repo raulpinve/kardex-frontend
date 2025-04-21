@@ -6,7 +6,6 @@ import CardTitulo from '../../shared/components/CardTitulo';
 import { LuChevronRight, LuCircleAlert, LuCircleCheck } from 'react-icons/lu';
 import TarjetasInformacionStock from './components/productos/TarjetasInformacionStock';
 import InventarioLotes from './components/productos/InventarioLotes';
-import Card from '../../shared/components/Card';
 import InventarioMovimientos from './components/productos/InventarioMovimientos';
 
 const InventarioProductoPagina = ({corteSeleccionado}) => {
@@ -14,7 +13,7 @@ const InventarioProductoPagina = ({corteSeleccionado}) => {
         <Layout>
             <div className='py-2'>
                 {/* Header */}
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-2 h-[46px]">
                     <div className="flex items-center gap-2">
                         <div className="flex">
                             <CardTitulo className={`flex items-center`}>Inventarios <LuChevronRight /> 
@@ -42,9 +41,9 @@ const InventarioProductoPagina = ({corteSeleccionado}) => {
                 </div>
             </div>
 
-            <div className="grid w-full md:grid-cols-12 gap-4 items-start mt-4">
+            <div className="grid w-full md:grid-cols-12 gap-6 items-start  mt-4">
                 <InformacionProducto />
-                <div className="min-w-0 col-span-12 xl:col-span-9 grid gap-4">
+                <div className="min-w-0 col-span-12 xl:col-span-9 grid gap-6">
                     <TarjetasInformacionStock /> 
                     <InventarioLotes />
                     <InventarioMovimientos />

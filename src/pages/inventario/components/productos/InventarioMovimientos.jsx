@@ -89,10 +89,9 @@ const InventarioMovimientos = () => {
             lote: "L-OM-103"
         }
     ]);
-    
 
     return (
-        <Card className={`mt-4`}>
+        <Card>
             {/* Header */}
             <div className="flex justify-between items-center">
                 <CardTitulo>Movimientos</CardTitulo>

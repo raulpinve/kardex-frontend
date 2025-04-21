@@ -3,7 +3,7 @@ import Layout from "../../shared/components/Layout";
 import Card from "../../shared/components/Card";
 import CardTitulo from "../../shared/components/CardTitulo";
 import Button from "../../shared/components/Button";
-import { LuBadgeCheck, LuChevronDown, LuCircleAlert, LuCircleCheck, LuSettings } from "react-icons/lu";
+import { LuBadgeCheck, LuChevronDown, LuChevronRight, LuCircleAlert, LuCircleCheck, LuSettings } from "react-icons/lu";
 import CorteMedicamentos from "./components/medicamentos/CorteMedicamentos";
 import ModalCrearCorte from "./components/cortes/ModalCrearCorte";
 import ModalSeleccionarCorte from "./components/cortes/ModalSeleccionarCorte";
@@ -39,30 +39,25 @@ const InventarioPagina = () => {
 
     return (
         <Layout>
-            <Card>
+            <div className='py-2'>
                 {/* Header */}
-                <div className="flex items-center justify-between gap-2 mb-4">
+                <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                         <div className="flex">
-                            <CardTitulo>Inventarios / 
+                            <CardTitulo className={`flex items-center`}>Inventarios <LuChevronRight /> 
                                 {corteSeleccionado?.mes && (
                                     <span 
                                         className="text-blue-600 cursor-pointer ml-1"
-                                        onClick={() => {setModalActivo("seleccionar-corte")}}
+                                        // onClick={() => {setModalActivo("seleccionar-corte")}}
                                     >{formatDateCorte(corteSeleccionado?.mes)}</span>
                                 )}
+                                {/* Badge activo */}
+                                <span className="flex ml-1 items-center gap-1 rounded-full bg-green-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-green-600 dark:bg-green-500/15 dark:text-green-500">
+                                    <LuCircleCheck /> Corte activo
+                                </span>
+                           
                             </CardTitulo>
-                            {/* <span className="ml-2 text-gray-500 font-semibold text-md"></span> */}
                         </div>
-                        
-                        {/* Badge activo */}
-                        <span className="flex items-center gap-1 rounded-full bg-green-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-green-600 dark:bg-green-500/15 dark:text-green-500">
-                            <LuCircleCheck /> Corte activo
-                        </span>
-                        {/* Badge cerrado */}
-                        <span className="flex items-center hidden gap-1 rounded-full bg-red-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-red-600 dark:bg-red-500/15 dark:text-red-500">
-                            Corte cerrado
-                        </span>
                     </div>
                     <div className="flex items-center gap-2">
                         <Button
@@ -74,7 +69,7 @@ const InventarioPagina = () => {
 
                         {/* Seleccionar tipo */}
                         <div className="relative">
-                            <select name="" id="" className="select-form">
+                            <select name="" id="" className="select-form bg-white">
                                 <option value="">Medicamentos</option>
                                 <option value="">Dispositivos</option>
                             </select>   
@@ -90,9 +85,10 @@ const InventarioPagina = () => {
                         </Button>
                     </div>
                 </div>
-                {/* Medicamentos */}
-                <CorteMedicamentos corteSeleccionado = {corteSeleccionado} />
-            </Card>
+            </div>
+
+            {/* Medicamentos */}
+            <CorteMedicamentos corteSeleccionado = {corteSeleccionado} />
 
             {modalActivo === "crear" && (
                 <ModalCrearCorte 

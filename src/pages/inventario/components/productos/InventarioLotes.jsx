@@ -5,12 +5,15 @@ import Button from '../../../../shared/components/Button';
 import { LuRefreshCcw, LuSearch } from 'react-icons/lu';
 import { dateColombiaFormat, obtenerEstadoVencimiento } from '../../../../utils/utilities';
 import Pagination from '../../../../shared/components/Pagination';
+import { useNavigate } from 'react-router-dom';
 
 const InventarioLotes = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
+    const navigate = useNavigate();
+
     const [lotes, setLotes] = useState([
         {
             id: 1,
@@ -70,6 +73,10 @@ const InventarioLotes = () => {
         }
     ]);
 
+    const redireccionar = (corteId, loteId) => {
+        navigate(`/inventarios/lote/${corteId}/${loteId}`)
+    }
+
     return (
         <Card>
             {/* Header */}
@@ -126,7 +133,7 @@ const InventarioLotes = () => {
                             </tr>
                         </thead>
                         {loading && <SkeletonTable rows={7} columns={5}/>}
-                        <tbody className="text-sm ">
+                        <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
                             {/* Display error */}
                             {!loading && error && (<tr>
                                     <td colSpan="5" className="py-3 px-4">
@@ -153,6 +160,9 @@ const InventarioLotes = () => {
                                         <tr 
                                             key={lote.id} 
                                             className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
+                                            onClick={() => {
+                                                redireccionar(lote.id, lote.id)
+                                            }}
                                         >
                                             <td className="py-3 px-4 ">
                                                 <div className="items-center flex gap-3 rounded-full">
