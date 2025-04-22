@@ -21,7 +21,7 @@ import DispositivoPagina from "./pages/dispositivos/DispositivoPagina";
 import PerfilEditarPagina from "./pages/perfil/PerfilEditarPagina";
 import PerfilPagina from "./pages/perfil/PerfilPagina";
 import VerificarEmailPage from "./pages/auth/VerificarEmailPage";
-import InventarioPagina from "./pages/inventario/inventarioPagina";
+import InventariosPagina from "./pages/inventario/InventariosPagina";
 import InventarioProductoPagina from "./pages/inventario/InventarioProductoPagina";
 import InventarioLotesPagina from "./pages/inventario/InventarioLotesPagina";
 
@@ -74,7 +74,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/inventarios" replace />} />
-        <Route path="/inventarios" element={<PrivateRoute Component={InventarioPagina} />} />
+        <Route path="/inventarios/:corteId?" element={<PrivateRoute Component={InventariosPagina} />} />
         <Route path="/inventarios/:corteId/:productoId" element={<PrivateRoute Component={InventarioProductoPagina} />} />
         <Route path="/inventarios/lote/:corteId/:productoId" element={<PrivateRoute Component={InventarioLotesPagina} />} />
         <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />

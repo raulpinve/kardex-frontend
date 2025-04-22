@@ -4,7 +4,6 @@ import CardTitulo from '../../../../shared/components/CardTitulo';
 import Pagination from '../../../../shared/components/Pagination';
 import Button from '../../../../shared/components/Button';
 import { LuCircleAlert, LuCircleCheck, LuRefreshCcw, LuSearch } from 'react-icons/lu';
-import { obtenerCorteActivoMedicamentos } from '../../services/CorteMedicamentoServices';
 import { useSelector } from 'react-redux';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { Tooltip } from 'react-tooltip';
@@ -240,7 +239,7 @@ const CorteMedicamentos = ({corteSeleccionado}) => {
                             </tr>
                         </thead>
                         {loading && (
-                            <SkeletonTable rows={7} columns={8}/>
+                            <SkeletonTable  rows={7} columns={8}/>
                         )}
                         <tbody className='divide-y divide-gray-100  text-sm dark:divide-gray-800'>
                             {!loading && !error && medicamentos.length === 0 && (
@@ -251,57 +250,57 @@ const CorteMedicamentos = ({corteSeleccionado}) => {
                                 </tr>
                             )}
                             {!loading && !error && medicamentos.length > 0 && (
-                            <>
-                                {medicamentos.map(medicamento => {
-                                    return <tr 
-                                        key={medicamento.id}
-                                        onClick={() => redireccionarProductoCorte(medicamento.id, corteSeleccionado.id)}
-                                        className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                                    >
-                                        <td className="px-4 py-3">
-                                            <img 
-                                                src={`https://picsum.photos/100?${Math.random()}`}
-                                                onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    // e.target.src = imageDefault; 
-                                                }}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    // setModalActivo("imagen-perfil");
-                                                    // setMedicamentoSeleccionado(medicamento);
-                                                }}
-                                                alt="Perfil" 
-                                                className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
-                                            />
-                                        </td>
-                                        <td className="py-3 pl-1 pr-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {medicamento.nombre}</p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {medicamento.stockInicial} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {medicamento.ingresos} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {medicamento.salidas} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {medicamento.stockFinal} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {medicamento.stockRequerido} </p>
-                                        </td>
-                                        <td className="py-3 px-4 text-xs flex">
-                                            <StockStatus stockRequerido={medicamento.stockRequerido} stockFinal={medicamento.stockFinal} />
-                                        </td>
-                                    </tr>
-                                })}
-                            </>
+                                <>
+                                    {medicamentos.map(medicamento => {
+                                        return <tr 
+                                            key={medicamento.id}
+                                            onClick={() => redireccionarProductoCorte(medicamento.id, corteSeleccionado.id)}
+                                            className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                        >
+                                            <td className="px-4 py-3">
+                                                <img 
+                                                    src={`https://picsum.photos/100?${Math.random()}`}
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        // e.target.src = imageDefault; 
+                                                    }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        // setModalActivo("imagen-perfil");
+                                                        // setMedicamentoSeleccionado(medicamento);
+                                                    }}
+                                                    alt="Perfil" 
+                                                    className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
+                                                />
+                                            </td>
+                                            <td className="py-3 pl-1 pr-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.nombre}</p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.stockInicial} </p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.ingresos} </p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.salidas} </p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.stockFinal} </p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {medicamento.stockRequerido} </p>
+                                            </td>
+                                            <td className="py-3 px-4 text-xs flex">
+                                                <StockStatus stockRequerido={medicamento.stockRequerido} stockFinal={medicamento.stockFinal} />
+                                            </td>
+                                        </tr>
+                                    })}
+                                </>
                             )}
-                            <Tooltip id="guardar" place="top" effect="solid" className="z-50 max-w-[250px]" />
                         </tbody>
                     </table>
+                    <Tooltip id="guardar" place="top" effect="solid" className="z-50 max-w-[250px]" />
                 </div>
                 <Pagination
                     paginaActual={paginaActual}

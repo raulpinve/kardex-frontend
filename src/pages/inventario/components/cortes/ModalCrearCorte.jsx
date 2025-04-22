@@ -2,37 +2,35 @@ import React, { useEffect, useState } from "react";
 import Modal from "../../../../shared/components/Modal";
 import Button from "../../../../shared/components/Button";
 import MessageError from "../../../../shared/components/MessageError";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import { toast } from "sonner";
 import "react-datepicker/dist/react-datepicker.css";
-// import { crearAlmacen } from "../../services/almacenService";
+import { crearCorte } from "../../services/cortesServices";
 
 const ModalCrearCorte = (props) => {
     const { cerrarModal, setCortes } = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const {register, control, handleSubmit, setError, formState: { errors }, setValue} = useForm({  mode: "onChange" })
+    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({  mode: "onChange" });
+    const almacenId = useSelector(state => state.almacen.almacen?.id);
 
     const onSubmit = async(values) => {
         setMessageError(false)
         setLoading(true)
         try {
-            // const result = await crearAlmacen(token, values)
-            // const data = result?.data
-            // if(data){
-                const numero = Math.floor(Math.random() * 1000000) + 1;
-                const data = {
-                   id: numero,
-                    ...values,
-                }
+            const result = await crearCorte(token, {
+                ...values,
+                almacenId
+            })
+            const data = result?.data
+            if(data){
                 setCortes(prevCortes => [data, ...prevCortes]);
                 cerrarModal()
-                setValue("nombre", "")
-            // } 
+                setValue("mes", "")
+            } 
             toast.success('Corte creado exitosamente.');
         } catch (error) {
             handleErrors(error, setError, setMessageError);
@@ -40,7 +38,6 @@ const ModalCrearCorte = (props) => {
             setLoading(false)
         }
     }
-
     useEffect(() => {
         setValue("mes", "2024-01")
     }, [])
@@ -72,6 +69,10 @@ const ModalCrearCorte = (props) => {
                         {errors?.mes?.message && (<p className="input-message-error">{errors.mes.message}</p>)} 
                     </div>
                 </div>
+
+                {errors?.almacenId && <MessageError>
+                    {errors?.almacenId.message}
+                </MessageError>}
 
                 {messageError && 
                     <MessageError>
