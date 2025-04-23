@@ -24,7 +24,7 @@ const crearCorte = (token, data) => {
 }
 
 const obtenerCorte = (token, corteId) => {
-    const request = apiClient(token).get(`/cortes/${corteId}/medicamentos`);
+    const request = apiClient(token).get(`/cortes/${corteId}`);
     return request
         .then(response => response.data)
         .catch(err => {

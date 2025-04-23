@@ -2,18 +2,19 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../shared/components/Layout";
 import CardTitulo from "../../shared/components/CardTitulo";
 import Button from "../../shared/components/Button";
-import { LuChevronDown, LuChevronRight, LuCircleAlert, LuCircleCheck, LuSettings } from "react-icons/lu";
-import CorteMedicamentos from "./components/medicamentos/CorteMedicamentos";
+import { LuChevronRight, LuSettings } from "react-icons/lu";
 import ModalCrearCorte from "./components/cortes/ModalCrearCorte";
 import ModalSeleccionarCorte from "./components/cortes/ModalSeleccionarCorte";
 import { formatDateCorte } from "../../utils/utilities";
 import { obtenerCorte, obtenerCortes } from "./services/cortesServices";
 import { useSelector } from "react-redux";
-import Badge from "../../shared/components/Badge";
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../shared/components/Spinner";
+import Badge from "../../shared/components/Badge";
+import Productos from "./components/productos/Productos";
 
 const InventariosPagina = () => {
+    const navigate = useNavigate();
     const almacenId = useSelector(state => state.almacen.almacen?.id);
     const token = useSelector(state => state.auth.token);
     const [ corteSeleccionado, setCorteSeleccionado ] = useState(null);
@@ -22,7 +23,6 @@ const InventariosPagina = () => {
     const [ cortes, setCortes ] = useState([]);
     const [ loading, setLoading ] = useState(true);
     const { corteId } = useParams();
-    const navigate = useNavigate();
 
     useEffect(() => {
         const cargarCorte = async () => {
@@ -50,13 +50,13 @@ const InventariosPagina = () => {
                 setLoading(false);
             }
         };
-      
+        
         // 👉 Aquí va la verificación antes de llamar a cargarCorte
         if (!corteId && !almacenId) return;
-    
         cargarCorte();
+
     }, [corteId, almacenId]);
-      
+
     return (
         <Layout>
             <div className='py-2'>
@@ -88,15 +88,6 @@ const InventariosPagina = () => {
                             className="min-w-[120px]"
                             onClick={() => setModalActivo("crear")}
                         />
-
-                        {/* Seleccionar tipo */}
-                        <div className="relative">
-                            <select name="" id="" className="select-form bg-white">
-                                <option value="">Medicamentos</option>
-                                <option value="">Dispositivos</option>
-                            </select>   
-                            <LuChevronDown className="absolute right-3.5 top-[13px] dark:text-gray-200" />                     
-                        </div>
                         
                         <Button 
                             colorButton={`secondary`}
@@ -118,7 +109,8 @@ const InventariosPagina = () => {
                 <Spinner className={`mt-4`}/>
             )}
             {!loading && !mensajeError && corteSeleccionado && (<div>
-                <CorteMedicamentos corteSeleccionado = {corteSeleccionado} />
+                <Productos corteSeleccionado = {corteSeleccionado} tipo = "medicamentos" />
+                <Productos corteSeleccionado = {corteSeleccionado} tipo = "dispositivos" />
             </div>)}
 
             {modalActivo === "crear" && (

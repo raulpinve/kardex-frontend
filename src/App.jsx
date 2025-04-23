@@ -74,7 +74,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/inventarios" replace />} />
-        <Route path="/inventarios/:corteId?" element={<PrivateRoute Component={InventariosPagina} />} />
+        <Route path="/inventarios/:corteId?/tipo:?" element={<PrivateRoute Component={InventariosPagina} />} />
         <Route path="/inventarios/:corteId/:productoId" element={<PrivateRoute Component={InventarioProductoPagina} />} />
         <Route path="/inventarios/lote/:corteId/:productoId" element={<PrivateRoute Component={InventarioLotesPagina} />} />
         <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />
