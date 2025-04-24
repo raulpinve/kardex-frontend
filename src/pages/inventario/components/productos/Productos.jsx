@@ -176,7 +176,7 @@ const Productos = ({corteSeleccionado, tipo }) => {
                                 {productos.map(producto => {
                                     return <tr 
                                         key={producto.id}
-                                        onClick={() => redireccionarProductoCorte(producto.id, corteSeleccionado.id)}
+                                        onClick={() => redireccionarProductoCorte(corteSeleccionado.id, producto.id)}
                                         className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                                     >
                                         <td className="px-4 py-3">

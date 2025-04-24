@@ -1,6 +1,6 @@
 import { apiClient } from "../../../utils/authUtils";
 
-export const obtenerProductosCorte = (token, corteId, tipo, pagina = 1, consulta) => {
+const obtenerProductosCorte = (token, corteId, tipo, pagina = 1, consulta) => {
     const request = apiClient(token).get(`/cortes/${corteId}/${tipo}`, {
         params: {
             pagina,
@@ -12,4 +12,17 @@ export const obtenerProductosCorte = (token, corteId, tipo, pagina = 1, consulta
         .catch(err => {
             throw err
         })
+}
+
+const obtenerProductoCorte = (token, corteId, productoId) => {
+    return apiClient(token).get(`/cortes/${corteId}/${productoId}/producto`)
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+}
+
+export {
+    obtenerProductoCorte, 
+    obtenerProductosCorte
 }

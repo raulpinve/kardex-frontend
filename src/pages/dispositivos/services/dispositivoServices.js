@@ -2,10 +2,10 @@ import { apiClient } from "../../../utils/authUtils";
 
 const obtenerAvatarDispositivo = (token, dispositivoId) => {
     return apiClient(token).get(`/dispositivos/${dispositivoId}/avatar`)
-    .then(response => response.data)
-    .catch(err => {
-        throw err;
-    });
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
 };
 
 const subirAvatar = (token, dispositivoId, archivo) => {
