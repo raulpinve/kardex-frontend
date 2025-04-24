@@ -1,9 +1,39 @@
-import React from 'react';
-import { LuListStart, LuPackageCheck, LuPackageOpen, LuPackagePlus } from 'react-icons/lu';
+import React from "react";
+import { LuListStart, LuPackageCheck, LuPackageOpen, LuPackagePlus } from "react-icons/lu";
+import SkeletonElement from "../../../../shared/components/SkeletonElement";
 
-const TarjetasInformacionStock = () => {
+const StockStatus = ({ stockRequerido, stockFinal }) => {
+    const cantidadApedir = stockFinal- stockRequerido;
+  
+    // Función que genera el estilo y el mensaje según el estado
+    const renderStockStatus = () => {
+        if (cantidadApedir < 0) {
+            return {
+                text: `${cantidadApedir} unidades`,
+                bgColor: "bg-red-200 dark:bg-gray-900",
+                textColor: "text-red-600",
+            };
+        }
+    
+        return {
+            text: `${cantidadApedir === 0 ? "Perfecto" : `+ ${cantidadApedir} unidades`}`,
+            bgColor: "bg-green-200 dark:bg-gray-900",
+            textColor: "text-green-800",
+        };
+    }
+  
+    const { text, bgColor, textColor } = renderStockStatus();
+  
     return (
-        <div className='grid grid-cols-2 gap-4'>
+        <span className={`absolute right-0 bottom-0 gap-1 rounded-full py-0.5 pl-2 pr-2.5 text-sm font-medium ${bgColor} ${textColor}`}>
+            {text}
+        </span>
+    );
+};
+
+const TarjetasInformacionStock = ({ producto, loading, error }) => {
+    return (
+        <div className="grid grid-cols-2 gap-4">
             {/* Stock requerido */}
             <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
@@ -13,7 +43,11 @@ const TarjetasInformacionStock = () => {
                     <div>
                         <span className="text-sm text-gray-500 dark:text-gray-400">Stock requerido</span>
                         <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
-                            3,782
+                            {loading ? (
+                                <SkeletonElement className="mt-2"/>
+                            ): (
+                                <span>{producto?.stockRequerido}</span>
+                            )}
                         </h4>
                     </div>
                 </div>
@@ -28,7 +62,11 @@ const TarjetasInformacionStock = () => {
                     <div>
                         <span className="text-sm text-gray-500 dark:text-gray-400">Stock inicial</span>
                         <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
-                            3,782
+                            {loading ? (
+                                <SkeletonElement className="mt-2"/>
+                            ): (
+                                <span>{producto?.stockInicial}</span>
+                            )}
                         </h4>
                     </div>
                 </div>
@@ -43,7 +81,11 @@ const TarjetasInformacionStock = () => {
                     <div>
                         <span className="text-sm text-gray-500 dark:text-gray-400">Stock disponible</span>
                         <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
-                            3,782
+                            {loading ? (
+                                <SkeletonElement className="mt-2"/>
+                            ): (
+                                <span>{producto?.stockFinal}</span>
+                            )}
                         </h4>
                     </div>
                 </div>
@@ -58,12 +100,16 @@ const TarjetasInformacionStock = () => {
                     <div>
                         <span className="text-sm text-gray-500 dark:text-gray-400">Cantidad a pedir </span>
                         <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
-                            3,782
+                            {loading ? (
+                                <SkeletonElement className="mt-2"/>
+                            ): (
+                                <span>{Math.abs((producto?.stockRequerido ?? 0) - (producto?.stockFinal ?? 0))}</span>
+                            )}
                         </h4>
                     </div>
-                    <span className="absolute right-2 bottom-2 gap-1 rounded-full bg-green-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-green-600 dark:bg-green-500/15 dark:text-green-500">
-                        + 40 unidades
-                    </span>
+                    {!loading &&(
+                        <StockStatus stockRequerido={producto?.stockRequerido} stockFinal={producto?.stockFinal}/>
+                    )}
                 </div>
             </div>
         </div>

@@ -51,7 +51,7 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
         {icon}
       </span>
     );
-  };
+};
 
 const Productos = ({corteSeleccionado, tipo }) => {
     const [paginaActual, setPaginaActual] = useState(1);

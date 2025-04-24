@@ -85,7 +85,11 @@ const InventarioProductoPagina = () => {
                     error = {error}    
                 />
                 <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-8 grid gap-6">
-                    <TarjetasInformacionStock /> 
+                    <TarjetasInformacionStock
+                        producto = {producto}
+                        loading = {loading}
+                        error = {error}
+                    /> 
                 </div>
             </div>
             <div className='grid gap-6 mt-6'>

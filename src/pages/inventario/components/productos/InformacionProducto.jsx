@@ -4,6 +4,7 @@ import CardTitulo from '../../../../shared/components/CardTitulo';
 import MessageError from '../../../../shared/components/MessageError';
 import { host } from '../../../../utils/config';
 import imageDefault from "../../../../assets/image-default.png";
+import SkeletonElement from '../../../../shared/components/SkeletonElement';
 
 const InformacionProducto = (props) => {
     const {producto, loading, error} = props;
@@ -12,11 +13,15 @@ const InformacionProducto = (props) => {
         <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 `}>
             {/* Loading */}
             {loading && (<div>
-                <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded h-[25px] mb-3"></div>
-                <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded-lg w-44 h-32 mx-auto my-5"></div>
+                <div className='flex items-center mt-2 justify-between'>
+                    <SkeletonElement className="w-full max-w-[180px]"/>
+                    <SkeletonElement className="w-[40px] h-[40px] rounded-full" />
+                </div>
+                <div className='mt-5'>
                     {   
-                        [...Array(5)].map((_,index) => <div key={index} className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded h-[25px] mb-3"></div>)
+                        [...Array(5)].map(() => <SkeletonElement className="mb-2 h-[45px]"/>)
                     }
+                </div>
             </div>)}
             {!loading && error && <MessageError>{error}</MessageError>}
             {!loading && producto && ( <>
