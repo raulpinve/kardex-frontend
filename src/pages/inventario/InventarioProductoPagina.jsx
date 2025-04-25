@@ -90,7 +90,7 @@ const InventarioProductoPagina = () => {
                     </div>
                 )}
             </div>
-            <div className="grid w-full md:grid-cols-12 gap-6  mt-4">
+            <div className="grid w-full md:grid-cols-12 gap-6 mt-4 hiden">
                 <InformacionProducto 
                     producto= {producto} 
                     loading = {loading}
@@ -104,9 +104,9 @@ const InventarioProductoPagina = () => {
                     /> 
                 </div>
             </div>
-            {!errorStock && (
+            {!errorStock && corteSeleccionado && producto && (
                 <div className='grid gap-6 mt-6'>
-                    <InventarioLotes />
+                    <InventarioLotes corteSeleccionado={corteSeleccionado} producto = {producto} />
                     <InventarioMovimientos />
                 </div>
             )}

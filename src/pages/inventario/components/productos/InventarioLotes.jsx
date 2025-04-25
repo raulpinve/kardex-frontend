@@ -1,77 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import Button from '../../../../shared/components/Button';
 import { LuRefreshCcw, LuSearch } from 'react-icons/lu';
-import { dateColombiaFormat, obtenerEstadoVencimiento } from '../../../../utils/utilities';
 import Pagination from '../../../../shared/components/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { obtenerCorteLotes } from '../../services/cortesServices';
+import { useSelector } from 'react-redux';
+import SkeletonTable from '../../../../shared/components/SkeletonTable';
+import useDebounce from '../../../../shared/hooks/useDebounce';
 
-const InventarioLotes = () => {
+const InventarioLotes = ({corteSeleccionado, producto}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
+    const [refresh, setRefresh] = useState(1);
+    const [consulta, setConsulta] = useState("");
+    const [lotes, setLotes] = useState([]);
+    const token = useSelector(state => state.auth.token);
     const navigate = useNavigate();
+    const debouncedConsulta = useDebounce(consulta, 500);
 
-    const [lotes, setLotes] = useState([
-        {
-            id: 1,
-            numeroLote: "23045299", 
-            registroSanitario: "2018M-0012719-R1",
-            fechaVencimiento: "2024-01-12",
-            stockInicial: 25,
-            stockDisponible: 30
-        },
-        {
-            id: 2,
-            numeroLote: "23045300", 
-            registroSanitario: "2019M-0048910-R2",
-            fechaVencimiento: "2025-06-30",
-            stockInicial: 50,
-            stockDisponible: 45
-        },
-        {
-            id: 3,
-            numeroLote: "23045301", 
-            registroSanitario: "2020M-0076123-R3",
-            fechaVencimiento: "2026-03-15",
-            stockInicial: 100,
-            stockDisponible: 98
-        },
-        {
-            id: 4,
-            numeroLote: "23045302", 
-            registroSanitario: "2021M-0023411-R4",
-            fechaVencimiento: "2025-11-20",
-            stockInicial: 60,
-            stockDisponible: 60
-        },
-        {
-            id: 5,
-            numeroLote: "23045303", 
-            registroSanitario: "2022M-0098765-R5",
-            fechaVencimiento: "2027-08-05",
-            stockInicial: 30,
-            stockDisponible: 25
-        },
-        {
-            id: 6,
-            numeroLote: "23045304", 
-            registroSanitario: "2023M-0054321-R6",
-            fechaVencimiento: "2026-12-10",
-            stockInicial: 80,
-            stockDisponible: 79
-        },
-        {
-            id: 7,
-            numeroLote: "23045305", 
-            registroSanitario: "2024M-0011223-R7",
-            fechaVencimiento: "2028-04-01",
-            stockInicial: 40,
-            stockDisponible: 35
+    // Obtener la información del corte lote
+    useEffect(() => {
+        const fetchCorteLote = async() => {
+            setLoading(true);
+            try {
+                const respuesta = await obtenerCorteLotes(token, corteSeleccionado.id, producto.id, paginaActual, consulta);
+                if(respuesta.data){
+                    setLotes(respuesta.data);
+                    setPaginaActual(respuesta.paginacion.paginaActual);
+                    setTotalPaginas(respuesta.paginacion.totalPaginas);
+                }
+            } catch (error) {
+                setError(error?.response?.data?.message || "Ha ocurrido un error interno. Por favor, inténtalo nuevamente.")              
+            } finally {
+                setLoading(false);
+            }
         }
-    ]);
+        if(corteSeleccionado.id && producto.id){
+            fetchCorteLote();
+        }
+    }, [corteSeleccionado.id, producto.id, token, refresh, debouncedConsulta])
 
     const redireccionar = (corteId, loteId) => {
         navigate(`/inventarios/lote/${corteId}/${loteId}`)
@@ -89,9 +60,9 @@ const InventarioLotes = () => {
                             type="text" 
                             placeholder="Buscar lote..." 
                             className="input-form pl-10 dark:bg-gray-900"
-                            // value={consulta}
+                            value={consulta}
                             onChange={(e) => {
-                                // setConsulta(e.currentTarget.value);
+                                setConsulta(e.currentTarget.value);
                             }}
                         />
                     </div>
@@ -99,8 +70,8 @@ const InventarioLotes = () => {
                         type="button"
                         colorButton="secondary"
                         onClick={() => {
-                            // setPaginaActual(1)
-                            // setRefresh((prev) => prev + 1)
+                            setPaginaActual(1)
+                            setRefresh((prev) => prev + 1)
                         }}
                     >
                         <LuRefreshCcw />
@@ -114,21 +85,20 @@ const InventarioLotes = () => {
                             <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
                                 <th className="py-3 px-4">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">Número de lote</p>
-                                </th>
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Registro sanitario</p>
-                                </th>
-                                <th className="py-3 px-4 min-w-[120px]">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Fecha de vencimiento</p>
-                                </th>
-                                <th className="py-3 px-4 min-w-[120px]">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Estado</p>
-                                </th>
+                                </th>                            
                                 <th className="py-3 px-4">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">Stock inicial</p>
                                 </th>
                                 <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Stock disponible</p>
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Ingresos</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Salidas</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">
+                                        {corteSeleccionado.cerrado ? "Stock final": "Stock final"}
+                                    </p>
                                 </th>
                             </tr>
                         </thead>
@@ -154,48 +124,40 @@ const InventarioLotes = () => {
                             {!loading && !error && lotes.length > 0 && (
                                 <>
                                     {lotes.map((lote) => {
-                                    const { estado, color } = obtenerEstadoVencimiento(lote.fechaVencimiento);
-
-                                    return (
-                                        <tr 
-                                            key={lote.id} 
-                                            className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
-                                            onClick={() => {
-                                                redireccionar(lote.id, lote.id)
-                                            }}
-                                        >
-                                            <td className="py-3 px-4 ">
-                                                <div className="items-center flex gap-3 rounded-full">
-                                                    <p className="text-gray-700 dark:text-gray-400 text-sm">{lote.numeroLote}</p>
-                                                </div>
-                                            </td>
-                                            <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400">{lote.registroSanitario}</p>
-                                            </td>
-                                            <td className="py-3 px-4 lg:gap-2 items-center">
-                                                <p className="text-gray-700 dark:text-gray-400">{dateColombiaFormat(lote.fechaVencimiento)}</p>
-                                            </td>
-                                            <td className="py-3 px-4 items-center">
-                                                <p className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${color}`}>
-                                                    {estado}
-                                                </p>
-                                            </td>
-                                            <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400">{lote.stockInicial}</p>
-                                            </td>
-                                            <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400">{lote.stockDisponible}</p>
-                                            </td>
-                                        </tr>
-                                    );
+                                        return (
+                                            <tr 
+                                                key={lote.id} 
+                                                className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
+                                                onClick={() => {
+                                                    redireccionar(lote.id, lote.id)
+                                                }}
+                                            >
+                                                <td className="py-3 px-4 ">
+                                                    <div className="items-center flex gap-3 rounded-full">
+                                                        <p className="text-gray-700 dark:text-gray-400 text-sm">{lote.numeroLote}</p>
+                                                    </div>
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <p className="text-gray-700 dark:text-gray-400">{lote.stockInicial}</p>
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <p className="text-gray-700 dark:text-gray-400">{lote.ingresos}</p>
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <p className="text-gray-700 dark:text-gray-400">{lote.salidas}</p>
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <p className="text-gray-700 dark:text-gray-400">{lote.stockFinal}</p>
+                                                </td>
+                                            </tr>
+                                        );
                                     })}
                                 </>
-                                )}
+                            )}
                         </tbody>
                     </table>
                 </div>
             </div>
-            
             <Pagination
                 paginaActual={paginaActual}
                 totalPaginas={totalPaginas}

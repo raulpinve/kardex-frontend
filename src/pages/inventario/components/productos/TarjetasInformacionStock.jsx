@@ -34,13 +34,13 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
 const TarjetasInformacionStock = ({ stock, loading, error }) => {
     return (
         <>
-            {error ? (<div className="">
+            {error ? (<div>
                 <p className="text-center text-gray-700 dark:text-gray-200">{error}</p>
             </div>):(
                 <div className="grid grid-cols-2 gap-4">
                     {/* Stock requerido */}
                     <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:text-gray-200 text-xl">
                             <LuPackageCheck />
                         </div>
                         <div className="mt-5 flex items-end justify-between">
@@ -59,7 +59,7 @@ const TarjetasInformacionStock = ({ stock, loading, error }) => {
 
                     {/* Stock inicial */}
                     <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:text-gray-200 text-xl">
                             <LuListStart />
                         </div>
                         <div className="mt-5 flex items-end justify-between">
@@ -78,7 +78,7 @@ const TarjetasInformacionStock = ({ stock, loading, error }) => {
 
                     {/* Stock disponible */}
                     <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:text-gray-200 text-xl">
                             <LuPackageOpen />
                         </div>
                         <div className="mt-5 flex items-end justify-between">
@@ -97,7 +97,7 @@ const TarjetasInformacionStock = ({ stock, loading, error }) => {
 
                     {/* Cantidad a pedir  */}
                     <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:text-gray-200 text-xl">
                             <LuPackagePlus />
                         </div>
                         <div className="mt-5 flex items-end justify-between relative">

@@ -32,8 +32,31 @@ const obtenerCorte = (token, corteId) => {
         })
 }
 
+const obtenerCorteLote = (token, loteId, productoId) => {
+    return apiClient(token).get(`/cortes/${loteId}/${productoId}/producto`)
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+}
+
+const obtenerCorteLotes = (token, corteId, productoId, pagina, consulta) => {
+    return apiClient(token).get(`/cortes/${corteId}/${productoId}/lotes`, {
+        params: {
+            pagina,
+            ...(consulta && { consulta })
+        }
+    })
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+}
+
 export {
     obtenerCortes,
     crearCorte,
-    obtenerCorte
+    obtenerCorte,
+    obtenerCorteLote,
+    obtenerCorteLotes
 }
