@@ -22,7 +22,16 @@ const obtenerProductoCorte = (token, corteId, productoId) => {
         });
 }
 
+const obtenerProducto = (token, productoId) => {
+    return apiClient(token).get(`/productos/${productoId}`)
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+}
+
 export {
     obtenerProductoCorte, 
-    obtenerProductosCorte
+    obtenerProductosCorte,
+    obtenerProducto
 }

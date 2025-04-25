@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../shared/components/Layout";
-import CardTitulo from "../../shared/components/CardTitulo";
 import Button from "../../shared/components/Button";
-import { LuChevronRight, LuSettings } from "react-icons/lu";
+import { LuSettings } from "react-icons/lu";
 import ModalCrearCorte from "./components/cortes/ModalCrearCorte";
-import ModalSeleccionarCorte from "./components/cortes/ModalSeleccionarCorte";
-import { formatDateCorte } from "../../utils/utilities";
 import { obtenerCorte, obtenerCortes } from "./services/cortesServices";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../shared/components/Spinner";
-import Badge from "../../shared/components/Badge";
 import Productos from "./components/productos/Productos";
+import SeleccionarCorte from "./components/cortes/SeleccionarCorte";
 
 const InventariosPagina = () => {
     const navigate = useNavigate();
@@ -63,23 +60,7 @@ const InventariosPagina = () => {
                 {/* Header */}
                 <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                        <div className="flex">
-                            <CardTitulo className={`flex items-center`}>Inventarios 
-                                {corteSeleccionado?.mes && (<>
-                                    <LuChevronRight /> 
-                                    <span 
-                                        className="text-blue-600 cursor-pointer ml-1"
-                                        onClick={() => {setModalActivo("seleccionar-corte")}}
-                                    >
-                                        {formatDateCorte(corteSeleccionado?.mes)}
-                                    </span>
-                                    {corteSeleccionado?.cerrado ? 
-                                        <Badge tipo="danger"> Cerrado</Badge>:
-                                        <Badge> Activo </Badge>                                    
-                                    }
-                                </>)}
-                            </CardTitulo>
-                        </div>
+                        <SeleccionarCorte corteSeleccionado={corteSeleccionado} />
                     </div>
                     <div className="flex items-center gap-2">
                         <Button
@@ -117,16 +98,6 @@ const InventariosPagina = () => {
                 <ModalCrearCorte 
                     cerrarModal={() => setModalActivo(null)} 
                     corteSeleccionado = {corteSeleccionado}
-                    setCortes = {setCortes}
-                />
-            )}
-
-            {modalActivo === "seleccionar-corte" && (
-                <ModalSeleccionarCorte 
-                    cerrarModal={() => setModalActivo(null)} 
-                    corteSeleccionado = {corteSeleccionado}
-                    setCorteSeleccionado = {setCorteSeleccionado}
-                    cortes = {cortes}
                     setCortes = {setCortes}
                 />
             )}

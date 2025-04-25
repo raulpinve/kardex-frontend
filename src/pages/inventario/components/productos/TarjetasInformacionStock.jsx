@@ -31,88 +31,94 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
     );
 };
 
-const TarjetasInformacionStock = ({ producto, loading, error }) => {
+const TarjetasInformacionStock = ({ stock, loading, error }) => {
     return (
-        <div className="grid grid-cols-2 gap-4">
-            {/* Stock requerido */}
-            <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
-                    <LuPackageCheck />
-                </div>
-                <div className="mt-5 flex items-end justify-between">
-                    <div>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">Stock requerido</span>
-                        <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
-                            {loading ? (
-                                <SkeletonElement className="mt-2"/>
-                            ): (
-                                <span>{producto?.stockRequerido}</span>
-                            )}
-                        </h4>
+        <>
+            {error ? (<div className="">
+                <p className="text-center text-gray-700 dark:text-gray-200">{error}</p>
+            </div>):(
+                <div className="grid grid-cols-2 gap-4">
+                    {/* Stock requerido */}
+                    <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
+                            <LuPackageCheck />
+                        </div>
+                        <div className="mt-5 flex items-end justify-between">
+                            <div>
+                                <span className="text-sm text-gray-500 dark:text-gray-400">Stock requerido</span>
+                                <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
+                                    {loading ? (
+                                        <SkeletonElement className="mt-2"/>
+                                    ): (
+                                        <span>{stock?.stockRequerido}</span>
+                                    )}
+                                </h4>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            {/* Stock inicial */}
-            <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
-                    <LuListStart />
-                </div>
-                <div className="mt-5 flex items-end justify-between">
-                    <div>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">Stock inicial</span>
-                        <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
-                            {loading ? (
-                                <SkeletonElement className="mt-2"/>
-                            ): (
-                                <span>{producto?.stockInicial}</span>
-                            )}
-                        </h4>
+                    {/* Stock inicial */}
+                    <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
+                            <LuListStart />
+                        </div>
+                        <div className="mt-5 flex items-end justify-between">
+                            <div>
+                                <span className="text-sm text-gray-500 dark:text-gray-400">Stock inicial</span>
+                                <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
+                                    {loading ? (
+                                        <SkeletonElement className="mt-2"/>
+                                    ): (
+                                        <span>{stock?.stockInicial}</span>
+                                    )}
+                                </h4>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            {/* Stock disponible */}
-            <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
-                    <LuPackageOpen />
-                </div>
-                <div className="mt-5 flex items-end justify-between">
-                    <div>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">Stock disponible</span>
-                        <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
-                            {loading ? (
-                                <SkeletonElement className="mt-2"/>
-                            ): (
-                                <span>{producto?.stockFinal}</span>
-                            )}
-                        </h4>
+                    {/* Stock disponible */}
+                    <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
+                            <LuPackageOpen />
+                        </div>
+                        <div className="mt-5 flex items-end justify-between">
+                            <div>
+                                <span className="text-sm text-gray-500 dark:text-gray-400">Stock disponible</span>
+                                <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
+                                    {loading ? (
+                                        <SkeletonElement className="mt-2"/>
+                                    ): (
+                                        <span>{stock?.stockFinal}</span>
+                                    )}
+                                </h4>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            {/* Cantidad a pedir  */}
-            <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
-                    <LuPackagePlus />
-                </div>
-                <div className="mt-5 flex items-end justify-between relative">
-                    <div>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">Cantidad a pedir </span>
-                        <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
-                            {loading ? (
-                                <SkeletonElement className="mt-2"/>
-                            ): (
-                                <span>{Math.abs((producto?.stockRequerido ?? 0) - (producto?.stockFinal ?? 0))}</span>
+                    {/* Cantidad a pedir  */}
+                    <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 text-xl">
+                            <LuPackagePlus />
+                        </div>
+                        <div className="mt-5 flex items-end justify-between relative">
+                            <div>
+                                <span className="text-sm text-gray-500 dark:text-gray-400">Cantidad a pedir </span>
+                                <h4 className="mt-2 text-3xl font-bold text-gray-800 dark:text-white/90">
+                                    {loading ? (
+                                        <SkeletonElement className="mt-2"/>
+                                    ): (
+                                        <span>{Math.abs((stock?.stockRequerido ?? 0) - (stock?.stockFinal ?? 0))}</span>
+                                    )}
+                                </h4>
+                            </div>
+                            {!loading &&(
+                                <StockStatus stockRequerido={stock?.stockRequerido} stockFinal={stock?.stockFinal}/>
                             )}
-                        </h4>
+                        </div>
                     </div>
-                    {!loading &&(
-                        <StockStatus stockRequerido={producto?.stockRequerido} stockFinal={producto?.stockFinal}/>
-                    )}
                 </div>
-            </div>
-        </div>
+            )}
+        </>
     );
 };
 

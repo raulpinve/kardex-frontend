@@ -10,11 +10,11 @@ import { useNavigate } from "react-router-dom";
 // import { crearAlmacen } from "../../services/almacenService";
 
 const ModalSeleccionarCorte = (props) => {
-    const {cerrarModal, corteSeleccionado, setCorteSeleccionado} = props;
+    const {cerrarModal, corteSeleccionado, producto, lote} = props;
     const [mensajeError, setMensajeError] = useState();
     const [cortes, setCortes] = useState();
     const [loading, setLoading] = useState(false);
-    const nagivate = useNavigate();
+    const navigate = useNavigate();
     const token = useSelector(state => state.auth.token);
     const almacenId = useSelector(state => state.almacen.almacen?.id);
 
@@ -29,7 +29,7 @@ const ModalSeleccionarCorte = (props) => {
                 } else {
                     setMensajeError("No hay cortes disponibles para este almacén.");
                 }
-            } catch (error) {
+            } catch {
                 setMensajeError("Ha ocurrido un error al cargar los cortes")                
             } finally {
                 setLoading(true);
@@ -41,9 +41,14 @@ const ModalSeleccionarCorte = (props) => {
     }, [token, almacenId])
 
     const cambiarCorteSeleccionado = (corteId) => {
-        nagivate(`/inventarios/${corteId}`);
+        if(producto){
+            navigate(`/inventarios/${corteId}/${producto.id}`);
+        }else if(lote){
+            navigate(`/inventarios/lote/${corteId}/${lote.id}`);
+        }else{
+            navigate(`/inventarios/${corteId}`);
+        }
     }
-
     return (
         <Modal
             isOpenModal={true}
@@ -63,16 +68,11 @@ const ModalSeleccionarCorte = (props) => {
                         cerrarModal();
                     }}
                 >
-                    {
-                        cortes?.map(corte => {
-                            return <option 
-                                key={corte.id} 
-                                value={corte.id} 
-                            >
-                                {formatDateCorte(corte.mes)}
-                            </option>
-                        })
-                    }
+                    {cortes?.map(corte => {
+                        return <option key={corte.id} value={corte.id}>
+                            {formatDateCorte(corte.mes)}
+                        </option>
+                    })}
                 </select>   
                 <LuChevronDown className="absolute right-3.5 top-[13px] dark:text-gray-200" />                     
             </div>                
