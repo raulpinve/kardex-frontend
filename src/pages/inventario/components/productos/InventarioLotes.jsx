@@ -39,10 +39,10 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
                 setLoading(false);
             }
         }
-        if(corteSeleccionado.id && producto.id){
+        if(corteSeleccionado?.id && producto?.id){
             fetchCorteLote();
         }
-    }, [corteSeleccionado.id, producto.id, token, refresh, debouncedConsulta])
+    }, [corteSeleccionado, producto, token, refresh, debouncedConsulta])
 
     const redireccionar = (corteId, loteId) => {
         navigate(`/inventarios/lote/${corteId}/${loteId}`)
@@ -97,7 +97,7 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
                                 </th>
                                 <th className="py-3 px-4">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">
-                                        {corteSeleccionado.cerrado ? "Stock final": "Stock final"}
+                                        {corteSeleccionado?.cerrado ? "Stock final": "Stock final"}
                                     </p>
                                 </th>
                             </tr>
@@ -129,7 +129,7 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
                                                 key={lote.id} 
                                                 className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
                                                 onClick={() => {
-                                                    redireccionar(lote.id, lote.id)
+                                                    redireccionar(corteSeleccionado.id, lote.id)
                                                 }}
                                             >
                                                 <td className="py-3 px-4 ">

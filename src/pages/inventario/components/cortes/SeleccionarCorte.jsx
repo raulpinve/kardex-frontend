@@ -4,9 +4,11 @@ import { formatDateCorte } from "../../../../utils/utilities";
 import ModalSeleccionarCorte from "./ModalSeleccionarCorte";
 import { LuChevronRight } from "react-icons/lu";
 import Badge from "../../../../shared/components/Badge";
+import { useNavigate } from "react-router-dom";
 
 const SeleccionarCorte = ({corteSeleccionado, producto, lote}) => {
     const [ modalActivo, setModalActivo ] = useState("");
+    const navigate = useNavigate();
     return (
         <div className="flex">
             <CardTitulo className={`flex items-center`}>Inventarios 
@@ -22,9 +24,16 @@ const SeleccionarCorte = ({corteSeleccionado, producto, lote}) => {
                         <Badge tipo="danger"> Cerrado</Badge>:
                         <Badge> Activo </Badge>                                    
                     }
-                    {producto?.nombre && (<>
-                        <LuChevronRight /> 
+                    {producto?.nombre && (<p
+                        className="cursor-pointer"
+                        onClick={() => {navigate(`/inventarios/${corteSeleccionado.id}/${producto.id}`)}}
+                    >
+                        <LuChevronRight className="inline" /> 
                         <span className="ml-1">{producto.nombre}</span>
+                    </p>)}
+                    {lote?.numeroLote && (<>
+                        <LuChevronRight /> 
+                        <span className="ml-1">{lote.numeroLote}</span>
                     </>)}
                 </>)}
             </CardTitulo>

@@ -21,7 +21,7 @@ const InformacionLote = (props) => {
 
     return (
         // <div className="text-sm text-gray-700 dark:text-gray-400 col-span-12 lg:col-span-3">
-            <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-3`}>
+            <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 `}>
                 {/* Loading */}
                 {loading && (<div>
                     <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded h-[25px] mb-3"></div>
@@ -33,20 +33,13 @@ const InformacionLote = (props) => {
                 {!loading && error && <MessageError>{error}</MessageError>}
                 {!loading && producto && ( <>
                     <div className='flex items-center mt-2 justify-between h-[40px]'>
-                        <CardTitulo className="text-center">{producto.nombre}</CardTitulo>
+                        <CardTitulo className="w-full flex justify-between">
+                            <span>Lote</span>
+                            <span>23045299</span>
+                        </CardTitulo>
                     </div>
 
                     <div className='my-5'>
-                        {/* Numero de lote */}
-                        <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
-                            <span className="text-theme-sm">
-                                Número de lote
-                            </span>
-                            <span className="text-right text-theme-sm">
-                                23045299
-                            </span>
-                        </div>
-
                         {/* Registro sanitario */}
                         <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                             <span className="text-theme-sm">

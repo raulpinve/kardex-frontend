@@ -32,8 +32,8 @@ const obtenerCorte = (token, corteId) => {
         })
 }
 
-const obtenerCorteLote = (token, loteId, productoId) => {
-    return apiClient(token).get(`/cortes/${loteId}/${productoId}/producto`)
+const obtenerCorteLote = (token, corteId, loteId) => {
+    return apiClient(token).get(`/cortes/${corteId}/${loteId}/lote`)
         .then(response => response.data)
         .catch(err => {
             throw err;

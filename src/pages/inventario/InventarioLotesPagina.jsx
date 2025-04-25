@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../shared/components/Layout';
 import { formatDateCorte } from '../../utils/utilities';
 import CardTitulo from '../../shared/components/CardTitulo';
@@ -7,92 +7,69 @@ import InformacionLote from './components/lotes/InformacionLote';
 import Card from '../../shared/components/Card';
 import Button from '../../shared/components/Button';
 import Pagination from '../../shared/components/Pagination';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { obtenerCorte, obtenerCorteLote } from './services/cortesServices';
+import SkeletonTable from '../../shared/components/SkeletonTable';
+import SkeletonElement from '../../shared/components/SkeletonElement';
+import SeleccionarCorte from './components/cortes/SeleccionarCorte';
+import { obtenerProducto } from './services/productoServices';
 
-const InventarioLotesPagina = ({corteSeleccionado}) => {
+const InventarioLotesPagina = () => {
+    const {corteId, loteId} = useParams();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
+    const [corteSeleccionado, setCorteSeleccionado] = useState();
+    const [producto, setProducto] = useState();
+    const [lote, setLote] = useState();
+    const [errorLote, setErrorLote] = useState(null);
+    const [movimientos, setMovimientos] = useState([]);
+    const token = useSelector(state => state.auth.token);
 
-    const [movimientos, setMovimientos] = useState([
-        {
-            id: 1,
-            tipo: "entrada",
-            fecha: "12-08-2024",
-            descripcion: "Ingreso de 50 unidades por compra al proveedor FarmaSalud",
-            cantidad: 50,
-            producto: "Paracetamol 500mg",
-            usuario: "Juan Pérez",
-            referencia: "FAC-2024-0089",
-            lote: "L-PA-001"
-        },
-        {
-            id: 2,
-            tipo: "salida",
-            fecha: "14-08-2024",
-            descripcion: "Salida de 20 unidades por entrega a paciente",
-            cantidad: 20,
-            producto: "Paracetamol 500mg",
-            usuario: "Laura Gómez",
-            referencia: "ORD-2024-0342",
-            lote: "L-PA-001"
-        },
-        {
-            id: 3,
-            tipo: "entrada",
-            fecha: "16-08-2024",
-            descripcion: "Ingreso de 100 unidades por donación institucional",
-            cantidad: 100,
-            producto: "Ibuprofeno 400mg",
-            usuario: "Carlos Méndez",
-            referencia: "DON-2024-0011",
-            lote: "L-IB-045"
-        },
-        {
-            id: 4,
-            tipo: "salida",
-            fecha: "17-08-2024",
-            descripcion: "Salida de 30 unidades por vencimiento de lote",
-            cantidad: 30,
-            producto: "Ibuprofeno 400mg",
-            usuario: "Ana Torres",
-            referencia: "AJU-2024-0154",
-            lote: "L-IB-045"
-        },
-        {
-            id: 5,
-            tipo: "entrada",
-            fecha: "18-08-2024",
-            descripcion: "Ingreso de 200 unidades por compra regular",
-            cantidad: 200,
-            producto: "Amoxicilina 500mg",
-            usuario: "Pedro Sánchez",
-            referencia: "FAC-2024-0093",
-            lote: "L-AM-210"
-        },
-        {
-            id: 6,
-            tipo: "salida",
-            fecha: "19-08-2024",
-            descripcion: "Salida de 60 unidades por atención ambulatoria",
-            cantidad: 60,
-            producto: "Amoxicilina 500mg",
-            usuario: "Marta Díaz",
-            referencia: "ORD-2024-0357",
-            lote: "L-AM-210"
-        },
-        {
-            id: 7,
-            tipo: "entrada",
-            fecha: "20-08-2024",
-            descripcion: "Ingreso de 150 unidades por devolución de paciente",
-            cantidad: 150,
-            producto: "Omeprazol 20mg",
-            usuario: "Luis Rodríguez",
-            referencia: "DEV-2024-0044",
-            lote: "L-OM-103"
+    // Obtener información del lote en el corte 
+    useEffect(() => {
+        const fetchCorte = async () => {
+            try {
+                const res = await obtenerCorte(token, corteId);
+                setCorteSeleccionado(res.data);
+            } catch {
+                setError("Error al obtener el corte.");
+            }
+        };
+        
+        const fetchLoteCorte = async () => {
+            try {
+                const res = await obtenerCorteLote(token, corteId, loteId);
+                setProducto(res.data.producto);
+                setLote(res.data);
+            } catch (error) {
+                setErrorLote(error.response.data.message || "Ha ocurrido un error interno al intentar obtener la información del lote en el corte.")
+            }
+        };
+    
+        const fetchAll = async () => {
+            setLoading(true);
+            setError(null);
+    
+            await Promise.all([
+                fetchCorte(),
+                fetchLoteCorte()
+            ]);
+            setLoading(false);
+        };
+
+        if(corteId && loteId){
+            fetchAll();
         }
-    ]);
+
+        return () => {
+            setLoading(false);
+            setError(null);
+            setErrorLote(null);
+        }
+    }, [corteId, loteId, token])
 
     return (
         <Layout>
@@ -100,33 +77,22 @@ const InventarioLotesPagina = ({corteSeleccionado}) => {
                 {/* Header */}
                 <div className="flex items-center justify-between gap-2 h-[46px]">
                     <div className="flex items-center gap-2">
-                        <div className="flex">
-                            <CardTitulo className={`flex items-center`}>Inventarios <LuChevronRight /> 
-                                {corteSeleccionado?.mes && (
-                                    <span 
-                                        className="text-blue-600 cursor-pointer ml-1"
-                                        // onClick={() => {setModalActivo("seleccionar-corte")}}
-                                    >{formatDateCorte(corteSeleccionado?.mes)}</span>
-                                )}
-                                <span className="text-blue-600 cursor-pointer ml-1">junio de 2024</span>
-                                {/* Badge activo */}
-                                <span className="flex ml-1 items-center gap-1 rounded-full bg-green-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-green-600 dark:bg-green-500/15 dark:text-green-500">
-                                    <LuCircleCheck /> Corte activo
-                                </span>
-                                <LuChevronRight /> 
-                                <span className=" ml-1">Adrenalina</span>
-                                <LuChevronRight /> 
-                                <span className=" ml-1">23045299</span>
-                            </CardTitulo>
-                            {/* <span className="ml-2 text-gray-500 font-semibold text-md"></span> */}
-                            
-                        </div>
+                        {/* Header */}
+                        {!error && loading ? (
+                            <SkeletonElement className="h-[30px] mt-3 max-w-[400px]" />
+                        ): (
+                            <div className="flex items-center justify-between gap-2 h-[46px]">
+                                <div className="flex items-center gap-2">
+                                    <SeleccionarCorte corteSeleccionado={corteSeleccionado} producto={producto} lote={lote}/>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
             <div className="grid w-full md:grid-cols-12 gap-6 items-start mt-4">
                 <InformacionLote />
-                <Card className={`col-span-9`}>
+                <Card className={`col-span-12 xl:col-span-8 2xl:col-span-8 `}>
                     {/* Header */}
                     <div className="flex justify-between items-center">
                         <CardTitulo>Movimientos</CardTitulo>

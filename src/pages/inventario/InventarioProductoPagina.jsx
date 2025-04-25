@@ -107,7 +107,7 @@ const InventarioProductoPagina = () => {
             {!errorStock && corteSeleccionado && producto && (
                 <div className='grid gap-6 mt-6'>
                     <InventarioLotes corteSeleccionado={corteSeleccionado} producto = {producto} />
-                    <InventarioMovimientos />
+                    {/* <InventarioMovimientos /> */}
                 </div>
             )}
         </Layout>
