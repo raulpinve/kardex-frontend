@@ -53,10 +53,20 @@ const obtenerCorteLotes = (token, corteId, productoId, pagina, consulta) => {
         });
 }
 
+const obtenerCorteMovimientosLote = (token, corteId, loteId) => {
+    const request = apiClient(token).get(`/cortes/${corteId}/${loteId}/movimientos`);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
 export {
     obtenerCortes,
     crearCorte,
     obtenerCorte,
     obtenerCorteLote,
-    obtenerCorteLotes
+    obtenerCorteLotes,
+    obtenerCorteMovimientosLote
 }

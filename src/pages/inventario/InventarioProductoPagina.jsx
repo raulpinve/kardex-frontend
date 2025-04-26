@@ -90,26 +90,27 @@ const InventarioProductoPagina = () => {
                     </div>
                 )}
             </div>
-            <div className="grid w-full md:grid-cols-12 gap-6 mt-4 hiden">
+            <TarjetasInformacionStock
+                stock = {stock}
+                loading = {loading}
+                error = {errorStock}
+            /> 
+           
+            <div className="grid w-full md:grid-cols-12 gap-6 mt-4 items-start">
                 <InformacionProducto 
                     producto= {producto} 
                     loading = {loading}
                     error = {error}    
                 />
-                <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-8 grid gap-6">
-                    <TarjetasInformacionStock
-                        stock = {stock}
-                        loading = {loading}
-                        error = {errorStock}
-                    /> 
+                <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-8 grid xl:gap-4 2xl:gap-6">
+                    {/* {!errorStock && corteSeleccionado && producto && ( */}
+                    <div className='grid'>
+                        <InventarioLotes corteSeleccionado={corteSeleccionado} producto = {producto} />
+                        {/* <InventarioMovimientos /> */}
+                    </div>
+                    {/* )} */}
                 </div>
             </div>
-            {!errorStock && corteSeleccionado && producto && (
-                <div className='grid gap-6 mt-6'>
-                    <InventarioLotes corteSeleccionado={corteSeleccionado} producto = {producto} />
-                    {/* <InventarioMovimientos /> */}
-                </div>
-            )}
         </Layout>
     );
 };

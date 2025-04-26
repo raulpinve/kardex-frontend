@@ -13,9 +13,7 @@ const ModalCrearLote = (props) => {
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
-    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ 
-        mode: "onChange"
-    })
+    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
 
     const onSubmit = async(values) => {
         setMessageError(false)

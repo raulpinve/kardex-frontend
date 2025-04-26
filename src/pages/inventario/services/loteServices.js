@@ -9,6 +9,8 @@ const obtenerCorte = (token, corteId, productoId) => {
         })
 }
 
+
 export {
     obtenerCorte,
+    obtenerMovimientosLoteCorte
 }

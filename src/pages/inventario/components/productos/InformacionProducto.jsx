@@ -11,7 +11,6 @@ const InformacionProducto = (props) => {
     const {producto, loading, error} = props;
     const [modalActivo, setModalActivo] = useState();
     const [urlImage, setUrlImage] = useState(null);
-
     return (
         <>
             <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 `}>
@@ -130,6 +129,17 @@ const InformacionProducto = (props) => {
                                 </span>
                             </div>
                         </>)}
+
+                        {/* Stock requerido */}
+                        <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                            <span className="text-theme-sm">
+                                Stock requerido
+                            </span>
+                            <span className="text-right text-theme-sm capitalize">
+                                {producto?.stockRequerido}
+                            </span>
+                        </div>
+
                     </div>
                 </>)}
             </Card>

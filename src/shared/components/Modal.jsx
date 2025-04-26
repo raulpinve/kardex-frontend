@@ -99,7 +99,7 @@ const Modal = (props) => {
                         </button>
                     )}
 
-                    <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
+                    <h4 className="text-2xl p-2 font-semibold text-gray-800 dark:text-white/90">
                         {title}
                     </h4>
                     {description && 
@@ -110,7 +110,7 @@ const Modal = (props) => {
                 </div>
 
                 {/* Body con scroll */}
-                <div className="overflow-y-auto grow text-gray-700 dark:text-gray-200 px-2">
+                <div className="overflow-y-auto grow text-gray-700 dark:text-gray-200 p-2">
                     {children}
                 </div>
 

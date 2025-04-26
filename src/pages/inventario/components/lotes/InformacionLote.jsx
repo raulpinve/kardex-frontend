@@ -1,41 +1,40 @@
 import React, { useState } from 'react';
 import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
+import { dateColombiaFormat, formatDate, obtenerEstadoVencimiento } from '../../../../utils/utilities';
 
 const InformacionLote = (props) => {
-    // const {medicamento, setMedicamento, loading, error} = props;
-    const [loading, setLoading] = useState(null);
-    const [error, setError] = useState(null);
+    const {lote, loading, error} = props;
 
-    const [producto, setProducto] = useState({
-        nombre: "Adrenalina",
-        formaFarmaceutica: "Solución inyectable",
-        concentracion: "1mg/ml", 
-        presentacionComercial: "Ampolla",
-        unidadMedida: "mg/ml", 
-        stockRequerido: 5, 
-        tipo: "medicamento", 
-        serie: 4, 
-        riesgo: "IIA"
-    })
+    // const [producto, setProducto] = useState({
+    //     nombre: "Adrenalina",
+    //     formaFarmaceutica: "Solución inyectable",
+    //     concentracion: "1mg/ml", 
+    //     presentacionComercial: "Ampolla",
+    //     unidadMedida: "mg/ml", 
+    //     stockRequerido: 5, 
+    //     tipo: "medicamento", 
+    //     serie: 4, 
+    //     riesgo: "IIA"
+    // })
+    const { estado, color } = obtenerEstadoVencimiento(lote?.fechaVencimiento);
 
     return (
         // <div className="text-sm text-gray-700 dark:text-gray-400 col-span-12 lg:col-span-3">
             <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 `}>
                 {/* Loading */}
                 {loading && (<div>
-                    <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded h-[25px] mb-3"></div>
-                    <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded-lg w-44 h-32 mx-auto my-5"></div>
-                        {   
-                            [...Array(5)].map((_,index) => <div key={index} className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded h-[25px] mb-3"></div>)
-                        }
+                    <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded h-[36px] mb-3 mt-3"></div>
+                    <div className='mt-6'>
+                        {[...Array(5)].map((_,index) => <div key={index} className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded h-[45px] mb-3"></div>)}
+                    </div>
                 </div>)}
                 {!loading && error && <MessageError>{error}</MessageError>}
-                {!loading && producto && ( <>
+                {!loading && lote && ( <>
                     <div className='flex items-center mt-2 justify-between h-[40px]'>
                         <CardTitulo className="w-full flex justify-between">
                             <span>Lote</span>
-                            <span>23045299</span>
+                            <span>{lote?.numeroLote}</span>
                         </CardTitulo>
                     </div>
 
@@ -46,47 +45,79 @@ const InformacionLote = (props) => {
                                 Registro sanitario
                             </span>
                             <span className="text-right text-theme-sm">
-                                2018M-0012719-R1
+                                {lote?.registroSanitario}
                             </span>
                         </div>
 
                         {/* Fecha de vencimiento */}
-                        <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
-                            <span className="text-theme-sm">
-                                Fecha de vencimiento
-                            </span>
-                            <span className="text-right text-theme-sm">
-                                2018-02-06
-                            </span>
-                        </div>
+                        {lote?.fechaVencimiento && (
+                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                                <span className="text-theme-sm">
+                                    Fecha de vencimiento
+                                </span>
+                                <span className="text-right text-theme-sm">
+                                    {formatDate(lote?.fechaVencimiento)}
+                                </span>
+                            </div>
+                        )}
 
                         {/* Estado */}
                         <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                             <span className="text-theme-sm">
                                 Estado
                             </span>
-                            <p className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium bg-red-200 text:bg-red-600 text-right `}>Por vencer</p>
+                            {estado && color && (
+                                <p className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${color} text-right `}>{estado}</p>
+                            )}
                         </div>
 
                         {/* Stock inicial */}
-                        <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
-                            <span className="text-theme-sm">
-                                Stock inicial
-                            </span>
-                            <span className="text-right text-theme-sm">
-                                20
-                            </span>
-                        </div>
+                        {lote?.stockInicial && (
+                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                                <span className="text-theme-sm">
+                                    Stock inicial
+                                </span>
+                                <span className="text-right text-theme-sm">
+                                    {lote.stockInicial}
+                                </span>
+                            </div>
+                        )}
+
+                        {/* Ingresos */}
+                        {lote?.ingresos && (
+                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                                <span className="text-theme-sm">
+                                    Ingresos
+                                </span>
+                                <span className="text-right text-theme-sm">
+                                    {lote.ingresos}
+                                </span>
+                            </div>
+                        )}
+
+                        {/* Salidas */}
+                        {lote?.salidas && (
+                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                                <span className="text-theme-sm">
+                                    Salidas
+                                </span>
+                                <span className="text-right text-theme-sm">
+                                    {lote.salidas}
+                                </span>
+                            </div>
+                        )}
 
                         {/* Stock final */}
-                        <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
-                            <span className="text-theme-sm">
-                                Stock final
-                            </span>
-                            <span className="text-right text-theme-sm">
-                                40
-                            </span>
-                        </div>
+                        {lote?.stockFinal && (
+                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                                <span className="text-theme-sm">
+                                    Stock final
+                                </span>
+                                <span className="text-right text-theme-sm">
+                                    {lote.stockFinal}
+                                </span>
+                            </div>
+                        )}
                     </div>
                     
                 </>)}

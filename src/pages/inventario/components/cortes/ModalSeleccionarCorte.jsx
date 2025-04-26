@@ -6,7 +6,7 @@ import { LuCalendar, LuChevronDown } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { obtenerCortes } from "../../services/cortesServices";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import { crearAlmacen } from "../../services/almacenService";
 
 const ModalSeleccionarCorte = (props) => {
@@ -14,10 +14,11 @@ const ModalSeleccionarCorte = (props) => {
     const [mensajeError, setMensajeError] = useState();
     const [cortes, setCortes] = useState();
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
     const token = useSelector(state => state.auth.token);
     const almacenId = useSelector(state => state.almacen.almacen?.id);
-
+    const location = useLocation();
+    const navigate = useNavigate();
+    
     // Obtener todos los cortes
     useEffect(() => {
         const fecthCortes = async () => {
@@ -40,15 +41,20 @@ const ModalSeleccionarCorte = (props) => {
         }
     }, [token, almacenId])
 
-    const cambiarCorteSeleccionado = (corteId) => {
-        if(producto){
-            navigate(`/inventarios/${corteId}/${producto.id}`);
-        }else if(lote){
-            navigate(`/inventarios/lote/${corteId}/${lote.id}`);
-        }else{
-            navigate(`/inventarios/${corteId}`);
+    const cambiarCorteSeleccionado = (nuevoCorteId) => {
+       
+    
+        const partes = location.pathname.split('/');
+        
+        if (partes.length > 2) {
+            partes[2] = nuevoCorteId; // Asumiendo que el corteId siempre está en la posición 2
+            const nuevaRuta = partes.join('/');
+            navigate(nuevaRuta);
+        } else {
+            // Si no tiene la estructura esperada
+            navigate(`/inventarios/${nuevoCorteId}`);
         }
-    }
+    };
     return (
         <Modal
             isOpenModal={true}

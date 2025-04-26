@@ -45,7 +45,7 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
     }, [corteSeleccionado, producto, token, refresh, debouncedConsulta])
 
     const redireccionar = (corteId, loteId) => {
-        navigate(`/inventarios/lote/${corteId}/${loteId}`)
+        navigate(`/inventarios/${corteId}/${loteId}/lote`)
     }
 
     return (
@@ -129,7 +129,7 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
                                                 key={lote.id} 
                                                 className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
                                                 onClick={() => {
-                                                    redireccionar(corteSeleccionado.id, lote.id)
+                                                    redireccionar(corteSeleccionado.id, lote.id);
                                                 }}
                                             >
                                                 <td className="py-3 px-4 ">
@@ -138,16 +138,16 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
                                                     </div>
                                                 </td>
                                                 <td className="py-3 px-4">
-                                                    <p className="text-gray-700 dark:text-gray-400">{lote.stockInicial}</p>
+                                                    <p className="text-gray-700 dark:text-gray-400">{lote.stockInicial || "-----"}</p>
                                                 </td>
                                                 <td className="py-3 px-4">
-                                                    <p className="text-gray-700 dark:text-gray-400">{lote.ingresos}</p>
+                                                    <p className="text-gray-700 dark:text-gray-400">{lote.ingresos || "-----"}</p>
                                                 </td>
                                                 <td className="py-3 px-4">
-                                                    <p className="text-gray-700 dark:text-gray-400">{lote.salidas}</p>
+                                                    <p className="text-gray-700 dark:text-gray-400">{lote.salidas || "-----"}</p>
                                                 </td>
                                                 <td className="py-3 px-4">
-                                                    <p className="text-gray-700 dark:text-gray-400">{lote.stockFinal}</p>
+                                                    <p className="text-gray-700 dark:text-gray-400">{lote.stockFinal || "-----"}</p>
                                                 </td>
                                             </tr>
                                         );
