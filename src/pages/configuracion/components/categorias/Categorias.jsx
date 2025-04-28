@@ -57,7 +57,7 @@ const Categorias = () => {
                 {/* Header */}
                 <div className="flex justify-between items-center">
                     <CardTitulo>Categorías</CardTitulo>
-                    <div className="flex gap-1 justify-between">
+                    <div className="flex gap-1 justify-between  ml-2">
                         <Button
                             type="button"
                             colorButton="primary"
@@ -72,7 +72,7 @@ const Categorias = () => {
                             <input 
                                 type="text" 
                                 placeholder="Buscar categoría..." 
-                                className="input-form pl-10 dark:bg-gray-900"
+                                className="input-form pl-10 dark:bg-gray-900 max-w-[180px]"
                                 value={consulta}
                                 onChange={(e) => {
                                     setConsulta(e.currentTarget.value);
@@ -82,7 +82,7 @@ const Categorias = () => {
                         <div className="relative hidden md:block">
                             <select 
                                 name="" 
-                                className="select-form w-[180px]" 
+                                className="select-form max-w-[180px]" 
                                 id="" 
                                 value={tipo}
                                 onChange={(e) => {
