@@ -148,7 +148,7 @@ const Categorias = () => {
                                                 <td className="py-3 px-4">
                                                     <div className="text-gray-700 dark:text-gray-400 flex gap-2">
                                                         <button 
-                                                            className="cursor-pointer"
+                                                            className="cursor-pointer p-1"
                                                             title="Editar categoria"
                                                             onClick={() => {
                                                                 setModalActivo("editar"); 
@@ -158,7 +158,7 @@ const Categorias = () => {
                                                             <LuPencil />
                                                         </button>
                                                         <button 
-                                                            className="cursor-pointer"
+                                                            className="cursor-pointer p-1"
                                                             title="Eliminar categoria"
                                                             onClick={() => {
                                                                 setCategoriaSeleccionada(categoria);

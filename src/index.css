@@ -27,7 +27,7 @@
   .input-form-error {
     @apply border-red-600 dark:border-red-600  /* Resplandor rojo por defecto */;
   }
-  .input-form-exito{
+  .input-form-primary{
     @apply border-blue-600 dark:border-blue-600  /* Resplandor rojo por defecto */;
   }
   .input-required{

@@ -23,11 +23,11 @@ const Usuarios = () => {
     const [usuarios, setUsuarios] = useState([]);
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
-    const token = useSelector(state => state.auth.token);
     const [refresh, setRefresh] = useState(0); 
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [consulta, setConsulta] = useState("");
+    const token = useSelector(state => state.auth.token);
     const navigate = useNavigate();
 
     const ROLES = {
@@ -35,21 +35,19 @@ const Usuarios = () => {
         "viewer": "Lector", 
         "editor": "Editor"
     }
-
     const debouncedConsulta = useDebounce(consulta, 500);
 
     // Obtener usuarios
     useEffect(() => {
         const fetchUsuarios = async () => {
             setLoading(true);
-            setError(null); // Limpia el error antes de realizar la consulta
+            setError(null); 
 
             try {
                 const respuesta = await obtenerUsuarios(token, paginaActual, debouncedConsulta)
                 setUsuarios(respuesta.data)
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
-
             } catch (error) {
                 setError(error?.response?.data?.message || "Ha ocurrido un error interno");
             } finally {
@@ -72,7 +70,7 @@ const Usuarios = () => {
                     <div className="flex gap-1 items-center justify-between">
                         <Button
                             type="button"
-                            colorButton="secondary"
+                            colorButton="primary"
                             onClick={() => {
                                 setModalActivo("crear")
                             }}
@@ -137,7 +135,7 @@ const Usuarios = () => {
                                 <>
                                     {usuarios.length === 0 ? 
                                         <tr>
-                                            <td colSpan="5" className="py-3">
+                                            <td colSpan="6" className="py-3">
                                                 <p className="text-gray-700 dark:text-gray-400 text-center"> No hay usuarios por mostrar</p>
                                             </td>
                                         </tr>: 
@@ -179,7 +177,7 @@ const Usuarios = () => {
                                                     <td className="py-3 px-4">
                                                         <div className="text-gray-700 dark:text-gray-400 flex gap-2">
                                                             <button 
-                                                                className="cursor-pointer"
+                                                                className="cursor-pointer p-1"
                                                                 title="Editar usuario"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
@@ -190,7 +188,7 @@ const Usuarios = () => {
                                                                 <LuPencil />
                                                             </button>
                                                             <button 
-                                                                className="cursor-pointer"
+                                                                className="cursor-pointer p-1"
                                                                 title="Editar privilegios"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
@@ -201,7 +199,7 @@ const Usuarios = () => {
                                                                 <LuLock  />
                                                             </button>
                                                             <button 
-                                                                className="cursor-pointer"
+                                                                className="cursor-pointer p-1"
                                                                 title="Eliminar usuario"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();

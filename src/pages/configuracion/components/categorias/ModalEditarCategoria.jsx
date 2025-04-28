@@ -55,32 +55,30 @@ const ModalEditarCategoria = (props) => {
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-                <div className="px-2">
-                    {/* Nombre */}
-                    <div>
-                        <label htmlFor="nombre" className="label-form">
-                            Nombre <span className="input-required">*</span>
-                        </label>
-                        <input 
-                            className={`${errors.nombre && errors.nombre.message ? "input-form-error" : ""} input-form`}
-                            {...register("nombre", {
-                                required: {
-                                    value: true,
-                                    message: "Debe proporcionar un nombre.",
-                                },
-                                minLength: {
-                                    value: 2,
-                                    message: "El nombre debe tener al menos dos caracteres.",
-                                },
-                                maxLength: {
-                                    value: 100,
-                                    message: "El nombre no debe exceder los 100 caracteres.",
-                                },
-                            })}
-                            id="nombre"
-                        />
-                        {errors.nombre && errors.nombre.message && (<p className="input-message-error">{errors.nombre.message}</p>)} 
-                    </div>
+                {/* Nombre */}
+                <div>
+                    <label htmlFor="nombre" className="label-form">
+                        Nombre <span className="input-required">*</span>
+                    </label>
+                    <input 
+                        className={`${errors.nombre && errors.nombre.message ? "input-form-error" : ""} input-form`}
+                        {...register("nombre", {
+                            required: {
+                                value: true,
+                                message: "Debe proporcionar un nombre.",
+                            },
+                            minLength: {
+                                value: 2,
+                                message: "El nombre debe tener al menos dos caracteres.",
+                            },
+                            maxLength: {
+                                value: 100,
+                                message: "El nombre no debe exceder los 100 caracteres.",
+                            },
+                        })}
+                        id="nombre"
+                    />
+                    {errors.nombre && errors.nombre.message && (<p className="input-message-error">{errors.nombre.message}</p>)} 
                 </div>
 
                 {messageError && 

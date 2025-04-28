@@ -103,7 +103,7 @@ const Modal = (props) => {
                         {title}
                     </h4>
                     {description && 
-                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 lg:mb-7 px-2">
+                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 lg:mb-2 px-2">
                             {description}
                         </p>
                     }
