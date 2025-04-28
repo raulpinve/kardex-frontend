@@ -10,6 +10,8 @@ const ModalAbrirImagenPerfil = ({cerrarModal, urlImage, tipo = "perfil"}) => {
         setLoading(false); 
     };
 
+    console.log(urlImage)
+
     let titulo;
     if(tipo === "dispositivo"){
         titulo = "Imagen del dispositivo";

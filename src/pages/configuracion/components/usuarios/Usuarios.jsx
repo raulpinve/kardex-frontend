@@ -15,7 +15,7 @@ import useDebounce from "../../../../shared/hooks/useDebounce";
 import { useNavigate } from "react-router-dom";
 import { host } from "../../../../utils/config";
 import imageDefault from "../../../../assets/image-default.png";
-import ModalAbrirImagenPerfil from "../../../perfil/components/ModalAbrirImagenPerfil";
+import ModalAbrirImagenPerfil from "../../../../shared/components/ModalAbrirImagenPerfil";
 
 const Usuarios = () => {
     const [modalActivo, setModalActivo] = useState(null);
@@ -148,7 +148,7 @@ const Usuarios = () => {
                                                 >
                                                     <td className="py-3 min-w-[50px] w-[50px]">
                                                         <img 
-                                                            src={`${host}/uploads/avatar-usuarios/${usuario.id}/${usuario.avatar}`}
+                                                            src={`${host}${usuario.avatarThumbnail}`}
                                                             onError={(e) => {
                                                                 e.target.onerror = null;
                                                                 e.target.src = imageDefault; 
@@ -159,7 +159,7 @@ const Usuarios = () => {
                                                                 setModalActivo("imagen-perfil");
                                                             }}
                                                             alt="Perfil" 
-                                                            className="w-10 h-10 object-cover rounded-full select-none cursor-pointer"  
+                                                            className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
                                                         />
                                                     </td>
                                                     <td className="pl-1 py-3 pr-4">
@@ -263,7 +263,8 @@ const Usuarios = () => {
             {modalActivo === "imagen-perfil" && (
                 <ModalAbrirImagenPerfil 
                     cerrarModal={() => setModalActivo(null)}
-                    usuario = {usuarioSeleccionado}
+                    urlImage = {`${usuarioSeleccionado.avatar}`}
+                    tipo="perfil"
                 />
             )}
         </>

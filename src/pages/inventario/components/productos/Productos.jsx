@@ -124,7 +124,7 @@ const Productos = ({corteSeleccionado, tipo }) => {
                 <table className="min-w-full table-auto text-sm">
                     <thead className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>
                         <tr className="text-sm text-left">
-                            <th className="w-[70px]"></th>
+                            <th className="w-[50px]"></th>
                             <th className="py-3 pl-1 pr-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">
                                     {tipo === "medicamentos" ? "Principio activo" : "Nombre"}
@@ -179,7 +179,7 @@ const Productos = ({corteSeleccionado, tipo }) => {
                                         onClick={() => redireccionarProductoCorte(corteSeleccionado.id, producto.id)}
                                         className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                                     >
-                                        <td className="px-4 py-3">
+                                        <td className="min-w-[50px] w-[50px]">
                                             <img 
                                                 src={`${host}${producto.avatar}`}
                                                 onError={(e) => {
