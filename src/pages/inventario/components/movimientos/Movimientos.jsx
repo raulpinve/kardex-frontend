@@ -27,11 +27,12 @@ const Movimientos = () => {
     const [consulta, setConsulta] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [startDate, setStartDate] = useState();
+    const [fecha, setFecha] = useState();
     const {corteId, loteId} = useParams();
+    const [tipo, setTipo] = useState();
 
     const handleChange = (date) => {
-        setStartDate(date);
+        setFecha(date);
     };
     const debouncedConsulta = useDebounce(consulta, 500);
     
@@ -41,7 +42,7 @@ const Movimientos = () => {
             setLoading(true);
             setError(null);
             try {
-                const respuesta = await obtenerCorteMovimientosLote(token, corteId, loteId, paginaActual, debouncedConsulta);
+                const respuesta = await obtenerCorteMovimientosLote(token, corteId, loteId, tipo, fecha, paginaActual, debouncedConsulta);
                 if(respuesta?.data){
                     setMovimientos(respuesta.data)
                 }
@@ -54,11 +55,11 @@ const Movimientos = () => {
         if(loteId && corteId){
             fetchMovimientos();
         }
-    }, [loteId, corteId, token, debouncedConsulta, paginaActual, fresh]);
+    }, [loteId, corteId, token, debouncedConsulta, paginaActual, fresh, tipo, fecha]);
     
     return (
         <>  
-            <Card className={`col-span-12 xl:col-span-8 2xl:col-span-8 `}>
+            <Card className={`col-span-12 xl:col-span-8 2xl:col-span-8`}>
                 {/* Header */}
                 <div className="flex justify-between items-center">
                     <CardTitulo>Movimientos</CardTitulo>
@@ -73,7 +74,7 @@ const Movimientos = () => {
                             Crear
                         </Button>
                         {/* Buscar en movimientos */}
-                        <div className="relative hidden ">
+                        <div className="relative hidden">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
                             <input 
                                 type="text" 
@@ -87,7 +88,11 @@ const Movimientos = () => {
                         </div>
                         {/* Tipo de movimiento */}
                         <div className="relative hidden md:block">
-                            <select name="" id="" className='select-form'>
+                            <select 
+                                value={tipo}
+                                onChange={(e) => setTipo(e.currentTarget.value)}
+                                className='select-form'
+                            >
                                 <option value="">Seleccionar tipo...</option>
                                 <option value="entrada">Entrada</option>
                                 <option value="salida">Salida</option>
@@ -96,7 +101,7 @@ const Movimientos = () => {
                         <div>
                             <DatePicker 
                                 className='relative select-form w-[170px] px-2'
-                                selected={startDate} 
+                                selected={fecha} 
                                 onChange={handleChange} 
                                 dateFormat="yyyy/MM/dd" 
                                 placeholderText="Selecciona una fecha..."

@@ -140,11 +140,11 @@
   animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both; /* Duración y efecto */
 }
 
-input[type="month"]::-webkit-calendar-picker-indicator {
+input[type="month"]::-webkit-calendar-picker-indicator, input[type="date"]::-webkit-calendar-picker-indicator  {
   filter: invert(32%) sepia(8%) saturate(293%) hue-rotate(175deg) brightness(96%) contrast(89%);
   cursor: pointer;
 }
-.dark input[type="month"]::-webkit-calendar-picker-indicator {
+.dark input[type="month"]::-webkit-calendar-picker-indicator, input[type="date"]::-webkit-calendar-picker-indicator   {
   filter: invert(95%) sepia(8%) saturate(316%) hue-rotate(180deg) brightness(108%) contrast(85%);
 }
 
