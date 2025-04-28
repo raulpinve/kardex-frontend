@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
-import Card from "../../../../shared/components/Card";
-import CardTitulo from "../../../../shared/components/CardTitulo";
-import Button from "../../../../shared/components/Button";
-import { LuEraser, LuLock, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
-import { useSelector } from "react-redux";
-import Pagination from "../../../../shared/components/Pagination";
-import { obtenerCategorias } from "../../services/categoriaService";
+import { LuChevronDown, LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import SkeletonTable from "../../../../shared/components/SkeletonTable";
-import ModalCrearCategoria from "./ModalCrearCategoria";
-import ModalEditarCategoria from "./ModalEditarCategoria";
-import ModalEliminarCategoria from "./ModalEliminarCategoria";
+import { obtenerCategorias } from "../../services/categoriaService";
+import CardTitulo from "../../../../shared/components/CardTitulo";
+import Pagination from "../../../../shared/components/Pagination";
 import useDebounce from "../../../../shared/hooks/useDebounce";
+import ModalEliminarCategoria from "./ModalEliminarCategoria";
+import ModalEditarCategoria from "./ModalEditarCategoria";
+import Button from "../../../../shared/components/Button";
+import ModalCrearCategoria from "./ModalCrearCategoria";
+import Card from "../../../../shared/components/Card";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
+const TIPO = {
+    "dispositivo": "Dispositivo", 
+    "medicamento": "Medicamento"
+}
 
 const Categorias = () => {
     const token = useSelector(state => state.auth.token);
@@ -24,11 +29,8 @@ const Categorias = () => {
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [tipo, setTipo] = useState("");
     const [consulta, setConsulta] = useState("");
+    
     const debouncedConsulta = useDebounce(consulta, 500);
-    const TIPO = {
-        "dispositivo": "Dispositivo", 
-        "medicamento": "Medicamento"
-    }
 
     // Obtener categorias
     useEffect(() => {
@@ -55,10 +57,10 @@ const Categorias = () => {
                 {/* Header */}
                 <div className="flex justify-between items-center">
                     <CardTitulo>Categorías</CardTitulo>
-                    <div className="flex gap-1 items-center justify-between">
+                    <div className="flex gap-1 justify-between">
                         <Button
                             type="button"
-                            colorButton="secondary"
+                            colorButton="primary"
                             onClick={() => {
                                 setModalActivo("crear")
                             }}
@@ -77,24 +79,25 @@ const Categorias = () => {
                                 }}
                             />
                         </div>
-                        <select 
-                            name="" 
-                            className="select-form w-[150px]" 
-                            id="" 
-                            placeholder="Todos..."
-                            value={tipo}
-                            onChange={(e) => {
-                                setTipo(e.currentTarget.value)
-                            }}
-                        >
-                            <option value="">Todos</option>
-                            <option value="dispositivo">Dispositivo</option>
-                            <option value="medicamento">Medicamento</option>
-                        </select>
+                        <div className="relative hidden md:block">
+                            <select 
+                                name="" 
+                                className="select-form w-[180px]" 
+                                id="" 
+                                value={tipo}
+                                onChange={(e) => {
+                                    setTipo(e.currentTarget.value)
+                                }}
+                            >
+                                <option value="">Seleccionar tipo...</option>
+                                <option value="dispositivo">Dispositivo</option>
+                                <option value="medicamento">Medicamento</option>
+                            </select>
+                            <LuChevronDown className="absolute top-[16px] right-2" />
+                        </div>
                         <Button
                             type="button"
                             colorButton="secondary"
-                            className="hidden md:block"
                             onClick={() => {
                                 setPaginaActual(1)
                                 setRefresh((prev) => prev + 1)
@@ -108,41 +111,41 @@ const Categorias = () => {
                 <table className="min-w-full mt-3">
                     <thead>
                         <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
-                            <th className="py-3">
+                            <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Nombre de la categoría</p>
                             </th>
-                            <th className="py-3">
+                            <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
                             </th>
-                            <th className="py-3 w-[100px]">
+                            <th className="py-3 px-4 w-[100px]">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
                             </th>
                         </tr>
                     </thead>
-                    {loading ? <SkeletonTable rows={7} columns={5}/>: 
+                    {loading ? <SkeletonTable rows={5} columns={3}/>: 
                         <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
                             {error ? <tr>
-                                <td colSpan="5" className="py-3">
+                                <td colSpan="5" className="py-3 px-4">
                                     <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
                                 </td>
                             </tr> : 
                             <>
                                 {categorias.length === 0 ? 
                                     <tr>
-                                        <td colSpan="5" className="py-3">
+                                        <td colSpan="5" className="py-3 px-4">
                                             <p className="text-gray-700 dark:text-gray-400 text-center"> No hay categorias por mostrar</p>
                                         </td>
                                     </tr>: 
                                     <>
                                         {categorias.map(categoria => {
                                             return <tr key={categoria.id}>
-                                                <td className="py-3">
+                                                <td className="py-3 px-4">
                                                     <p className="text-gray-700 dark:text-gray-400"> {categoria.nombre} </p>
                                                 </td>
-                                                <td className="py-3">
+                                                <td className="py-3 px-4">
                                                     <p className="text-gray-700 dark:text-gray-400"> {TIPO[categoria.tipo]} </p>
                                                 </td>
-                                                <td className="py-3">
+                                                <td className="py-3 px-4">
                                                     <div className="text-gray-700 dark:text-gray-400 flex gap-2">
                                                         <button 
                                                             className="cursor-pointer"

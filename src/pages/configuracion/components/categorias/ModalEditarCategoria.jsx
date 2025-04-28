@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from "react";
+import MessageError from "../../../../shared/components/MessageError";
+import { editarCategoria } from "../../services/categoriaService";
+import { handleErrors } from "../../../../utils/handleErrors";
 import Modal from "../../../../shared/components/Modal";
 import Button from "../../../../shared/components/Button";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { handleErrors } from "../../../../utils/handleErrors";
-import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
-import { editarCategoria } from "../../services/categoriaService";
 
 const ModalEditarCategoria = (props) => {
+    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
     const { cerrarModal, setCategorias, categoriaSeleccionada} = props;
     const [messageError, setMessageError] = useState(false);
-    const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
-    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ 
-        mode: "onChange"
-    })
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async(values) => {
         setMessageError(false)
@@ -47,7 +45,7 @@ const ModalEditarCategoria = (props) => {
         if(categoriaSeleccionada){
             setValue("nombre", categoriaSeleccionada.nombre);
         }
-    }, [categoriaSeleccionada])
+    }, [categoriaSeleccionada, setValue])
 
     return (
         <Modal
