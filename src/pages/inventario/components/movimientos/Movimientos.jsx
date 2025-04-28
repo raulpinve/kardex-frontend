@@ -3,7 +3,7 @@ import Pagination from '../../../../shared/components/Pagination';
 import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import Button from '../../../../shared/components/Button';
-import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
+import { LuCalendar, LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
 import DatePicker from 'react-datepicker';
 import { obtenerCorteMovimientosLote } from '../../services/cortesServices';
 import { useSelector } from 'react-redux';
@@ -102,15 +102,16 @@ const Movimientos = () => {
                                 <option value="salida">Salida</option>
                             </select>
                         </div>
-                        <div>
+                        <div className='relative dark:text-gray-200'>
                             <DatePicker 
-                                className='relative select-form w-[140px] px-2'
+                                className='relative input-form w-[190px] px-2 placeholder-gray-700  dark:placeholder-gray-200'
                                 selected={fecha} 
                                 onChange={handleChange} 
                                 dateFormat="yyyy/MM/dd" 
                                 placeholderText="Selecciona una fecha..."
                                 locale="es"
                             />
+                            <LuCalendar className='absolute right-3 top-[14px]' />
                         </div>
                       
                         <Button
