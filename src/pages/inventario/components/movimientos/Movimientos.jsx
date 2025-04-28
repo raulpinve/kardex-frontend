@@ -3,18 +3,24 @@ import Pagination from '../../../../shared/components/Pagination';
 import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import Button from '../../../../shared/components/Button';
-import { LuRefreshCcw, LuSearch } from 'react-icons/lu';
+import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { obtenerCorteMovimientosLote } from '../../services/cortesServices';
 import { useSelector } from 'react-redux';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import ModalCrearMovimiento from './ModalCrearMovimiento';
+import { useParams } from 'react-router-dom';
+import SkeletonTable from '../../../../shared/components/SkeletonTable';
+import { dateColombiaFormat } from '../../../../utils/utilities';
+import ModalEditarMovimiento from './ModalEditarMovimiento';
+import ModalEliminarMovimiento from './ModalEliminarMovimiento';
 
-const Movimientos = ({ lote, corteSeleccionado }) => {
+const Movimientos = () => {
     const [movimientos, setMovimientos] = useState([]);
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
+    const [movimientoSeleccionado, setMovimientoSeleccionado] = useState(null);
     const [modalActivo, setModalActivo] = useState(null);
     const [fresh, setRefresh] = useState(1);
     const token = useSelector(state => state.auth.token);
@@ -22,6 +28,7 @@ const Movimientos = ({ lote, corteSeleccionado }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [startDate, setStartDate] = useState();
+    const {corteId, loteId} = useParams();
 
     const handleChange = (date) => {
         setStartDate(date);
@@ -34,7 +41,7 @@ const Movimientos = ({ lote, corteSeleccionado }) => {
             setLoading(true);
             setError(null);
             try {
-                const respuesta = await obtenerCorteMovimientosLote(token, corteSeleccionado.id, lote.id, paginaActual, debouncedConsulta);
+                const respuesta = await obtenerCorteMovimientosLote(token, corteId, loteId, paginaActual, debouncedConsulta);
                 if(respuesta?.data){
                     setMovimientos(respuesta.data)
                 }
@@ -44,10 +51,10 @@ const Movimientos = ({ lote, corteSeleccionado }) => {
                 setLoading(false);
             }
         }
-        if(lote && corteSeleccionado){
+        if(loteId && corteId){
             fetchMovimientos();
         }
-    }, [lote, corteSeleccionado, token, debouncedConsulta, paginaActual, fresh]);
+    }, [loteId, corteId, token, debouncedConsulta, paginaActual, fresh]);
     
     return (
         <>  
@@ -151,25 +158,25 @@ const Movimientos = ({ lote, corteSeleccionado }) => {
 
                                 {!loading && !error && movimientos.length > 0 && (
                                     <>
-                                        {movimientos.map((movimientos) => {
+                                        {movimientos.map((movimiento) => {
                                             return (
                                                 <tr 
-                                                    key={movimientos.id} 
+                                                    key={movimiento.id} 
                                                     className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
                                                 >
                                                     <td className="py-3 px-4 capitalize">
                                                         <div className="items-center flex gap-3 rounded-full">
-                                                            <p className="text-gray-700 dark:text-gray-400 text-sm">{movimientos.tipo}</p>
+                                                            <p className="text-gray-700 dark:text-gray-400 text-sm">{movimiento.tipo}</p>
                                                         </div>
                                                     </td>
                                                     <td className="py-3 px-4">
-                                                        <p className="text-gray-700 dark:text-gray-400">{movimientos.cantidad}</p>
+                                                        <p className="text-gray-700 dark:text-gray-400">{movimiento.cantidad}</p>
                                                     </td>
                                                     <td className="py-3 px-4 lg:gap-2 items-center">
-                                                        <p className="text-gray-700 dark:text-gray-400">{movimientos.fecha}</p>
+                                                        <p className="text-gray-700 dark:text-gray-400">{dateColombiaFormat(movimiento.fecha)}</p>
                                                     </td>
                                                     <td className="py-3 px-4 items-center">
-                                                        <p className="text-gray-700 dark:text-gray-400">{movimientos.descripcion}</p>
+                                                        <p className="text-gray-700 dark:text-gray-400">{movimiento.descripcion}</p>
                                                     </td>
                                                     <td className="py-3 px-4">
                                                         <div className="text-gray-700 dark:text-gray-400 flex gap-2">
@@ -177,9 +184,9 @@ const Movimientos = ({ lote, corteSeleccionado }) => {
                                                                 className="cursor-pointer p-1"
                                                                 title="Editar movimiento"
                                                                 onClick={(e) => {
-                                                                    e.stopPropagation(); // evita que se dispare el onClick del <tr>
-                                                                    // setModalActivo("editar"); 
-                                                                    // setMedicamentoSeleccionado(medicamento);
+                                                                    e.stopPropagation();
+                                                                    setModalActivo("editar"); 
+                                                                    setMovimientoSeleccionado(movimiento);
                                                                 }}    
                                                             >
                                                                 <LuPencil />
@@ -188,9 +195,9 @@ const Movimientos = ({ lote, corteSeleccionado }) => {
                                                                 className="cursor-pointer p-1"
                                                                 title="Eliminar movimiento"
                                                                 onClick={(e) => {
-                                                                    e.stopPropagation(); // evita que se dispare el onClick del <tr>
-                                                                    // setModalActivo("eliminar"); 
-                                                                    // setMedicamentoSeleccionado(medi  camento);
+                                                                    e.stopPropagation(); 
+                                                                    setModalActivo("eliminar"); 
+                                                                    setMovimientoSeleccionado(movimiento);
                                                                 }} 
                                                             >
                                                                 <LuEraser />
@@ -206,21 +213,37 @@ const Movimientos = ({ lote, corteSeleccionado }) => {
                         </table>
                     </div>
                 </div>
-
                 <Pagination
                     paginaActual={paginaActual}
                     totalPaginas={totalPaginas}
                     onPageChange={setPaginaActual}
                 />
             </Card>
+
             {modalActivo === "crear" && (<>
                 <ModalCrearMovimiento 
-                    corteSeleccionado = {corteSeleccionado}
-                    lote = {lote}
                     cerrarModal = {() => setModalActivo(null) }
+                    setMovimientos = {setMovimientos}
                 />
-            </>
-            )}
+            </>)}
+
+            {modalActivo === "editar" && (<>
+                <ModalEditarMovimiento 
+                    cerrarModal = {() => setModalActivo(null) }
+                    movimientoSeleccionado = {movimientoSeleccionado}
+                    setMovimientoSeleccionado = {setMovimientoSeleccionado}
+                    setMovimientos = {setMovimientos}
+                />
+            </>)}
+            
+            {modalActivo === "eliminar" && (<>
+                <ModalEliminarMovimiento 
+                    cerrarModal = {() => setModalActivo(null) }
+                    movimientoSeleccionado = {movimientoSeleccionado}
+                    setMovimientoSeleccionado = {setMovimientoSeleccionado}
+                    setMovimientos = {setMovimientos}
+                />
+            </>)}
         </>
     );
 };

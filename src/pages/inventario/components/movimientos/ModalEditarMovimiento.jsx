@@ -1,54 +1,40 @@
-import React, { useEffect, useState } from "react";
-import Modal from "../../../../shared/components/Modal";
-import { toast } from "sonner";
-import { handleErrors } from "../../../../utils/handleErrors";
-import { useForm } from "react-hook-form";
-import { LuChevronDown } from "react-icons/lu";
-import MessageError from "../../../../shared/components/MessageError";
-import Button from "../../../../shared/components/Button";
-import { crearMovimiento } from "../../services/movimientoServices";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import Modal from '../../../../shared/components/Modal';
+import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { handleErrors } from '../../../../utils/handleErrors';
+import { LuChevronDown } from 'react-icons/lu';
+import Button from '../../../../shared/components/Button';
+import { formatDate } from '../../../../utils/utilities';
+import { editarMovimiento } from '../../services/movimientoServices';
+import { useSelector } from 'react-redux';
+import MessageError from '../../../../shared/components/MessageError';
 
-const ModalCrearMovimiento = (props) => {
-    const { cerrarModal, setMovimientos} = props;
-    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
+const ModalEditarMovimiento = (props) => {
+    const { cerrarModal, setMovimientos, movimientoSeleccionado} = props;
+    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" });
     const [messageError, setMessageError] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const {corteId, loteId} = useParams();
     const token = useSelector(state => state.auth.token);
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async(values) => {
-        setMessageError(false)
-        setLoading(true)
+        setMessageError(false);
+        setLoading(true);
+        
         try {
-            const respuesta = await crearMovimiento(token, {
-                ...values, 
-                corteId, 
-                loteId,
-            })
-            const data = respuesta.data;
-            if(data){
-                setMovimientos(prevMovimientos => [data, ...prevMovimientos]);
-                cerrarModal();
-                setValue("tipo", "");
-                setValue("cantidad", "");
-                setValue("fecha", "");
-                setValue("descripcion", "");
-            }
-            // const result = await crearLote(token, {
-            //     ...values, 
-            //     productoId: dispositivoId
-            // })
-            // const data = result?.data
-            // if(data){
-            //     setLotes();
-            //     cerrarModal();
-            //     setValue("numeroLote", "");
-            // } 
-            toast.success("Lote creado exitosamente.");
+            await editarMovimiento(token, movimientoSeleccionado.id, values);
+            setMovimientos(prevMovimientos =>
+                prevMovimientos.map(movimiento => {
+                    return movimiento.id === movimientoSeleccionado.id ? { ...movimientoSeleccionado, ...values } : movimiento
+                })
+            );
+            cerrarModal();
+            setValue("tipo", "");
+            setValue("cantidad", "");
+            setValue("fecha", "");
+            setValue("descripcion", "");
+            toast.success("Lote editado exitosamente.");
         } catch (error) {
-            console.log(error)
             handleErrors(error, setError, setMessageError);
         } finally{
             setLoading(false)
@@ -56,17 +42,19 @@ const ModalCrearMovimiento = (props) => {
     }
 
     useEffect(() => {
-        setValue("tipo", "entrada");
-        setValue("cantidad", 100);
-        setValue("fecha", "2024-08-12");
-        setValue("descripcion", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ");
-    }, [])
+        if(movimientoSeleccionado){
+            setValue("tipo", movimientoSeleccionado.tipo);
+            setValue("cantidad", movimientoSeleccionado.cantidad);
+            setValue("fecha", formatDate(movimientoSeleccionado.fecha));
+            setValue("descripcion", movimientoSeleccionado.descripcion);
+        }
+    }, [movimientoSeleccionado,setValue]); 
 
     return (
         <Modal
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
-            title="Crear movimiento"
+            title="Editar movimiento"
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -177,4 +165,4 @@ const ModalCrearMovimiento = (props) => {
     );
 };
 
-export default ModalCrearMovimiento;
+export default ModalEditarMovimiento;

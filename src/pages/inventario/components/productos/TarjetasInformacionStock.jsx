@@ -9,14 +9,14 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
     const renderStockStatus = () => {
         if (cantidadApedir < 0) {
             return {
-                text: `${cantidadApedir}`,
+                text: `${cantidadApedir} unidades`,
                 bgColor: "bg-red-200 dark:bg-gray-900",
                 textColor: "text-red-600",
             };
         }
     
         return {
-            text: `${cantidadApedir === 0 ? "Perfecto" : `+ ${cantidadApedir}`}`,
+            text: `${cantidadApedir === 0 ? "Perfecto" : `+ ${cantidadApedir}`} unidades`,
             bgColor: "bg-green-200 dark:bg-gray-900",
             textColor: "text-green-800",
         };
