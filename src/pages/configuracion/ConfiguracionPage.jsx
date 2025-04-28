@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../shared/components/Layout';
 import Title from '../../shared/components/Title';
 import Usuarios from './components/usuarios/Usuarios';

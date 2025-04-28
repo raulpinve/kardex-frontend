@@ -134,7 +134,7 @@ const Lotes = ({dispositivoId}) => {
 
                                         return (
                                             <tr key={lote.id} className=" text-sm">
-                                                <td className="py-3 px-4 ">
+                                                <td className="py-3 px-4">
                                                     <div className="items-center flex gap-3 rounded-full">
                                                         <p className="text-gray-700 dark:text-gray-400 text-sm">{lote.numeroLote}</p>
                                                     </div>

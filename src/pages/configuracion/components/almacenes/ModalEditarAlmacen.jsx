@@ -9,13 +9,11 @@ import { toast } from "sonner";
 import { editarAlmacen } from "../../services/almacenService";
 
 const ModalEditarAlmacen = (props) => {
+    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
     const { cerrarModal, setAlmacenes, almacenSeleccionado} = props;
     const [messageError, setMessageError] = useState(false);
-    const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
-    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ 
-        mode: "onChange"
-    })
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async(values) => {
         setMessageError(false)
@@ -23,15 +21,13 @@ const ModalEditarAlmacen = (props) => {
         try {
             const result = await editarAlmacen(token, almacenSeleccionado.id, values)
             const data = result?.data
-            if(data){
-                setAlmacenes(prevAlmacenes =>
-                    prevAlmacenes.map(almacen => {
-                        return almacen.id === data.id ? { ...almacen, ...data } : almacen
-                    })
-                );
-                cerrarModal()
-                setValue("nombre", "")
-            } 
+            setAlmacenes(prevAlmacenes =>
+                prevAlmacenes.map(almacen => {
+                    return almacen.id === data.id ? { ...almacen, ...data } : almacen
+                })
+            );
+            cerrarModal()
+            setValue("nombre", "")
             toast.success('Almacén editado exitosamente.');
         } catch (error) {
             handleErrors(error, setError, setMessageError);
@@ -44,7 +40,7 @@ const ModalEditarAlmacen = (props) => {
         if(almacenSeleccionado){
             setValue("nombre", almacenSeleccionado.nombre);
         }
-    }, [almacenSeleccionado])
+    }, [almacenSeleccionado, setValue])
 
     return (
         <Modal

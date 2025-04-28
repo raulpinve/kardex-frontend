@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Modal from '../../../../shared/components/Modal';
 import MessageError from '../../../../shared/components/MessageError';
+import { eliminarAlmacen } from '../../services/almacenService';
 import Button from '../../../../shared/components/Button';
+import Modal from '../../../../shared/components/Modal';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
-import { eliminarAlmacen } from '../../services/almacenService';
 
 const ModalEliminarAlmacen = (props) => {
     const {cerrarModal, almacenSeleccionado, setAlmacenes} = props;

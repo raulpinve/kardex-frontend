@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
-import Card from "../../../../shared/components/Card";
-import CardTitulo from "../../../../shared/components/CardTitulo";
-import Button from "../../../../shared/components/Button";
-import { LuEraser, LuLock, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
-import { useSelector } from "react-redux";
-import Pagination from "../../../../shared/components/Pagination";
-import ModalCrearAlmacen from "./ModalCrearAlmacen";
-import { obtenerAlmacenes } from "../../services/almacenService";
 import SkeletonTable from "../../../../shared/components/SkeletonTable";
+import Pagination from "../../../../shared/components/Pagination";
+import CardTitulo from "../../../../shared/components/CardTitulo";
+import { obtenerAlmacenes } from "../../services/almacenService";
+import useDebounce from "../../../../shared/hooks/useDebounce";
+import Card from "../../../../shared/components/Card";
+import Button from "../../../../shared/components/Button";
+import ModalCrearAlmacen from "./ModalCrearAlmacen";
 import ModalEditarAlmacen from "./ModalEditarAlmacen";
 import ModalEliminarAlmacen from "./ModalEliminarAlmacen";
-import useDebounce from "../../../../shared/hooks/useDebounce";
+
+import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Almacenes = () => {
-    const [modalActivo, setModalActivo] = useState(null); // Establece la modal que estará activa
+    const token = useSelector(state => state.auth.token);
+    const [almacenSeleccionado, setAlmacenSeleccionado] = useState(null);
+    const [modalActivo, setModalActivo] = useState(null); 
     const [almacenes, setAlmacenes] = useState([]);
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
-    const token = useSelector(state => state.auth.token);
-    const [almacenSeleccionado, setAlmacenSeleccionado] = useState(null);
     const [refresh, setRefresh] = useState(0); 
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
@@ -36,7 +37,6 @@ const Almacenes = () => {
                 setAlmacenes(respuesta.data)
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
-
             } catch (error) {
                 setError(error?.response?.data?.message || "Ha ocurrido un error interno");
             } finally {
@@ -55,7 +55,7 @@ const Almacenes = () => {
                     <div className="flex gap-1 items-center justify-between">
                         <Button
                             type="button"
-                            colorButton="secondary"
+                            colorButton="primary"
                             onClick={() => {
                                 setModalActivo("crear")
                             }}
@@ -90,38 +90,38 @@ const Almacenes = () => {
                 <table className="min-w-full mt-3">
                     <thead>
                         <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
-                            <th className="py-3">
+                            <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Nombre del almacén</p>
                             </th>
-                            <th className="py-3 w-[100px]">
+                            <th className="py-3 px-4 w-[100px]">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
                             </th>
                         </tr>
                     </thead>
-                    {loading ? <SkeletonTable rows={7} columns={5}/>: 
+                    {loading ? <SkeletonTable rows={5} columns={2}/>: 
                         <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
                             {error ? <tr>
-                                <td colSpan="5" className="py-3">
+                                <td colSpan="5" className="py-3 px-4">
                                     <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
                                 </td>
                             </tr> : 
                             <>
                                 {almacenes.length === 0 ? 
                                     <tr>
-                                        <td colSpan="5" className="py-3">
+                                        <td colSpan="5" className="py-3 px-4">
                                             <p className="text-gray-700 dark:text-gray-400 text-center"> No hay almacenes por mostrar</p>
                                         </td>
                                     </tr>: 
                                     <>
                                         {almacenes.map(almacen => {
                                             return <tr key={almacen.id}>
-                                                <td className="py-3">
+                                                <td className="py-3 px-4">
                                                     <p className="text-gray-700 dark:text-gray-400"> {almacen.nombre} </p>
                                                 </td>
-                                                <td className="py-3">
+                                                <td className="py-3 px-4">
                                                     <div className="text-gray-700 dark:text-gray-400 flex gap-2">
                                                         <button 
-                                                            className="cursor-pointer"
+                                                            className="cursor-pointer p-1"
                                                             title="Editar almacén"
                                                             onClick={() => {
                                                                 setModalActivo("editar"); 
@@ -131,7 +131,7 @@ const Almacenes = () => {
                                                             <LuPencil />
                                                         </button>
                                                         <button 
-                                                            className="cursor-pointer"
+                                                            className="cursor-pointer p-1"
                                                             title="Eliminar almacén"
                                                             onClick={() => {
                                                                 setAlmacenSeleccionado(almacen);

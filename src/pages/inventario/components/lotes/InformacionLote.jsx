@@ -96,16 +96,14 @@ const InformacionLote = (props) => {
                         )}
 
                         {/* Salidas */}
-                        {lote?.salidas && (
-                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
-                                <span className="text-theme-sm">
-                                    Salidas
-                                </span>
-                                <span className="text-right text-theme-sm">
-                                    {lote.salidas}
-                                </span>
-                            </div>
-                        )}
+                        <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                            <span className="text-theme-sm">
+                                Salidas
+                            </span>
+                            <span className="text-right text-theme-sm">
+                                {lote.salidas}
+                            </span>
+                        </div>
 
                         {/* Stock final */}
                         {lote?.stockFinal && (
