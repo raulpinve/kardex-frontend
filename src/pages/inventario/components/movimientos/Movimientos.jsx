@@ -5,7 +5,6 @@ import CardTitulo from '../../../../shared/components/CardTitulo';
 import Button from '../../../../shared/components/Button';
 import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
 import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 import { obtenerCorteMovimientosLote } from '../../services/cortesServices';
 import { useSelector } from 'react-redux';
 import useDebounce from '../../../../shared/hooks/useDebounce';
@@ -15,6 +14,11 @@ import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import { dateColombiaFormat } from '../../../../utils/utilities';
 import ModalEditarMovimiento from './ModalEditarMovimiento';
 import ModalEliminarMovimiento from './ModalEliminarMovimiento';
+import { es } from 'date-fns/locale/es';
+import { registerLocale } from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import "../../../../assets/datePicker.css"
+registerLocale('es', es)
 
 const Movimientos = () => {
     const [movimientos, setMovimientos] = useState([]);
@@ -100,11 +104,12 @@ const Movimientos = () => {
                         </div>
                         <div>
                             <DatePicker 
-                                className='relative select-form w-[170px] px-2'
+                                className='relative select-form w-[140px] px-2'
                                 selected={fecha} 
                                 onChange={handleChange} 
                                 dateFormat="yyyy/MM/dd" 
                                 placeholderText="Selecciona una fecha..."
+                                locale="es"
                             />
                         </div>
                       

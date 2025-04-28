@@ -28,7 +28,7 @@ const Header = () => {
             </button>
 
             {/* Search input */}
-            <div className="relative hidden xl:block">
+            <div className="relative hidden">
               <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
               <input 
                 type="text" 

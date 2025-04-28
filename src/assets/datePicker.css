@@ -1,0 +1,33 @@
+.react-datepicker {
+  font-family: 'Outfit', sans-serif;
+  border: 1px solid #e5e7eb;
+}
+
+.react-datepicker__header {
+  background-color: white;
+  font-family: 'Outfit', sans-serif;
+  border: 1px solid #e5e7eb;
+  padding: 12px 0;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name,
+.react-datepicker__day {
+  font-family: 'Outfit', sans-serif;
+}
+.react-datepicker__month{
+  margin: 0.8rem;
+}
+.react-datepicker__day-names{
+  margin-top: 5px;
+}
+.react-datepicker__navigation-icon{
+  top: 7px;
+}
+.react-datepicker__triangle{
+  display: none;
+  font-family: "Outfit", system-ui, sans-serif;
+}
+.react-datepicker{
+  top: -5px;
+}
