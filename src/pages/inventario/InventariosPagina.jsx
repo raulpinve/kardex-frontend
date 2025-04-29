@@ -52,7 +52,7 @@ const InventariosPagina = () => {
         if (!corteId && !almacenId) return;
         cargarCorte();
 
-    }, [corteId, almacenId]);
+    }, [corteId, almacenId, navigate, token]);
 
     return (
         <Layout>

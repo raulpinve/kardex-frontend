@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { crearLote } from "../../services/loteServices";
 
 const ModalCrearLote = (props) => {
-    const { cerrarModal, setLotes, medicamentoId} = props;
+    const { cerrarModal, setLotes, productoId} = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
@@ -23,7 +23,7 @@ const ModalCrearLote = (props) => {
         try {
             const result = await crearLote(token, {
                 ...values, 
-                productoId: medicamentoId
+                productoId: productoId
             })
             const data = result?.data
             if(data){

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Card from '../../../../shared/components/Card';
+import { LuEraser, LuPencil, LuRefreshCcw } from 'react-icons/lu';
 import CardTitulo from '../../../../shared/components/CardTitulo';
-import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
-import Button from '../../../../shared/components/Button';
 import Pagination from '../../../../shared/components/Pagination';
+import Button from '../../../../shared/components/Button';
+import Card from '../../../../shared/components/Card';
+import React, { useState } from 'react';
 
 const InventarioMovimientos = () => {
     const [loading, setLoading] = useState(false);

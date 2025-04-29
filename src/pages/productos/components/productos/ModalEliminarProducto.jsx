@@ -4,10 +4,10 @@ import MessageError from '../../../../shared/components/MessageError';
 import Button from '../../../../shared/components/Button';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
-import { eliminarDispositivo } from '../../services/dispositivosServices';
+import { eliminarProducto } from '../../services/productoServices';
 
-const ModalEliminarDispositivo = (props) => {
-    const {cerrarModal, dispositivoSeleccionado, setDispositivos} = props;
+const ModalEliminarProducto = (props) => {
+    const {cerrarModal, productoSeleccionado, tipo, setProductos} = props;
     const [messageError, setMessageError] = useState();
     const [loading, setLoading] = useState();
     const [inputNombre, setInputNombre] = useState("");
@@ -15,24 +15,25 @@ const ModalEliminarDispositivo = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const nombreDispositivo = `${dispositivoSeleccionado.nombre}`.trim();
+        const nombreMedicamento = `${productoSeleccionado.nombre}`.trim();
 
-        if (inputNombre.trim() !== nombreDispositivo) {
-            setMessageError("El nombre ingresado no coincide con el del dispositivo que quieres eliminar.");
+        if (inputNombre.trim() !== nombreMedicamento) {
+            setMessageError(`El ${tipo === "medicamentos" ? "principio activo": "nombre"} no coincide con el del 
+                ${tipo === "medicamentos" ? "medicamento" : "dispositivo"} que desea eliminar.`);
             return;
         }
         setMessageError("");
         setLoading(true);
 
         try {
-            await eliminarDispositivo(token, dispositivoSeleccionado.id);
-            setDispositivos(prevDispositivos =>
-                prevDispositivos.filter(dispositivo => dispositivo.id !== dispositivoSeleccionado.id) 
+            await eliminarProducto(token, tipo, productoSeleccionado.id);
+            setProductos(prevProductos =>
+                prevProductos.filter(producto => producto.id !== productoSeleccionado.id) 
             )
-            toast.success("Dispositivo eliminado exitosamente");
+            toast.success(`${tipo === "medicamentos" ? "Medicamento": "Dispositivo"} eliminado exitosamente`);
             cerrarModal();
         } catch {
-            toast.error("Ocurrió un error al eliminar el dispositivo");
+            toast.error(`Ocurrió un error al eliminar el ${tipo === "medicamentos" ? "medicamento": "dispositivo"}.`);
         } finally {
             setLoading(false);
         }
@@ -42,13 +43,13 @@ const ModalEliminarDispositivo = (props) => {
         <Modal
           isOpenModal={true}
           setIsOpenModal={cerrarModal}
-          title="Eliminar dispositivo"
-          description="Esta acción eliminará permanentemente al dispositivo de la plataforma."
+          title={`Eliminar ${tipo === "medicamentos"? "medicamento": "dispositivo"}`}
+          description={`Esta acción eliminará permanentemente al ${tipo === "medicamentos" ? "medicamento": "dispositivo"} de la plataforma.`}
           size="md"
         >
             <form onSubmit={handleSubmit}>
                 <p className="mb-2">
-                    Para confirmar la eliminación, escribe el nombre del dispositivo <b>{dispositivoSeleccionado?.nombre}</b> en el campo a continuación:
+                    Para confirmar la eliminación, escribe {tipo === "medicamentos"? "el principio activo del medicamento": "el nombre del dispositivo"} <b>{productoSeleccionado?.nombre}</b> en el campo a continuación:
                 </p>
                 <input 
                     type="text" 
@@ -72,7 +73,7 @@ const ModalEliminarDispositivo = (props) => {
                     />
                     <Button 
                         colorButton="danger"
-                        textButton="Eliminar medicamento"
+                        textButton={`Eliminar ${tipo === "medicamentos" ? "medicamento": "dispositivo"}`}
                         loading={loading}
                         type="submit"
                     />
@@ -83,4 +84,4 @@ const ModalEliminarDispositivo = (props) => {
       
 };
 
-export default ModalEliminarDispositivo;    
+export default ModalEliminarProducto;    

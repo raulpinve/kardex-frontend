@@ -17,7 +17,6 @@ const PerfilPagina = () => {
     return (
         <>
             <Layout>
-                <Title>Perfil</Title>    
                 <div className="mt-4">
                     <Card>
                         <CardTitulo>Perfil</CardTitulo>

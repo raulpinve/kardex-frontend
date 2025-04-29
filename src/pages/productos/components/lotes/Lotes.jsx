@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import Card from "../../../../shared/components/Card";
-import CardTitulo from "../../../../shared/components/CardTitulo";
-import Button from "../../../../shared/components/Button";
-import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
-import ModalCrearLote from "./ModalCrearLote";
-import { obtenerLotes } from "../../services/loteServices";
-import { useSelector } from "react-redux";
-import useDebounce from "../../../../shared/hooks/useDebounce";
+import { dateColombiaFormat, obtenerEstadoVencimiento } from "../../../../utils/utilities";
 import SkeletonTable from "../../../../shared/components/SkeletonTable";
-import { dateColombiaFormat, formatDate, obtenerEstadoVencimiento } from "../../../../utils/utilities";
+import CardTitulo from "../../../../shared/components/CardTitulo";
+import Pagination from "../../../../shared/components/Pagination";
+import useDebounce from "../../../../shared/hooks/useDebounce";
+import { obtenerLotes } from "../../services/loteServices";
+import Button from "../../../../shared/components/Button";
+import Card from "../../../../shared/components/Card";
+import ModalCrearLote from "./ModalCrearLote";
+import { useEffect, useState } from "react";
+import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { useSelector } from "react-redux";
 import ModalEditarLote from "./ModalEditarLote";
 import ModalEliminarLote from "./ModalEliminarLote";
-import Pagination from "../../../../shared/components/Pagination";
 
-const Lotes = ({medicamentoId}) => {
+const Lotes = ({ productoId, tipo }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [lotes, setLotes] = useState([]);
@@ -24,6 +24,7 @@ const Lotes = ({medicamentoId}) => {
     const [modalActivo, setModalActivo] = useState(); 
     const token = useSelector(state => state.auth.token);
     const [consulta, setConsulta] = useState("");
+
     const debouncedConsulta = useDebounce(consulta, 500);
 
     // Obtener lotes
@@ -32,18 +33,18 @@ const Lotes = ({medicamentoId}) => {
             setLoading(true);
             setError(null); 
             try {
-                const respuesta = await obtenerLotes(token, medicamentoId, paginaActual, debouncedConsulta);
+                const respuesta = await obtenerLotes(token,tipo, productoId, paginaActual, debouncedConsulta);
                 setLotes(respuesta.data);
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
             } catch (error) {
-                setError(error?.response?.data?.message || "Ha ocurrido un error interno.");
+                setError(error?.response?.data?.message || "Ocurrió un error al obtener los lotes. Por favor, intenta nuevamente.");
             } finally {
                 setLoading(false);
             }
         }
         fetchCategorias();
-    }, [debouncedConsulta, paginaActual, token, refresh]);
+    }, [debouncedConsulta, paginaActual, token, refresh, productoId, tipo]);
     
     return (
         <>
@@ -72,7 +73,6 @@ const Lotes = ({medicamentoId}) => {
                                 }}
                             />
                         </div>
-                        
                         <Button
                             type="button"
                             colorButton="secondary"
@@ -121,7 +121,7 @@ const Lotes = ({medicamentoId}) => {
                                 {/* No hay lotes por mostrar */}
                                 {!loading && !error && lotes.length === 0 && (<tr>
                                         <td colSpan="5" className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400 text-center"> No hay lotes por mostrar</p>
+                                            <p className="text-gray-700 dark:text-gray-400 text-center"> No hay lotes por mostrar.</p>
                                         </td>
                                     </tr>
                                 )}
@@ -154,7 +154,7 @@ const Lotes = ({medicamentoId}) => {
                                                 <td className="py-3 px-4">
                                                     <div className="text-gray-700 dark:text-gray-400 flex gap-2">
                                                     <button
-                                                        className="cursor-pointer"
+                                                        className="cursor-pointer p-1"
                                                         title="Editar lote"
                                                         onClick={() => {
                                                             setModalActivo("editar");
@@ -164,7 +164,7 @@ const Lotes = ({medicamentoId}) => {
                                                         <LuPencil />
                                                     </button>
                                                     <button
-                                                        className="cursor-pointer"
+                                                        className="cursor-pointer p-1"
                                                         title="Eliminar lote"
                                                         onClick={() => {
                                                             setLoteSeleccionado(lote);
@@ -179,7 +179,7 @@ const Lotes = ({medicamentoId}) => {
                                         );
                                         })}
                                     </>
-                                    )}
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -194,7 +194,7 @@ const Lotes = ({medicamentoId}) => {
                 <ModalCrearLote 
                     cerrarModal={() => setModalActivo(null)} 
                     setLotes = {setLotes}
-                    medicamentoId = {medicamentoId}
+                    productoId = {productoId}
                     loteSeleccionado = {loteSeleccionado}
                 />
             )}
@@ -203,7 +203,7 @@ const Lotes = ({medicamentoId}) => {
                 <ModalEditarLote 
                     cerrarModal={() => setModalActivo(null)} 
                     setLotes = {setLotes}
-                    medicamentoId = {medicamentoId}
+                    productoId = {productoId}
                     loteSeleccionado = {loteSeleccionado}
                 />
             )}
@@ -211,7 +211,7 @@ const Lotes = ({medicamentoId}) => {
                 <ModalEliminarLote 
                     cerrarModal={() => setModalActivo(null)} 
                     setLotes = {setLotes}
-                    medicamentoId = {medicamentoId}
+                    productoId = {productoId}
                     loteSeleccionado = {loteSeleccionado}
                 />
             )}

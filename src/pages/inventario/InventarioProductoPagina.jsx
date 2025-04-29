@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../shared/components/Layout';
-import InformacionProducto from './components/productos/InformacionProducto';
+// import InformacionProducto from './components/productos/InformacionProducto';
 import TarjetasInformacionStock from './components/productos/TarjetasInformacionStock';
 import InventarioLotes from './components/productos/InventarioLotes';
-import InventarioMovimientos from './components/productos/InventarioMovimientos';
 import { useParams } from 'react-router-dom';
 import { obtenerProducto, obtenerProductoCorte } from './services/productoServices';
 import { useSelector } from 'react-redux';
 import SkeletonElement from '../../shared/components/SkeletonElement';
 import SeleccionarCorte from './components/cortes/SeleccionarCorte';
 import { obtenerCorte } from './services/cortesServices';
+import InformacionProducto from '../productos/components/producto/InformacionProducto';
 
 const InventarioProductoPagina = () => {
     const {corteId, productoId} = useParams();

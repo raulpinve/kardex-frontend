@@ -1,7 +1,7 @@
 import { apiClient } from "../../../utils/authUtils";
 
-const obtenerLotes = (token, dispositivoId, pagina = 1, consulta) => {
-    const request = apiClient(token).get(`/lotes/${dispositivoId}/dispositivo`, {
+const obtenerLotes = (token, tipo, medicamentoId, pagina = 1, consulta) => {
+    const request = apiClient(token).get(`/lotes/${medicamentoId}/${tipo === "medicamentos" ? "medicamento": "dispositivo"}`, {
         params: {
             pagina,
             ...(consulta && { consulta })

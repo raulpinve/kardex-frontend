@@ -1,13 +1,13 @@
-import imageDefault from "../../../../assets/image-default.png";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LuCamera, LuCloudUpload, LuRefreshCcw, LuTrash2 } from "react-icons/lu";
-import ModalAbrirImagenPerfil from "./ModalAbrirImagenPerfil";
-import { eliminarAvatar, subirAvatar } from "../../services/dispositivoServices";
 import { host } from "../../../../utils/config";
+import imageDefault from "../../../../assets/image-default.png";
+import ModalAbrirImagenPerfil from "../../../../shared/components/ModalAbrirImagenPerfil";
+import { eliminarAvatar, subirAvatar } from "../../services/productoServices";
 
-const SubirImagenPerfilDispositivo = ({dispositivo, setDispositivo}) => {
+const SubirImagenProducto = ({producto, tipo, setProducto}) => {
     const [imageThumbnailSrc, setImageThumbnailSrc] = useState(imageDefault);
     const [imageSrc, setImageSrc] = useState(imageDefault);
     const [modalActivo, setModalActivo] = useState(false);
@@ -31,8 +31,8 @@ const SubirImagenPerfilDispositivo = ({dispositivo, setDispositivo}) => {
             setSubiendoAvatar(true);
             setMostrarMenu(true);
 
-            await eliminarAvatar(token, dispositivo.id);
-            setDispositivo(prev => ({
+            await eliminarAvatar(token, tipo, producto.id);
+            setProducto(prev => ({
                 ...prev,
                 avatar: null,
                 avatarThumbnail: null
@@ -71,9 +71,9 @@ const SubirImagenPerfilDispositivo = ({dispositivo, setDispositivo}) => {
 
         setSubiendoAvatar(true);
         try {
-            const respuesta = await subirAvatar(token, dispositivo.id, file);
+            const respuesta = await subirAvatar(token, tipo, producto.id, file);
             if(respuesta?.data?.avatarThumbnail){
-                setDispositivo(prev => ({
+                setProducto(prev => ({
                     ...prev,
                     avatar: respuesta.data.avatar,
                     avatarThumbnail: respuesta.data.avatarThumbnail
@@ -86,14 +86,14 @@ const SubirImagenPerfilDispositivo = ({dispositivo, setDispositivo}) => {
         }
     };
     useEffect(() => {
-        setImageThumbnailSrc(dispositivo.avatarThumbnail ? `${host}${dispositivo.avatarThumbnail}`: imageDefault)
-        setImageSrc(dispositivo.avatar ? `${host}${dispositivo.avatar}`: imageDefault)
-    }, [dispositivo.avatar, dispositivo.avatarThumbnail])
+        setImageThumbnailSrc(producto.avatarThumbnail ? `${host}${producto.avatarThumbnail}`: imageDefault)
+        setImageSrc(producto.avatar ? `${host}${producto.avatar}`: imageDefault)
+    }, [producto.avatar, producto.avatarThumbnail])
 
     return (
-        <div className="relative w-20 h-20 my-5 mx-auto group">
+        <div className="relative w-14 h-14 my-1 group">
             <button 
-                className="absolute p-[7px] bottom-0 right-0 text-sm bg-blue-700 dark:bg-gray-700 text-white rounded-full cursor-pointer transition"
+                className="absolute p-[6px] -bottom-1 -right-1 text-xs bg-blue-700 dark:bg-gray-700 text-white rounded-full cursor-pointer transition"
                 onClick={toggleMenu}
             >
                 <LuCamera />
@@ -109,14 +109,14 @@ const SubirImagenPerfilDispositivo = ({dispositivo, setDispositivo}) => {
                         onClick={handleOpcionCambiar}
                         className="flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
                     >
-                        {dispositivo?.avatarThumbnail ?  <>
+                        {producto?.avatarThumbnail ?  <>
                             <LuRefreshCcw className="mr-2" /> Cambiar avatar
                         </>
                         : <>
                             <LuCloudUpload className="mr-2" /> Subir avatar
                         </>} 
                     </button>
-                    {dispositivo?.avatarThumbnail && (
+                    {producto?.avatarThumbnail && (
                         <button
                             onClick={handleOpcionEliminar}
                             className="flex items-center px-3 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
@@ -132,12 +132,12 @@ const SubirImagenPerfilDispositivo = ({dispositivo, setDispositivo}) => {
                     setModalActivo("imagen-perfil");
                 }}
                 alt="Imagen de perfil del medicamento" 
-                className="w-20 h-20 object-cover rounded-full select-none cursor-pointer"  
+                className="w-14 h-14 object-cover rounded-full select-none cursor-pointer"  
             />
 
             {subiendoAvatar && (
-                <div className="absolute w-20 h-20 left-0 inset-0 bg-black/50 rounded-full flex items-center justify-center">
-                    <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <div className="absolute w-14 h-14 left-0 inset-0 bg-black/50 rounded-full flex items-center justify-center">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                 </div>
             )}
             <input
@@ -150,10 +150,11 @@ const SubirImagenPerfilDispositivo = ({dispositivo, setDispositivo}) => {
             {modalActivo === "imagen-perfil" && (
                 <ModalAbrirImagenPerfil 
                     cerrarModal={() => setModalActivo(null)}
-                    medicamento={dispositivo}
+                    urlImage={producto.avatar}
+                    tipo={tipo === "medicamentos" ? "medicamento": "dispositivo"}
                 />
             )} 
         </div>
     );
 };
-export default SubirImagenPerfilDispositivo;
+export default SubirImagenProducto;
