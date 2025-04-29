@@ -159,7 +159,7 @@ const Usuarios = () => {
                                                                 setModalActivo("imagen-perfil");
                                                             }}
                                                             alt="Perfil" 
-                                                            className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
+                                                            className="w-8 h-8 block mx-auto object-cover rounded-full select-none cursor-pointer"  
                                                         />
                                                     </td>
                                                     <td className="pl-1 py-3 pr-4">

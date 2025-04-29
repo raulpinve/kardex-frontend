@@ -12,6 +12,7 @@ import { obtenerProductosCorte } from '../../services/productoServices';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import { host } from '../../../../utils/config';
 import imageDefault from "../../../../assets/image-default.png";
+import ModalAbrirImagenPerfil from '../../../../shared/components/ModalAbrirImagenPerfil';
 
 // Componente para mostrar el estado del stock
 const StockStatus = ({ stockRequerido, stockFinal }) => {
@@ -55,6 +56,7 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
 
 const Productos = ({corteSeleccionado, tipo }) => {
     const [paginaActual, setPaginaActual] = useState(1);
+    const [modalActivo, setModalActivo] = useState("");
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -62,6 +64,7 @@ const Productos = ({corteSeleccionado, tipo }) => {
     const token = useSelector(state => state.auth.token);
     const [consulta, setConsulta] = useState("");
     const [refresh, setRefresh] = useState(0); 
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
     const navigate = useNavigate();
     
     const debouncedConsulta = useDebounce(consulta, 500);
@@ -124,8 +127,8 @@ const Productos = ({corteSeleccionado, tipo }) => {
                 <table className="min-w-full table-auto text-sm">
                     <thead className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>
                         <tr className="text-sm text-left">
-                            <th className="w-[50px]"></th>
-                            <th className="py-3 pl-1 pr-4">
+                            <th className="py-3 px-4"></th>
+                            <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">
                                     {tipo === "medicamentos" ? "Principio activo" : "Nombre"}
                                 </p>
@@ -177,9 +180,9 @@ const Productos = ({corteSeleccionado, tipo }) => {
                                     return <tr 
                                         key={producto.id}
                                         onClick={() => redireccionarProductoCorte(corteSeleccionado.id, producto.id)}
-                                        className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                        className="cursor-pointer"
                                     >
-                                        <td className="min-w-[50px] w-[50px]">
+                                        <td className="py-3 w-[50px]">
                                             <img 
                                                 src={`${host}${producto.avatar}`}
                                                 onError={(e) => {
@@ -188,14 +191,14 @@ const Productos = ({corteSeleccionado, tipo }) => {
                                                 }}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    // setModalActivo("imagen-perfil");
-                                                    // setMedicamentoSeleccionado(medicamento);
+                                                    setModalActivo("imagen-perfil");
+                                                    setProductoSeleccionado(producto);
                                                 }}
                                                 alt="Perfil" 
-                                                className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
+                                                className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer mx-auto"  
                                             />
                                         </td>
-                                        <td className="py-3 pl-1 pr-4">
+                                        <td className="py-3 px-4">
                                             <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
                                         </td>
                                         <td className="py-3 px-4">
@@ -230,6 +233,13 @@ const Productos = ({corteSeleccionado, tipo }) => {
                 onPageChange={setPaginaActual}
             />
         </Card>
+        {modalActivo === "imagen-perfil" && (
+            <ModalAbrirImagenPerfil 
+                cerrarModal={() => setModalActivo(null)}
+                urlImage = {`${productoSeleccionado.avatar}`}
+                tipo={tipo}
+            />
+        )}
     </>
     );
 };
