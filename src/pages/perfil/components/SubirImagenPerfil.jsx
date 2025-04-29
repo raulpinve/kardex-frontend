@@ -40,7 +40,6 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
             toast.success("Avatar eliminado exitosamente.");
             setTieneImagen(false);
         } catch (error) {
-            console.log(error)
             toast.error(error?.response?.data?.message || "No se pudo eliminar el avatar")            
         } finally {
             setMostrarMenu(false);
@@ -54,7 +53,7 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
             try {
                 const response = await fetch(url, { method: 'HEAD' });
                 setTieneImagen(response.ok); // true si status 200
-            } catch (error) {
+            } catch{
                 setTieneImagen(false);
             }
         };
@@ -96,28 +95,47 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
                 setMostrarMenu(false);
             }
         };
-
         if (mostrarMenu) {
             document.addEventListener("mousedown", handleClickOutside);
         } else {
             document.removeEventListener("mousedown", handleClickOutside);
         }
-
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [mostrarMenu]);
 
     return (
-        <div className="relative">
-                <button 
-                className="absolute p-[7px] bottom-0 right-0 text-sm bg-blue-700 dark:bg-gray-700 text-white rounded-full cursor-pointer transition"
+        <div className="relative group w-20 h-20">
+            {/* Imagen de perfil */}
+            <img 
+                src={`${host}/uploads/avatar-usuarios/${usuario.id}/${avatarPreview}`}
+                onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = imageDefault; 
+                }}
+                onClick={() => { setModalActivo("imagen-perfil") }}
+                alt="Perfil" 
+                className="w-full h-full object-cover rounded-full select-none cursor-pointer" 
+            />
+
+            {/* Botón de cámara: visible solo al hacer hover sobre el contenedor */}
+            <button 
+                className="opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 absolute bottom-0 right-0 p-[7px] bg-blue-700 dark:bg-gray-700 text-white rounded-full cursor-pointer"
                 onClick={toggleMenu}
             >
                 <LuCamera />
             </button>
 
-            {/* Dropdown para editar y/o eliminar avatar */}
+
+            {/* Indicador de carga */}
+            {subiendoAvatar && (
+                <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
+                    <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
+
+            {/* Dropdown de opciones */}
             {mostrarMenu && (
                 <div 
                     ref={menuRef}
@@ -127,12 +145,15 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
                         onClick={handleOpcionCambiar}
                         className="flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
                     >
-                        {tieneImagen ?  <>
-                            <LuRefreshCcw className="mr-2" /> Cambiar avatar
-                        </>
-                        : <>
-                            <LuCloudUpload className="mr-2" /> Subir avatar
-                        </>} 
+                        {tieneImagen ? (
+                            <>
+                                <LuRefreshCcw className="mr-2" /> Cambiar avatar
+                            </>
+                        ) : (
+                            <>
+                                <LuCloudUpload className="mr-2" /> Subir avatar
+                            </>
+                        )}
                     </button>
                     {tieneImagen && (
                         <button
@@ -144,21 +165,7 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
                     )}
                 </div>
             )}
-            <img 
-                src={`${host}/uploads/avatar-usuarios/${usuario.id}/${avatarPreview}`}
-                onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = imageDefault; 
-                }}
-                onClick={() => {setModalActivo("imagen-perfil")}}
-                alt="Perfil" 
-                className="w-20 h-20 object-cover rounded-full select-none cursor-pointer"  
-            />
-            {subiendoAvatar && (
-                <div className="absolute w-20 h-20 left-0 inset-0 bg-black/50 rounded-full flex items-center justify-center">
-                    <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                </div>
-            )}
+
             <input
                 type="file"
                 ref={fileInputRef}
@@ -167,7 +174,7 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
                 className="hidden"
             />
         </div>
-    );
+        );
 };
 
 export default SubirImagenPerfil;

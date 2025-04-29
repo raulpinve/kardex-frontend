@@ -91,9 +91,9 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
     }, [producto.avatar, producto.avatarThumbnail])
 
     return (
-        <div className="relative w-14 h-14 my-1 group">
+        <div className="relative group w-14 h-14 my-1 group">
             <button 
-                className="absolute p-[6px] -bottom-1 -right-1 text-xs bg-blue-700 dark:bg-gray-700 text-white rounded-full cursor-pointer transition"
+                className="opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 duration-200  absolute p-[6px] -bottom-1 -right-1 text-xs bg-blue-700 dark:bg-gray-700 text-white rounded-full cursor-pointer transition"
                 onClick={toggleMenu}
             >
                 <LuCamera />

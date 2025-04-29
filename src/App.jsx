@@ -16,9 +16,9 @@ import { Toaster } from 'sonner';
 import PerfilEditarPagina from "./pages/perfil/PerfilEditarPagina";
 import PerfilPagina from "./pages/perfil/PerfilPagina";
 import VerificarEmailPage from "./pages/auth/VerificarEmailPage";
-import InventariosPagina from "./pages/inventario/InventariosPagina";
-import InventarioProductoPagina from "./pages/inventario/InventarioProductoPagina";
-import InventarioLotesPagina from "./pages/inventario/InventarioLotesPagina";
+import InventariosPagina from "./pages/inventarios/InventariosPagina";
+import InventarioProductoPagina from "./pages/inventarios/InventarioProductoPagina";
+import InventarioLotesPagina from "./pages/inventarios/InventarioLotesPagina";
 import ProductosPagina from "./pages/productos/ProductosPagina";
 import productoPagina from "./pages/productos/productoPagina";
 
