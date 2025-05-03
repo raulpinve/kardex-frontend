@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import MessageError from '../../../../shared/components/MessageError';
-import { host } from '../../../../utils/config';
-import imageDefault from "../../../../assets/image-default.png";
 import SkeletonElement from '../../../../shared/components/SkeletonElement';
 import ModalAbrirImagenPerfil from '../../../../shared/components/ModalAbrirImagenPerfil';
 import SubirImagenProducto from './SubirImagenProducto';
@@ -11,7 +9,6 @@ import SubirImagenProducto from './SubirImagenProducto';
 const InformacionProducto = (props) => {
     const {producto, setProducto, tipo, loading, error} = props;
     const [modalActivo, setModalActivo] = useState();
-    const [urlImage, setUrlImage] = useState(null);
     return (
         <>
             <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 `}>
@@ -28,29 +25,15 @@ const InformacionProducto = (props) => {
                     </div>
                 </div>)}
                 {!loading && error && <MessageError>{error}</MessageError>}
-                {!loading && producto && ( <>
+                {!loading && !error && producto && ( <>
                     <div className='flex items-center mt-2 justify-between'>
                         <CardTitulo> {producto.nombre} </CardTitulo>
-                        {/* <img 
-                            src={`${host}${producto.avatarThumbnail}`}
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = imageDefault; 
-                            }}
-                            alt={`Imagen de perfil del ${tipo === "medicamentos"? "medicamento": "dispositivo"}`}
-                            className="w-14 h-14 object-cover rounded-full select-none cursor-pointer" 
-                            onClick={() => {
-                                setUrlImage(producto.avatar)
-                                setModalActivo("imagen-perfil");
-                            }} 
-                        /> */}
                         <SubirImagenProducto 
                             producto={producto}
                             setProducto={setProducto}
                             tipo = {tipo}
                         />
                     </div>
-
                     <div className='my-5'>
                         {/* Tipo */}
                         <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
@@ -153,7 +136,6 @@ const InformacionProducto = (props) => {
             {modalActivo === "imagen-perfil" && (
                 <ModalAbrirImagenPerfil 
                     cerrarModal={() => setModalActivo(null)}
-                    urlImage = {urlImage}
                     tipo = {producto?.tipo}
                 />
             )}

@@ -10,13 +10,11 @@ import { editarLote } from "../../services/loteServices";
 import { formatDate } from "../../../../utils/utilities";
 
 const ModalEditarLote = (props) => {
+    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
     const { cerrarModal, setLotes, loteSeleccionado} = props;
     const [messageError, setMessageError] = useState(false);
-    const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
-    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ 
-        mode: "onChange"
-    })
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async(values) => {
         setMessageError(false)
@@ -46,13 +44,13 @@ const ModalEditarLote = (props) => {
             setValue("registroSanitario", loteSeleccionado.registroSanitario);
             setValue("fechaVencimiento", formatDate(loteSeleccionado.fechaVencimiento));
         }
-    }, [loteSeleccionado])
+    }, [loteSeleccionado, setValue])
 
     return (
         <Modal
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
-            title="Editar Almacén"
+            title="Editar lote"
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">

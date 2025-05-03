@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import Pagination from '../../../../shared/components/Pagination';
-import Card from '../../../../shared/components/Card';
-import CardTitulo from '../../../../shared/components/CardTitulo';
-import Button from '../../../../shared/components/Button';
 import { LuCalendar, LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
-import DatePicker from 'react-datepicker';
-import { obtenerCorteMovimientosLote } from '../../services/cortesServices';
-import { useSelector } from 'react-redux';
-import useDebounce from '../../../../shared/hooks/useDebounce';
-import ModalCrearMovimiento from './ModalCrearMovimiento';
-import { useParams } from 'react-router-dom';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
+import Pagination from '../../../../shared/components/Pagination';
+import CardTitulo from '../../../../shared/components/CardTitulo';
 import { dateColombiaFormat } from '../../../../utils/utilities';
-import ModalEditarMovimiento from './ModalEditarMovimiento';
 import ModalEliminarMovimiento from './ModalEliminarMovimiento';
-import { es } from 'date-fns/locale/es';
-import { registerLocale } from 'react-datepicker';
+import useDebounce from '../../../../shared/hooks/useDebounce';
+import ModalEditarMovimiento from './ModalEditarMovimiento';
+import ModalCrearMovimiento from './ModalCrearMovimiento';
+import Button from '../../../../shared/components/Button';
+import Card from '../../../../shared/components/Card';
 import "react-datepicker/dist/react-datepicker.css";
+import React, { useEffect, useState } from 'react';
+import { registerLocale } from 'react-datepicker';
+import { useParams } from 'react-router-dom';
 import "../../../../assets/datePicker.css"
+import DatePicker from 'react-datepicker';
+import { useSelector } from 'react-redux';
+import { es } from 'date-fns/locale/es';
+import { obtenerCorteMovimientosLote, obtenerMovimientosLote } from '../../services/movimientoServices';
 registerLocale('es', es)
 
 const Movimientos = () => {
@@ -42,13 +42,22 @@ const Movimientos = () => {
     
     // Obtener movimientos del lote en el corte
     useEffect(() => {
-        const fetchMovimientos = async () => {
+        const fetchMovimientosCorte = async (tipoConsulta = "general") => {
             setLoading(true);
             setError(null);
+            
             try {
-                const respuesta = await obtenerCorteMovimientosLote(token, corteId, loteId, tipo, fecha, paginaActual, debouncedConsulta);
+                let respuesta; 
+                if(tipoConsulta === "general"){
+                    respuesta = await obtenerMovimientosLote(token, loteId, tipo, fecha, paginaActual, debouncedConsulta);
+                }else{
+                    respuesta = await obtenerCorteMovimientosLote(token, corteId, loteId, tipo, fecha, paginaActual, debouncedConsulta);
+                }
+
                 if(respuesta?.data){
                     setMovimientos(respuesta.data)
+                    setPaginaActual(respuesta.paginacion.paginaActual);
+                    setTotalPaginas(respuesta.paginacion.totalPaginas);
                 }
             } catch (error) {
                 setError(error?.response?.data?.message || "Ha ocurrido un error al intentar obtener los movimientos.")
@@ -56,8 +65,13 @@ const Movimientos = () => {
                 setLoading(false);
             }
         }
+
         if(loteId && corteId){
-            fetchMovimientos();
+            // Obtener movimientos del lote en un corte predeterminado
+            fetchMovimientosCorte("no-general");
+        }else if(loteId && !corteId){
+            // TODO: Obtener movimientos del lote
+            fetchMovimientosCorte();
         }
     }, [loteId, corteId, token, debouncedConsulta, paginaActual, fresh, tipo, fecha]);
     

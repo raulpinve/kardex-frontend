@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import TarjetasInformacionStock from './components/producto/TarjetasInformacionStock';
 import InformacionProducto from './components/producto/InformacionProducto';
 import Lotes from './components/lotes/Lotes';
+import GraficaProducto from './components/producto/GraficaProducto';
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();
@@ -35,13 +36,14 @@ const ProductoPagina = ({ tipo }) => {
     return (
         <Layout>
             <TarjetasInformacionStock {...{producto, loading, error}}/>
-            <div className="grid w-full md:grid-cols-12 gap-6 mt-4 items-start">
-                <div className='col-span-4'>
-                    <InformacionProducto {...{producto, setProducto, loading, error, tipo}} />
-                </div>
+            <div className="grid w-full md:grid-cols-12 gap-6 mt-4">
+                <InformacionProducto {...{producto, setProducto, loading, error, tipo}} />
                 <div className="col-span-8">
-                    <Lotes {...{tipo, productoId}} />
+                    <GraficaProducto />
                 </div>
+            </div>
+            <div className='mt-6'>
+                <Lotes {...{tipo, productoId}} />
             </div>
         </Layout>
     );

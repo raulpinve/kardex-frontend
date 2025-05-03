@@ -91,7 +91,7 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
     }, [producto.avatar, producto.avatarThumbnail])
 
     return (
-        <div className="relative group w-14 h-14 my-1 group">
+        <div className="relative group w-12 h-12 my-1 group">
             <button 
                 className="opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 duration-200  absolute p-[6px] -bottom-1 -right-1 text-xs bg-blue-700 dark:bg-gray-700 text-white rounded-full cursor-pointer transition"
                 onClick={toggleMenu}
@@ -132,11 +132,11 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
                     setModalActivo("imagen-perfil");
                 }}
                 alt="Imagen de perfil del medicamento" 
-                className="w-14 h-14 object-cover rounded-full select-none cursor-pointer"  
+                className="w-12 h-12 object-cover rounded-full select-none cursor-pointer"  
             />
 
             {subiendoAvatar && (
-                <div className="absolute w-14 h-14 left-0 inset-0 bg-black/50 rounded-full flex items-center justify-center">
+                <div className="absolute w-12 h-12 left-0 inset-0 bg-black/50 rounded-full flex items-center justify-center">
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                 </div>
             )}

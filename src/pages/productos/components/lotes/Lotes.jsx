@@ -12,6 +12,8 @@ import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import ModalEditarLote from "./ModalEditarLote";
 import ModalEliminarLote from "./ModalEliminarLote";
+import { useNavigate } from "react-router-dom";
+import { host } from "../../../../utils/config";
 
 const Lotes = ({ productoId, tipo }) => {
     const [loading, setLoading] = useState(false);
@@ -24,6 +26,7 @@ const Lotes = ({ productoId, tipo }) => {
     const [modalActivo, setModalActivo] = useState(); 
     const token = useSelector(state => state.auth.token);
     const [consulta, setConsulta] = useState("");
+    const navigate = useNavigate();
 
     const debouncedConsulta = useDebounce(consulta, 500);
 
@@ -46,6 +49,10 @@ const Lotes = ({ productoId, tipo }) => {
         fetchCategorias();
     }, [debouncedConsulta, paginaActual, token, refresh, productoId, tipo]);
     
+    const irALote = (loteId) => {
+        navigate(`/${tipo}/lotes/${loteId}`)
+    }
+
     return (
         <>
             <Card>
@@ -133,7 +140,11 @@ const Lotes = ({ productoId, tipo }) => {
                                         const { estado, color } = obtenerEstadoVencimiento(lote.fechaVencimiento);
 
                                         return (
-                                            <tr key={lote.id} className=" text-sm">
+                                            <tr 
+                                                key={lote.id} 
+                                                className="cursor-pointer text-sm"
+                                                onClick={() => irALote(lote.id)}
+                                            >
                                                 <td className="py-3 px-4 ">
                                                     <div className="items-center flex gap-3 rounded-full">
                                                         <p className="text-gray-700 dark:text-gray-400 text-sm">{lote.numeroLote}</p>

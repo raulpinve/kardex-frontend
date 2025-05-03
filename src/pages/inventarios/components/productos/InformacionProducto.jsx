@@ -37,7 +37,7 @@ const InformacionProducto = (props) => {
                                 e.target.src = imageDefault; 
                             }}
                             alt="Imagen de perfil del medicamento" 
-                            className="w-10 h-10 object-cover rounded-full select-none cursor-pointer" 
+                            className="w-10 h-10 object-cover rounded-md select-none cursor-pointer" 
                             onClick={() => {
                                 setUrlImage(producto.avatar)
                                 setModalActivo("imagen-perfil");

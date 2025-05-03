@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
-const Pagination = ({ paginaActual, totalPaginas, onPageChange }) => {
+const Pagination = ({ paginaActual, totalPaginas, onPageChange, className }) => {
     const [expandirIzquierda, setExpandirIzquierda] = useState(false);
     const [expandirDerecha, setExpandirDerecha] = useState(false);
 
@@ -37,7 +37,7 @@ const Pagination = ({ paginaActual, totalPaginas, onPageChange }) => {
     };
 
     return (
-        <nav className="flex items-center text-sm">
+        <nav className={`flex items-center text-sm ${className}`}>
             <button
                 onClick={() => onPageChange(paginaActual - 1)}
                 disabled={paginaActual === 1}

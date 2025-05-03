@@ -36,16 +36,6 @@ const ModalCrearMovimiento = (props) => {
                 setValue("fecha", "");
                 setValue("descripcion", "");
             }
-            // const result = await crearLote(token, {
-            //     ...values, 
-            //     productoId: dispositivoId
-            // })
-            // const data = result?.data
-            // if(data){
-            //     setLotes();
-            //     cerrarModal();
-            //     setValue("numeroLote", "");
-            // } 
             toast.success("Lote creado exitosamente.");
         } catch (error) {
             console.log(error)

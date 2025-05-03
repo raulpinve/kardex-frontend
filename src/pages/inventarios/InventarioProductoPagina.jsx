@@ -75,7 +75,6 @@ const InventarioProductoPagina = () => {
             setStock(null);
         }
     }, [corteId, productoId, token])
-
     return (
         <Layout>
             <div className='py-2'>

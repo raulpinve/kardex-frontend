@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../shared/components/Layout';
-import { formatDateCorte } from '../../utils/utilities';
-import CardTitulo from '../../shared/components/CardTitulo';
-import { LuChevronRight, LuCircleCheck, LuEraser, LuPencil, LuRefreshCcw } from 'react-icons/lu';
 import InformacionLote from './components/lotes/InformacionLote';
-import Card from '../../shared/components/Card';
-import Button from '../../shared/components/Button';
-import Pagination from '../../shared/components/Pagination';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { obtenerCorte, obtenerCorteLote } from './services/cortesServices';
-import SkeletonTable from '../../shared/components/SkeletonTable';
 import SkeletonElement from '../../shared/components/SkeletonElement';
 import SeleccionarCorte from './components/cortes/SeleccionarCorte';
-import { obtenerProducto } from './services/productoServices';
-import Movimientos from './components/movimientos/Movimientos';
+import Movimientos from '../lotes/components/movimientos/Movimientos';
 
 const InventarioLotesPagina = () => {
     const {corteId, loteId} = useParams();
@@ -88,10 +80,15 @@ const InventarioLotesPagina = () => {
                     </div>
                 </div>
             </div>
-            <div className="grid w-full md:grid-cols-12 gap-6 items-start mt-4">
-                <InformacionLote lote={lote} loading = {loading} />
-                <Movimientos />
-            </div>
+            {!loading && !producto && (
+                <p className='text-center text-gray-800'>No hay información del lote por mostrar.</p>
+            )}
+            {!loading && producto && (
+                <div className="grid w-full md:grid-cols-12 gap-6 items-start mt-4">
+                    <InformacionLote lote={lote} loading = {loading} error = {error} />
+                    <Movimientos />
+                </div>
+            )}
         </Layout>
     );
 };

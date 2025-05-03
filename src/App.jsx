@@ -21,6 +21,7 @@ import InventarioProductoPagina from "./pages/inventarios/InventarioProductoPagi
 import InventarioLotesPagina from "./pages/inventarios/InventarioLotesPagina";
 import ProductosPagina from "./pages/productos/ProductosPagina";
 import productoPagina from "./pages/productos/productoPagina";
+import LotePagina from "./pages/lotes/LotePagina";
 
 function App() {
   const dispatch = useDispatch();
@@ -83,6 +84,8 @@ function App() {
         <Route path="/dispositivos" element={<PrivateRoute Component={ProductosPagina} tipo = "dispositivos"/>} />
         <Route path="/medicamentos/:productoId" element={<PrivateRoute Component={productoPagina} tipo="medicamentos" />} />
         <Route path="/dispositivos/:productoId" element={<PrivateRoute Component={productoPagina} tipo="dispositivos" />} />
+        <Route path="/medicamentos/lotes/:loteId" element={<PrivateRoute Component={LotePagina}/>} />
+        <Route path="/dispositivos/lotes/:loteId" element={<PrivateRoute Component={LotePagina}/>} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
