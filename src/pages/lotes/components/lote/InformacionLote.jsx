@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import Card from '../../../../shared/components/Card';
-import CardTitulo from '../../../../shared/components/CardTitulo';
-import { useParams } from 'react-router-dom';
-import { obtenerLote } from '../../services/loteServices';
-import { useSelector } from 'react-redux';
 import { dateColombiaFormat, obtenerEstadoVencimiento } from '../../../../utils/utilities';
 import SkeletonElement from '../../../../shared/components/SkeletonElement';
 import MessageError from '../../../../shared/components/MessageError';
+import CardTitulo from '../../../../shared/components/CardTitulo';
+import { obtenerLote } from '../../services/loteServices';
+import Card from '../../../../shared/components/Card';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const InformacionLote = () => {
     const token = useSelector(state => state.auth.token);
@@ -118,7 +118,6 @@ const InformacionLote = () => {
                         </span>
                     </div>
                 </>)}
-                
         </div>
     </Card>);
 };
