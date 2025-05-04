@@ -1,8 +1,8 @@
-import React from 'react';
-import Layout from '../../shared/components/Layout';
+import GraficaComportamientoStock from '../../shared/components/GraficaComportamientoStock';
 import InformacionLote from './components/lote/InformacionLote';
-import GraficaLote from './components/lote/GraficaLote';
 import Movimientos from './components/movimientos/Movimientos';
+import Layout from '../../shared/components/Layout';
+import React from 'react';
 
 const LotePagina = () => {
     return (
@@ -10,7 +10,7 @@ const LotePagina = () => {
             <div className="grid w-full md:grid-cols-12 gap-6 mt-4">
                 <InformacionLote />
                 <div className="col-span-8">
-                    <GraficaLote />
+                    <GraficaComportamientoStock tipo="lote"/>
                 </div>
             </div>
             <div className="mt-6">
