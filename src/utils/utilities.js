@@ -9,6 +9,14 @@ const formatDate = (isoDate) => {
   return new Date(isoDate).toISOString().split('T')[0];
 };
 
+const formatFechaCorte = (fecha) => {
+  const date = new Date(fecha);
+  return date.toLocaleDateString('es-ES', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+};
 
 const dateColombiaFormat = (isoDate) => {
     const date = new Date(isoDate);
@@ -61,11 +69,15 @@ const analizarStock = (stockRequerido, stockDisponible) => {
 const formatDateCorte = (fechaISO) => {
   const fecha = new Date(fechaISO);
 
-  return fecha.toLocaleDateString("es-ES", {
-    month: "long",
+  const texto = fecha.toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "short",
     year: "numeric"
   });
-}
+
+  // Capitaliza el primer carácter
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+};
 
 export {
     formatDateLetters,
@@ -73,5 +85,6 @@ export {
     dateColombiaFormat,
     obtenerEstadoVencimiento,
     analizarStock,
+    formatFechaCorte,
     formatDateCorte
 }

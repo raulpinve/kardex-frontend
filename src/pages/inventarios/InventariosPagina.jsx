@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react";
-import Layout from "../../shared/components/Layout";
-import Button from "../../shared/components/Button";
-import { LuSettings } from "react-icons/lu";
-import ModalCrearCorte from "./components/cortes/ModalCrearCorte";
 import { obtenerCorte, obtenerCortes } from "./services/cortesServices";
-import { useSelector } from "react-redux";
+import Corte from "./components/cortes/InformacionCorte";
+import ModalCrearCorte from "./components/cortes/ModalCrearCorte";
 import { useNavigate, useParams } from "react-router-dom";
-import Spinner from "../../shared/components/Spinner";
 import Productos from "./components/productos/Productos";
-import SeleccionarCorte from "./components/cortes/SeleccionarCorte";
+import Spinner from "../../shared/components/Spinner";
+import Button from "../../shared/components/Button";
+import Layout from "../../shared/components/Layout";
+import React, { useEffect, useState } from "react";
+import { LuSettings } from "react-icons/lu";
+import { useSelector } from "react-redux";
+import CardTitulo from "../../shared/components/CardTitulo";
+import Badge from "../../shared/components/Badge";
 
 const InventariosPagina = () => {
     const navigate = useNavigate();
+    const {corteId} = useParams();
     const almacenId = useSelector(state => state.almacen.almacen?.id);
     const token = useSelector(state => state.auth.token);
-    const [ corteSeleccionado, setCorteSeleccionado ] = useState(null);
     const [ mensajeError, setMensajeError ] = useState(null);
     const [ modalActivo, setModalActivo ] = useState("");
-    const [ cortes, setCortes ] = useState([]);
     const [ loading, setLoading ] = useState(true);
-    const { corteId } = useParams();
 
+    // Obtener corte
     useEffect(() => {
         const cargarCorte = async () => {
             setLoading(true);
@@ -28,9 +29,7 @@ const InventariosPagina = () => {
             try {
                 if (corteId) {
                     const res = await obtenerCorte(token, corteId);
-                    if (res?.data?.id) {
-                        setCorteSeleccionado(res.data);
-                    } else {
+                    if (!res?.data?.id) {
                         setMensajeError("No se encontró el corte con ese ID.");
                     }
                 } else if (almacenId) {
@@ -41,8 +40,8 @@ const InventariosPagina = () => {
                         setMensajeError("No hay cortes disponibles para este almacén.");
                     }
                 }
-            } catch {
-                setMensajeError("Error al cargar el lote.");
+            } catch{
+                setMensajeError("Ocurrió un error al obtener el lote. Por favor, inténtalo otra vez.");
             } finally {
                 setLoading(false);
             }
@@ -59,24 +58,27 @@ const InventariosPagina = () => {
             <div className='py-2'>
                 {/* Header */}
                 <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                        <SeleccionarCorte corteSeleccionado={corteSeleccionado} />
+                    <div className="">
+                        <CardTitulo className="flex items-center">
+                            Inventarios 
+                        </CardTitulo>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Button
-                            textButton={`Crear corte`}
-                            colorButton={`primary`}
-                            className="min-w-[120px]"
-                            onClick={() => setModalActivo("crear")}
-                        />
-                        
-                        <Button 
-                            colorButton={`secondary`}
-                            className="h-[42px]"
-                            title="Configuración"
-                        > 
-                            <LuSettings />
-                        </Button>
+                        <div className="flex gap-2">
+                            <Corte />
+                            <Button
+                                textButton={`Crear corte`}
+                                colorButton={`primary`}
+                                className="min-w-[120px]"
+                                onClick={() => setModalActivo("crear")}
+                            />
+                            <Button 
+                                colorButton={`secondary`}
+                                title="Configuración"
+                            > 
+                                <LuSettings />
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -89,18 +91,18 @@ const InventariosPagina = () => {
             {!mensajeError && loading && (
                 <Spinner className={`mt-4`}/>
             )}
-            {!loading && !mensajeError && corteSeleccionado && (<div>
-                <Productos corteSeleccionado = {corteSeleccionado} tipo = "medicamentos" />
-                <Productos corteSeleccionado = {corteSeleccionado} tipo = "dispositivos" />
+            {!loading && !mensajeError && corteId && (<div>
+                <Productos corteSeleccionado = {corteId} tipo = "medicamentos" />
+                <Productos corteSeleccionado = {corteId} tipo = "dispositivos" />
             </div>)}
 
-            {modalActivo === "crear" && (
+            {/* {modalActivo === "crear" && (
                 <ModalCrearCorte 
                     cerrarModal={() => setModalActivo(null)} 
-                    corteSeleccionado = {corteSeleccionado}
+                    corteSeleccionado = {corteId}
                     setCortes = {setCortes}
                 />
-            )}
+            )} */}
         </Layout>
     );
 };

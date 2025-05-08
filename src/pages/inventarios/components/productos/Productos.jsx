@@ -7,7 +7,7 @@ import { LuCircleAlert, LuCircleCheck, LuRefreshCcw, LuSearch } from 'react-icon
 import { useSelector } from 'react-redux';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { Tooltip } from 'react-tooltip';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { obtenerProductosCorte } from '../../services/productoServices';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import { host } from '../../../../utils/config';
@@ -54,7 +54,7 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
     );
 };
 
-const Productos = ({corteSeleccionado, tipo }) => {
+const Productos = ({ tipo }) => {
     const [paginaActual, setPaginaActual] = useState(1);
     const [modalActivo, setModalActivo] = useState("");
     const [totalPaginas, setTotalPaginas] = useState(1);
@@ -65,6 +65,7 @@ const Productos = ({corteSeleccionado, tipo }) => {
     const [consulta, setConsulta] = useState("");
     const [refresh, setRefresh] = useState(0); 
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+    const {corteId} = useParams();
     const navigate = useNavigate();
     
     const debouncedConsulta = useDebounce(consulta, 500);
@@ -75,7 +76,7 @@ const Productos = ({corteSeleccionado, tipo }) => {
             setLoading(true);
             try {
                 setError(null);
-                const res = await obtenerProductosCorte(token, corteSeleccionado.id, tipo, paginaActual, debouncedConsulta);
+                const res = await obtenerProductosCorte(token, corteId, tipo, paginaActual, debouncedConsulta);
                 setProductos(res.data)
             } catch (error) {
                 setError(error?.response?.data?.message || "Ha ocurrido un error interno");
@@ -83,10 +84,10 @@ const Productos = ({corteSeleccionado, tipo }) => {
                 setLoading(false);
             }
         }
-        if(corteSeleccionado.id){
+        if(corteId){
             fetchProductos();
         }
-    }, [token, corteSeleccionado.id, tipo, paginaActual, refresh, debouncedConsulta]);
+    }, [token, corteId, tipo, paginaActual, refresh, debouncedConsulta]);
 
     const redireccionarProductoCorte = (corteId, productoId) => {
         navigate(`/inventarios/${corteId}/${productoId}`)
@@ -179,7 +180,7 @@ const Productos = ({corteSeleccionado, tipo }) => {
                                 {productos.map(producto => {
                                     return <tr 
                                         key={producto.id}
-                                        onClick={() => redireccionarProductoCorte(corteSeleccionado.id, producto.id)}
+                                        onClick={() => redireccionarProductoCorte(corteId.id, producto.id)}
                                         className="cursor-pointer"
                                     >
                                         <td className="py-3 w-[50px]">

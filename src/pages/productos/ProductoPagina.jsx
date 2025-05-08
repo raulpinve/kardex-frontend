@@ -32,7 +32,7 @@ const ProductoPagina = ({ tipo }) => {
             fetchProducto();
         }
     },[productoId, tipo, token])
-
+    console.log(producto)
     return (
         <Layout>
             <TarjetasInformacionStock {...{producto, loading, error}}/>

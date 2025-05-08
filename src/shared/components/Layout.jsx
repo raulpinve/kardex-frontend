@@ -37,7 +37,7 @@ const Layout = (props) => {
             <Sidebar sidebarOpen={sidebarOpen} />
             <div className="relative flex flex-col flex-1 overflow-x-hidden">
                 <Header setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
-                <div className='px-3 lg:px-8 py-4 2xl:px-16 w-full '> 
+                <div className='px-3 lg:px-8 py-4  w-full '> 
                     {children}
                 </div>
             </div>

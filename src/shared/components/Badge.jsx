@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Badge = ({tipo = "success", children}) => {
+const Badge = ({tipo = "success", children, className}) => {
     let colores;
 
     if(tipo === "danger"){
@@ -11,7 +11,7 @@ const Badge = ({tipo = "success", children}) => {
         colores = "text-blue-600 bg-blue-50 dark:bg-blue-500/15 dark:text-blue-500";
     }
     return (
-        <span className={`flex ml-1 items-center gap-1 rounded-full py-0.5 pl-2 pr-2.5 text-sm font-medium ${colores} `}>
+        <span className={`flex ml-1 items-center gap-1 rounded-full py-0.5 pl-2 pr-2.5 text-sm font-medium ${colores} ${className}`}>
             {children}
         </span>
     );

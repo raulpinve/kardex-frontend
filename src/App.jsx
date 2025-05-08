@@ -17,8 +17,8 @@ import PerfilEditarPagina from "./pages/perfil/PerfilEditarPagina";
 import PerfilPagina from "./pages/perfil/PerfilPagina";
 import VerificarEmailPage from "./pages/auth/VerificarEmailPage";
 import InventariosPagina from "./pages/inventarios/InventariosPagina";
-import InventarioProductoPagina from "./pages/inventarios/InventarioProductoPagina";
-import InventarioLotesPagina from "./pages/inventarios/InventarioLotesPagina";
+// import InventarioProductoPagina from "./pages/inventarios/InventarioProductoPagina";
+// import InventarioLotesPagina from "./pages/inventarios/InventarioLotesPagina";
 import ProductosPagina from "./pages/productos/ProductosPagina";
 import productoPagina from "./pages/productos/productoPagina";
 import LotePagina from "./pages/lotes/LotePagina";
@@ -71,9 +71,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/inventarios" replace />} />
-        <Route path="/inventarios/:corteId?/tipo:?" element={<PrivateRoute Component={InventariosPagina} />} />
-        <Route path="/inventarios/:corteId/:productoId" element={<PrivateRoute Component={InventarioProductoPagina} />} />
-        <Route path="/inventarios/:corteId/:loteId/lote" element={<PrivateRoute Component={InventarioLotesPagina} />} />
+        <Route path="/inventarios/:corteId?" element={<PrivateRoute Component={InventariosPagina} />} />
+        {/* <Route path="/inventarios/:corteId/:productoId" element={<PrivateRoute Component={InventarioProductoPagina} />} /> */}
+        {/* <Route path="/inventarios/:corteId/:loteId/lote" element={<PrivateRoute Component={InventarioLotesPagina} />} /> */}
         <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />
         <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
         <Route path="/:token/verificar-email" element={<VerificarEmailPage />} />
