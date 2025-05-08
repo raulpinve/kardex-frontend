@@ -1,12 +1,12 @@
-import { LuCalendar } from "react-icons/lu";
-import { formatDateCorte } from "../../../../utils/utilities";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { obtenerCorte } from "../../services/cortesServices";
-import { useSelector } from "react-redux";
 import SkeletonElement from "../../../../shared/components/SkeletonElement";
+import { formatDateCorte } from "../../../../utils/utilities";
+import { obtenerCorte } from "../../services/cortesServices";
 import Badge from "../../../../shared/components/Badge";
 import SeleccionarCorte from "./SeleccionarCorte";
+import { useParams } from "react-router-dom";
+import { LuCalendar } from "react-icons/lu";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Corte = () => {
     const token = useSelector(state => state.auth.token);

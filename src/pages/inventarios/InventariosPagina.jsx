@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 import { LuSettings } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import CardTitulo from "../../shared/components/CardTitulo";
-import Badge from "../../shared/components/Badge";
 
 const InventariosPagina = () => {
     const navigate = useNavigate();
@@ -47,7 +46,6 @@ const InventariosPagina = () => {
             }
         };
         
-        // 👉 Aquí va la verificación antes de llamar a cargarCorte
         if (!corteId && !almacenId) return;
         cargarCorte();
 
@@ -96,13 +94,11 @@ const InventariosPagina = () => {
                 <Productos corteSeleccionado = {corteId} tipo = "dispositivos" />
             </div>)}
 
-            {/* {modalActivo === "crear" && (
+            {modalActivo === "crear" && (
                 <ModalCrearCorte 
                     cerrarModal={() => setModalActivo(null)} 
-                    corteSeleccionado = {corteId}
-                    setCortes = {setCortes}
                 />
-            )} */}
+            )}
         </Layout>
     );
 };
