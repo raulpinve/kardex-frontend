@@ -1,4 +1,3 @@
-import React from 'react';
 import { LuCircleAlert } from 'react-icons/lu';
 
 const MessageError = (props) => {
@@ -11,9 +10,9 @@ const MessageError = (props) => {
                     <LuCircleAlert />
                 </div>
                 <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
                         {children}
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>

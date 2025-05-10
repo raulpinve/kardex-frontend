@@ -11,7 +11,6 @@ import MessageError from '../../../../shared/components/MessageError';
 
 const SeleccionarCorte = (props) => {
     const {corteId} = useParams();
-    const [corteSeleccionado, setCorteSeleccionado] = useState(corteId || "");
     const almacenId = useSelector(state => state.almacen.almacen?.id);
     const token = useSelector(state => state.auth.token);
     const [mensajeError, setMensajeError] = useState();
@@ -67,7 +66,7 @@ const SeleccionarCorte = (props) => {
                     <LuCalendar className="absolute left-3.5 top-[14px] dark:text-gray-200" />
                         <select 
                             className="select-form capitalize pl-10"
-                            value={corteSeleccionado}
+                            value={corteId}
                             onChange={(e) => {
                                 cambiarCorteSeleccionado(e.currentTarget.value);
                                 toast.success("Corte seleccionado");

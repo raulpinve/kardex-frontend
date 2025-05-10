@@ -86,11 +86,11 @@
   .message-error{
     @apply bg-red-600 text-white text-sm rounded-xl py-2 px-4 
   }
-  /* .button-form-disabled{
-    @apply bg-slate-800 text-white cursor-not-allowed
+  .button-form-disabled {
+    @apply bg-slate-200 text-white dark:text-white/40 dark:bg-slate-800 
+      border border-gray-300 dark:border-gray-700 
+      cursor-not-allowed rounded-md px-4 font-medium focus:border-none focus:ring-0;
   }
-  */
-
 }
 .ellipsis {
   white-space: nowrap;

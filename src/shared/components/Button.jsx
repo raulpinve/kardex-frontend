@@ -4,7 +4,7 @@ const Button = ({ type, loading, colorButton, textButton, onClick, children, cla
   return (
     <button 
         type={type}
-        className={`button-form ${className} ${loading ? "button-form-disabled": `button-form-${colorButton}`}`}
+        className={`button-form ${className} button-form-${colorButton} ${loading ? "button-form-disabled": ``}`}
         disabled={loading}
         onClick={onClick}
     >

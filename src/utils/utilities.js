@@ -1,3 +1,6 @@
+import { format, parseISO } from "date-fns";
+import { es } from 'date-fns/locale';  // Importar el locale para español
+
 const formatDateLetters = (isoDate) => {
     const date = new Date(isoDate);
     const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
@@ -67,17 +70,13 @@ const analizarStock = (stockRequerido, stockDisponible) => {
 }
   
 const formatDateCorte = (fechaISO) => {
-  const fecha = new Date(fechaISO);
+  const fecha = parseISO(fechaISO); // Convierte la fecha en ISO string a un objeto Date
 
-  const texto = fecha.toLocaleDateString("es-ES", {
-    day: "numeric",
-    month: "short",
-    year: "numeric"
-  });
+  const texto = format(fecha, "d MMM yyyy", { locale: es }); // Formatea en el formato deseado
 
-  // Capitaliza el primer carácter
-  return texto.charAt(0).toUpperCase() + texto.slice(1);
+  return texto.charAt(0).toUpperCase() + texto.slice(1); // Capitaliza el primer carácter
 };
+
 
 export {
     formatDateLetters,

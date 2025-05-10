@@ -29,21 +29,22 @@ const SeleccionarAlmacen = () => {
                 const almacenLocal = localStorage.getItem('almacenSeleccionado');
                 const res = await obtenerAlmacenes(token);
                 setAlmacenes(res.data);
-    
+
                 if (almacenLocal) {
                     const almacenParseado = JSON.parse(almacenLocal);
-                    const existe = res.data.some(a => a.id === almacenParseado.id);
-    
-                    if (existe) {
-                        dispatch(setAlmacen(almacenParseado));
-                        return; 
+                    const almacenActualizado = res.data.find(a => a.id === almacenParseado.id);
+
+                    if (almacenActualizado) {
+                        dispatch(setAlmacen(almacenActualizado));
+                        localStorage.setItem('almacenSeleccionado', JSON.stringify(almacenActualizado));
+                        return;
                     }
-    
+
                     localStorage.removeItem('almacenSeleccionado');
                     dispatch(setAlmacen(null));
                 }
-    
-                setIsOpenModal(true); // Si no había almacenLocal o no existía en la lista
+
+                setIsOpenModal(true);
             } catch (error) {
                 console.error('Error al validar almacén:', error);
                 setIsOpenModal(true);
@@ -52,9 +53,9 @@ const SeleccionarAlmacen = () => {
                 setLoading(false);
             }
         };
-    
+
         validarAlmacenGuardado();
-    }, []);
+    }, [dispatch, token]);
     
     // Este useEffect está bien si se necesita que el modal se cierre automáticamente cuando se elige un almacén desde otro componente
     useEffect(() => {

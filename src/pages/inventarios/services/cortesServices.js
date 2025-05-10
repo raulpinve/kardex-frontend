@@ -32,8 +32,13 @@ const obtenerCorte = (token, corteId) => {
         })
 }
 
-const obtenerFechaCorte = (token, almacenId) => {
-    const request = apiClient(token).get(`/cortes/fechas?almacenId=${almacenId}`);
+const obtenerFechaCorte = (token, almacenId, periodo, diaInicioSemana) => {
+    const request = apiClient(token).get(`/cortes/fechas/${almacenId}`, {
+        params: {
+            ...(periodo && { periodo }),
+            ...(diaInicioSemana && { dia_inicio_semana: diaInicioSemana }),
+        }
+    });
     return request
         .then(response => response.data)
         .catch(err => {

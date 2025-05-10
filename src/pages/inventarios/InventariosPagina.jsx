@@ -10,6 +10,8 @@ import React, { useEffect, useState } from "react";
 import { LuSettings } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import CardTitulo from "../../shared/components/CardTitulo";
+import ModalConfiguracionCorte from "./components/cortes/ModalConfiguracionCorte";
+import DropdownEditarCorte from "./components/cortes/DropdownEditarCorte";
 
 const InventariosPagina = () => {
     const navigate = useNavigate();
@@ -70,12 +72,7 @@ const InventariosPagina = () => {
                                 className="min-w-[120px]"
                                 onClick={() => setModalActivo("crear")}
                             />
-                            <Button 
-                                colorButton={`secondary`}
-                                title="Configuración"
-                            > 
-                                <LuSettings />
-                            </Button>
+                            <DropdownEditarCorte />
                         </div>
                     </div>
                 </div>
