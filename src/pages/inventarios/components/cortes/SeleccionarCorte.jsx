@@ -65,7 +65,7 @@ const SeleccionarCorte = (props) => {
                 <div className="relative">
                     <LuCalendar className="absolute left-3.5 top-[14px] dark:text-gray-200" />
                         <select 
-                            className="select-form capitalize pl-10"
+                            className="select-form pl-10"
                             value={corteId}
                             onChange={(e) => {
                                 cambiarCorteSeleccionado(e.currentTarget.value);
@@ -75,7 +75,7 @@ const SeleccionarCorte = (props) => {
                         >
                         <option value="" disabled>Selecciona un corte</option>
                         {cortes.map(corte => <option key={corte.id} value={corte.id}>
-                            {`${formatDateCorte(corte?.fechaInicio)} - ${formatDateCorte(corte?.fechaFin)} ${!corte.cerrado? "(activo)" : "" }`}
+                            {`${formatDateCorte(corte.periodo)} ${!corte?.cerrado ? "(activo)": ""}`}
                         </option>)}
                     </select>   
                     <LuChevronDown className="absolute right-3.5 top-[13px] dark:text-gray-200" />                     

@@ -69,12 +69,17 @@ const analizarStock = (stockRequerido, stockDisponible) => {
     };
 }
   
-const formatDateCorte = (fechaISO) => {
-  const fecha = parseISO(fechaISO); // Convierte la fecha en ISO string a un objeto Date
+const formatDateCorte = (fecha) => {
+  const [anio, mes] = fecha.split("-");
+  const meses = [
+    "enero", "febrero", "marzo", "abril", "mayo", "junio",
+    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+  ];
 
-  const texto = format(fecha, "d MMM yyyy", { locale: es }); // Formatea en el formato deseado
+  const nombreMes = meses[parseInt(mes, 10) - 1];
+  const nombreMesCapitalizado = nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1);
 
-  return texto.charAt(0).toUpperCase() + texto.slice(1); // Capitaliza el primer carácter
+  return `${nombreMesCapitalizado} de ${anio}`;
 };
 
 

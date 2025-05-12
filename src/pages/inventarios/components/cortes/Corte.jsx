@@ -12,7 +12,7 @@ const Corte = () => {
     const token = useSelector(state => state.auth.token);
     const [modalActivo, setModalActivo] = useState(null);
     const [corte, setCorte] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const { corteId } = useParams();
 
@@ -36,14 +36,14 @@ const Corte = () => {
 
     return (<> 
         {loading && (<SkeletonElement className="w-[150px] h-[42px]" />)}
-            {!loading && !error && corte && (<div className="flex items-center">
+        {!loading && !error && corte && (<div className="flex items-center">
                 <Badge className={`h-[25px] mr-[10px]`} tipo = {corte?.cerrado === true ? "danger": "success"}>{corte?.cerrado == true ? "Cerrado" : "Activo" }</Badge>
                 <div 
                     onClick={() => {setModalActivo(true)}}
                     className="py-2 px-4 cursor-pointer border border-gray-300 text-gray-600 text-sm font-semibold rounded-lg bg-white flex gap-2 items-center"
                 >
                     <LuCalendar />
-                    <p>{`${formatDateCorte(corte?.fechaInicio)} - ${formatDateCorte(corte?.fechaFin)}`}</p>
+                    <p>{`${formatDateCorte(corte.periodo)}`}</p>
                 </div>
             </div>
         )}

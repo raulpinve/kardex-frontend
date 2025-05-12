@@ -78,6 +78,8 @@ const Productos = ({ tipo }) => {
                 setError(null);
                 const res = await obtenerProductosCorte(token, corteId, tipo, paginaActual, debouncedConsulta);
                 setProductos(res.data)
+                // setPaginaActual(res.data.paginacion.paginaActual);
+                // setTotalPaginas(res.data.paginacion.totalPaginas);
             } catch (error) {
                 setError(error?.response?.data?.message || "Ha ocurrido un error interno");
             } finally{
@@ -171,7 +173,7 @@ const Productos = ({ tipo }) => {
                         {!loading && !error && productos.length === 0 && (
                             <tr>
                                 <td colSpan="8" className="py-3">
-                                    <p className="text-gray-700 dark:text-gray-400 text-center"> No hay medicamentos por mostrar en este corte</p>
+                                    <p className="text-gray-700 dark:text-gray-400 text-center"> No hay {tipo} por mostrar en este corte</p>
                                 </td>
                             </tr>
                         )}

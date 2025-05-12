@@ -15,6 +15,7 @@ const InventariosPagina = () => {
     const navigate = useNavigate();
     const {corteId} = useParams();
     const almacenId = useSelector(state => state.almacen.almacen?.id);
+    const [corte, setCorte]= useState(null);
     const token = useSelector(state => state.auth.token);
     const [ mensajeError, setMensajeError ] = useState(null);
     const [ modalActivo, setModalActivo ] = useState("");
@@ -28,7 +29,10 @@ const InventariosPagina = () => {
             try {
                 if (corteId) {
                     const res = await obtenerCorte(token, corteId);
-                    if (!res?.data?.id) {
+
+                    if (res?.data?.id) {
+                        setCorte(res.data);
+                    }else{
                         setMensajeError("No se encontró el corte con ese ID.");
                     }
                 } else if (almacenId) {
@@ -70,7 +74,9 @@ const InventariosPagina = () => {
                                 className="min-w-[120px]"
                                 onClick={() => setModalActivo("crear")}
                             />
-                            <DropdownEditarCorte />
+                            {corte && !corte?.cerrado &&(
+                                <DropdownEditarCorte />
+                            )}
                         </div>
                     </div>
                 </div>

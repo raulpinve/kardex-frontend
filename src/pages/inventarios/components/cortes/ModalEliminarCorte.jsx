@@ -4,10 +4,10 @@ import { toast } from "sonner";
 import Modal from "@/shared/components/Modal";
 import Button from "@/shared/components/Button";
 import MessageError from "@/shared/components/MessageError";
-import { cerrarCorte } from "../../services/cortesServices";
 import { useNavigate, useParams } from "react-router-dom";
+import { eliminarCorte } from "../../services/cortesServices";
 
-const ModalCerrarCorte = ({ cerrarModal }) => {
+const ModalEliminarCorte = ({ cerrarModal }) => {
     const token = useSelector(state => state.auth.token);
     const [inputNombre, setInputNombre] = useState("");
     const [messageError, setMessageError] = useState("");
@@ -20,16 +20,17 @@ const ModalCerrarCorte = ({ cerrarModal }) => {
 
         const textoIngresado = inputNombre.trim();
 
-        if (textoIngresado !== "cerrar corte") {
-            setMessageError("El texto ingresado no coincide con \"cerrar corte\".");
+        if (textoIngresado !== "eliminar corte") {
+            setMessageError("El texto ingresado no coincide con \"eliminar corte\".");
             return;
         }
+
         setMessageError("");
         setLoading(true);
 
         try {
-            await cerrarCorte(token, corteId);
-            toast.success("Corte cerrado exitosamente.");
+            await eliminarCorte(token, corteId);
+            toast.success("Corte eliminado exitosamente.");
             navigate(`/inventarios`);
             cerrarModal();
         } catch (error){
@@ -43,13 +44,13 @@ const ModalCerrarCorte = ({ cerrarModal }) => {
         <Modal
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
-            title="Cerrar corte"
-            description="Esta acción cerrará permanentemente el corte."
+            title="Eliminar corte"
+            description="Esta acción eliminará permanentemente el corte."
             size="md"
         >
             <form onSubmit={handleSubmit}>
                 <p className="mb-2">
-                    Para confirmar que deseas cerrar el corte, escribe el texto <b>cerrar corte</b> en el campo a continuación:
+                    Para confirmar que deseas eliminar el corte, escribe el texto <b>eliminar corte</b> en el campo a continuación:
                 </p>
                 <input 
                     type="text" 
@@ -70,7 +71,7 @@ const ModalCerrarCorte = ({ cerrarModal }) => {
                     />
                     <Button 
                         colorButton="danger"
-                        textButton="Cerrar corte"
+                        textButton="Eliminar corte"
                         loading={loading}
                         type="submit"
                     />
@@ -80,4 +81,4 @@ const ModalCerrarCorte = ({ cerrarModal }) => {
     );
 };
 
-export default ModalCerrarCorte;
+export default ModalEliminarCorte;

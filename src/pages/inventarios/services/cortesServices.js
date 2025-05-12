@@ -70,10 +70,19 @@ const obtenerCorteLotes = (token, corteId, productoId, pagina, consulta) => {
             ...(consulta && { consulta })
         }
     })
+    .then(response => response.data)
+    .catch(err => {
+        throw err;
+    });
+}
+
+const eliminarCorte = (token, corteId) => {
+    const request = apiClient(token).delete(`/cortes/${corteId}`);
+    return request
         .then(response => response.data)
         .catch(err => {
-            throw err;
-        });
+            throw err
+        })
 }
 
 export {
@@ -84,4 +93,5 @@ export {
     obtenerFechaCorte,
     obtenerCorteLote,
     obtenerCorteLotes,
+    eliminarCorte
 }

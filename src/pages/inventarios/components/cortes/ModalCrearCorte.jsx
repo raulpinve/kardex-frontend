@@ -6,10 +6,10 @@ import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import "react-datepicker/dist/react-datepicker.css";
 import { crearCorte, obtenerFechaCorte } from "../../services/cortesServices";
-import { formatDateCorte } from "../../../../utils/utilities";
 import SkeletonElement from "../../../../shared/components/SkeletonElement";
 import { LuCalendar } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import { formatDateCorte } from "@/utils/utilities";
 
 const ModalCrearCorte = (props) => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -62,18 +62,13 @@ const ModalCrearCorte = (props) => {
             size="md"
         >
             { loading && (<SkeletonElement className="h-[36px]" />) }
-            { !loading && periodo && (
+            { !loading && (
                 <>
                     <div className="relative">
                         <label htmlFor="mes" className="label-form">
                             Nuevo período <span className="input-required">*</span>
                         </label>
-                        <div 
-                            className="py-2 px-4 border border-gray-300 text-gray-600 text-sm font-semibold rounded-lg cursor-not-allowed bg-white flex gap-2 items-center"
-                        >
-                            <LuCalendar />
-                            <p>{`${formatDateCorte(periodo?.fechaInicio)} - ${formatDateCorte(periodo?.fechaFin)}`}</p>
-                        </div>
+                        <input type="month" className="input-form" />
                     </div>
                     {messageError && 
                         <MessageError>
