@@ -32,6 +32,15 @@ const obtenerCorte = (token, corteId) => {
         })
 }
 
+const cerrarCorte = (token, corteId) => {
+    const request = apiClient(token).put(`/cortes/${corteId}/cerrar`);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
 const obtenerFechaCorte = (token, almacenId, periodo, diaInicioSemana) => {
     const request = apiClient(token).get(`/cortes/fechas/${almacenId}`, {
         params: {
@@ -70,6 +79,7 @@ const obtenerCorteLotes = (token, corteId, productoId, pagina, consulta) => {
 export {
     obtenerCortes,
     crearCorte,
+    cerrarCorte,
     obtenerCorte,
     obtenerFechaCorte,
     obtenerCorteLote,
