@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LuListStart, LuPackageOpen, LuPackagePlus } from "react-icons/lu";
 import SkeletonElement from "../../../../shared/components/SkeletonElement";
+import { obtenerProductoCorte } from "../../services/productoServices";
+import { useSelector } from "react-redux";
+import { obtenerLoteCorte } from "../../services/loteServices";
 
 const StockStatus = ({ stockRequerido, stockFinal }) => {
     const cantidadApedir = stockFinal- stockRequerido;
-    if(isNaN(cantidadApedir)) return;
   
     // Función que genera el estilo y el mensaje según el estado
     const renderStockStatus = () => {
@@ -24,22 +26,23 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
     }
   
     const { text, bgColor, textColor } = renderStockStatus();
-  
+    
     return (<span className={`absolute right-4 bottom-4 gap-1 rounded-full py-0.5 pl-2 pr-2.5 text-sm font-medium ${bgColor} ${textColor}`}>
         {text}  
     </span>);
 };
 
-const CardInformacion = ({titulo, producto, loading, tipo = undefined}) => {
+const CardInformacion = ({titulo, stock, loading, tipo = undefined}) => {
     let value, icon;
+
     if(tipo === "cantidadPedir"){
         icon = <LuPackagePlus />;
-        value = Math.max((producto?.stockRequerido ?? 0) - (producto?.stockFinal ?? 0), 0);
-    }else if(tipo === "stockRequerido"){
-        value = producto?.stockRequerido;
+        value = Math.max((stock?.stockRequerido ?? 0) - (stock?.stockFinal ?? 0), 0);
+    }else if(tipo === "stockInicial"){
+        value = stock?.stockInicial;
         icon = <LuListStart />;
-    } else if(tipo === "stockDisponible"){
-        value = producto?.stockDisponible;
+    } else if(tipo === "stockFinal"){
+        value = stock?.stockFinal;
         icon = <LuPackageOpen />;
     } 
 
@@ -61,37 +64,72 @@ const CardInformacion = ({titulo, producto, loading, tipo = undefined}) => {
                 </h4>
             </div>
         </div>
-        {tipo === "cantidadPedir" && producto?.stockRequerido && producto?.stockDisponible && (
-            <StockStatus stockRequerido={producto.stockRequerido} stockFinal={producto.stockDisponible}/>
+        {tipo === "cantidadPedir"
+            && stock?.stockRequerido != null
+            && stock?.stockFinal != null
+            && (
+                <StockStatus
+                stockRequerido={stock.stockRequerido}
+                stockFinal={stock.stockFinal}
+                />
         )}
     </div>)
 }
 
-const TarjetasInformacionStock = ({ producto, loading, error }) => {
+const TarjetasInformacionStock = ({corteId, loteId}) => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
+    const [stock, setStock] = useState();
+    const token = useSelector(state => state.auth.token);
+
+    // Obtener información del producto en el corte
+    useEffect(() => {
+        const fetchProductoCorte = async () => {
+            setLoading(true)
+            try {
+                const res = await obtenerLoteCorte(token, corteId, loteId);
+                setStock(res.data);
+            } catch (error) {
+                setError(error.response.data.message || "Ha ocurrido un error interno al intentar obtener la información del stock.")
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if(!corteId || !loteId) return
+        fetchProductoCorte()
+
+        return () => {
+            setError(null)
+            setLoading(null)
+        }
+    }, [corteId, token, loteId])
+
     if(error) return
+
     return (
         <>
-            <div className="grid grid-cols-3 gap-4 2xl:gap-6">
-                {/* Stock requerido */}
+            <div className="grid grid-cols-3 xl:gap-4 2xl:gap-6">
+                {/* Stock inicial */}
                 <CardInformacion 
-                    titulo={`Stock requerido`}
-                    tipo="stockRequerido"
-                    producto={producto}
+                    titulo={`Stock inicial`}
+                    tipo="stockInicial"
+                    stock={stock}
                     loading={loading}
                 />
                 
-                {/* Stock disponible */}
+                {/* Stock final */}
                 <CardInformacion 
-                    titulo={`Stock disponible`}
-                    tipo="stockDisponible"
-                    producto={producto}
+                    titulo={`Stock final`}
+                    tipo="stockFinal"
+                    stock={stock}
                     loading={loading}
                 />
 
                 {/* Cantidad a pedir */}
                 <CardInformacion 
                     titulo={`Cantidad a pedir`}
-                    producto={producto}
+                    stock={stock}
                     tipo="cantidadPedir"
                     loading={loading}
                 />

@@ -1,10 +1,43 @@
+import { useParams } from 'react-router-dom';
 import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import { formatDate, obtenerEstadoVencimiento } from '../../../../utils/utilities';
+import { useEffect, useState } from 'react';
+import { obtenerLote } from '@/pages/lotes/services/loteServices';
+import { useSelector } from 'react-redux';
 
-const InformacionLote = (props) => {
-    const {lote, loading, error} = props;
-    const { estado, color } = obtenerEstadoVencimiento(lote?.fechaVencimiento);
+const InformacionLote = () => {
+    const {loteId} = useParams();
+    const token = useSelector(state => state.auth.token);
+    const [lote, setLote] = useState();
+    const [estado, setEstado] = useState("");
+    const [color, setColor] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+
+    useEffect(() => {
+        const fetchLote = async () => {
+            setLoading(true)
+            try {
+                const res = await obtenerLote(token, loteId);
+                setLote(res.data);
+            } catch (error) {
+                setError(error?.response?.data?.message || "Ha ocurrido un error al intentar obtener la información del lote.")
+            } finally{
+                setLoading(false);
+            }
+        }
+        if(!loteId) return;
+        fetchLote();
+    }, [loteId, token])
+    
+    useEffect(() => {
+        if(lote){
+            const { estado, color } = obtenerEstadoVencimiento(lote?.fechaVencimiento);
+            setEstado(estado);
+            setColor(color);
+        }
+    }, [lote])
 
     return (
         <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 `}>
@@ -67,42 +100,7 @@ const InformacionLote = (props) => {
                             </span>
                         </div>
                     )}
-
-                    {/* Ingresos */}
-                    {lote?.ingresos && (
-                        <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
-                            <span className="text-theme-sm">
-                                Ingresos
-                            </span>
-                            <span className="text-right text-theme-sm">
-                                {lote.ingresos}
-                            </span>
-                        </div>
-                    )}
-
-                    {/* Salidas */}
-                    <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
-                        <span className="text-theme-sm">
-                            Salidas
-                        </span>
-                        <span className="text-right text-theme-sm">
-                            {lote.salidas}
-                        </span>
-                    </div>
-
-                    {/* Stock final */}
-                    {lote?.stockFinal && (
-                        <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
-                            <span className="text-theme-sm">
-                                Stock final
-                            </span>
-                            <span className="text-right text-theme-sm">
-                                {lote.stockFinal}
-                            </span>
-                        </div>
-                    )}
                 </div>
-                
             </>)}
         </Card>
     );

@@ -1,14 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import MessageError from '../../../../shared/components/MessageError';
 import SkeletonElement from '../../../../shared/components/SkeletonElement';
 import ModalAbrirImagenPerfil from '../../../../shared/components/ModalAbrirImagenPerfil';
 import SubirImagenProducto from './SubirImagenProducto';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { obtenerProducto } from '../../services/productoServices';
 
-const InformacionProducto = (props) => {
-    const {producto, setProducto, tipo, loading, error} = props;
+const InformacionProducto = () => {
+    const {productoId} = useParams();
+    const [loading, setLoading] = useState(false);
+    const token = useSelector(state => state.auth.token);
     const [modalActivo, setModalActivo] = useState();
+    const [producto, setProducto] = useState();
+    const [error, setError] = useState();
+    
+    // Obtener información del producto
+    useEffect(() => {
+        const fetchProducto = async () => {
+            setLoading(true);
+            try {
+                const res = await obtenerProducto(token, productoId);
+                setProducto(res.data);
+            } catch (error){
+                setError(error?.response?.data?.message || "Error al obtener producto.");
+            } finally{
+                setLoading(false);
+            }
+        };
+
+        if(!productoId) return;
+        fetchProducto()
+    },[productoId, token])
     return (
         <>
             <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 `}>
@@ -31,7 +56,7 @@ const InformacionProducto = (props) => {
                         <SubirImagenProducto 
                             producto={producto}
                             setProducto={setProducto}
-                            tipo = {tipo}
+                            tipo = {producto?.tipo}
                         />
                     </div>
                     <div className='my-5'>
@@ -128,7 +153,6 @@ const InformacionProducto = (props) => {
                                 {producto?.stockRequerido}
                             </span>
                         </div>
-
                     </div>
                 </>)}
             </Card>

@@ -72,14 +72,11 @@ const analizarStock = (stockRequerido, stockDisponible) => {
 const formatDateCorte = (fecha) => {
   const [anio, mes] = fecha.split("-");
   const meses = [
-    "enero", "febrero", "marzo", "abril", "mayo", "junio",
-    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
   ];
-
   const nombreMes = meses[parseInt(mes, 10) - 1];
-  const nombreMesCapitalizado = nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1);
-
-  return `${nombreMesCapitalizado} de ${anio}`;
+  return `${nombreMes} de ${anio}`;
 };
 
 

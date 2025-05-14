@@ -182,7 +182,7 @@ const ProductosPagina = ({ tipo }) => {
                                                                         setProductoSeleccionado(producto);
                                                                     }}
                                                                     alt="Perfil" 
-                                                                    className="w-8 h-8 block object-cover rounded-md select-none cursor-pointer"  
+                                                                    className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
                                                                 />
                                                             </td>
                                                             <td className="py-3 pl-1 pr-4">

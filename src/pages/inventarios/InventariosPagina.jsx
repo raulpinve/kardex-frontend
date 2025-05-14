@@ -1,4 +1,4 @@
-import { obtenerCorte, obtenerCortes } from "./services/cortesServices";
+import { obtenerCortePeriodo, obtenerCortes } from "./services/cortesServices";
 import Corte from "./components/cortes/Corte";
 import ModalCrearCorte from "./components/cortes/ModalCrearCorte";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,10 +13,10 @@ import DropdownEditarCorte from "./components/cortes/DropdownEditarCorte";
 
 const InventariosPagina = () => {
     const navigate = useNavigate();
-    const {corteId} = useParams();
+    const {periodo} = useParams();
     const almacenId = useSelector(state => state.almacen.almacen?.id);
-    const [corte, setCorte]= useState(null);
     const token = useSelector(state => state.auth.token);
+    const [corte, setCorte]= useState(null);
     const [ mensajeError, setMensajeError ] = useState(null);
     const [ modalActivo, setModalActivo ] = useState("");
     const [ loading, setLoading ] = useState(true);
@@ -27,9 +27,8 @@ const InventariosPagina = () => {
             setLoading(true);
             setMensajeError(null);
             try {
-                if (corteId) {
-                    const res = await obtenerCorte(token, corteId);
-
+                if (periodo) {
+                    const res = await obtenerCortePeriodo(token, periodo, almacenId);
                     if (res?.data?.id) {
                         setCorte(res.data);
                     }else{
@@ -38,7 +37,7 @@ const InventariosPagina = () => {
                 } else if (almacenId) {
                     const res = await obtenerCortes(token, almacenId);
                     if (res?.data?.length > 0) {
-                        navigate("/inventarios/" + res.data[0].id);
+                        navigate("/inventarios/" + res.data[0].periodo);
                     } else {
                         setMensajeError("No hay cortes disponibles para este almacén.");
                     }
@@ -50,10 +49,10 @@ const InventariosPagina = () => {
             }
         };
         
-        if (!corteId && !almacenId) return;
+        if (!periodo && !almacenId) return;
         cargarCorte();
 
-    }, [corteId,  almacenId, navigate, token]);
+    }, [periodo,  almacenId, navigate, token]);
 
     return (
         <Layout>
@@ -90,9 +89,9 @@ const InventariosPagina = () => {
             {!mensajeError && loading && (
                 <Spinner className={`mt-4`}/>
             )}
-            {!loading && !mensajeError && corteId && (<div>
-                <Productos corteSeleccionado = {corteId} tipo = "medicamentos" />
-                <Productos corteSeleccionado = {corteId} tipo = "dispositivos" />
+            {!loading && !mensajeError && corte && (<div>
+                <Productos tipo = "medicamentos" corteId={corte.id} />
+                <Productos tipo = "dispositivos" corteId={corte.id} />
             </div>)}
 
             {modalActivo === "crear" && (

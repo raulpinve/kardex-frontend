@@ -20,7 +20,7 @@ const ProductoPagina = ({ tipo }) => {
         const fetchProducto = async () => {
             setLoading(true);
             try {
-                const respuesta = await obtenerProducto(token, tipo, productoId);
+                const respuesta = await obtenerProducto(token,productoId);
                 setProducto(respuesta.data)
             } catch (error) {
                 setError(error?.response?.data?.message || "Ha ocurrido un error interno. Por favor, inténtalo nuevamente.");
@@ -31,13 +31,13 @@ const ProductoPagina = ({ tipo }) => {
         if(productoId){
             fetchProducto();
         }
-    },[productoId, tipo, token])
-    console.log(producto)
+    },[productoId, token])
+
     return (
         <Layout>
             <TarjetasInformacionStock {...{producto, loading, error}}/>
             <div className="grid w-full md:grid-cols-12 gap-6 mt-4">
-                <InformacionProducto {...{producto, setProducto, loading, error, tipo}} />
+                <InformacionProducto />
                 <div className="col-span-8">
                     <GraficaComportamientoStock />
                 </div>

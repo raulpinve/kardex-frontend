@@ -10,7 +10,7 @@ import SkeletonElement from '../../../../shared/components/SkeletonElement';
 import MessageError from '../../../../shared/components/MessageError';
 
 const SeleccionarCorte = (props) => {
-    const {corteId} = useParams();
+    const {periodo} = useParams();
     const almacenId = useSelector(state => state.almacen.almacen?.id);
     const token = useSelector(state => state.auth.token);
     const [mensajeError, setMensajeError] = useState();
@@ -36,16 +36,8 @@ const SeleccionarCorte = (props) => {
     }, [token, almacenId]);
 
     const cambiarCorteSeleccionado = (nuevoCorteId) => {
-        const partes = location.pathname.split('/');
-        
-        if (partes.length > 2) {
-            partes[2] = nuevoCorteId; // Asumiendo que el corteId siempre está en la posición 2
-            const nuevaRuta = partes.join('/');
-            navigate(nuevaRuta);
-        } else {
-            // Si no tiene la estructura esperada
-            navigate(`/inventarios/${nuevoCorteId}`);
-        }
+        // Si no tiene la estructura esperada
+        navigate(`/inventarios/${nuevoCorteId}`);
     };
 
     return (
@@ -66,7 +58,7 @@ const SeleccionarCorte = (props) => {
                     <LuCalendar className="absolute left-3.5 top-[14px] dark:text-gray-200" />
                         <select 
                             className="select-form pl-10"
-                            value={corteId}
+                            value={periodo}
                             onChange={(e) => {
                                 cambiarCorteSeleccionado(e.currentTarget.value);
                                 toast.success("Corte seleccionado");
@@ -74,7 +66,7 @@ const SeleccionarCorte = (props) => {
                             }}
                         >
                         <option value="" disabled>Selecciona un corte</option>
-                        {cortes.map(corte => <option key={corte.id} value={corte.id}>
+                        {cortes.map(corte => <option key={corte.id} value={corte.periodo}>
                             {`${formatDateCorte(corte.periodo)} ${!corte?.cerrado ? "(activo)": ""}`}
                         </option>)}
                     </select>   

@@ -4,13 +4,13 @@ import CardTitulo from '../../../../shared/components/CardTitulo';
 import Button from '../../../../shared/components/Button';
 import { LuRefreshCcw, LuSearch } from 'react-icons/lu';
 import Pagination from '../../../../shared/components/Pagination';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { obtenerCorteLotes } from '../../services/cortesServices';
 import { useSelector } from 'react-redux';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 
-const InventarioLotes = ({corteSeleccionado, producto}) => {
+const InventarioLotes = ({corteId}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [paginaActual, setPaginaActual] = useState(1);
@@ -20,6 +20,7 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
     const [lotes, setLotes] = useState([]);
     const token = useSelector(state => state.auth.token);
     const navigate = useNavigate();
+    const {productoId, periodo} = useParams();
     const debouncedConsulta = useDebounce(consulta, 500);
 
     // Obtener la información del corte lote
@@ -27,7 +28,7 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
         const fetchCorteLote = async() => {
             setLoading(true);
             try {
-                const respuesta = await obtenerCorteLotes(token, corteSeleccionado.id, producto.id, paginaActual, consulta);
+                const respuesta = await obtenerCorteLotes(token, corteId, productoId, paginaActual, consulta);
                 if(respuesta.data){
                     setLotes(respuesta.data);
                     setPaginaActual(respuesta.paginacion.paginaActual);
@@ -39,15 +40,14 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
                 setLoading(false);
             }
         }
-        if(corteSeleccionado?.id && producto?.id){
+        if(corteId && productoId){
             fetchCorteLote();
         }
-    }, [corteSeleccionado, producto, token, refresh, debouncedConsulta])
+    }, [corteId, productoId, token, refresh, debouncedConsulta, consulta, paginaActual])
 
-    const redireccionar = (corteId, loteId) => {
-        navigate(`/inventarios/${corteId}/${loteId}/lote`)
+    const redireccionar = (loteId) => {
+        navigate(`/inventarios/${periodo}/${loteId}/lote`)
     }
-
     return (
         <Card>
             {/* Header */}
@@ -97,7 +97,7 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
                                 </th>
                                 <th className="py-3 px-4">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">
-                                        {corteSeleccionado?.cerrado ? "Stock final": "Stock final"}
+                                        {corteId?.cerrado ? "Stock final": "Stock final"}
                                     </p>
                                 </th>
                             </tr>
@@ -129,7 +129,7 @@ const InventarioLotes = ({corteSeleccionado, producto}) => {
                                                 key={lote.id} 
                                                 className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
                                                 onClick={() => {
-                                                    redireccionar(corteSeleccionado.id, lote.id);
+                                                    redireccionar(lote.id);
                                                 }}
                                             >
                                                 <td className="py-3 px-4 ">

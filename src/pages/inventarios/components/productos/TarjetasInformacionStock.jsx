@@ -1,6 +1,8 @@
-import React from "react";
-import { LuListStart, LuPackageCheck, LuPackageOpen, LuPackagePlus } from "react-icons/lu";
+import React, { useEffect, useState } from "react";
+import { LuListStart, LuPackageOpen, LuPackagePlus } from "react-icons/lu";
 import SkeletonElement from "../../../../shared/components/SkeletonElement";
+import { obtenerProductoCorte } from "../../services/productoServices";
+import { useSelector } from "react-redux";
 
 const StockStatus = ({ stockRequerido, stockFinal }) => {
     const cantidadApedir = stockFinal- stockRequerido;
@@ -23,7 +25,7 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
     }
   
     const { text, bgColor, textColor } = renderStockStatus();
-  
+    
     return (<span className={`absolute right-4 bottom-4 gap-1 rounded-full py-0.5 pl-2 pr-2.5 text-sm font-medium ${bgColor} ${textColor}`}>
         {text}  
     </span>);
@@ -61,14 +63,49 @@ const CardInformacion = ({titulo, stock, loading, tipo = undefined}) => {
                 </h4>
             </div>
         </div>
-        {tipo === "cantidadPedir" && !loading && (
-            <StockStatus stockRequerido={stock?.stockRequerido} stockFinal={stock?.stockFinal}/>
-        )}
+        {tipo === "cantidadPedir"
+            && stock?.stockRequerido != null
+            && stock?.stockFinal != null
+            && (
+                <StockStatus
+                stockRequerido={stock.stockRequerido}
+                stockFinal={stock.stockFinal}
+                />
+            )}
     </div>)
 }
 
-const TarjetasInformacionStock = ({ stock, loading, error }) => {
+const TarjetasInformacionStock = ({corteId, productoId}) => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
+    const [stock, setStock] = useState();
+    const token = useSelector(state => state.auth.token);
+
+    // Obtener información del producto en el corte
+    useEffect(() => {
+        const fetchProductoCorte = async () => {
+            setLoading(true)
+            try {
+                const res = await obtenerProductoCorte(token, corteId, productoId);
+                setStock(res.data);
+            } catch (error) {
+                setError(error.response.data.message || "Ha ocurrido un error interno al intentar obtener la información del stock.")
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if(!corteId || !productoId) return
+        fetchProductoCorte()
+
+        return () => {
+            setError(null)
+            setLoading(null)
+        }
+    }, [corteId, token, productoId])
+    
     if(error) return
+
     return (
         <>
             <div className="grid grid-cols-3 xl:gap-4 2xl:gap-6">

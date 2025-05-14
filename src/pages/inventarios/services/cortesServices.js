@@ -23,6 +23,15 @@ const crearCorte = (token, data) => {
         })
 }
 
+const obtenerCortePeriodo = (token, periodo, almacenId) => {
+    const request = apiClient(token).get(`/cortes/${periodo}/${almacenId}/periodo`);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
 const obtenerCorte = (token, corteId) => {
     const request = apiClient(token).get(`/cortes/${corteId}`);
     return request
@@ -93,5 +102,6 @@ export {
     obtenerFechaCorte,
     obtenerCorteLote,
     obtenerCorteLotes,
+    obtenerCortePeriodo,
     eliminarCorte
 }

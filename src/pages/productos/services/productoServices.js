@@ -23,8 +23,8 @@ const crearProducto = (token, data, tipo) => {
         })
 }
 
-const obtenerProducto = (token, tipo, productoId) => {
-    return apiClient(token).get(`/${tipo}/${productoId}`)
+const obtenerProducto = (token, productoId) => {
+    return apiClient(token).get(`/productos/${productoId}`)
         .then(response => response.data)
         .catch(err => {
             throw err;

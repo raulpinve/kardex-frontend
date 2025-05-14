@@ -54,7 +54,7 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
     );
 };
 
-const Productos = ({ tipo }) => {
+const Productos = ({ tipo, corteId }) => {
     const [paginaActual, setPaginaActual] = useState(1);
     const [modalActivo, setModalActivo] = useState("");
     const [totalPaginas, setTotalPaginas] = useState(1);
@@ -64,8 +64,8 @@ const Productos = ({ tipo }) => {
     const token = useSelector(state => state.auth.token);
     const [consulta, setConsulta] = useState("");
     const [refresh, setRefresh] = useState(0); 
+    const {periodo} = useParams();
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
-    const {corteId} = useParams();
     const navigate = useNavigate();
     
     const debouncedConsulta = useDebounce(consulta, 500);
@@ -91,8 +91,8 @@ const Productos = ({ tipo }) => {
         }
     }, [token, corteId, tipo, paginaActual, refresh, debouncedConsulta]);
 
-    const redireccionarProductoCorte = (corteId, productoId) => {
-        navigate(`/inventarios/${corteId}/${productoId}`)
+    const redireccionarProductoCorte = (productoId) => {
+        navigate(`/inventarios/${periodo}/${productoId}`)
     }
 
     return (<>
@@ -182,7 +182,7 @@ const Productos = ({ tipo }) => {
                                 {productos.map(producto => {
                                     return <tr 
                                         key={producto.id}
-                                        onClick={() => redireccionarProductoCorte(corteId.id, producto.id)}
+                                        onClick={() => redireccionarProductoCorte(producto.id)}
                                         className="cursor-pointer"
                                     >
                                         <td className="py-3 w-[50px]">
