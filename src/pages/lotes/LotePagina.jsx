@@ -3,8 +3,11 @@ import InformacionLote from './components/lote/InformacionLote';
 import Movimientos from './components/movimientos/Movimientos';
 import Layout from '../../shared/components/Layout';
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 const LotePagina = () => {
+    const { loteId } = useParams();
+
     return (
         <Layout>
             <div className="grid w-full md:grid-cols-12 gap-6 mt-4">
@@ -14,7 +17,7 @@ const LotePagina = () => {
                 </div>
             </div>
             <div className="mt-6">
-                <Movimientos />
+                <Movimientos loteId={loteId} />
             </div>
         </Layout>
     );

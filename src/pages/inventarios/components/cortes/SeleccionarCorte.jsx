@@ -36,8 +36,16 @@ const SeleccionarCorte = (props) => {
     }, [token, almacenId]);
 
     const cambiarCorteSeleccionado = (nuevoCorteId) => {
-        // Si no tiene la estructura esperada
-        navigate(`/inventarios/${nuevoCorteId}`);
+        const partes = location.pathname.split('/');
+        
+        if (partes.length > 2) {
+            partes[2] = nuevoCorteId; // Asumiendo que el corteId siempre está en la posición 2
+            const nuevaRuta = partes.join('/');
+            navigate(nuevaRuta);
+        } else {
+            // Si no tiene la estructura esperada
+            navigate(`/inventarios/${nuevoCorteId}`);
+        }
     };
 
     return (

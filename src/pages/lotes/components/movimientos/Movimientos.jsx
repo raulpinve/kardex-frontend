@@ -12,7 +12,6 @@ import Card from '../../../../shared/components/Card';
 import "react-datepicker/dist/react-datepicker.css";
 import React, { useEffect, useState } from 'react';
 import { registerLocale } from 'react-datepicker';
-import { useParams } from 'react-router-dom';
 import "../../../../assets/datePicker.css"
 import DatePicker from 'react-datepicker';
 import { useSelector } from 'react-redux';
@@ -20,7 +19,7 @@ import { es } from 'date-fns/locale/es';
 import { obtenerCorteMovimientosLote, obtenerMovimientosLote } from '../../services/movimientoServices';
 registerLocale('es', es)
 
-const Movimientos = () => {
+const Movimientos = ({corteId, loteId}) => {
     const [movimientos, setMovimientos] = useState([]);
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
@@ -32,7 +31,6 @@ const Movimientos = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [fecha, setFecha] = useState();
-    const {corteId, loteId} = useParams();
     const [tipo, setTipo] = useState();
 
     const handleChange = (date) => {

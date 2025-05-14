@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../shared/components/Layout';
-// import InformacionProducto from './components/productos/InformacionProducto';
 import TarjetasInformacionStock from './components/productos/TarjetasInformacionStock';
 import InventarioLotes from './components/productos/InventarioLotes';
 import { useParams } from 'react-router-dom';
@@ -8,9 +7,7 @@ import { useSelector } from 'react-redux';
 import { obtenerCortePeriodo } from './services/cortesServices';
 import InformacionProducto from '../productos/components/producto/InformacionProducto';
 import Corte from './components/cortes/Corte';
-import CardTitulo from '@/shared/components/CardTitulo';
-import Button from '@/shared/components/Button';
-import { obtenerProducto, obtenerProductoCorte } from './services/productoServices';
+import TituloInventarios from './components/TitleSelect';
 
 const InventarioProductoPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -26,7 +23,6 @@ const InventarioProductoPagina = () => {
                 const res = await obtenerCortePeriodo(token, periodo, almacenId);
                 setCorte(res.data);
             } catch (error){
-                console.log(error)
                 setError(error?.response?.data?.message || "Error al obtener el corte.");
             }
         }
@@ -40,11 +36,7 @@ const InventarioProductoPagina = () => {
             <div className='py-2'>
                 {/* Header */}
                 <div className="flex items-center justify-between gap-2">
-                    <div className="">
-                        <CardTitulo className="flex items-center">
-                            Inventarios 
-                        </CardTitulo>
-                    </div>
+                    <TituloInventarios productoId={productoId} />
                     <div className="flex items-center gap-2">
                         <div className="flex gap-2">
                             <Corte />
