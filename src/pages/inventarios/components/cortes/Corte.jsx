@@ -1,6 +1,5 @@
-import SkeletonElement from "../../../../shared/components/SkeletonElement";
+import { obtenerCortePeriodo } from "../../services/cortesServices";
 import { formatDateCorte } from "../../../../utils/utilities";
-import { obtenerCorte, obtenerCortePeriodo } from "../../services/cortesServices";
 import Badge from "../../../../shared/components/Badge";
 import SeleccionarCorte from "./SeleccionarCorte";
 import { useParams } from "react-router-dom";
@@ -14,12 +13,11 @@ const Corte = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
     const [corte, setCorte]= useState(null);
     const [ mensajeError, setMensajeError ] = useState(null);
-    const [ loading, setLoading ] = useState(true);
     const { periodo } = useParams();
+
     // Obtener corte
     useEffect(() => {
         const cargarCorte = async () => {
-            setLoading(true);
             setMensajeError(null);
             try {
                 const res = await obtenerCortePeriodo(token, periodo, almacenId);
@@ -27,12 +25,9 @@ const Corte = () => {
                     setCorte(res.data);
                 }
             } catch (error){
-                console.error(error?.response?.data?.message)
-            } finally {
-                setLoading(false);
-            }
+                setMensajeError(error?.response?.data?.message || "Ha ocurrido un error al intentar cargar el corte.")
+            } 
         };
-        
         if (!periodo || !almacenId) return;
         cargarCorte();
 
@@ -40,7 +35,7 @@ const Corte = () => {
 
     return (<> 
         <div className="flex items-center">
-            {corte && (
+            {corte && !mensajeError && (
                 <Badge className={`h-[25px] mr-[10px]`} tipo = {corte?.cerrado === true ? "danger": "success"}>{corte?.cerrado == true ? "Cerrado" : "Activo" }</Badge>
             )}
             {periodo && (

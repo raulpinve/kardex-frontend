@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LuListStart, LuPackageOpen, LuPackagePlus } from "react-icons/lu";
 import SkeletonElement from "../../../../shared/components/SkeletonElement";
-import { obtenerProductoCorte } from "../../services/productoServices";
 import { useSelector } from "react-redux";
 import { obtenerLoteCorte } from "../../services/loteServices";
 
@@ -24,9 +23,7 @@ const StockStatus = ({ stockRequerido, stockFinal }) => {
             textColor: "text-green-800",
         };
     }
-  
     const { text, bgColor, textColor } = renderStockStatus();
-    
     return (<span className={`absolute right-4 bottom-4 gap-1 rounded-full py-0.5 pl-2 pr-2.5 text-sm font-medium ${bgColor} ${textColor}`}>
         {text}  
     </span>);
@@ -104,6 +101,7 @@ const TarjetasInformacionStock = ({corteId, loteId}) => {
             setLoading(null)
         }
     }, [corteId, token, loteId])
+
 
     if(error) return
 

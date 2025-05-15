@@ -5,14 +5,13 @@ import Modal from "@/shared/components/Modal";
 import Button from "@/shared/components/Button";
 import MessageError from "@/shared/components/MessageError";
 import { cerrarCorte } from "../../services/cortesServices";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const ModalCerrarCorte = ({ cerrarModal }) => {
+const ModalCerrarCorte = ({ cerrarModal, corteId }) => {
     const token = useSelector(state => state.auth.token);
     const [inputNombre, setInputNombre] = useState("");
     const [messageError, setMessageError] = useState("");
     const [loading, setLoading] = useState(false);
-    const { corteId } = useParams();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {

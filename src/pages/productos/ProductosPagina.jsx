@@ -1,21 +1,21 @@
-import imageDefault from "../../assets/image-default.png";
-import useDebounce from '../../shared/hooks/useDebounce';
-import Layout from '../../shared/components/Layout';
-import { useEffect, useState } from 'react';
-import { obtenerProductos } from './services/productoServices';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { host } from '../../utils/config';
-import Card from "../../shared/components/Card";
-import CardTitulo from "../../shared/components/CardTitulo";
-import Button from "../../shared/components/Button";
-import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import Pagination from "../../shared/components/Pagination";
 import SkeletonTable from "../../shared/components/SkeletonTable";
 import ModalCrearProducto from "./components/productos/ModalCrearProducto";
 import ModalEditarProducto from "./components/productos/ModalEditarProducto";
 import ModalEliminarProducto from "./components/productos/ModalEliminarProducto";
 import ModalAbrirImagenPerfil from "../../shared/components/ModalAbrirImagenPerfil";
+import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { obtenerProductos } from './services/productoServices';
+import CardTitulo from "../../shared/components/CardTitulo";
+import imageDefault from "../../assets/image-default.png";
+import useDebounce from '../../shared/hooks/useDebounce';
+import Layout from '../../shared/components/Layout';
+import Button from "../../shared/components/Button";
+import Card from "../../shared/components/Card";
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { host } from '../../utils/config';
 
 const ProductosPagina = ({ tipo }) => {
     const almacen = useSelector(state => state.almacen.almacen);
@@ -30,7 +30,6 @@ const ProductosPagina = ({ tipo }) => {
     const [refresh, setRefresh] = useState(1);
     const [modalActivo, setModalActivo] = useState("");
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
-
     const debouncedConsulta = useDebounce(consulta, 500);
 
     // Obtener productos 

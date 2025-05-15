@@ -35,15 +35,17 @@ const ProductoPagina = ({ tipo }) => {
 
     return (
         <Layout>
-            <TarjetasInformacionStock {...{producto, loading, error}}/>
-            <div className="grid w-full md:grid-cols-12 gap-6 mt-4">
-                <InformacionProducto />
-                <div className="col-span-8">
+            {/* <TarjetasInformacionStock productoId={productoId}/> */}
+            <div className="grid w-full md:grid-cols-12 gap-4 mt-4">
+                <div className='col-span-12 xl:col-span-4 2xl:col-span-3'>
+                    <InformacionProducto />
+                </div>
+                <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-9 grid xl:gap-4 2xl:gap-6">
                     <GraficaComportamientoStock />
                 </div>
             </div>
             <div className='mt-6'>
-                <Lotes {...{tipo, productoId}} />
+                <Lotes tipo={tipo} productoId={productoId} />
             </div>
         </Layout>
     );

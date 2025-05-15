@@ -19,7 +19,7 @@ const InventariosPagina = () => {
     const [corte, setCorte]= useState(null);
     const [ mensajeError, setMensajeError ] = useState(null);
     const [ modalActivo, setModalActivo ] = useState("");
-    const [ loading, setLoading ] = useState(true);
+    const [ loading, setLoading ] = useState(false);
 
     // Obtener corte
     useEffect(() => {
@@ -27,12 +27,12 @@ const InventariosPagina = () => {
             setLoading(true);
             setMensajeError(null);
             try {
-                if (periodo) {
+                if (periodo && almacenId) {
                     const res = await obtenerCortePeriodo(token, periodo, almacenId);
                     if (res?.data?.id) {
                         setCorte(res.data);
                     }else{
-                        setMensajeError("No se encontró el corte con ese ID.");
+                        setMensajeError("No se encontró corte para esa fecha.");
                     }
                 } else if (almacenId) {
                     const res = await obtenerCortes(token, almacenId);
@@ -42,16 +42,14 @@ const InventariosPagina = () => {
                         setMensajeError("No hay cortes disponibles para este almacén.");
                     }
                 }
-            } catch{
-                setMensajeError("Ocurrió un error al obtener el lote. Por favor, inténtalo otra vez.");
+            } catch (error){
+                setMensajeError(error?.response?.data?.message || "Ocurrió un error al obtener el lote. Por favor, inténtalo otra vez.");
             } finally {
                 setLoading(false);
             }
         };
-        
-        if (!periodo && !almacenId) return;
-        cargarCorte();
 
+        cargarCorte();
     }, [periodo,  almacenId, navigate, token]);
 
     return (
@@ -74,7 +72,7 @@ const InventariosPagina = () => {
                                 onClick={() => setModalActivo("crear")}
                             />
                             {corte && !corte?.cerrado &&(
-                                <DropdownEditarCorte />
+                                <DropdownEditarCorte corteId={corte?.id} />
                             )}
                         </div>
                     </div>

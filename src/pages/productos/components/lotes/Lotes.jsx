@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 import ModalEditarLote from "./ModalEditarLote";
 import ModalEliminarLote from "./ModalEliminarLote";
 import { useNavigate } from "react-router-dom";
-import { host } from "../../../../utils/config";
 
 const Lotes = ({ productoId, tipo }) => {
     const [loading, setLoading] = useState(false);

@@ -34,9 +34,10 @@ const InformacionProducto = () => {
         if(!productoId) return;
         fetchProducto()
     },[productoId, token])
+
     return (
         <>
-            <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 `}>
+            <Card className={`text-sm text-gray-700 dark:text-gray-400 h-full`}>
                 {/* Loading */}
                 {loading && (<div>
                     <div className='flex items-center mt-2 justify-between'>

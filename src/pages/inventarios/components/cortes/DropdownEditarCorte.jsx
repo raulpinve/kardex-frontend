@@ -4,7 +4,7 @@ import Button from '../../../../shared/components/Button';
 import ModalCerrarCorte from './ModalCerrarCorte';
 import ModalEliminarCorte from './ModalEliminarCorte';
 
-const DropdownEditarCorte = () => {
+const DropdownEditarCorte = ({corteId}) => {
   const [modalActivo, setModalActivo] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -22,7 +22,7 @@ const DropdownEditarCorte = () => {
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      setIsOpen(null)
+      setIsOpen(null);
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
@@ -56,11 +56,13 @@ const DropdownEditarCorte = () => {
         </div>
         {modalActivo === "cerrar-corte" && (
           <ModalCerrarCorte 
+            corteId ={corteId}
             cerrarModal={() => setModalActivo(null)}
           />
         )}
         {modalActivo === "eliminar-corte" && (
           <ModalEliminarCorte 
+            corteId ={corteId}
             cerrarModal={() => setModalActivo(null)}
           />
         )}

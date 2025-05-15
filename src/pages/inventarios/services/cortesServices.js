@@ -50,20 +50,6 @@ const cerrarCorte = (token, corteId) => {
         })
 }
 
-const obtenerFechaCorte = (token, almacenId, periodo, diaInicioSemana) => {
-    const request = apiClient(token).get(`/cortes/fechas/${almacenId}`, {
-        params: {
-            ...(periodo && { periodo }),
-            ...(diaInicioSemana && { dia_inicio_semana: diaInicioSemana }),
-        }
-    });
-    return request
-        .then(response => response.data)
-        .catch(err => {
-            throw err
-        })
-}
-
 const obtenerCorteLote = (token, corteId, loteId) => {
     return apiClient(token).get(`/cortes/${corteId}/${loteId}/lote`)
         .then(response => response.data)
@@ -99,7 +85,6 @@ export {
     crearCorte,
     cerrarCorte,
     obtenerCorte,
-    obtenerFechaCorte,
     obtenerCorteLote,
     obtenerCorteLotes,
     obtenerCortePeriodo,

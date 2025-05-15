@@ -45,13 +45,12 @@ const InventarioProductoPagina = () => {
                 </div>
             </div>
             <TarjetasInformacionStock corteId={corte?.id} productoId={productoId}/> 
-           
-            <div className="grid w-full md:grid-cols-12 gap-6 mt-4 items-start">
-                <InformacionProducto />
-                <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-8 grid xl:gap-4 2xl:gap-6">
-                    <div className='grid'>
-                        <InventarioLotes corteId={corte?.id} />
-                    </div>
+            <div className="grid w-full md:grid-cols-12 gap-6 mt-4 ">
+                <div className='col-span-12 xl:col-span-4 2xl:col-span-3'>
+                    <InformacionProducto />
+                </div>
+                <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-9 grid xl:gap-4 2xl:gap-6 items-start">
+                    <InventarioLotes corteId={corte?.id} />
                 </div>
             </div>
         </Layout>
