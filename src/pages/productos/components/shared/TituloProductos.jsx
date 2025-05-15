@@ -41,39 +41,41 @@ const TituloProductos = ({ productoId, loteId }) => {
 
     }, [loteId, token])
     return (
-        <div className='py-2'>
-            <CardTitulo className="flex items-center">
-               {producto && (
-                    <>
-                        <Link to={`/${producto?.tipo}s`} className='capitalize'>
-                            {producto?.tipo}s 
-                        </Link>
-                        <Link to={`/${producto?.tipo}s/${producto?.id}`} className='flex items-center'>
-                            <LuChevronRight />
-                            {producto?.nombre}
-                        </Link>
-                    </>
-               )}
-               {lote && (<>
-                   {lote?.productoNombre && lote?.productoTipo && (
-                        <>
-                            <Link to={`/${lote?.productoTipo}s`} className='capitalize'>
-                                {`${lote?.productoTipo}s`} 
-                            </Link>
-                            <Link to={`/${lote?.productoTipo}s/${lote?.productoId}`} className='flex items-center'>
-                                <LuChevronRight />
-                                {lote?.productoNombre}
-                            </Link>
-                        </>
-                   )}
-                   <span className='flex items-center'>
-                       <LuChevronRight />
-                       {lote?.numeroLote}
-                   </span>
-               </>)}
-           </CardTitulo>
-        </div>);
-        
+        <div className="py-2">
+        <CardTitulo className="flex flex-wrap items-center gap-2 text-sm sm:text-base">
+            {producto && (
+            <>
+                <Link to={`/${producto?.tipo}s`} className="capitalize hover:underline">
+                {producto?.tipo}s
+                </Link>
+                <Link to={`/${producto?.tipo}s/${producto?.id}`} className="flex items-center hover:underline">
+                <LuChevronRight className="mx-1" />
+                {producto?.nombre}
+                </Link>
+            </>
+            )}
+
+            {lote && (
+            <>
+                {lote?.productoNombre && lote?.productoTipo && (
+                <>
+                    <Link to={`/${lote?.productoTipo}s`} className="capitalize hover:underline">
+                    {`${lote?.productoTipo}s`}
+                    </Link>
+                    <Link to={`/${lote?.productoTipo}s/${lote?.productoId}`} className="flex items-center hover:underline">
+                    <LuChevronRight className="mx-1" />
+                    {lote?.productoNombre}
+                    </Link>
+                </>
+                )}
+                <span className="flex items-center">
+                <LuChevronRight className="mx-1" />
+                {lote?.numeroLote}
+                </span>
+            </>
+            )}
+        </CardTitulo>
+    </div>)
 };
 
 export default TituloProductos;

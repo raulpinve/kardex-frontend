@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
-import { LuEye, LuEyeOff } from "react-icons/lu";
+import { LuChevronDown, LuEye, LuEyeOff } from "react-icons/lu";
 
 const ModalCrearUsuario = (props) => {
     const {cerrarModal, setUsuarios} = props;
@@ -43,8 +43,8 @@ const ModalCrearUsuario = (props) => {
     }
 
     useEffect(() => {
-        setValue("rol", "viewer");
-    }, [])
+        setValue("rol", "");
+    }, [setValue])
 
     return (
         <Modal
@@ -58,7 +58,7 @@ const ModalCrearUsuario = (props) => {
                 <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
                     Información personal
                 </h5>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 gap-4">
                     {/* Primer nombre */}
                     <div>
                         <label htmlFor="primerNombre" className="label-form">
@@ -179,21 +179,25 @@ const ModalCrearUsuario = (props) => {
                 <div className="grid grid-cols-2 gap-4 mb-4">
                     {/* Rol */}
                     <div>
-                        <label htmlFor="" className="label-form">
+                        <label htmlFor="rol" className="label-form">
                             Rol
                         </label>
-                        <select 
-                            id="rol" 
-                            className={`${ errors.rol ? 'input-form-error' : ''} input-form`}
-                            {...register("rol", {
-                                required: "El rol es obligatorio",
-                                validate: value => ["admin", "editor", "viewer"].includes(value) || "Rol inválido"
-                            })}
-                        >
-                            <option value="admin">Administrador</option>
-                            <option value="editor">Editor</option>
-                            <option value="viewer">Lector</option>
-                        </select>
+                        <div className="relative">
+                            <LuChevronDown  className="absolute right-3.5 top-[13px] dark:text-gray-200" />                     
+                            <select 
+                                id="rol" 
+                                className={`${ errors.rol ? 'input-form-error' : ''} select-form`}
+                                {...register("rol", {
+                                    required: "El rol es obligatorio",
+                                    validate: value => ["admin", "editor", "viewer"].includes(value) || "Rol inválido"
+                                })}
+                            >
+                                <option value="" disabled>Seleccionar...</option>
+                                <option value="admin">Administrador</option>
+                                <option value="editor">Editor</option>
+                                <option value="viewer">Lector</option>
+                            </select>
+                        </div>
                         {errors.rol && (<p className="input-message-error">{errors.rol.message}</p>)}
                     </div>
                 </div>

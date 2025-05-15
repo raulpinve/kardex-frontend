@@ -4,7 +4,7 @@ import ModalCrearProducto from "./components/productos/ModalCrearProducto";
 import ModalEditarProducto from "./components/productos/ModalEditarProducto";
 import ModalEliminarProducto from "./components/productos/ModalEliminarProducto";
 import ModalAbrirImagenPerfil from "../../shared/components/ModalAbrirImagenPerfil";
-import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { LuEraser, LuPencil, LuPlus, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import { obtenerProductos } from './services/productoServices';
 import CardTitulo from "../../shared/components/CardTitulo";
 import imageDefault from "../../assets/image-default.png";
@@ -75,13 +75,13 @@ const ProductosPagina = ({ tipo }) => {
                                         setModalActivo("crear");
                                     }}
                                 >   
-                                    Crear
+                                    Crear  <LuPlus />
                                 </Button>
                                 <div className="relative hidden md:block">
                                     <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
                                     <input 
                                         type="text" 
-                                        placeholder={tipo === "medicamentos" ? "Buscar medicamento..." : "Buscar dispositivo..."}
+                                        placeholder="Buscar..."
                                         className="input-form pl-10 dark:bg-gray-900"
                                         value={consulta}
                                         onChange={(e) => {
@@ -89,7 +89,7 @@ const ProductosPagina = ({ tipo }) => {
                                         }}
                                     />
                                 </div>
-                                <Button
+                                {/* <Button
                                     type="button"
                                     colorButton="secondary"
                                     onClick={() => {
@@ -98,7 +98,7 @@ const ProductosPagina = ({ tipo }) => {
                                     }}
                                 >
                                     <LuRefreshCcw />
-                                </Button>
+                                </Button> */}
                             </div>
                         </div>
                         <div className="overflow-x-auto">

@@ -165,14 +165,14 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
 
     return (
         <Card className={`relative`}>
-            <div className='flex items-start justify-between'>
+            <div className='md:flex items-start justify-between'>
                 <div>
                     <CardTitulo>Comportamiento del stock</CardTitulo>
                     <span className="block text-gray-500 dark:text-gray-400  text-sm">
                         Evolución en los últimos {mesSelected} meses
                     </span>
                 </div>
-                <div className='flex items-center'>
+                <div className='flex items-center mt-4'>
                     {mostrarBotones && (
                         <>                        
                             <button
@@ -188,7 +188,6 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                         </>
                     )}
                     <StockRangeSelector {...{selected: mesSelected, setSelected: setMesSelected}} />
-    
                 </div>
             </div>
             <div className={`h-[340px] w-full ${loading ? "flex items-center  justify-center": ""} `}>

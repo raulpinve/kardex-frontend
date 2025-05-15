@@ -43,30 +43,42 @@ const TituloInventarios = ({ productoId, loteId }) => {
     }, [loteId, token])
 
     return (
-         <CardTitulo className="flex items-center">
-            <Link to={`/inventarios`}>
-                Inventarios 
+        <CardTitulo className="flex flex-wrap items-center gap-1 text-sm sm:text-base">
+            <Link to="/inventarios" className="hover:underline">
+            Inventarios
             </Link>
+
             {periodo && producto && (
-                <Link to={`/inventarios/${periodo}/${productoId}`} className='flex items-center'>
-                    <LuChevronRight />
-                    {producto?.nombre}
+                <Link
+                    to={`/inventarios/${periodo}/${productoId}`}
+                    className="flex items-center hover:underline"
+                >
+                    <LuChevronRight className="mx-1 shrink-0" />
+                    <span className="truncate max-w-[150px] sm:max-w-xs">{producto?.nombre}</span>
                 </Link>
             )}
-            {periodo && lote && (<>
+
+            {periodo && lote && (
+            <>
                 {lote?.productoNombre && (
-                    <Link to={`/inventarios/${periodo}/${lote?.productoId}`} className='flex items-center'>
-                        <LuChevronRight />
-                        {lote?.productoNombre}
+                    <Link
+                        to={`/inventarios/${periodo}/${lote?.productoId}`}
+                        className="flex items-center hover:underline"
+                    >
+                        <LuChevronRight className="mx-1 shrink-0" />
+                        <span className="truncate max-w-[150px] sm:max-w-xs">{lote?.productoNombre}</span>
                     </Link>
                 )}
-                <Link className='flex items-center'>
-                    <LuChevronRight />
+
+                <span className="flex items-center truncate max-w-[120px] sm:max-w-[150px]">
+                    <LuChevronRight className="mx-1 shrink-0" />
                     {lote?.numeroLote}
-                </Link>
-            </>)}
+                </span>
+            </>
+            )}
         </CardTitulo>
     );
+
 };
 
 export default TituloInventarios;

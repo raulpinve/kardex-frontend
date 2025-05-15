@@ -1,12 +1,20 @@
 import React from 'react';
-import { LuBox, LuLayoutDashboard, LuSettings, LuSyringe } from "react-icons/lu";
-import { useSelector } from "react-redux";
+import { LuBox, LuSettings, LuSyringe } from "react-icons/lu";
+import { useDispatch, useSelector } from "react-redux";
 import { LuPill } from "react-icons/lu";
 import { NavLink } from 'react-router-dom';
+import { toggleSidebar } from '@/store/sidebarSlice';
 
 const Sidebar = () => {
     const sidebarOpen = useSelector((state) => state.sidebar.sidebarOpen);
     const usuario = useSelector(state => state.auth.usuario);
+    const dispatch = useDispatch();
+
+    const handleSidebarLinkClick = () => {
+        if (window.innerWidth < 1024) {
+            dispatch(toggleSidebar())
+        }
+    };
 
     return (
         <aside 
@@ -34,6 +42,7 @@ const Sidebar = () => {
                 {/* Dashboard */}
                 <NavLink 
                     to="/inventarios"
+                    onClick={handleSidebarLinkClick}
                     className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
                 >
                     <LuBox className="text-xl min-w-[24px]" />
@@ -45,6 +54,7 @@ const Sidebar = () => {
                 {/* Medicamentos */}
                 <NavLink 
                     to="/medicamentos"
+                    onClick={handleSidebarLinkClick}
                     className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
                 >
                     <LuPill className="text-xl min-w-[24px]" />
@@ -56,6 +66,7 @@ const Sidebar = () => {
                 {/* Dispositivos */}
                 <NavLink 
                     to="/dispositivos"
+                    onClick={handleSidebarLinkClick}
                     className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
                 >
                     <LuSyringe className="text-xl min-w-[24px]" />
@@ -68,6 +79,7 @@ const Sidebar = () => {
                 {usuario?.rol === "superadmin" && (
                     <NavLink 
                         to="/configuracion"
+                        onClick={handleSidebarLinkClick}
                         className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
                     >
                         <LuSettings className="text-xl min-w-[24px]" />

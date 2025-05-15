@@ -52,10 +52,15 @@ const CardStockInformation = ({titulo, loading, tipo = undefined, value}) => {
                 <span className="text-sm text-gray-500 dark:text-gray-400">{titulo}</span>
                 <h4 className="mt-1 text-3xl font-bold text-gray-800 dark:text-white/90">
                     {loading ? (
-                        <SkeletonElement className="mt-2"/>
-                    ): (
-                        <span>{value}</span>
+                            <SkeletonElement className="mt-2" />
+                        ) : (
+                        <span>
+                            {tipo === "cantidadPedir" 
+                            ? Math.max(0, Math.abs(value)) 
+                            : value}
+                        </span>
                     )}
+
                 </h4>
             </div>
         </div>

@@ -18,7 +18,7 @@ const ConfiguracionPage = () => {
         }else{
             setLoading(false)
         }
-    }, [usuario])
+    }, [usuario, navigate])
 
     if(loading) return
     return (

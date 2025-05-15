@@ -7,6 +7,7 @@ import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
 import { crearCategoria } from "../../services/categoriaService";
+import { LuChevronDown } from "react-icons/lu";
 
 const ModalCrearCategoria = (props) => {
     const { cerrarModal, setCategorias} = props;
@@ -75,20 +76,23 @@ const ModalCrearCategoria = (props) => {
                     <label htmlFor="nombre" className="label-form">
                         Tipo <span className="input-required">*</span>
                     </label>
-                    <select 
-                        className={`${errors.tipo && errors.tipo.message ? "input-form-error" : ""} select-form`}
-                        {...register("tipo", {
-                            required: {
-                                value: true,
-                                message: "Debe seleccionar un tipo.",
-                            },
-                            validate: value => ["medicamento", "dispositivo"].includes(value) || "Tipo inválido"
-                        })}
-                        id="tipo"
-                    >
-                        <option value="dispositivo">Dispositivo</option>
-                        <option value="medicamento">Medicamento</option>
-                    </select>
+                    <div className="relative">
+                        <LuChevronDown  className="absolute right-3.5 top-[13px] dark:text-gray-200" />                     
+                        <select 
+                            className={`${errors.tipo && errors.tipo.message ? "input-form-error" : ""} select-form`}
+                            {...register("tipo", {
+                                required: {
+                                    value: true,
+                                    message: "Debe seleccionar un tipo.",
+                                },
+                                validate: value => ["medicamento", "dispositivo"].includes(value) || "Tipo inválido"
+                            })}
+                            id="tipo"
+                        >
+                            <option value="dispositivo">Dispositivo</option>
+                            <option value="medicamento">Medicamento</option>
+                        </select>
+                    </div>
                     {errors.tipo && errors.tipo.message && (<p className="input-message-error">{errors.tipo.message}</p>)} 
                 </div>
                 {messageError && 

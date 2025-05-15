@@ -1,4 +1,4 @@
-import { LuCalendar, LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
+import { LuCalendar, LuEraser, LuPencil, LuPlus, LuRefreshCcw, LuSearch } from 'react-icons/lu';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import Pagination from '../../../../shared/components/Pagination';
 import CardTitulo from '../../../../shared/components/CardTitulo';
@@ -87,14 +87,14 @@ const Movimientos = ({corteId, loteId}) => {
                                 setModalActivo("crear")
                             }}
                         >   
-                            Crear
+                            Crear  <LuPlus />
                         </Button>
                         {/* Buscar en movimientos */}
                         <div className="relative hidden">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
                             <input 
                                 type="text" 
-                                placeholder="Buscar en movimientos..." 
+                                placeholder="Buscar..." 
                                 className="input-form pl-10 dark:bg-gray-900"
                                 value={consulta}
                                 onChange={(e) => {
@@ -109,24 +109,24 @@ const Movimientos = ({corteId, loteId}) => {
                                 onChange={(e) => setTipo(e.currentTarget.value)}
                                 className='select-form'
                             >
-                                <option value="">Seleccionar tipo...</option>
+                                <option value="">Seleccionar...</option>
                                 <option value="entrada">Entrada</option>
                                 <option value="salida">Salida</option>
                             </select>
                         </div>
-                        <div className='relative dark:text-gray-200'>
+                        <div className='relative dark:text-gray-200 hidden md:block'>
                             <DatePicker 
-                                className='relative input-form w-[190px] px-2 placeholder-gray-700  dark:placeholder-gray-200'
+                                className='relative input-form px-2 placeholder-gray-700  dark:placeholder-gray-200'
                                 selected={fecha} 
                                 onChange={handleChange} 
                                 dateFormat="yyyy/MM/dd" 
-                                placeholderText="Selecciona una fecha..."
+                                placeholderText="Seleccionar..."
                                 locale="es"
                             />
                             <LuCalendar className='absolute right-3 top-[14px]' />
                         </div>
                       
-                        <Button
+                        {/* <Button
                             type="button"
                             colorButton="secondary"
                             onClick={() => {
@@ -135,7 +135,7 @@ const Movimientos = ({corteId, loteId}) => {
                             }}
                         >
                             <LuRefreshCcw />
-                        </Button>
+                        </Button> */}
                     </div>
                 </div>
 
@@ -153,7 +153,7 @@ const Movimientos = ({corteId, loteId}) => {
                                     <th className="py-3 px-4 min-w-[120px]">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
                                     </th>
-                                    <th className="py-3 px-4 min-w-[120px]">
+                                    <th className="py-3 px-4 min-w-[200px]">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Descripción</p>
                                     </th>
                                     <th className="py-3 px-4">

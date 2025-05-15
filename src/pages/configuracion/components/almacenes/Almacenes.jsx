@@ -8,7 +8,7 @@ import Button from "../../../../shared/components/Button";
 import ModalCrearAlmacen from "./ModalCrearAlmacen";
 import ModalEditarAlmacen from "./ModalEditarAlmacen";
 import ModalEliminarAlmacen from "./ModalEliminarAlmacen";
-import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { LuEraser, LuPencil, LuPlus, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -54,18 +54,19 @@ const Almacenes = () => {
                     <div className="flex gap-1 items-center justify-between">
                         <Button
                             type="button"
+                            className="ml-3"
                             colorButton="primary"
                             onClick={() => {
                                 setModalActivo("crear")
                             }}
                         >   
-                            Crear
+                            Crear <LuPlus />
                         </Button>
                         <div className="relative hidden md:block">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
                             <input 
                                 type="text" 
-                                placeholder="Buscar almacén..." 
+                                placeholder="Buscar..." 
                                 className="input-form pl-10 dark:bg-gray-900"
                                 value={consulta}
                                 onChange={(e) => {
@@ -73,7 +74,7 @@ const Almacenes = () => {
                                 }}
                             />
                         </div>
-                        <Button
+                        {/* <Button
                             type="button"
                             colorButton="secondary"
                             onClick={() => {
@@ -82,7 +83,7 @@ const Almacenes = () => {
                             }}
                         >
                             <LuRefreshCcw />
-                        </Button>
+                        </Button> */}
                     </div>
                 </div>
     

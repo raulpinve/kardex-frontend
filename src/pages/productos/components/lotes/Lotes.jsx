@@ -8,7 +8,7 @@ import Button from "../../../../shared/components/Button";
 import Card from "../../../../shared/components/Card";
 import ModalCrearLote from "./ModalCrearLote";
 import { useEffect, useState } from "react";
-import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { LuEraser, LuPencil, LuPlus, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import ModalEditarLote from "./ModalEditarLote";
 import ModalEliminarLote from "./ModalEliminarLote";
@@ -35,7 +35,7 @@ const Lotes = ({ productoId, tipo }) => {
             setLoading(true);
             setError(null); 
             try {
-                const respuesta = await obtenerLotes(token,tipo, productoId, paginaActual, debouncedConsulta);
+                const respuesta = await obtenerLotes(token, tipo, productoId, paginaActual, debouncedConsulta);
                 setLotes(respuesta.data);
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
@@ -51,7 +51,6 @@ const Lotes = ({ productoId, tipo }) => {
     const irALote = (loteId) => {
         navigate(`/${tipo}/lotes/${loteId}`)
     }
-
     return (
         <>
             <Card>
@@ -60,12 +59,12 @@ const Lotes = ({ productoId, tipo }) => {
                     <div className="flex gap-1 items-center justify-between">
                         <Button
                             type="button"
-                            colorButton="secondary"
+                            colorButton="primary"
                             onClick={() => {
                                 setModalActivo("crear")
                             }}
                         >   
-                            Crear
+                            Crear  <LuPlus />
                         </Button>
                         <div className="relative hidden lg:block">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />

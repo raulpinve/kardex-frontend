@@ -1,4 +1,4 @@
-import { LuChevronDown, LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { LuChevronDown, LuEraser, LuPencil, LuPlus, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import SkeletonTable from "../../../../shared/components/SkeletonTable";
 import { obtenerCategorias } from "../../services/categoriaService";
 import CardTitulo from "../../../../shared/components/CardTitulo";
@@ -65,13 +65,13 @@ const Categorias = () => {
                                 setModalActivo("crear")
                             }}
                         >   
-                            Crear
+                            Crear <LuPlus />
                         </Button>
                         <div className="relative hidden md:block">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
                             <input 
                                 type="text" 
-                                placeholder="Buscar categoría..." 
+                                placeholder="Buscar..." 
                                 className="input-form pl-10 dark:bg-gray-900 max-w-[180px]"
                                 value={consulta}
                                 onChange={(e) => {
@@ -79,23 +79,21 @@ const Categorias = () => {
                                 }}
                             />
                         </div>
-                        <div className="relative hidden md:block">
+                        <div className="relative block">
                             <select 
-                                name="" 
-                                className="select-form max-w-[180px]" 
-                                id="" 
+                                className="select-form" 
                                 value={tipo}
                                 onChange={(e) => {
                                     setTipo(e.currentTarget.value)
                                 }}
                             >
-                                <option value="">Seleccionar tipo...</option>
+                                <option value="">Seleccionar...</option>
                                 <option value="dispositivo">Dispositivo</option>
                                 <option value="medicamento">Medicamento</option>
                             </select>
                             <LuChevronDown className="absolute top-[16px] right-2" />
                         </div>
-                        <Button
+                        {/* <Button
                             type="button"
                             colorButton="secondary"
                             onClick={() => {
@@ -104,7 +102,7 @@ const Categorias = () => {
                             }}
                         >
                             <LuRefreshCcw />
-                        </Button>
+                        </Button> */}
                     </div>
                 </div>
                 {/* Cuerpo */}

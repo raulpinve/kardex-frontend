@@ -64,7 +64,7 @@ const SeleccionarCorte = (props) => {
             {!loading && !mensajeError && cortes && (
                 <div className="relative">
                     <LuCalendar className="absolute left-3.5 top-[14px] dark:text-gray-200" />
-                        <select 
+                    <select 
                             className="select-form pl-10"
                             value={periodo}
                             onChange={(e) => {
