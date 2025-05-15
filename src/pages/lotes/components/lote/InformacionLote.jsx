@@ -36,7 +36,7 @@ const InformacionLote = () => {
     const { estado, color } = obtenerEstadoVencimiento(lote?.fechaVencimiento);
 
     return (
-        <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 `}>
+        <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 h-full`}>
             <div className='my-5'>
                 {!loading && !lote && error && (<>
                     <MessageError>

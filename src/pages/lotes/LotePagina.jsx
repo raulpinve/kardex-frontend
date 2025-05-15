@@ -11,10 +11,11 @@ const LotePagina = () => {
     return (
         <Layout>
             <TituloProductos loteId={loteId}/>
-            <div className="grid w-full md:grid-cols-12 gap-6 mt-4">
-
-                <InformacionLote />
-                <div className="col-span-8">
+            <div className="grid w-full md:grid-cols-12 gap-4 mt-4">
+                <div className='col-span-12 xl:col-span-4 2xl:col-span-3'>
+                    <InformacionLote />
+                </div>
+                <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-9 xl:gap-4">
                     <GraficaComportamientoStock tipo="lote"/>
                 </div>
             </div>

@@ -12,7 +12,7 @@ const Sidebar = () => {
         <aside 
             className={`fixed lg:static bg-white flex flex-col left-0 top-0 h-screen z-50 border-r border-gray-200 dark:border-gray-800
                 transition-all duration-300 dark:bg-gray-900  text-gray-700 dark:text-white/90
-            ${sidebarOpen ? "w-[290px] px-5" : "lg:w-[67px] px-2"}
+            ${sidebarOpen ? "w-[240px] 2xl:w-[290px] px-5" : "lg:w-[67px] px-2"}
             ${sidebarOpen ? "translate-x-0" : "translate-x-[-100%] lg:translate-x-0"}`}
         >
             {/* Logo */}

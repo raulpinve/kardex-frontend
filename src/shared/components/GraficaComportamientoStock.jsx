@@ -1,6 +1,6 @@
 import { obtenerInformacionHistorial } from '../services/historialStockServices';
 import { formatDateCorte } from '../../utils/utilities';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { LuChartColumn, LuChartSpline, LuCloudDownload } from 'react-icons/lu';
 import ReactApexChart  from 'react-apexcharts';
 import { useParams } from 'react-router-dom';
@@ -35,15 +35,10 @@ function StockRangeSelector({ selected, setSelected }) {
         >
             12 meses
         </button>
-        <button
-          onClick={() => setSelected(24)}
-          className={`${baseClasses} ${selected === 24 ? activeClasses : inactiveClasses}`}
-        >
-            24 meses
-        </button>
       </div>
     );
 }
+
 
 const GraficaComportamientoStock = ({tipo = "producto"}) => {
     const [mostrarBotones, setMostrarBotones] = useState(false);
@@ -57,11 +52,12 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
 
     const options = {
         chart: {
-        id: 'stockChart',
-        type: tipoGrafica,
-            toolbar: {
-                show: false,
-            },
+             redrawOnParentResize: true,
+            id: 'stockChart',
+            type: tipoGrafica,
+                toolbar: {
+                    show: false,
+                },
         },
         fill: tipoGrafica === "bar"
         ? {
@@ -166,7 +162,7 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
     const toggleChartType = () => {
         setTipoGrafica((prevType) => (prevType === "bar" ? "area" : "bar"));
     };
-    
+
     return (
         <Card className={`relative`}>
             <div className='flex items-start justify-between'>
@@ -196,16 +192,16 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                 </div>
             </div>
             <div className={`h-[340px] w-full ${loading ? "flex items-center  justify-center": ""} `}>
-                {loading 
-                    ? <Loader />
-                    : <ReactApexChart 
+                {loading && ( <Loader />)}
+                {!loading && (
+                    <ReactApexChart 
                         options={options}
                         type={tipoGrafica}
                         series={series} 
                         height={340} 
                         id="stockChart"
                     />
-                }
+                )}
             </div>
         </Card>
     );
