@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { obtenerCortePeriodo } from './services/cortesServices';
 import InformacionProducto from '../productos/components/producto/InformacionProducto';
 import Corte from './components/cortes/Corte';
-import TituloInventarios from './components/TitleSelect';
+import TituloInventarios from './components/TituloInventarios';
 
 const InventarioProductoPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);

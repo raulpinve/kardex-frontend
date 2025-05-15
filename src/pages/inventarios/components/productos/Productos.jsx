@@ -151,7 +151,7 @@ const Productos = ({ tipo, corteId }) => {
                             <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Stock requerido</p>
                             </th>
-                            <th className="py-3 px-4 min-w-[120px]">
+                            <th className="py-3 px-4 min-w-[120px] hidden">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Pedidos</p>
                             </th>
                         </tr>
@@ -219,7 +219,7 @@ const Productos = ({ tipo, corteId }) => {
                                         <td className="py-3 px-4">
                                             <p className="text-gray-700 dark:text-gray-400"> {producto.stockRequerido} </p>
                                         </td>
-                                        <td className="py-3 px-4 text-xs flex">
+                                        <td className="py-3 px-4 text-xs flex hidden">
                                             <StockStatus stockRequerido={producto.stockRequerido} stockFinal={producto.stockFinal} />
                                         </td>
                                     </tr>

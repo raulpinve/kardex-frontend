@@ -7,6 +7,7 @@ import TarjetasInformacionStock from './components/producto/TarjetasInformacionS
 import InformacionProducto from './components/producto/InformacionProducto';
 import Lotes from './components/lotes/Lotes';
 import GraficaComportamientoStock from '../../shared/components/GraficaComportamientoStock';
+import TituloProductos from './components/shared/TituloProductos';
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();
@@ -35,7 +36,8 @@ const ProductoPagina = ({ tipo }) => {
 
     return (
         <Layout>
-            {/* <TarjetasInformacionStock productoId={productoId}/> */}
+            <TituloProductos productoId={productoId}/>
+            <TarjetasInformacionStock productoId={productoId}/>
             <div className="grid w-full md:grid-cols-12 gap-4 mt-4">
                 <div className='col-span-12 xl:col-span-4 2xl:col-span-3'>
                     <InformacionProducto />

@@ -7,7 +7,7 @@ import { obtenerCortePeriodo } from './services/cortesServices';
 import Movimientos from '../lotes/components/movimientos/Movimientos';
 import Corte from './components/cortes/Corte';
 import TarjetasInformacionStock from './components/lotes/TarjetasInformacionStock';
-import TituloInventarios from './components/TitleSelect';
+import TituloInventarios from './components/TituloInventarios';
 
 const InventarioLotesPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);

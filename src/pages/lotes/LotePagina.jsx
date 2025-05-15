@@ -4,13 +4,15 @@ import Movimientos from './components/movimientos/Movimientos';
 import Layout from '../../shared/components/Layout';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import TituloProductos from '../productos/components/shared/TituloProductos';
 
 const LotePagina = () => {
-    const { loteId } = useParams();
-
+    const { loteId} = useParams();
     return (
         <Layout>
+            <TituloProductos loteId={loteId}/>
             <div className="grid w-full md:grid-cols-12 gap-6 mt-4">
+
                 <InformacionLote />
                 <div className="col-span-8">
                     <GraficaComportamientoStock tipo="lote"/>
