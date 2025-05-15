@@ -46,8 +46,12 @@ const InventarioLotesPagina = () => {
     
             <TarjetasInformacionStock corteId={corte?.id} loteId={loteId}/> 
             <div className="grid w-full md:grid-cols-12 gap-6 items-start mt-4">
-                <InformacionLote />
-                <Movimientos corteId={corte?.id} loteId={loteId}/>
+                <div className='col-span-12 xl:col-span-4 2xl:col-span-3'>
+                    <InformacionLote />
+                </div>
+                <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-9 grid xl:gap-4 2xl:gap-6 items-start">
+                    <Movimientos corteId={corte?.id} loteId={loteId}/>
+                </div>
             </div>
         </Layout>
     );
