@@ -10,6 +10,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CardTitulo from "../../shared/components/CardTitulo";
 import DropdownEditarCorte from "./components/cortes/DropdownEditarCorte";
+import TituloInventarios from "./components/TituloInventarios";
+import { LuPlus } from "react-icons/lu";
 
 const InventariosPagina = () => {
     const navigate = useNavigate();
@@ -57,20 +59,16 @@ const InventariosPagina = () => {
             <div className='py-2'>
                 {/* Header */}
                 <div className="flex items-center justify-between gap-2">
-                    <div className="">
-                        <CardTitulo className="flex items-center">
-                            Inventarios 
-                        </CardTitulo>
-                    </div>
+                    <TituloInventarios />
                     <div className="flex items-center gap-2">
                         <div className="flex gap-2">
                             <Corte />
                             <Button
-                                textButton={`Crear corte`}
                                 colorButton={`primary`}
-                                className="min-w-[120px]"
                                 onClick={() => setModalActivo("crear")}
-                            />
+                            >
+                                Crear corte <LuPlus />
+                            </Button>
                             {corte && !corte?.cerrado &&(
                                 <DropdownEditarCorte corteId={corte?.id} />
                             )}

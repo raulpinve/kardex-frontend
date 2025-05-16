@@ -39,30 +39,32 @@ const DropdownEditarCorte = ({corteId}) => {
 
         {/* Dropdown content */}
         <div 
-          className={`absolute w-[170px] p-3 bg-white border border-gray-200 top-[40px] right-0 rounded-lg mt-2 shadow-lg dark:border-gray-800 z-90
-          transition-all duration-300 ease-in-out transform text-sm dark:bg-gray-900 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+          className={`absolute w-[170px] p-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 top-[40px] right-0 rounded-lg mt-2 shadow-lg z-90
+          transition-all duration-300 ease-in-out transform text-sm text-gray-700 dark:text-gray-200 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
         >
           <button 
-            className='p-2 cursor-pointer w-full text-left flex gap-2 items-center' onClick={() => setModalActivo("cerrar-corte")}
+            className='p-2 cursor-pointer w-full text-left flex gap-2 items-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md'
+            onClick={() => setModalActivo("cerrar-corte")}
           >
-              <LuFileCheck2 /> Cerrar corte
+            <LuFileCheck2 /> Cerrar corte
           </button>
           <button 
-          className='text-red-600 p-2 cursor-pointer w-full text-left flex gap-2 items-center'
+            className='text-red-600 dark:text-red-500 p-2 cursor-pointer w-full text-left flex gap-2 items-center hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md'
             onClick={() => setModalActivo("eliminar-corte")}
           >
-              <LuTrash2 /> Eliminar corte
+            <LuTrash2 /> Eliminar corte
           </button>
         </div>
+
         {modalActivo === "cerrar-corte" && (
           <ModalCerrarCorte 
-            corteId ={corteId}
+            corteId={corteId}
             cerrarModal={() => setModalActivo(null)}
           />
         )}
         {modalActivo === "eliminar-corte" && (
           <ModalEliminarCorte 
-            corteId ={corteId}
+            corteId={corteId}
             cerrarModal={() => setModalActivo(null)}
           />
         )}

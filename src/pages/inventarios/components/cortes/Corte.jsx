@@ -40,11 +40,11 @@ const Corte = () => {
             )}
             {periodo && (
                 <div 
-                    onClick={() => {setModalActivo(true)}}
-                    className="py-2 px-4 cursor-pointer border border-gray-300 text-gray-600 text-sm font-semibold rounded-lg bg-white flex gap-2 items-center"
+                    onClick={() => setModalActivo(true)}
+                    className="py-2 px-4 cursor-pointer border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 text-sm font-semibold rounded-lg bg-white dark:bg-gray-800 flex gap-2 items-center"
                 >
                     <LuCalendar />
-                    <p>{`${formatDateCorte(periodo)}`}</p>
+                    <p>{formatDateCorte(periodo)}</p>
                 </div>
             )}
         </div>

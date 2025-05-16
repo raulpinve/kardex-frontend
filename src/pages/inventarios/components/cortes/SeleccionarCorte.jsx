@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import Modal from '../../../../shared/components/Modal';
-import { LuCalendar, LuChevronDown } from 'react-icons/lu';
-import { obtenerCortes } from '../../services/cortesServices';
-import { useSelector } from 'react-redux';
-import { formatDateCorte } from '../../../../utils/utilities';
-import { toast } from 'sonner';
-import { useNavigate, useParams } from 'react-router-dom';
 import SkeletonElement from '../../../../shared/components/SkeletonElement';
 import MessageError from '../../../../shared/components/MessageError';
+import { obtenerCortes } from '../../services/cortesServices';
+import { formatDateCorte } from '../../../../utils/utilities';
+import { LuCalendar, LuChevronDown } from 'react-icons/lu';
+import Modal from '../../../../shared/components/Modal';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { toast } from 'sonner';
 
 const SeleccionarCorte = (props) => {
-    const {periodo} = useParams();
     const almacenId = useSelector(state => state.almacen.almacen?.id);
+    const [corteSeleccionado, setCorteSeleccionado] = useState("");
     const token = useSelector(state => state.auth.token);
     const [mensajeError, setMensajeError] = useState();
     const [cortes, setCortes] = useState([]);
@@ -39,7 +39,7 @@ const SeleccionarCorte = (props) => {
         const partes = location.pathname.split('/');
         
         if (partes.length > 2) {
-            partes[2] = nuevoCorteId; // Asumiendo que el corteId siempre está en la posición 2
+            partes[2] = nuevoCorteId;
             const nuevaRuta = partes.join('/');
             navigate(nuevaRuta);
         } else {
@@ -65,15 +65,16 @@ const SeleccionarCorte = (props) => {
                 <div className="relative">
                     <LuCalendar className="absolute left-3.5 top-[14px] dark:text-gray-200" />
                     <select 
-                            className="select-form pl-10"
-                            value={periodo}
-                            onChange={(e) => {
-                                cambiarCorteSeleccionado(e.currentTarget.value);
-                                toast.success("Corte seleccionado");
-                                cerrarModal();
-                            }}
-                        >
-                        <option value="" disabled>Selecciona un corte</option>
+                        className="select-form pl-10"
+                        value={corteSeleccionado}
+                        onChange={(e) => {
+                            setCorteSeleccionado(e.currentTarget.value);
+                            cambiarCorteSeleccionado(e.currentTarget.value);
+                            toast.success("Corte seleccionado");
+                            cerrarModal();
+                        }}
+                    >
+                        <option value="" disabled>Seleccionar... </option>
                         {cortes.map(corte => <option key={corte.id} value={corte.periodo}>
                             {`${formatDateCorte(corte.periodo)} ${!corte?.cerrado ? "(activo)": ""}`}
                         </option>)}

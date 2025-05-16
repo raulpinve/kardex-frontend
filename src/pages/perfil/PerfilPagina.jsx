@@ -19,7 +19,6 @@ const PerfilPagina = () => {
     const [loading, setLoading] = useState(false);
     const {perfilId} = useParams();
     const [perfil, setPerfil] = useState(false);
-    const [codeStatus, setCodeStatus] = useState(false);
 
     useEffect(() => {
         // Si no hay perfilId, no hacemos nada
@@ -107,7 +106,7 @@ const PerfilPagina = () => {
                                         <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
                                             Información personal
                                         </h4>
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid md:grid-cols-2 gap-4">
                                             {/* Primer nombre */}
                                             <div>
                                                 <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">

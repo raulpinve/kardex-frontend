@@ -43,38 +43,38 @@ const TituloInventarios = ({ productoId, loteId }) => {
     }, [loteId, token])
 
     return (
-        <CardTitulo className="flex flex-wrap items-center gap-1 text-sm sm:text-base">
-            <Link to="/inventarios" className="hover:underline">
-            Inventarios
+      <CardTitulo className="flex flex-wrap items-center gap-1 text-gray-700 dark:text-gray-200">
+            <Link to="/inventarios" className="hover:underline text-gray-700 dark:text-gray-200">
+                Inventarios
             </Link>
 
             {periodo && producto && (
                 <Link
-                    to={`/inventarios/${periodo}/${productoId}`}
-                    className="flex items-center hover:underline"
+                to={`/inventarios/${periodo}/${productoId}`}
+                className="flex items-center hover:underline text-gray-500 dark:text-gray-400"
                 >
-                    <LuChevronRight className="mx-1 shrink-0" />
-                    <span className="truncate max-w-[150px] sm:max-w-xs">{producto?.nombre}</span>
+                <LuChevronRight className="mx-1 shrink-0" />
+                <span className="truncate max-w-[150px] sm:max-w-xs">{producto?.nombre}</span>
                 </Link>
             )}
 
             {periodo && lote && (
-            <>
+                <>
                 {lote?.productoNombre && (
                     <Link
-                        to={`/inventarios/${periodo}/${lote?.productoId}`}
-                        className="flex items-center hover:underline"
+                    to={`/inventarios/${periodo}/${lote?.productoId}`}
+                    className="flex items-center hover:underline text-gray-700 dark:text-gray-200"
                     >
-                        <LuChevronRight className="mx-1 shrink-0" />
-                        <span className="truncate max-w-[150px] sm:max-w-xs">{lote?.productoNombre}</span>
+                    <LuChevronRight className="mx-1 shrink-0" />
+                    <span className="truncate max-w-[150px] sm:max-w-xs">{lote?.productoNombre}</span>
                     </Link>
                 )}
 
-                <span className="flex items-center truncate max-w-[120px] sm:max-w-[150px]">
+                <span className="flex items-center truncate max-w-[120px] sm:max-w-[150px] text-gray-500 dark:text-gray-400">
                     <LuChevronRight className="mx-1 shrink-0" />
                     {lote?.numeroLote}
                 </span>
-            </>
+                </>
             )}
         </CardTitulo>
     );
