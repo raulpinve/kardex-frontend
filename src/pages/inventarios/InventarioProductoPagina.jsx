@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../shared/components/Layout';
-import TarjetasInformacionStock from './components/productos/TarjetasInformacionStock';
+import TarjetasInformacionStockProducto from './components/productos/TarjetasInformacionStockProducto';
 import InventarioLotes from './components/productos/InventarioLotes';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -56,7 +56,7 @@ const InventarioProductoPagina = () => {
                </p>
             )}
             {!mensajeError && !loading && corte && (<>
-                <TarjetasInformacionStock corteId={corte?.id} productoId={productoId}/> 
+                <TarjetasInformacionStockProducto corteId={corte?.id} productoId={productoId}/> 
                 <div className="grid w-full md:grid-cols-12 gap-6 mt-4 ">
                     <div className='col-span-12 xl:col-span-4 2xl:col-span-3'>
                         <InformacionProducto />
@@ -65,6 +65,7 @@ const InventarioProductoPagina = () => {
                         <InventarioLotes corteId={corte?.id} />
                     </div>
                 </div>
+
             </>)}
         </Layout>
     );

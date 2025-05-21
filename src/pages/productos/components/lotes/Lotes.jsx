@@ -53,7 +53,7 @@ const Lotes = ({ productoId, tipo }) => {
     }
     return (
         <>
-            <Card>
+            <Card className={`h-full flex flex-col`}>
                 <div className="flex justify-between items-center">
                     <CardTitulo>Lotes</CardTitulo>
                     <div className="flex gap-1 items-center justify-between">
@@ -91,7 +91,7 @@ const Lotes = ({ productoId, tipo }) => {
                         </Button>
                     </div>
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-grow">
                     <div className="overflow-x-auto w-full">
                         <table className="mt-3 min-w-full  text-gray-700 dark:text-gray-200">
                             <thead>

@@ -43,7 +43,7 @@ const TituloInventarios = ({ productoId, loteId }) => {
     }, [loteId, token])
 
     return (
-      <CardTitulo className="flex flex-wrap items-center gap-1 text-gray-700 dark:text-gray-200">
+      <CardTitulo className="flex flex-wrap items-center gap-1 text-gray-700 dark:text-gray-200 text-sm sm:text-base">
             <Link to="/inventarios" className="hover:underline text-gray-700 dark:text-gray-200">
                 Inventarios
             </Link>

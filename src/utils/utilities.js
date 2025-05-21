@@ -1,5 +1,3 @@
-import { format, parseISO } from "date-fns";
-import { es } from 'date-fns/locale';  // Importar el locale para español
 
 const formatDateLetters = (isoDate) => {
     const date = new Date(isoDate);
@@ -70,7 +68,13 @@ const analizarStock = (stockRequerido, stockDisponible) => {
 }
   
 const formatDateCorte = (fecha) => {
+  if (!fecha || typeof fecha !== "string") {
+    return ""; // O algún valor por defecto, como "Fecha no disponible"
+  }
   const [anio, mes] = fecha.split("-");
+  if (!anio || !mes) {
+    return ""; // En caso de que el split no dé resultado esperado
+  }
   const meses = [
     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"

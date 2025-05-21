@@ -58,7 +58,7 @@ const InventarioLotes = ({corteId}) => {
                         <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
                         <input 
                             type="text" 
-                            placeholder="Buscar lote..." 
+                            placeholder="Buscar..." 
                             className="input-form pl-10 dark:bg-gray-900"
                             value={consulta}
                             onChange={(e) => {
@@ -66,7 +66,7 @@ const InventarioLotes = ({corteId}) => {
                             }}
                         />
                     </div>
-                    <Button
+                    {/* <Button
                         type="button"
                         colorButton="secondary"
                         onClick={() => {
@@ -75,7 +75,7 @@ const InventarioLotes = ({corteId}) => {
                         }}
                     >
                         <LuRefreshCcw />
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
             <div className="min-w-0">
