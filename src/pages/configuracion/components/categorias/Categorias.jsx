@@ -1,4 +1,4 @@
-import { LuChevronDown, LuEraser, LuPencil, LuPlus, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { LuChevronDown, LuEraser, LuPencil, LuSearch } from "react-icons/lu";
 import SkeletonTable from "../../../../shared/components/SkeletonTable";
 import { obtenerCategorias } from "../../services/categoriaService";
 import CardTitulo from "../../../../shared/components/CardTitulo";
@@ -65,7 +65,7 @@ const Categorias = () => {
                                 setModalActivo("crear")
                             }}
                         >   
-                            Crear <LuPlus />
+                            Crear 
                         </Button>
                         <div className="relative hidden md:block">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />

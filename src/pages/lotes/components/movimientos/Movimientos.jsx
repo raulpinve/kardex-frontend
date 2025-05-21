@@ -1,4 +1,4 @@
-import { LuCalendar, LuEraser, LuPencil, LuPlus, LuRefreshCcw, LuSearch } from 'react-icons/lu';
+import { LuCalendar, LuEraser, LuPencil, LuSearch } from 'react-icons/lu';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import Pagination from '../../../../shared/components/Pagination';
 import CardTitulo from '../../../../shared/components/CardTitulo';
@@ -87,7 +87,7 @@ const Movimientos = ({corteId, loteId}) => {
                                 setModalActivo("crear")
                             }}
                         >   
-                            Crear  <LuPlus />
+                            Crear 
                         </Button>
                         {/* Buscar en movimientos */}
                         <div className="relative hidden">

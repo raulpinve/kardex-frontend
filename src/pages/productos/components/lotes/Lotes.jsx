@@ -8,7 +8,7 @@ import Button from "../../../../shared/components/Button";
 import Card from "../../../../shared/components/Card";
 import ModalCrearLote from "./ModalCrearLote";
 import { useEffect, useState } from "react";
-import { LuEraser, LuPencil, LuPlus, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import ModalEditarLote from "./ModalEditarLote";
 import ModalEliminarLote from "./ModalEliminarLote";
@@ -64,7 +64,7 @@ const Lotes = ({ productoId, tipo }) => {
                                 setModalActivo("crear")
                             }}
                         >   
-                            Crear  <LuPlus />
+                            Crear  
                         </Button>
                         <div className="relative hidden lg:block">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />

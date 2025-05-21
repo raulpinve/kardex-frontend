@@ -4,7 +4,7 @@ import ModalCrearProducto from "./components/productos/ModalCrearProducto";
 import ModalEditarProducto from "./components/productos/ModalEditarProducto";
 import ModalEliminarProducto from "./components/productos/ModalEliminarProducto";
 import ModalAbrirImagenPerfil from "../../shared/components/ModalAbrirImagenPerfil";
-import { LuEraser, LuPencil, LuPlus, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { LuEraser, LuPencil, LuSearch } from "react-icons/lu";
 import { obtenerProductos } from './services/productoServices';
 import CardTitulo from "../../shared/components/CardTitulo";
 import imageDefault from "../../assets/image-default.png";
@@ -75,7 +75,7 @@ const ProductosPagina = ({ tipo }) => {
                                         setModalActivo("crear");
                                     }}
                                 >   
-                                    Crear  <LuPlus />
+                                    Crear
                                 </Button>
                                 <div className="relative hidden md:block">
                                     <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />

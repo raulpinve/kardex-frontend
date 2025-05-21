@@ -295,46 +295,46 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                         <div className="overflow-x-auto w-full">
                             <table className="w-full text-sm text-center">
                                 <thead className="sticky top-0 bg-gray-100 text-center">
-                                <tr className="text-sm dark:border-gray-800 bg-white">
-                                    <th className="p-2 text-left">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
-                                    </th>
-                                    <th className="p-2">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Stock inicial</p>
-                                    </th>
-                                    <th className="p-2">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Ingresos</p>
-                                    </th>
-                                    <th className="p-2">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Salidas</p>
-                                    </th>
-                                    <th className="p-2">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Stock Final</p>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-100 text-xs dark:divide-gray-800">
-                                {datos.map(dato => (
-                                    <tr key={dato.periodo}>
-                                    <td className="p-2 text-left">
-                                        <p className="text-gray-700 dark:text-gray-400">
-                                        {fechasFormateadas.length === 0 ? formatDateCorte(dato.periodo) : formatFechaCorte(dato.periodo)}
-                                        </p>
-                                    </td>
-                                    <td className="p-2">
-                                        <p className="text-gray-700 dark:text-gray-400">{dato.stockInicial}</p>
-                                    </td>
-                                    <td className="p-2">
-                                        <p className="text-gray-700 dark:text-gray-400">{dato.ingresos}</p>
-                                    </td>
-                                    <td className="p-2">
-                                        <p className="text-gray-700 dark:text-gray-400">{dato.salidas}</p>
-                                    </td>
-                                    <td className="p-2">
-                                        <p className="text-gray-700 dark:text-gray-400">{dato.stockFinal}</p>
-                                    </td>
+                                    <tr className="text-sm dark:border-gray-800 bg-white">
+                                        <th className="p-2 text-left">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
+                                        </th>
+                                        <th className="p-2">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Stock inicial</p>
+                                        </th>
+                                        <th className="p-2">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Ingresos</p>
+                                        </th>
+                                        <th className="p-2">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Salidas</p>
+                                        </th>
+                                        <th className="p-2">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Stock Final</p>
+                                        </th>
                                     </tr>
-                                ))}
+                                </thead>
+                                <tbody className="divide-y divide-gray-100  dark:divide-gray-800">
+                                    {datos.map(dato => (
+                                        <tr key={dato.periodo}>
+                                        <td className="p-2 text-left">
+                                            <p className="text-gray-700 dark:text-gray-400">
+                                            {fechasFormateadas.length === 0 ? formatDateCorte(dato.periodo) : formatFechaCorte(dato.periodo)}
+                                            </p>
+                                        </td>
+                                        <td className="p-2">
+                                            <p className="text-gray-700 dark:text-gray-400">{dato.stockInicial}</p>
+                                        </td>
+                                        <td className="p-2">
+                                            <p className="text-gray-700 dark:text-gray-400">{dato.ingresos}</p>
+                                        </td>
+                                        <td className="p-2">
+                                            <p className="text-gray-700 dark:text-gray-400">{dato.salidas}</p>
+                                        </td>
+                                        <td className="p-2">
+                                            <p className="text-gray-700 dark:text-gray-400">{dato.stockFinal}</p>
+                                        </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>

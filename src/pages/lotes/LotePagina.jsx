@@ -16,11 +16,11 @@ const LotePagina = () => {
                     <InformacionLote />
                 </div>
                 <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-9 xl:gap-4">
-                    <GraficaComportamientoStock tipo="lote"/>
+                    <Movimientos loteId={loteId} />
                 </div>
             </div>
             <div className="mt-6">
-                <Movimientos loteId={loteId} />
+                <GraficaComportamientoStock tipo="lote"/>
             </div>
         </Layout>
     );

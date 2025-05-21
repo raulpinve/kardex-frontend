@@ -1,4 +1,4 @@
-import { LuEraser, LuLock, LuPencil, LuPlus, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { LuEraser, LuLock, LuPencil, LuSearch } from "react-icons/lu";
 import React, { useEffect, useState } from "react";
 import Button from "../../../../shared/components/Button";
 import ModalCrearUsuario from "./ModalCrearUsuario";
@@ -75,7 +75,7 @@ const Usuarios = () => {
                                 setModalActivo("crear")
                             }}
                         >   
-                           Crear  <LuPlus />
+                           Crear 
                         </Button>
                         <div className="relative hidden md:block">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
