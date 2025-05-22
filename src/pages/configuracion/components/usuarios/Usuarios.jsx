@@ -104,7 +104,7 @@ const Usuarios = () => {
 
                 {/* Body */}
                 <div className="overflow-x-auto">
-                    <table className="min-w-[700px] w-full table-auto mt-3">
+                    <table className="min-w-max w-full table-auto mt-3">
                         <thead className='border-gray-100 border-y dark:border-gray-800 dark:bg-gray-800 text-xs'>
                             <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
                                 <th className="py-3 px-4">

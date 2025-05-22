@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import CardStockInformation from "@/shared/components/CardStockInformation";
 import { obtenerLoteCorte } from "../../services/loteServices";
 
-const TarjetasInformacionStock = ({corteId, loteId}) => {
+const TarjetasInformacionStock = ({corteId, loteId, refreshStock}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
     const [stock, setStock] = useState();
@@ -30,8 +30,9 @@ const TarjetasInformacionStock = ({corteId, loteId}) => {
             setError(null)
             setLoading(null)
         }
-    }, [corteId, token, loteId])
+    }, [corteId, token, loteId, refreshStock])
     
+    console.log(refreshStock)
     if(error) return
     return (
         <>

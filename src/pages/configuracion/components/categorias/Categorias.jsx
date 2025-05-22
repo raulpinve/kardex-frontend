@@ -107,7 +107,7 @@ const Categorias = () => {
                 </div>
                 {/* Cuerpo */}
                 <div className="overflow-x-auto">
-                    <table className="min-w-[450px] w-full mt-3">
+                    <table className="min-w-max w-full mt-3">
                         <thead className='border-gray-100 border-y dark:border-gray-800 dark:bg-gray-800 text-xs'>
                             <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
                                 <th className="py-3 px-4">

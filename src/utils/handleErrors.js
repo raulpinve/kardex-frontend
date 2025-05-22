@@ -7,7 +7,7 @@ const handleErrors = (err, setError, setMessageError) => {
                 message
             });
         });
-    }else if(response?.data?.statusCode !== 400){
+    }else if(response?.data?.message){
         setMessageError(response?.data?.message);
     }else{
         setMessageError("Ha ocurrido un error interno. Por favor, inténtalo nuevamente.");

@@ -86,12 +86,14 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
     };
 
     const handleDownload = () => {
-        ApexCharts.exec("stockChart", "dataURI").then(({ svgURI  }) => {
-             const link = document.createElement("a");
-            link.href = svgURI;
-            link.download = "grafico.svg";
-            link.click();;
-          });
+        ApexCharts.exec("stockChart", "dataURI").then(({ imgURI }) => {
+            const link = document.createElement("a");
+            link.href = imgURI;
+            link.download = "grafico.png";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
     };
 
     function parseDateLocal(dateString) {
@@ -103,8 +105,8 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
     function formatearRangoFechas(fechas) {
         if (fechas.length !== 2) return '';
 
-        const fechaInicio = parseDateLocal(fechas[0]);;
-        const fechaFin = parseDateLocal(fechas[1]);;
+        const fechaInicio = parseDateLocal(fechas[0]);
+        const fechaFin = parseDateLocal(fechas[1]);
         const formato = "d 'de' MMMM 'de' yyyy";
 
         return `${format(fechaInicio, formato, { locale: es })} hasta ${format(fechaFin, formato, { locale: es })}`;
@@ -200,7 +202,7 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                         })),
                     },
                     {
-                        name: "Stock",
+                        name: "Stock final",
                         data: datosRespuesta.map(corte => ({
                             x: formatDateCorte(corte.periodo),
                             y: corte.stockFinal
@@ -237,7 +239,7 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                         <p className="text-sm text-gray-400 dark:text-gray-200">Evolución desde {formatearRangoFechas(fechasFormateadas)}</p>
                     )}
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center mt-3 gap-1">
                     {mostrarBotones && (<>                        
                             <button
                                 onClick={handleDownload}
@@ -294,11 +296,11 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                 </div>
             )}
             {!loading && !messageError && datos.length > 0 && (
-               <div className="flex flex-col xl:flex-row gap-4 mt-6">
+               <div className="flex flex-col xl:flex-row gap-4 mt-3">
                     {/* Contenedor tabla */}
-                    <div className="xl:w-2/5 xl:flex-shrink-0 order-2 xl:order-1 mt-6 xl:mt-0 xl:border-r border rounded-lg xl:border-gray-200 dark:border-gray-800">
+                    <div className="xl:w-2/5 xl:flex-shrink-0 order-2 xl:order-1 mt-6 xl:mt-0 xl:border-r border rounded-lg border-gray-200 dark:border-gray-800">
                         <div className="overflow-x-auto w-full">
-                            <table className="w-full text-sm text-center">
+                            <table className="w-full min-w-max text-sm text-center">
                                 <thead className='border-b border-gray-200 dark:border-gray-800'>
                                     <tr>
                                         <th className="py-3 px-4 text-left bg-gray-100 dark:bg-gray-800 rounded-tl-lg">
@@ -346,13 +348,13 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                     </div>
 
                     {/* Contenedor gráfica */}
-                    <div className="xl:w-3/5 xl:flex-shrink-0 order-1 xl:order-2 mt-6 xl:mt-0 border rounded-lg xl:border-gray-200 p-6 xl:dark:border-gray-800">
+                    <div className="xl:w-3/5 xl:flex-shrink-0 order-1 xl:order-2 xl:mt-0 border rounded-lg border-gray-200 p-6 xl:dark:border-gray-800">
                         <ReactApexChart 
-                        options={options}
-                        type={tipoGrafica}
-                        series={series} 
-                        height={340} 
-                        id="stockChart"
+                            options={options}
+                            type={tipoGrafica}
+                            series={series} 
+                            height={340} 
+                            id="stockChart"
                         />
                     </div>
                 </div>

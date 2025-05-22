@@ -14,6 +14,7 @@ import { formatDateCorte } from '@/utils/utilities';
 const InventarioLotesPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
     const token = useSelector(state => state.auth.token);
+    const [refreshStock, setRefreshStock] = useState(0);
     const [mensajeError, setMensajeError] = useState();
     const [loading, setLoading] = useState(true);
     const [ corte, setCorte ] = useState();
@@ -65,13 +66,13 @@ const InventarioLotesPagina = () => {
                </p>
             )}
             {!mensajeError && !loading && corte && (<>
-                <TarjetasInformacionStock corteId={corte?.id} loteId={loteId}/> 
+                <TarjetasInformacionStock corteId={corte?.id} loteId={loteId} refreshStock={refreshStock}/> 
                 <div className="grid w-full md:grid-cols-12 gap-6 mt-4">
-                    <div className='col-span-12 xl:col-span-4 2xl:col-span-3'>
+                    <div className='col-span-12 xl:col-span-4  2xl:col-span-3 '>
                         <InformacionLote />
                     </div>
                     <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-9 grid xl:gap-4 2xl:gap-6 items-start">
-                        <Movimientos corteId={corte?.id} loteId={loteId}/>
+                        <Movimientos corteId={corte?.id} loteId={loteId} setRefreshStock={setRefreshStock}/>
                     </div>
                 </div>
             </>)}

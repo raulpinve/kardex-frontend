@@ -102,11 +102,10 @@ const ProductosPagina = ({ tipo }) => {
                             </div>
                         </div>
                         <div className="overflow-x-auto">
-                            <table className="min-w-full table-auto mt-3">
+                            <table className="min-w-max w-full table-auto mt-3">
                                 <thead> 
                                     <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
-                                        <th className="w-[50px]"></th>
-                                        <th className="py-3 pl-1 pr-4">
+                                        <th className="py-3 px-4">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">
                                                 { tipo === "medicamentos" ? "Principio activo": "Nombre"}
                                             </p>
@@ -141,7 +140,7 @@ const ProductosPagina = ({ tipo }) => {
                                                 <p className="font-medium text-gray-700 dark:text-gray-400">Stock requerido</p>
                                             </th>
                                         </>)}
-                                        <th className="py-3 px-4 w-[100px]">
+                                        <th className="py-3 px-4">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
                                         </th>
                                     </tr>
@@ -168,24 +167,24 @@ const ProductosPagina = ({ tipo }) => {
                                                             onClick={() => irAProducto(producto.id)}
                                                             className="cursor-pointer"
                                                         >
-                                                            <td className="py-3 min-w-[50px] w-[50px]">
-                                                                <img 
-                                                                    src={`${host}${producto.avatarThumbnail}`}
-                                                                    onError={(e) => {
-                                                                        e.target.onerror = null;
-                                                                        e.target.src = imageDefault; 
-                                                                    }}
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        setModalActivo("imagen-perfil");
-                                                                        setProductoSeleccionado(producto);
-                                                                    }}
-                                                                    alt="Perfil" 
-                                                                    className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
-                                                                />
-                                                            </td>
-                                                            <td className="py-3 pl-1 pr-4">
-                                                                <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
+                                                            <td className="py-3 px-4">
+                                                                <div className="w-full flex items-center gap-3">
+                                                                    <img 
+                                                                        src={`${host}${producto.avatarThumbnail}`}
+                                                                        onError={(e) => {
+                                                                            e.target.onerror = null;
+                                                                            e.target.src = imageDefault; 
+                                                                        }}
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            setModalActivo("imagen-perfil");
+                                                                            setProductoSeleccionado(producto);
+                                                                        }}
+                                                                        alt="Perfil" 
+                                                                        className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
+                                                                    />
+                                                                    <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
+                                                                </div>
                                                             </td>
                                                             {tipo === "medicamentos" ? (<>
                                                                 <td className="py-3 px-4">

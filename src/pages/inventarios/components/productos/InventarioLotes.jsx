@@ -129,7 +129,7 @@ const InventarioLotes = ({corteId}) => {
                                                 key={lote.id} 
                                                 className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
                                                 onClick={() => {
-                                                    redireccionar(lote.loteId);
+                                                    redireccionar(lote.id);
                                                 }}
                                             >
                                                 <td className="py-3 px-4 ">

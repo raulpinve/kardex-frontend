@@ -12,10 +12,7 @@ const ProductoPagina = ({ tipo }) => {
     return (
         <Layout>
             <TituloProductos productoId={productoId}/>
-            <div>
-                <TarjetasInformacionStock productoId={productoId}/>
-            </div>
-
+            <TarjetasInformacionStock productoId={productoId}/>
             <div className="grid w-full md:grid-cols-12 gap-4 mt-4 min-w-0">
                 <div className='col-span-12 xl:col-span-4 2xl:col-span-3'>
                     <InformacionProducto />

@@ -129,8 +129,7 @@ const Productos = ({ tipo, corteId }) => {
             <div className="overflow-x-auto mt-3">
                 <table className="min-w-full table-auto text-sm">
                     <thead className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>
-                        <tr className="text-sm text-left">
-                            <th className="py-3 px-4"></th>
+                        <tr className="text-sm">
                             <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">
                                     {tipo === "medicamentos" ? "Principio activo" : "Nombre"}
@@ -185,24 +184,24 @@ const Productos = ({ tipo, corteId }) => {
                                         onClick={() => redireccionarProductoCorte(producto.id)}
                                         className="cursor-pointer"
                                     >
-                                        <td className="py-3 w-[50px]">
-                                            <img 
-                                                src={`${host}${producto.avatar}`}
-                                                onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    e.target.src = imageDefault; 
-                                                }}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setModalActivo("imagen-perfil");
-                                                    setProductoSeleccionado(producto);
-                                                }}
-                                                alt="Perfil" 
-                                                className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer mx-auto"  
-                                            />
-                                        </td>
                                         <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
+                                            <div className='flex items-center gap-3'>
+                                                <img 
+                                                    src={`${host}${producto.avatar}`}
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src = imageDefault; 
+                                                    }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setModalActivo("imagen-perfil");
+                                                        setProductoSeleccionado(producto);
+                                                    }}
+                                                    alt="Perfil" 
+                                                    className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
+                                                />
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
+                                            </div>
                                         </td>
                                         <td className="py-3 px-4">
                                             <p className="text-gray-700 dark:text-gray-400"> {producto.stockInicial} </p>
@@ -218,9 +217,6 @@ const Productos = ({ tipo, corteId }) => {
                                         </td>
                                         <td className="py-3 px-4">
                                             <p className="text-gray-700 dark:text-gray-400"> {producto.stockRequerido} </p>
-                                        </td>
-                                        <td className="py-3 px-4 text-xs flex hidden">
-                                            <StockStatus stockRequerido={producto.stockRequerido} stockFinal={producto.stockFinal} />
                                         </td>
                                     </tr>
                                 })}

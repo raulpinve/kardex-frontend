@@ -1,3 +1,4 @@
+import { obtenerCorteMovimientosLote, obtenerMovimientosLote } from '../../services/movimientoServices';
 import { LuCalendar, LuEraser, LuPencil, LuSearch } from 'react-icons/lu';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import Pagination from '../../../../shared/components/Pagination';
@@ -11,15 +12,14 @@ import Button from '../../../../shared/components/Button';
 import Card from '../../../../shared/components/Card';
 import "react-datepicker/dist/react-datepicker.css";
 import React, { useEffect, useState } from 'react';
-import { registerLocale } from 'react-datepicker';
 import "../../../../assets/datePicker.css"
-import DatePicker from 'react-datepicker';
 import { useSelector } from 'react-redux';
-import { es } from 'date-fns/locale/es';
-import { obtenerCorteMovimientosLote, obtenerMovimientosLote } from '../../services/movimientoServices';
-registerLocale('es', es)
+import { Spanish } from "flatpickr/dist/l10n/es";
+import Flatpickr from "react-flatpickr";
+import { useParams } from 'react-router-dom';
+import { format } from 'date-fns';
 
-const Movimientos = ({corteId, loteId}) => {
+const Movimientos = ({corteId, loteId, setRefreshStock}) => {
     const [movimientos, setMovimientos] = useState([]);
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
@@ -30,14 +30,11 @@ const Movimientos = ({corteId, loteId}) => {
     const [consulta, setConsulta] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [fecha, setFecha] = useState();
+    const [fecha, setFecha] = useState([]);
     const [tipo, setTipo] = useState();
-
-    const handleChange = (date) => {
-        setFecha(date);
-    };
+    const {periodo} = useParams();
     const debouncedConsulta = useDebounce(consulta, 500);
-    
+
     // Obtener movimientos del lote en el corte
     useEffect(() => {
         const fetchMovimientosCorte = async (tipoConsulta = "general") => {
@@ -51,7 +48,6 @@ const Movimientos = ({corteId, loteId}) => {
                 }else{
                     respuesta = await obtenerCorteMovimientosLote(token, corteId, loteId, tipo, fecha, paginaActual, debouncedConsulta);
                 }
-
                 if(respuesta?.data){
                     setMovimientos(respuesta.data)
                     setPaginaActual(respuesta.paginacion.paginaActual);
@@ -72,10 +68,16 @@ const Movimientos = ({corteId, loteId}) => {
             fetchMovimientosCorte();
         }
     }, [loteId, corteId, token, debouncedConsulta, paginaActual, fresh, tipo, fecha]);
-    
+
+    useEffect(() => {
+        if(setRefreshStock){
+            setRefreshStock(prev => prev + 1);
+        }
+    }, [movimientos, setRefreshStock]);
+
     return (
         <>  
-            <Card className={`col-span-12 xl:col-span-8 2xl:col-span-8`}>
+            <Card className={`col-span-12 xl:col-span-8 2xl:col-span-8 h-full flex flex-col`}>
                 {/* Header */}
                 <div className="flex justify-between items-center">
                     <CardTitulo>Movimientos</CardTitulo>
@@ -114,36 +116,37 @@ const Movimientos = ({corteId, loteId}) => {
                                 <option value="salida">Salida</option>
                             </select>
                         </div>
-                        <div className='relative dark:text-gray-200 hidden md:block'>
-                            <DatePicker 
-                                className='relative input-form px-2 placeholder-gray-700  dark:placeholder-gray-200'
-                                selected={fecha} 
-                                onChange={handleChange} 
-                                dateFormat="yyyy/MM/dd" 
-                                placeholderText="Seleccionar..."
-                                locale="es"
+                        <div className="relative">
+                            <LuCalendar className="absolute top-[14px] left-4 text-gray-600 dark:text-gray-500"/>
+                            <Flatpickr
+                                options={{
+                                    mode: "single",
+                                    dateFormat: "Y-m-d", 
+                                    altInput: true,
+                                    altFormat: "j \\d\\e F \\d\\e Y", // j = día sin 0, F = mes nombre completo, \\d\\e para texto literal "de"
+                                    locale: Spanish,
+                                    minDate: periodo ? `${periodo}-01`: "",
+                                    maxDate: periodo ? `${periodo}-31`: "",
+                                }}
+                                onClose={(fechaSeleccionada) => {
+                                    const fechaInicio = fechaSeleccionada?.[0];
+                                    if (fechaInicio) {
+                                        setFecha(format(fechaInicio, "yyyy-MM-dd"));
+                                    }
+                                }}
+                                placeholder="Seleccione una fecha"
+                                className="input-form shadow pl-10"
+                                value={fecha}
                             />
-                            <LuCalendar className='absolute right-3 top-[14px]' />
                         </div>
-                      
-                        {/* <Button
-                            type="button"
-                            colorButton="secondary"
-                            onClick={() => {
-                                setPaginaActual(1)
-                                setRefresh((prev) => prev + 1)
-                            }}
-                        >
-                            <LuRefreshCcw />
-                        </Button> */}
                     </div>
                 </div>
 
-                <div className="min-w-0">
-                    <div className="overflow-x-auto w-full">
+                <div className="min-w-0 flex-grow mt-4">
+                    <div className="overflow-x-auto w-full max-h-[320px] overflow-y-auto custom-scrollbar ">
                         <table className="mt-3 min-w-full">
-                            <thead className='border-gray-100 border-y bg-gray-50 dark:border-gray-800 dark:bg-gray-900 text-xs'>
-                                <tr className="border-gray-100 border-y text-xs dark:border-gray-800 text-left">
+                            <thead className='sticky top-0'>
+                                <tr className="border-gray-100 border-y text-xs dark:border-gray-800 text-left bg-white dark:bg-gray-800">
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
                                     </th>

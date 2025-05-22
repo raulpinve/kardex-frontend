@@ -61,6 +61,16 @@ const InformacionLote = () => {
                     {/* Registro sanitario */}
                     <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                         <span className="text-theme-sm">
+                            Producto
+                        </span>
+                        <span className="text-right text-theme-sm">
+                            {lote?.productoNombre}
+                        </span>
+                    </div>
+
+                    {/* Registro sanitario */}
+                    <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                        <span className="text-theme-sm">
                             Registro sanitario
                         </span>
                         <span className="text-right text-theme-sm">
@@ -82,11 +92,11 @@ const InformacionLote = () => {
 
                     {/* Estado */}
                     <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
-                        <span className="text-theme-sm">
+                        <p className="text-theme-sm">
                             Estado
-                        </span>
+                        </p>
                         {estado && color && (
-                            <p className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${color} text-right `}>{estado}</p>
+                            <p className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${color} text-right`}>{estado}</p>
                         )}
                     </div>
 

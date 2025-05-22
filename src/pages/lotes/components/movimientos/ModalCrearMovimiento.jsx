@@ -36,7 +36,7 @@ const ModalCrearMovimiento = (props) => {
                 setValue("fecha", "");
                 setValue("descripcion", "");
             }
-            toast.success("Lote creado exitosamente.");
+            toast.success("Movimiento creado exitosamente.");
         } catch (error) {
             console.log(error)
             handleErrors(error, setError, setMessageError);
@@ -48,9 +48,9 @@ const ModalCrearMovimiento = (props) => {
     useEffect(() => {
         setValue("tipo", "entrada");
         setValue("cantidad", 100);
-        setValue("fecha", "2024-08-12");
+        setValue("fecha", "2025-05-12");
         setValue("descripcion", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ");
-    }, [])
+    }, [setValue])
 
     return (
         <Modal
