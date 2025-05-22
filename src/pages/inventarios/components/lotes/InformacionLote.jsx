@@ -5,6 +5,7 @@ import { formatDate, obtenerEstadoVencimiento } from '../../../../utils/utilitie
 import { useEffect, useState } from 'react';
 import { obtenerLote } from '@/pages/lotes/services/loteServices';
 import { useSelector } from 'react-redux';
+import MessageError from '@/shared/components/MessageError';
 
 const InformacionLote = () => {
     const {loteId} = useParams();
@@ -40,7 +41,7 @@ const InformacionLote = () => {
     }, [lote])
 
     return (
-        <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 `}>
+        <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 h-full`}>
             {/* Loading */}
             {loading && (<div>
                 <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded h-[36px] mb-3 mt-3"></div>
@@ -48,7 +49,7 @@ const InformacionLote = () => {
                     {[...Array(5)].map((_,index) => <div key={index} className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded h-[45px] mb-3"></div>)}
                 </div>
             </div>)}
-            {!loading && error && <MessageError>{error}</MessageError>}
+            {!loading && error && <p className='text-center my-8'>{error}</p>}
             {!loading && lote && ( <>
                 <div className='flex items-center mt-2 justify-between h-[40px]'>
                     <CardTitulo className="w-full flex justify-between">

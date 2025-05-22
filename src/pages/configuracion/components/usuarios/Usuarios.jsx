@@ -105,9 +105,9 @@ const Usuarios = () => {
                 {/* Body */}
                 <div className="overflow-x-auto">
                     <table className="min-w-full table-auto mt-3">
-                        <thead>
+                        <thead className='border-gray-100 border-y bg-gray-50 dark:border-gray-800 dark:bg-gray-800 text-xs'>
                             <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
-                                <th className="w-[50px] "></th>
+                                <th className="w-[50px]"></th>
                                 <th className="pl-1 pr-4">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">Nombres</p>
                                 </th>
@@ -120,16 +120,16 @@ const Usuarios = () => {
                                 <th className="py-3 px-4">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">Rol</p>
                                 </th>
-                                <th className="py-3 px-4">
+                                <th className="py-3 px-4 w-[130px]">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
                                 </th>
                             </tr>
                         </thead>
-                        {loading ? <SkeletonTable rows={7} columns={5}/>: 
+                        {loading ? <SkeletonTable rows={7} columns={6}/>: 
                             <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
                                 {error ? <tr>
                                     <td colSpan="5" className="py-3">
-                                        <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
+                                        <p className="text-gray-700 dark:text-gray-400 text-center">{error}</p>
                                     </td>
                                 </tr> : 
                                 <>
@@ -220,11 +220,13 @@ const Usuarios = () => {
                         }
                     </table>
                 </div>
-                <Pagination
-                    paginaActual={paginaActual}
-                    totalPaginas={totalPaginas}
-                    onPageChange={setPaginaActual}
-                />
+                {!loading && (
+                    <Pagination
+                        paginaActual={paginaActual}
+                        totalPaginas={totalPaginas}
+                        onPageChange={setPaginaActual}
+                    />
+                )}
             </Card>
 
             {modalActivo === "crear" && (

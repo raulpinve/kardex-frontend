@@ -50,7 +50,7 @@ const InformacionProducto = () => {
                         }
                     </div>
                 </div>)}
-                {!loading && error && <MessageError>{error}</MessageError>}
+                {!loading && error && <p className='text-center my-8'>{error}</p>}
                 {!loading && !error && producto && ( <>
                     <div className='flex items-center mt-2 justify-between'>
                         <CardTitulo> {producto.nombre} </CardTitulo>

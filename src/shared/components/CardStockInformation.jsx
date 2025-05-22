@@ -1,5 +1,5 @@
 import React from 'react';
-import { LuFileInput, LuFileOutput, LuListStart, LuPackageOpen, LuPackagePlus } from 'react-icons/lu';
+import { LuFileInput, LuFileOutput, LuListStart, LuPackageCheck, LuPackageOpen, LuPackagePlus } from 'react-icons/lu';
 import SkeletonElement from './SkeletonElement';
 
 const StockStatus = ({ value }) => {
@@ -14,16 +14,13 @@ const StockStatus = ({ value }) => {
                 textColor: "text-red-600",
             };
         }
-    
         return {
             text: `${cantidadApedir === 0 ? "Perfecto" : `+ ${cantidadApedir}`} unidades`,
             bgColor: "bg-green-200 dark:bg-gray-900",
             textColor: "text-green-800",
         };
     }
-  
     const { text, bgColor, textColor } = renderStockStatus();
-    
     return (<span className={`absolute right-4 bottom-4 gap-1 rounded-full py-0.5 pl-2 pr-2.5 text-xs font-medium ${bgColor} ${textColor}`}>
         {text}  
     </span>);
@@ -41,6 +38,10 @@ const CardStockInformation = ({titulo, loading, tipo = undefined, value}) => {
         icon = <LuFileInput />;
     } else if(tipo === "salidas"){
         icon = <LuFileOutput />;
+    } else if (tipo === "cantidadPedir"){
+        icon = <LuPackagePlus />;
+    } else if (tipo === "stockRequerido"){
+        icon = <LuPackageCheck />;
     }
 
     return (<div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6 relative flex items-center">
@@ -50,17 +51,16 @@ const CardStockInformation = ({titulo, loading, tipo = undefined, value}) => {
         <div className="flex items-end justify-between pl-4">
             <div>
                 <span className="text-sm text-gray-500 dark:text-gray-400">{titulo}</span>
-                <h4 className="mt-1 text-3xl font-bold text-gray-800 dark:text-white/90">
+                <h4 className="mt-1 text-2xl font-bold text-gray-800 dark:text-white/90">
                     {loading ? (
-                            <SkeletonElement className="mt-2" />
-                        ) : (
+                        <SkeletonElement className="mt-2" />
+                    ) : (
                         <span>
-                            {tipo === "cantidadPedir" 
-                            ? Math.max(0, Math.abs(value)) 
-                            : value}
+                            {tipo === "cantidadPedir"
+                                ? value < 0 ? Math.abs(value) : 0
+                                : value}
                         </span>
                     )}
-
                 </h4>
             </div>
         </div>

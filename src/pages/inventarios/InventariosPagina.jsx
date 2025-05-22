@@ -8,10 +8,8 @@ import Button from "../../shared/components/Button";
 import Layout from "../../shared/components/Layout";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import CardTitulo from "../../shared/components/CardTitulo";
 import DropdownEditarCorte from "./components/cortes/DropdownEditarCorte";
 import TituloInventarios from "./components/TituloInventarios";
-import { LuPlus } from "react-icons/lu";
 
 const InventariosPagina = () => {
     const navigate = useNavigate();
@@ -67,7 +65,7 @@ const InventariosPagina = () => {
                                 colorButton={`primary`}
                                 onClick={() => setModalActivo("crear")}
                             >
-                                Crear corte <LuPlus />
+                                Crear corte 
                             </Button>
                             {corte && !corte?.cerrado &&(
                                 <DropdownEditarCorte corteId={corte?.id} />

@@ -49,7 +49,7 @@ const InventarioLotes = ({corteId}) => {
         navigate(`/inventarios/${periodo}/${loteId}/lote`)
     }
     return (
-        <Card>
+        <Card className={`h-full flex flex-col`}>
             {/* Header */}
             <div className="flex justify-between items-center">
                 <CardTitulo>Lotes</CardTitulo>
@@ -78,9 +78,9 @@ const InventarioLotes = ({corteId}) => {
                     </Button> */}
                 </div>
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-grow">
                 <div className="overflow-x-auto w-full ">
-                    <table className="mt-3 min-w-full">
+                    <table className="mt-3 min-w-full ">
                         <thead>
                             <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
                                 <th className="py-3 px-4">
@@ -129,7 +129,7 @@ const InventarioLotes = ({corteId}) => {
                                                 key={lote.id} 
                                                 className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
                                                 onClick={() => {
-                                                    redireccionar(lote.id);
+                                                    redireccionar(lote.loteId);
                                                 }}
                                             >
                                                 <td className="py-3 px-4 ">

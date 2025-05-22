@@ -91,7 +91,7 @@ const Categorias = () => {
                                 <option value="dispositivo">Dispositivo</option>
                                 <option value="medicamento">Medicamento</option>
                             </select>
-                            <LuChevronDown className="absolute top-[16px] right-2" />
+                            <LuChevronDown className="absolute top-[16px] right-2 dark:text-gray-200" />
                         </div>
                         {/* <Button
                             type="button"
@@ -107,15 +107,15 @@ const Categorias = () => {
                 </div>
                 {/* Cuerpo */}
                 <table className="min-w-full mt-3">
-                    <thead>
-                        <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
+                    <thead className='border-gray-100 border-y bg-gray-50 dark:border-gray-800 dark:bg-gray-800 text-xs'>
+                        <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
                             <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Nombre de la categoría</p>
                             </th>
                             <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
                             </th>
-                            <th className="py-3 px-4 w-[100px]">
+                            <th className="py-3 px-4 w-[130px]">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
                             </th>
                         </tr>
@@ -174,11 +174,13 @@ const Categorias = () => {
                         </tbody>
                     }
                 </table>
-                <Pagination
-                    paginaActual={paginaActual}
-                    totalPaginas={totalPaginas}
-                    onPageChange={setPaginaActual}
-                />
+                {!loading && (
+                    <Pagination
+                        paginaActual={paginaActual}
+                        totalPaginas={totalPaginas}
+                        onPageChange={setPaginaActual}
+                    />
+                )}
             </Card>
 
              {modalActivo === "crear" && (

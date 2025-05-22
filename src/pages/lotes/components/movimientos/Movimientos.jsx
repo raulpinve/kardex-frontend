@@ -142,8 +142,8 @@ const Movimientos = ({corteId, loteId}) => {
                 <div className="min-w-0">
                     <div className="overflow-x-auto w-full">
                         <table className="mt-3 min-w-full">
-                            <thead>
-                                <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
+                            <thead className='border-gray-100 border-y bg-gray-50 dark:border-gray-800 dark:bg-gray-900 text-xs'>
+                                <tr className="border-gray-100 border-y text-xs dark:border-gray-800 text-left">
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
                                     </th>
@@ -162,7 +162,7 @@ const Movimientos = ({corteId, loteId}) => {
                                 </tr>
                             </thead>
                             {loading && <SkeletonTable rows={7} columns={5}/>}
-                            <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
+                            <tbody className="divide-y divide-gray-100 text-sm dark:divide-gray-800 text-gray-700 dark:text-gray-400">
                                 {/* Display error */}
                                 {!loading && error && (<tr>
                                         <td colSpan="5" className="py-3 px-4">
@@ -189,20 +189,20 @@ const Movimientos = ({corteId, loteId}) => {
                                                 >
                                                     <td className="py-3 px-4 capitalize">
                                                         <div className="items-center flex gap-3 rounded-full">
-                                                            <p className="text-gray-700 dark:text-gray-400 text-sm">{movimiento.tipo}</p>
+                                                            <p>{movimiento.tipo}</p>
                                                         </div>
                                                     </td>
                                                     <td className="py-3 px-4">
-                                                        <p className="text-gray-700 dark:text-gray-400">{movimiento.cantidad}</p>
+                                                        <p>{movimiento.cantidad}</p>
                                                     </td>
                                                     <td className="py-3 px-4 lg:gap-2 items-center">
-                                                        <p className="text-gray-700 dark:text-gray-400">{dateColombiaFormat(movimiento.fecha)}</p>
+                                                        <p>{dateColombiaFormat(movimiento.fecha)}</p>
                                                     </td>
                                                     <td className="py-3 px-4 items-center">
-                                                        <p className="text-gray-700 dark:text-gray-400">{movimiento.descripcion}</p>
+                                                        <p>{movimiento.descripcion}</p>
                                                     </td>
                                                     <td className="py-3 px-4">
-                                                        <div className="text-gray-700 dark:text-gray-400 flex gap-2">
+                                                        <div className="flex gap-2">
                                                             <button 
                                                                 className="cursor-pointer p-1"
                                                                 title="Editar movimiento"

@@ -8,7 +8,7 @@ import Button from "../../../../shared/components/Button";
 import ModalCrearAlmacen from "./ModalCrearAlmacen";
 import ModalEditarAlmacen from "./ModalEditarAlmacen";
 import ModalEliminarAlmacen from "./ModalEliminarAlmacen";
-import { LuEraser, LuPencil, LuSearch } from "react-icons/lu";
+import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -88,12 +88,12 @@ const Almacenes = () => {
                 </div>
     
                 <table className="min-w-full mt-3">
-                    <thead>
+                    <thead className='border-gray-100 border-y bg-gray-50 dark:border-gray-800 dark:bg-gray-800 text-xs'>
                         <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
                             <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Nombre del almacén</p>
                             </th>
-                            <th className="py-3 px-4 w-[100px]">
+                            <th className="py-3 px-4 w-[130px]">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
                             </th>
                         </tr>
@@ -149,11 +149,13 @@ const Almacenes = () => {
                         </tbody>
                     }
                 </table>
-                <Pagination
-                    paginaActual={paginaActual}
-                    totalPaginas={totalPaginas}
-                    onPageChange={setPaginaActual}
-                />
+                {!loading && (
+                    <Pagination
+                        paginaActual={paginaActual}
+                        totalPaginas={totalPaginas}
+                        onPageChange={setPaginaActual}
+                    />
+                )}
             </Card>
 
             {modalActivo === "crear" && (

@@ -26,7 +26,16 @@ const InventarioProductoPagina = () => {
                 const res = await obtenerCortePeriodo(token, periodo, almacenId);
                 setCorte(res.data);
             } catch (error){
-                setMensajeError(error?.response?.data?.message || "Error al obtener el corte.");
+                let mensaje;
+
+                if(error.status === 404){
+                    mensaje = `No hay un corte registrado para el período de ${formatDateCorte(periodo)}`;
+                }else if(error?.response?.data?.message){
+                    mensaje = error?.response?.data?.message;
+                }else{
+                    mensaje = "Error al obtener corte.";
+                }
+                setMensajeError(mensaje);
             } finally {
                 setLoading(false);
             }

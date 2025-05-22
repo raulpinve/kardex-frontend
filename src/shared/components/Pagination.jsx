@@ -2,126 +2,89 @@ import React, { useState } from "react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 const Pagination = ({ paginaActual, totalPaginas, onPageChange, className }) => {
-    const [expandirIzquierda, setExpandirIzquierda] = useState(false);
-    const [expandirDerecha, setExpandirDerecha] = useState(false);
+  const [expandirIzquierda, setExpandirIzquierda] = useState(false);
+  const [expandirDerecha, setExpandirDerecha] = useState(false);
 
-    const generarPaginacion = () => {
-        let paginas = [];
+  const generarPaginacion = () => {
+    let paginas = [];
 
-        if (totalPaginas <= 7) {
-            for (let i = 1; i <= totalPaginas; i++) {
-                paginas.push(i);
-            }
-        } else {
-            paginas.push(1);
+    if (totalPaginas <= 7) {
+      for (let i = 1; i <= totalPaginas; i++) {
+        paginas.push(i);
+      }
+    } else {
+      paginas.push(1);
 
-            if (paginaActual > 3 && !expandirIzquierda) {
-                paginas.push("left-dots");
-            }
+      if (paginaActual > 3 && !expandirIzquierda) {
+        paginas.push("left-dots");
+      }
 
-            let start = expandirIzquierda ? 2 : Math.max(2, paginaActual - 1);
-            let end = expandirDerecha ? totalPaginas - 1 : Math.min(totalPaginas - 1, paginaActual + 1);
+      let start = expandirIzquierda ? 2 : Math.max(2, paginaActual - 1);
+      let end = expandirDerecha ? totalPaginas - 1 : Math.min(totalPaginas - 1, paginaActual + 1);
 
-            for (let i = start; i <= end; i++) {
-                paginas.push(i);
-            }
+      for (let i = start; i <= end; i++) {
+        paginas.push(i);
+      }
 
-            if (paginaActual < totalPaginas - 2 && !expandirDerecha) {
-                paginas.push("right-dots");
-            }
+      if (paginaActual < totalPaginas - 2 && !expandirDerecha) {
+        paginas.push("right-dots");
+      }
 
-            paginas.push(totalPaginas);
-        }
+      paginas.push(totalPaginas);
+    }
 
-        return paginas;
-    };
+    return paginas;
+  };
+  
+  return (
+    <nav className={`flex items-center justify-between gap-2 px-4 py-3 sm:justify-normal ${className}`}>
+      {/* Botón Anterior */}
+      <button
+        onClick={() => onPageChange(paginaActual - 1)}
+        disabled={paginaActual === 1}
+        className={`flex items-center gap-2 rounded-md border border-gray-300 bg-white p-1.5 text-gray-700 shadow-sm hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 ${paginaActual === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+      >
+        <LuChevronLeft className="w-4 h-4" />
+      </button>
 
-    return (
-        <nav className={`flex items-center text-sm ${className}`}>
+      {/* Texto para móviles */}
+      <span className="block text-sm font-medium text-gray-700 dark:text-gray-400 sm:hidden">
+        Página {paginaActual} de {totalPaginas}
+      </span>
+
+      {/* Paginación numerada */}
+      <ul className="hidden items-center gap-1 sm:flex">
+        {generarPaginacion().map((pagina, index) => (
+          <li key={index}>
             <button
-                onClick={() => onPageChange(paginaActual - 1)}
-                disabled={paginaActual === 1}
-                className={`px-3 py-2 text-gray-500 hover:text-gray-700 cursor-pointer ${paginaActual === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+              onClick={() => {
+                if (pagina === "left-dots") setExpandirIzquierda(true);
+                else if (pagina === "right-dots") setExpandirDerecha(true);
+                else if (typeof pagina === "number") onPageChange(pagina);
+              }}
+              className={`flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium transition-colors
+                ${
+                  paginaActual === pagina
+                    ? "bg-blue-600 dark:bg-gray-700 text-white hover:bg-blue-600"
+                    : "text-gray-700 hover:bg-blue-600 hover:text-white dark:text-gray-400 dark:hover:text-white"
+                }`}
             >
-               <LuChevronLeft />
+              {pagina === "left-dots" || pagina === "right-dots" ? "..." : pagina}
             </button>
-            {generarPaginacion().map((pagina, index) => (
-                <button
-                    key={index}
-                    onClick={() => {
-                        if (pagina === "left-dots") setExpandirIzquierda(true);
-                        else if (pagina === "right-dots") setExpandirDerecha(true);
-                        else if (typeof pagina === "number") onPageChange(pagina);
-                    }}
-                    className={`px-3 py-2 cursor-pointer ${paginaActual === pagina ? " text-blue-600  dark:text-white/70 " : "text-gray-500 hover:text-gray-700"}`}
-                >
-                    {pagina === "left-dots" || pagina === "right-dots" ? "..." : pagina}
-                </button>
-            ))}
-            <button
-                onClick={() => onPageChange(paginaActual + 1)}
-                disabled={paginaActual === totalPaginas}
-                className={`px-3 py-2 text-gray-500 hover:text-gray-700 cursor-pointer ${paginaActual === totalPaginas ? "opacity-50 cursor-not-allowed" : ""}`}
-            >
-               <LuChevronRight />
-            </button>
-        </nav>
-    );
+          </li>
+        ))}
+      </ul>
+
+      {/* Botón Siguiente */}
+      <button
+        onClick={() => onPageChange(paginaActual + 1)}
+        disabled={paginaActual === totalPaginas}
+        className={`flex items-center gap-2 rounded-md border border-gray-300 bg-white p-1.5 text-gray-700 shadow-sm hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 ${paginaActual === totalPaginas ? "opacity-50 cursor-not-allowed" : ""}`}
+      >
+        <LuChevronRight className="w-4 h-4" />
+      </button>
+    </nav>
+  );
 };
 
 export default Pagination;
-
-// Ejemplo de como se usa
-
-/*
-import React, { useState, useEffect } from "react";
-import Pagination from "./Pagination"; // Importa el componente
-
-const DispositivosList = () => {
-    const [dispositivos, setDispositivos] = useState([]);
-    const [paginaActual, setPaginaActual] = useState(1);
-    const [totalPaginas, setTotalPaginas] = useState(1);
-
-    // Función para obtener los datos desde el backend
-    const fetchDispositivos = async (pagina) => {
-        try {
-            const response = await fetch(`https://api.tuservicio.com/dispositivos?pagina=${pagina}`);
-            const data = await response.json();
-
-            setDispositivos(data.data); // Ajusta según la estructura del backend
-            setPaginaActual(data.paginacion.paginaActual);
-            setTotalPaginas(data.paginacion.totalPaginas);
-        } catch (error) {
-            console.error("Error al obtener los dispositivos:", error);
-        }
-    };
-
-    // Cargar dispositivos cuando cambie la página
-    useEffect(() => {
-        fetchDispositivos(paginaActual);
-    }, [paginaActual]);
-
-    return (
-        <div>
-            <h2 className="text-xl font-bold mb-4">Lista de Dispositivos</h2>
-            <ul>
-                {dispositivos.map((dispositivo) => (
-                    <li key={dispositivo.id} className="border p-2 mb-2 rounded">
-                        {dispositivo.nombre}
-                    </li>
-                ))}
-            </ul>
-
-            {/* Componente de paginación 
-            <Pagination
-                paginaActual={paginaActual}
-                totalPaginas={totalPaginas}
-                onPageChange={setPaginaActual}
-            />
-        </div>
-    );
-};
-
-export default DispositivosList;
-
-*/

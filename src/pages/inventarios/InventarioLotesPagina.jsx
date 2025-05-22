@@ -9,6 +9,7 @@ import Corte from './components/cortes/Corte';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Spinner from '@/shared/components/Spinner';
+import { formatDateCorte } from '@/utils/utilities';
 
 const InventarioLotesPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -18,7 +19,6 @@ const InventarioLotesPagina = () => {
     const [ corte, setCorte ] = useState();
     const {periodo, loteId} = useParams();
 
-
     useEffect(() => {
         const fetchCorte = async () => {
             try {
@@ -26,7 +26,16 @@ const InventarioLotesPagina = () => {
                 const res = await obtenerCortePeriodo(token, periodo, almacenId);
                 setCorte(res.data);
             } catch (error){
-                setMensajeError(error?.response?.data?.message || "Error al obtener el corte.");
+                let mensaje;
+
+                if(error.status === 404){
+                    mensaje = `No hay un corte registrado para el período de ${formatDateCorte(periodo)}`;
+                }else if(error?.response?.data?.message){
+                    mensaje = error?.response?.data?.message;
+                }else{
+                    mensaje = "Error al obtener corte.";
+                }
+                setMensajeError(mensaje);
             } finally {
                 setLoading(false)
             }
@@ -57,7 +66,7 @@ const InventarioLotesPagina = () => {
             )}
             {!mensajeError && !loading && corte && (<>
                 <TarjetasInformacionStock corteId={corte?.id} loteId={loteId}/> 
-                <div className="grid w-full md:grid-cols-12 gap-6 items-start mt-4">
+                <div className="grid w-full md:grid-cols-12 gap-6 mt-4">
                     <div className='col-span-12 xl:col-span-4 2xl:col-span-3'>
                         <InformacionLote />
                     </div>
