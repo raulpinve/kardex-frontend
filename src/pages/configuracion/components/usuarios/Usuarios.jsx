@@ -81,7 +81,7 @@ const Usuarios = () => {
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
                             <input 
                                 type="text" 
-                                placeholder="Buscar usuario..." 
+                                placeholder="Buscar..." 
                                 className="input-form pl-10 dark:bg-gray-900"
                                 value={consulta}
                                 onChange={(e) => {
@@ -104,11 +104,10 @@ const Usuarios = () => {
 
                 {/* Body */}
                 <div className="overflow-x-auto">
-                    <table className="min-w-full table-auto mt-3">
-                        <thead className='border-gray-100 border-y bg-gray-50 dark:border-gray-800 dark:bg-gray-800 text-xs'>
-                            <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
-                                <th className="w-[50px]"></th>
-                                <th className="pl-1 pr-4">
+                    <table className="min-w-[700px] w-full table-auto mt-3">
+                        <thead className='border-gray-100 border-y dark:border-gray-800 dark:bg-gray-800 text-xs'>
+                            <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
+                                <th className="py-3 px-4">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">Nombres</p>
                                 </th>
                                 <th className="py-3 px-4">
@@ -146,7 +145,7 @@ const Usuarios = () => {
                                                     className="cursor-pointer"
                                                     onClick={() => redireccionarUsuario(usuario.id)}
                                                 >
-                                                    <td className="py-3 min-w-[50px] w-[50px]">
+                                                    <td className="py-3 px-4 flex items-center gap-3">
                                                         <img 
                                                             src={`${host}${usuario.avatarThumbnail}`}
                                                             onError={(e) => {
@@ -159,10 +158,8 @@ const Usuarios = () => {
                                                                 setModalActivo("imagen-perfil");
                                                             }}
                                                             alt="Perfil" 
-                                                            className="w-8 h-8 block mx-auto object-cover rounded-full select-none cursor-pointer"  
+                                                            className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
                                                         />
-                                                    </td>
-                                                    <td className="pl-1 py-3 pr-4">
                                                         <p className="text-gray-700 dark:text-gray-400"> {usuario.primerNombre} {usuario.apellidos}</p>
                                                     </td>
                                                     <td className="py-3 px-4">

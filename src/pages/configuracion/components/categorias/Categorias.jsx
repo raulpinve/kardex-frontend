@@ -106,74 +106,76 @@ const Categorias = () => {
                     </div>
                 </div>
                 {/* Cuerpo */}
-                <table className="min-w-full mt-3">
-                    <thead className='border-gray-100 border-y bg-gray-50 dark:border-gray-800 dark:bg-gray-800 text-xs'>
-                        <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
-                            <th className="py-3 px-4">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Nombre de la categoría</p>
-                            </th>
-                            <th className="py-3 px-4">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
-                            </th>
-                            <th className="py-3 px-4 w-[130px]">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                            </th>
-                        </tr>
-                    </thead>
-                    {loading ? <SkeletonTable rows={5} columns={3}/>: 
-                        <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
-                            {error ? <tr>
-                                <td colSpan="5" className="py-3 px-4">
-                                    <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
-                                </td>
-                            </tr> : 
-                            <>
-                                {categorias.length === 0 ? 
-                                    <tr>
-                                        <td colSpan="5" className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400 text-center"> No hay categorias por mostrar</p>
-                                        </td>
-                                    </tr>: 
-                                    <>
-                                        {categorias.map(categoria => {
-                                            return <tr key={categoria.id}>
-                                                <td className="py-3 px-4">
-                                                    <p className="text-gray-700 dark:text-gray-400"> {categoria.nombre} </p>
-                                                </td>
-                                                <td className="py-3 px-4">
-                                                    <p className="text-gray-700 dark:text-gray-400"> {TIPO[categoria.tipo]} </p>
-                                                </td>
-                                                <td className="py-3 px-4">
-                                                    <div className="text-gray-700 dark:text-gray-400 flex gap-2">
-                                                        <button 
-                                                            className="cursor-pointer p-1"
-                                                            title="Editar categoria"
-                                                            onClick={() => {
-                                                                setModalActivo("editar"); 
-                                                                setCategoriaSeleccionada(categoria);
-                                                            }}    
-                                                        >
-                                                            <LuPencil />
-                                                        </button>
-                                                        <button 
-                                                            className="cursor-pointer p-1"
-                                                            title="Eliminar categoria"
-                                                            onClick={() => {
-                                                                setCategoriaSeleccionada(categoria);
-                                                                setModalActivo("eliminar"); 
-                                                            }} 
-                                                        >
-                                                            <LuEraser />
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        })}
+                <div className="overflow-x-auto">
+                    <table className="min-w-[450px] w-full mt-3">
+                        <thead className='border-gray-100 border-y dark:border-gray-800 dark:bg-gray-800 text-xs'>
+                            <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Nombre de la categoría</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
+                                </th>
+                                <th className="py-3 px-4 w-[130px]">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        {loading ? <SkeletonTable rows={5} columns={3}/>: 
+                            <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
+                                {error ? <tr>
+                                    <td colSpan="5" className="py-3 px-4">
+                                        <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
+                                    </td>
+                                </tr> : 
+                                <>
+                                    {categorias.length === 0 ? 
+                                        <tr>
+                                            <td colSpan="5" className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400 text-center"> No hay categorias por mostrar</p>
+                                            </td>
+                                        </tr>: 
+                                        <>
+                                            {categorias.map(categoria => {
+                                                return <tr key={categoria.id}>
+                                                    <td className="py-3 px-4">
+                                                        <p className="text-gray-700 dark:text-gray-400"> {categoria.nombre} </p>
+                                                    </td>
+                                                    <td className="py-3 px-4">
+                                                        <p className="text-gray-700 dark:text-gray-400"> {TIPO[categoria.tipo]} </p>
+                                                    </td>
+                                                    <td className="py-3 px-4">
+                                                        <div className="text-gray-700 dark:text-gray-400 flex gap-2">
+                                                            <button 
+                                                                className="cursor-pointer p-1"
+                                                                title="Editar categoria"
+                                                                onClick={() => {
+                                                                    setModalActivo("editar"); 
+                                                                    setCategoriaSeleccionada(categoria);
+                                                                }}    
+                                                            >
+                                                                <LuPencil />
+                                                            </button>
+                                                            <button 
+                                                                className="cursor-pointer p-1"
+                                                                title="Eliminar categoria"
+                                                                onClick={() => {
+                                                                    setCategoriaSeleccionada(categoria);
+                                                                    setModalActivo("eliminar"); 
+                                                                }} 
+                                                            >
+                                                                <LuEraser />
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            })}
+                                        </>}
                                     </>}
-                                </>}
-                        </tbody>
-                    }
-                </table>
+                            </tbody>
+                        }
+                    </table>
+                </div>
                 {!loading && (
                     <Pagination
                         paginaActual={paginaActual}

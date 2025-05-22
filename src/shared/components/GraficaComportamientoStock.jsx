@@ -15,6 +15,7 @@ import Loader from "./Loader";
 import Card from "./Card";
 import { format } from  'date-fns';
 import { es } from "date-fns/locale/es";
+import { useDarkMode } from "../hooks/useDarkMode";
 
 const GraficaComportamientoStock = ({tipo = "producto"}) => {
     const [mostrarBotones, setMostrarBotones] = useState(false);
@@ -27,16 +28,21 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
     const [series, setSeries] = useState();
     const [datos, setDatos] = useState([]);
     const id = loteId ? loteId: productoId;
+    const { darkMode } = useDarkMode();
 
     const options = {
         chart: {
             redrawOnParentResize: true,
             id: "stockChart",
+            background: darkMode ? '#transparent' : '',
             type: tipoGrafica,
                 toolbar: {
                     show: false,
                 },
             stacked: false, 
+        },
+        theme: {
+            mode: darkMode ? 'dark' : 'light',
         },
         fill: {
             type: "solid",
@@ -231,21 +237,21 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                         <p className="text-sm text-gray-400 dark:text-gray-200">Evolución desde {formatearRangoFechas(fechasFormateadas)}</p>
                     )}
                 </div>
-                <div className="flex items-center mt-3">
+                <div className="flex items-center gap-1">
                     {mostrarBotones && (<>                        
                             <button
                                 onClick={handleDownload}
-                                className="p-2.5 mr-2 text-sm rounded-lg button-form-secondary text-gray-800 cursor-pointer"
+                                className="button-form button-form-secondary"
                             >
                                 <LuCloudDownload />
                             </button>
                             <button 
                                 onClick={toggleChartType} 
-                                className="p-2.5 mr-2 text-sm rounded-lg button-form-secondary text-gray-800 cursor-pointer"
+                                className="button-form button-form-secondary"
                             >{tipoGrafica === "bar" ? <LuChartSpline /> : <LuChartColumn />}</button>
                             <button
                                 type="button"
-                                className="p-2.5 mr-2 text-sm rounded-lg button-form-secondary text-gray-800 cursor-pointer"
+                                className="button-form button-form-secondary"
                                 onClick={() => {
                                     setRangoFechas([])
                                 }}
@@ -255,7 +261,7 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
 
                     </>)}
                     <div className="relative">
-                        <LuCalendar className="absolute top-[14px] left-3 text-gray-700"/>
+                        <LuCalendar className="absolute top-[14px] left-4 text-gray-600 dark:text-gray-500"/>
                         <Flatpickr
                             options={{
                                 mode: "range",
@@ -267,10 +273,9 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                             placeholder="Selecciona un rango de fechas..."
                             value={rangoFechas}
                             onClose={(fechaSeleccionada) => setRangoFechas(fechaSeleccionada)}
-                            className="input-form shadow pl-8"
+                            className="input-form shadow pl-10"
                         />
                     </div>
-                    
                 </div>
             </div>
             {loading && (<div className={`h-[400px] w-full mt-5 flex items-center  justify-center`}>
@@ -291,46 +296,46 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
             {!loading && !messageError && datos.length > 0 && (
                <div className="flex flex-col xl:flex-row gap-4 mt-6">
                     {/* Contenedor tabla */}
-                    <div className="xl:w-2/5 xl:flex-shrink-0 order-2 xl:order-1 mt-6 xl:mt-0 xl:border-r xl:border-gray-100">
+                    <div className="xl:w-2/5 xl:flex-shrink-0 order-2 xl:order-1 mt-6 xl:mt-0 xl:border-r border rounded-lg xl:border-gray-200 dark:border-gray-800">
                         <div className="overflow-x-auto w-full">
                             <table className="w-full text-sm text-center">
-                                <thead className="sticky top-0 bg-gray-100 text-center ">
-                                    <tr className="text-sm dark:border-gray-800">
-                                        <th className="py-2 px-3 text-left">
+                                <thead className='border-b border-gray-200 dark:border-gray-800'>
+                                    <tr>
+                                        <th className="py-3 px-4 text-left bg-gray-100 dark:bg-gray-800 rounded-tl-lg">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
                                         </th>
-                                        <th className="py-2 px-3">
+                                        <th className="py-3 px-4 bg-gray-100 dark:bg-gray-800">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Stock inicial</p>
                                         </th>
-                                        <th className="py-2 px-3">
+                                        <th className="py-3 px-4 bg-gray-100 dark:bg-gray-800">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Ingresos</p>
                                         </th>
-                                        <th className="py-2 px-3">
+                                        <th className="py-3 px-4 bg-gray-100 dark:bg-gray-800">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Salidas</p>
                                         </th>
-                                        <th className="py-2 px-3">
+                                        <th className="py-3 px-4 bg-gray-100 dark:bg-gray-800 rounded-tr-lg">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Stock Final</p>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100  dark:divide-gray-800">
                                     {datos.map(dato => (
-                                        <tr key={dato.periodo}>
-                                            <td className="py-2 px-3 text-left">
+                                        <tr key={dato.periodo} className="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                                            <td className="py-3 px-4 text-left">
                                                 <p className="text-gray-700 dark:text-gray-400">
                                                 {fechasFormateadas.length === 0 ? formatDateCorte(dato.periodo) : formatFechaCorte(dato.periodo)}
                                                 </p>
                                             </td>
-                                            <td className="py-2 px-3">
+                                            <td className="py-3 px-4">
                                                 <p className="text-gray-700 dark:text-gray-400">{dato.stockInicial}</p>
                                             </td>
-                                            <td className="py-2 px-3">
+                                            <td className="py-3 px-4">
                                                 <p className="text-gray-700 dark:text-gray-400">{dato.ingresos}</p>
                                             </td>
-                                            <td className="py-2 px-3">
+                                            <td className="py-3 px-4">
                                                 <p className="text-gray-700 dark:text-gray-400">{dato.salidas}</p>
                                             </td>
-                                            <td className="py-2 px-3">
+                                            <td className="py-3 px-4">
                                                 <p className="text-gray-700 dark:text-gray-400">{dato.stockFinal}</p>
                                             </td>
                                         </tr>
@@ -341,7 +346,7 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                     </div>
 
                     {/* Contenedor gráfica */}
-                    <div className="xl:w-3/5 xl:flex-shrink-0 order-1 xl:order-2 mt-6 xl:mt-0">
+                    <div className="xl:w-3/5 xl:flex-shrink-0 order-1 xl:order-2 mt-6 xl:mt-0 border rounded-lg xl:border-gray-200 p-6 xl:dark:border-gray-800">
                         <ReactApexChart 
                         options={options}
                         type={tipoGrafica}
