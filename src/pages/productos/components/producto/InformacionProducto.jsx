@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
-import MessageError from '../../../../shared/components/MessageError';
 import SkeletonElement from '../../../../shared/components/SkeletonElement';
 import ModalAbrirImagenPerfil from '../../../../shared/components/ModalAbrirImagenPerfil';
 import SubirImagenProducto from './SubirImagenProducto';
@@ -37,7 +36,7 @@ const InformacionProducto = () => {
 
     return (
         <>
-            <Card className={`text-sm text-gray-700 dark:text-gray-400 h-full`}>
+            <Card className={`text-sm text-gray-700 dark:text-gray-400`}>
                 {/* Loading */}
                 {loading && (<div>
                     <div className='flex items-center mt-2 justify-between'>

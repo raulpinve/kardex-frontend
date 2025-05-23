@@ -53,7 +53,7 @@ const Lotes = ({ productoId, tipo }) => {
     }
     return (
         <>
-            <Card className={`h-full flex flex-col`}>
+            <Card>
                 <div className="flex justify-between items-center">
                     <CardTitulo>Lotes</CardTitulo>
                     <div className="flex gap-1 items-center justify-between">

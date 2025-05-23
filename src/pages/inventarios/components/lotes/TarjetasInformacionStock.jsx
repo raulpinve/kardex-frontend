@@ -32,7 +32,6 @@ const TarjetasInformacionStock = ({corteId, loteId, refreshStock}) => {
         }
     }, [corteId, token, loteId, refreshStock])
     
-    console.log(refreshStock)
     if(error) return
     return (
         <>

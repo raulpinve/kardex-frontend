@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import CardStockInformation from "@/shared/components/CardStockInformation";
 import { obtenerProducto } from "../../services/productoServices";
 
-const TarjetasInformacionStock = ({productoId}) => {
+const TarjetasStockProducto = ({productoId}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
     const [producto, setProducto] = useState();
@@ -64,4 +64,4 @@ const TarjetasInformacionStock = ({productoId}) => {
     );
 };
 
-export default TarjetasInformacionStock;
+export default TarjetasStockProducto;

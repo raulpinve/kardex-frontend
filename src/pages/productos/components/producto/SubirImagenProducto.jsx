@@ -39,7 +39,6 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
             }));
             toast.success("Avatar eliminado exitosamente.");
         } catch (error) {
-            console.log(error)
             toast.error(error?.response?.data?.message || "No se pudo eliminar el avatar")            
         } finally {
             setMostrarMenu(false);
@@ -103,7 +102,7 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
             {mostrarMenu && (
                 <div 
                     ref={menuRef}
-                    className="absolute top-[100%] right-0 z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg w-[150px]"
+                    className="absolute top-[100%] left-0 z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg w-[150px]"
                 >
                     <button
                         onClick={handleOpcionCambiar}

@@ -27,7 +27,6 @@ const ProductosPagina = ({ tipo }) => {
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [consulta, setConsulta] = useState("");
     const [productos, setProductos] = useState([]);
-    const [refresh, setRefresh] = useState(1);
     const [modalActivo, setModalActivo] = useState("");
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
     const debouncedConsulta = useDebounce(consulta, 500);
@@ -52,7 +51,7 @@ const ProductosPagina = ({ tipo }) => {
         if(almacen){
             fetchUsuarios();
         }
-    }, [debouncedConsulta, almacen, token, refresh, paginaActual, tipo]);
+    }, [debouncedConsulta, almacen, token, paginaActual, tipo]);
 
     // Redireccionar   
     const irAProducto = (id) => {
@@ -89,16 +88,6 @@ const ProductosPagina = ({ tipo }) => {
                                         }}
                                     />
                                 </div>
-                                {/* <Button
-                                    type="button"
-                                    colorButton="secondary"
-                                    onClick={() => {
-                                        setPaginaActual(1)
-                                        setRefresh((prev) => prev + 1)
-                                    }}
-                                >
-                                    <LuRefreshCcw />
-                                </Button> */}
                             </div>
                         </div>
                         <div className="overflow-x-auto">

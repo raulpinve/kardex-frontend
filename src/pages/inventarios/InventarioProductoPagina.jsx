@@ -9,6 +9,7 @@ import InformacionProducto from '../productos/components/producto/InformacionPro
 import Corte from './components/cortes/Corte';
 import TituloInventarios from './components/TituloInventarios';
 import Spinner from '@/shared/components/Spinner';
+import { formatDateCorte } from '@/utils/utilities';
 
 const InventarioProductoPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);

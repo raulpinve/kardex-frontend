@@ -16,7 +16,7 @@ import "../../../../assets/datePicker.css"
 import { useSelector } from 'react-redux';
 import { Spanish } from "flatpickr/dist/l10n/es";
 import Flatpickr from "react-flatpickr";
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 
 const Movimientos = ({corteId, loteId, setRefreshStock}) => {
@@ -33,7 +33,9 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
     const [fecha, setFecha] = useState([]);
     const [tipo, setTipo] = useState();
     const {periodo} = useParams();
+    const location = useLocation();
     const debouncedConsulta = useDebounce(consulta, 500);
+    const primeraParteSegmento = location.pathname.split('/')[1];
 
     // Obtener movimientos del lote en el corte
     useEffect(() => {
@@ -82,15 +84,19 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                 <div className="flex justify-between items-center">
                     <CardTitulo>Movimientos</CardTitulo>
                     <div className="flex gap-1 items-center justify-between">
-                        <Button
-                            type="button"
-                            colorButton="primary"
-                            onClick={() => {
-                                setModalActivo("crear")
-                            }}
-                        >   
-                            Crear 
-                        </Button>
+
+                        {/* Solo se pueden crear movimientos en la página de inventarios */}
+                        {primeraParteSegmento === "inventarios" && (
+                            <Button
+                                type="button"
+                                colorButton="primary"
+                                onClick={() => {
+                                    setModalActivo("crear")
+                                }}
+                            >   
+                                Crear 
+                            </Button>
+                        )}
                         {/* Buscar en movimientos */}
                         <div className="relative hidden">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
@@ -159,9 +165,12 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                     <th className="py-3 px-4 min-w-[200px]">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Descripción</p>
                                     </th>
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                                    </th>
+                                    {/* Solo es permitido modificar los movimientos en inventarios */}
+                                    {primeraParteSegmento === "inventarios" && (
+                                        <th className="py-3 px-4">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
+                                        </th>
+                                    )}
                                 </tr>
                             </thead>
                             {loading && <SkeletonTable rows={7} columns={5}/>}
@@ -204,32 +213,35 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                                     <td className="py-3 px-4 items-center">
                                                         <p>{movimiento.descripcion}</p>
                                                     </td>
-                                                    <td className="py-3 px-4">
-                                                        <div className="flex gap-2">
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Editar movimiento"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    setModalActivo("editar"); 
-                                                                    setMovimientoSeleccionado(movimiento);
-                                                                }}    
-                                                            >
-                                                                <LuPencil />
-                                                            </button>
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Eliminar movimiento"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation(); 
-                                                                    setModalActivo("eliminar"); 
-                                                                    setMovimientoSeleccionado(movimiento);
-                                                                }} 
-                                                            >
-                                                                <LuEraser />
-                                                            </button> 
-                                                        </div>
-                                                    </td>
+                                                    {/* Solo es permitido modificar los movimientos en inventarios */}
+                                                    {primeraParteSegmento === "inventarios" && (
+                                                        <td className="py-3 px-4">
+                                                            <div className="flex gap-2">
+                                                                <button 
+                                                                    className="cursor-pointer p-1"
+                                                                    title="Editar movimiento"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setModalActivo("editar"); 
+                                                                        setMovimientoSeleccionado(movimiento);
+                                                                    }}    
+                                                                >
+                                                                    <LuPencil />
+                                                                </button>
+                                                                <button 
+                                                                    className="cursor-pointer p-1"
+                                                                    title="Eliminar movimiento"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation(); 
+                                                                        setModalActivo("eliminar"); 
+                                                                        setMovimientoSeleccionado(movimiento);
+                                                                    }} 
+                                                                >
+                                                                    <LuEraser />
+                                                                </button> 
+                                                            </div>
+                                                        </td>
+                                                    )}
                                                 </tr>
                                             );
                                         })}

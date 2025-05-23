@@ -51,7 +51,7 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
         yaxis: {
             labels: {
                 style: {
-                    fontFamily: "Outfit, sans-serif", 
+                    fontFamily: "Work Sans, sans-serif", 
                 },
             },
             tickAmount: 4,
@@ -72,7 +72,7 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
             type: 'category',
             labels: {
                 style: {
-                    fontFamily: "Outfit", 
+                    fontFamily: "Work Sans", 
                 },
             },
         },
@@ -81,7 +81,7 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
         },
         colors: ['#16a34a', '#2563eb', '#f97316', '#6b21a8'], // verde, azul, naranja, violeta oscuro,
         legend: {
-            fontFamily: 'Outfit, sans-serif', 
+            fontFamily: 'Work Sans, sans-serif', 
         }
     };
 
@@ -241,26 +241,25 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                 </div>
                 <div className="flex items-center mt-3 gap-1">
                     {mostrarBotones && (<>                        
-                            <button
-                                onClick={handleDownload}
-                                className="button-form button-form-secondary"
-                            >
-                                <LuCloudDownload />
-                            </button>
-                            <button 
-                                onClick={toggleChartType} 
-                                className="button-form button-form-secondary"
-                            >{tipoGrafica === "bar" ? <LuChartSpline /> : <LuChartColumn />}</button>
-                            <button
-                                type="button"
-                                className="button-form button-form-secondary"
-                                onClick={() => {
-                                    setRangoFechas([])
-                                }}
-                            >
-                                <LuRefreshCcw />
-                            </button>
-
+                        <button
+                            onClick={handleDownload}
+                            className="button-form button-form-secondary"
+                        >
+                            <LuCloudDownload />
+                        </button>
+                        <button 
+                            onClick={toggleChartType} 
+                            className="button-form button-form-secondary"
+                        >{tipoGrafica === "bar" ? <LuChartSpline /> : <LuChartColumn />}</button>
+                        <button
+                            type="button"
+                            className="button-form button-form-secondary"
+                            onClick={() => {
+                                setRangoFechas([])
+                            }}
+                        >
+                            <LuRefreshCcw />
+                        </button>
                     </>)}
                     <div className="relative">
                         <LuCalendar className="absolute top-[14px] left-4 text-gray-600 dark:text-gray-500"/>
@@ -296,59 +295,9 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                 </div>
             )}
             {!loading && !messageError && datos.length > 0 && (
-               <div className="flex flex-col xl:flex-row gap-4 mt-3">
-                    {/* Contenedor tabla */}
-                    <div className="xl:w-2/5 xl:flex-shrink-0 order-2 xl:order-1 mt-6 xl:mt-0 xl:border-r border rounded-lg border-gray-200 dark:border-gray-800">
-                        <div className="overflow-x-auto w-full">
-                            <table className="w-full min-w-max text-sm text-center">
-                                <thead className='border-b border-gray-200 dark:border-gray-800'>
-                                    <tr>
-                                        <th className="py-3 px-4 text-left bg-gray-100 dark:bg-gray-800 rounded-tl-lg">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
-                                        </th>
-                                        <th className="py-3 px-4 bg-gray-100 dark:bg-gray-800">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Stock inicial</p>
-                                        </th>
-                                        <th className="py-3 px-4 bg-gray-100 dark:bg-gray-800">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Ingresos</p>
-                                        </th>
-                                        <th className="py-3 px-4 bg-gray-100 dark:bg-gray-800">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Salidas</p>
-                                        </th>
-                                        <th className="py-3 px-4 bg-gray-100 dark:bg-gray-800 rounded-tr-lg">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Stock Final</p>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-100  dark:divide-gray-800">
-                                    {datos.map(dato => (
-                                        <tr key={dato.periodo} className="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                                            <td className="py-3 px-4 text-left">
-                                                <p className="text-gray-700 dark:text-gray-400">
-                                                {fechasFormateadas.length === 0 ? formatDateCorte(dato.periodo) : formatFechaCorte(dato.periodo)}
-                                                </p>
-                                            </td>
-                                            <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400">{dato.stockInicial}</p>
-                                            </td>
-                                            <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400">{dato.ingresos}</p>
-                                            </td>
-                                            <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400">{dato.salidas}</p>
-                                            </td>
-                                            <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400">{dato.stockFinal}</p>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
+               <div className="xl:grid xl:grid-cols-[1fr_1.5fr] xl:gap-4 mt-3">
                     {/* Contenedor gráfica */}
-                    <div className="xl:w-3/5 xl:flex-shrink-0 order-1 xl:order-2 xl:mt-0 border rounded-lg border-gray-200 p-6 xl:dark:border-gray-800">
+                    <div className="xl:order-2 xl:mt-0 border rounded-lg border-gray-200 xl:dark:border-gray-800 mt-4 p-2">
                         <ReactApexChart 
                             options={options}
                             type={tipoGrafica}
@@ -356,6 +305,56 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                             height={340} 
                             id="stockChart"
                         />
+                    </div>
+
+                    {/* Contenedor tabla */}
+                    <div className="xl:order-1 mt-6 xl:mt-0 xl:border-r border rounded-lg border-gray-200 dark:border-gray-800">
+                        <div className="overflow-x-auto w-full">
+                            <table className="w-full min-w-max text-sm text-center">
+                                <thead className='border-b border-gray-200 dark:border-gray-800 text-xs'>
+                                    <tr>
+                                        <th className="py-3 px-2 text-left bg-gray-100 dark:bg-gray-800 rounded-tl-lg">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
+                                        </th>
+                                        <th className="py-3 px-2 bg-gray-100 dark:bg-gray-800">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Stock inicial</p>
+                                        </th>
+                                        <th className="py-3 px-2 bg-gray-100 dark:bg-gray-800">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Ingresos</p>
+                                        </th>
+                                        <th className="py-3 px-2 bg-gray-100 dark:bg-gray-800">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Salidas</p>
+                                        </th>
+                                        <th className="py-3 px-2 bg-gray-100 dark:bg-gray-800 rounded-tr-lg">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Stock Final</p>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-100dark:divide-gray-800">
+                                    {datos.map(dato => (
+                                        <tr key={dato.periodo} className="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                                            <td className="py-3 px-2 text-left">
+                                                <p className="text-gray-700 dark:text-gray-400">
+                                                {fechasFormateadas.length === 0 ? formatDateCorte(dato.periodo) : formatFechaCorte(dato.periodo)}
+                                                </p>
+                                            </td>
+                                            <td className="py-3 px-2">
+                                                <p className="text-gray-700 dark:text-gray-400">{dato.stockInicial}</p>
+                                            </td>
+                                            <td className="py-3 px-2">
+                                                <p className="text-gray-700 dark:text-gray-400">{dato.ingresos}</p>
+                                            </td>
+                                            <td className="py-3 px-2">
+                                                <p className="text-gray-700 dark:text-gray-400">{dato.salidas}</p>
+                                            </td>
+                                            <td className="py-3 px-2">
+                                                <p className="text-gray-700 dark:text-gray-400">{dato.stockFinal}</p>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             )}
