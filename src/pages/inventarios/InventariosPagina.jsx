@@ -54,23 +54,20 @@ const InventariosPagina = () => {
 
     return (
         <Layout>
-            <div className='py-2'>
-                {/* Header */}
-                <div className="flex items-center justify-between gap-2">
-                    <TituloInventarios />
-                    <div className="flex items-center gap-2">
-                        <div className="flex gap-2">
-                            <Corte />
-                            <Button
-                                colorButton={`primary`}
-                                onClick={() => setModalActivo("crear")}
-                            >
-                                Crear corte 
-                            </Button>
-                            {corte && !corte?.cerrado &&(
-                                <DropdownEditarCorte corteId={corte?.id} />
-                            )}
-                        </div>
+            {/* Header */}
+            <div className="flex items-center justify-between gap-2">
+                <TituloInventarios />
+                <div className="flex items-center gap-2">
+                    <div className="flex gap-2">
+                        <Button
+                            colorButton={`primary`}
+                            onClick={() => setModalActivo("crear")}
+                        >
+                            Crear corte 
+                        </Button>
+                        {corte && !corte?.cerrado &&(
+                            <DropdownEditarCorte corteId={corte?.id} />
+                        )}
                     </div>
                 </div>
             </div>
@@ -83,7 +80,7 @@ const InventariosPagina = () => {
             {!mensajeError && loading && (
                 <Spinner className={`mt-4`}/>
             )}
-            {!loading && !mensajeError && corte && (<div>
+            {!loading && !mensajeError && corte && (<div className="mt-6">
                 <Productos tipo = "medicamentos" corteId={corte.id} />
                 <Productos tipo = "dispositivos" corteId={corte.id} />
             </div>)}

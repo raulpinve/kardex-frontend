@@ -1,8 +1,5 @@
 import TarjetasInformacionStock from './components/lotes/TarjetasInformacionStock';
-import Movimientos from '../lotes/components/movimientos/Movimientos';
-import InformacionLote from './components/lotes/InformacionLote';
-import { obtenerCortePeriodo } from './services/cortesServices';
-import TituloInventarios from './components/TituloInventarios';
+// import TituloInventarios from './components/TituloInventarios';
 import Layout from '../../shared/components/Layout';
 import React, { useEffect, useState } from 'react';
 import Corte from './components/cortes/Corte';
@@ -10,6 +7,10 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Spinner from '@/shared/components/Spinner';
 import { formatDateCorte } from '@/utils/utilities';
+import Movimientos from '../productos/components/movimientos/Movimientos';
+import { obtenerCortePeriodo } from './services/cortesServices';
+import TituloInventarios from './components/TituloInventarios';
+import SkeletonElement from '@/shared/components/SkeletonElement';
 
 const InventarioLotesPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -48,34 +49,20 @@ const InventarioLotesPagina = () => {
 
     return (
         <Layout>
-            <div className='py-2'>
-                {/* Header */}
-                <div className="flex items-center justify-between gap-2">
-                    <TituloInventarios loteId={loteId}/>
-                    <div className="flex items-center gap-2">
-                        <div className="flex gap-2">
-                            <Corte />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <TituloInventarios loteId={loteId} />
+
             {loading && (<Spinner />)}
             {!loading && mensajeError && (
                 <p className="rounded mt-4 text-center text-gray-600 dark:text-gray-200">
                     {mensajeError}
                </p>
             )}
-            {!mensajeError && !loading && corte && (<>
+            {!mensajeError && !loading && corte && (<div className='mt-6'>
                 <TarjetasInformacionStock corteId={corte?.id} loteId={loteId} refreshStock={refreshStock}/> 
-                <div className="grid w-full md:grid-cols-12 gap-6 mt-4">
-                    <div className='col-span-12 xl:col-span-4  2xl:col-span-3 '>
-                        <InformacionLote />
-                    </div>
-                    <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-9 grid xl:gap-4 2xl:gap-6 items-start">
-                        <Movimientos corteId={corte?.id} loteId={loteId} setRefreshStock={setRefreshStock}/>
-                    </div>
+                <div className="mt-4">
+                    <Movimientos corteId={corte?.id} loteId={loteId} setRefreshStock={setRefreshStock}/>
                 </div>
-            </>)}
+            </div>)}
         </Layout>
     );
 };

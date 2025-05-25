@@ -5,11 +5,12 @@ import InventarioLotes from './components/productos/InventarioLotes';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { obtenerCortePeriodo } from './services/cortesServices';
-import InformacionProducto from '../productos/components/producto/InformacionProducto';
-import Corte from './components/cortes/Corte';
-import TituloInventarios from './components/TituloInventarios';
 import Spinner from '@/shared/components/Spinner';
 import { formatDateCorte } from '@/utils/utilities';
+import { obtenerProducto } from './services/productoServices';
+import SkeletonElement from '@/shared/components/SkeletonElement';
+import SubirImagenProducto from '../productos/components/producto/SubirImagenProducto';
+import TituloInventarios from './components/TituloInventarios';
 
 const InventarioProductoPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -18,6 +19,7 @@ const InventarioProductoPagina = () => {
     const [mensajeError, setMensajeError] = useState();
     const {periodo, productoId} = useParams();
     const [corte, setCorte] = useState();
+    const [producto, setProducto] = useState();
 
     // Obtener información del corte
     useEffect(() => {
@@ -46,19 +48,55 @@ const InventarioProductoPagina = () => {
         fetchCorte()    
     }, [periodo, token, almacenId])
 
+    // Obtener la información del producto
+    useEffect(() => {
+        const fecthProducto = async () => {
+            try {
+                setLoading(true);
+                const res = await obtenerProducto(token, productoId);
+                setProducto(res.data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        if(!productoId) return;
+        fecthProducto()
+    }, [productoId, token])
+
     return (
         <Layout>
-            <div className='py-2'>
-                {/* Header */}
-                <div className="flex items-center justify-between gap-2">
-                    <TituloInventarios productoId={productoId} />
-                    <div className="flex items-center gap-2">
-                        <div className="flex gap-2">
-                            <Corte />
+            <TituloInventarios />
+            <div>
+                {loading && (<div>
+                    <SkeletonElement className={`max-w-[250px]`} />
+                    <SkeletonElement className={`max-w-[500px] mt-3`} />
+                </div>)}
+                {!loading && producto && (<div className=' my-8'>
+                    {/* Titulo */}
+                    <h1 className="text-2xl font-semibold tracking-tight text-gray-900 flex gap-4 items-center">
+                        <SubirImagenProducto 
+                            producto={producto}
+                            setProducto={setProducto}
+                            tipo = {producto?.tipo + "s"}
+                        />
+                        <div>
+                            <span> {producto?.nombre?.charAt(0).toUpperCase() + producto?.nombre?.slice(1)}</span>
+                            <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{producto.tipo}</p>
                         </div>
-                    </div>
-                </div>
+                    </h1>
+                    <p className="text-sm text-gray-700 dark:text-gray-300 my-4 hidden">
+                        {producto?.formaFarmaceutica && <span><b>Forma farmacéutica:</b> {producto.formaFarmaceutica}</span>}
+                        {producto?.presentacionComercial && <span> • <b>Presentación:</b> {producto.presentacionComercial}</span>}
+                        {producto?.concentracion && <span> • <b>Concentración:</b> {producto.concentracion}</span>}
+                        {producto?.unidadMedida && <span> • <b>Unidad:</b> {producto.unidadMedida}</span>}
+                        {producto?.serie && <span> • <b>Serie:</b> {producto.serie}</span>}
+                        {producto?.riesgo && <span> • <b>Riesgo:</b> {producto.riesgo}</span>}
+                    </p>
+                </div>)}
             </div>
+
             {loading && (<Spinner />)}
             {!loading && mensajeError && (
                 <p className="rounded mt-4 text-center text-gray-600 dark:text-gray-200">
@@ -67,15 +105,9 @@ const InventarioProductoPagina = () => {
             )}
             {!mensajeError && !loading && corte && (<>
                 <TarjetasInformacionStockProducto corteId={corte?.id} productoId={productoId}/> 
-                <div className="grid w-full md:grid-cols-12 gap-6 mt-4 ">
-                    <div className='col-span-12 xl:col-span-4 2xl:col-span-3'>
-                        <InformacionProducto />
-                    </div>
-                    <div className="min-w-0 col-span-12 xl:col-span-8 2xl:col-span-9 grid xl:gap-4 2xl:gap-6 items-start">
-                        <InventarioLotes corteId={corte?.id} />
-                    </div>
+                <div className="mt-4">
+                    <InventarioLotes corteId={corte?.id} />
                 </div>
-
             </>)}
         </Layout>
     );

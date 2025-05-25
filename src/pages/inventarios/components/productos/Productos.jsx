@@ -96,7 +96,7 @@ const Productos = ({ tipo, corteId }) => {
     }
 
     return (<>
-        <Card className={`mt-4`}>
+        <Card className={`mb-6`}>
             {/* Header */}
             <div className="flex justify-between items-center ">
                 <CardTitulo className={`capitalize`}>{tipo}</CardTitulo>

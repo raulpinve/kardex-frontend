@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import Lotes from "./components/lotes/Lotes";
 import { useSelector } from "react-redux";
 import CardTitulo from "@/shared/components/CardTitulo";
+import InformacionProducto from "./components/producto/InformacionProducto";
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();
@@ -35,15 +36,14 @@ const ProductoPagina = ({ tipo }) => {
 
     return (
         <Layout>
-            {/* <TituloProductos productoId={productoId}/> */}
             <div className="mt-4">
                 {/* Encabezado */}
-                <div>
+                <div className="hidden">
                     {loading && (<div>
                         <SkeletonElement className={`max-w-[250px]`} />
                         <SkeletonElement className={`max-w-[500px] mt-3`} />
                     </div>)}
-                        {!loading && producto && (<>
+                    {!loading && producto && (<>
                             {/* Titulo */}
                             <h1 className="text-2xl font-semibold tracking-tight text-gray-900 flex gap-4 items-center my-4">
                                 <SubirImagenProducto 
@@ -56,71 +56,9 @@ const ProductoPagina = ({ tipo }) => {
                                     <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{producto.tipo}</p>
                                 </div>
                             </h1>
-
-                            {/* Información del producto */}
-                            <div className="hidden">
-                                {producto && (() => {
-                                    const campos = [];
-
-                                    // if (producto.tipo) {
-                                    //     campos.push(<>
-                                    //         <span className="font-semibold">Tipo: </span>
-                                    //         {producto.tipo}
-                                    //     </>);
-                                    // }
-                                    if (producto.formaFarmaceutica) {
-                                        campos.push(<>
-                                            <span className="font-semibold">Forma farmacéutica: </span>
-                                            {producto.formaFarmaceutica}
-                                        </>);
-                                    }
-                                    if (producto.presentacion) {
-                                        campos.push(<>
-                                            <span className="font-semibold">Presentación: </span>
-                                            {producto.presentacion}
-                                        </>);
-                                    }
-                                    if (producto.concentracion) {
-                                        campos.push(<>
-                                            <span className="font-semibold">Concentración: </span>
-                                            {producto.concentracion}
-                                        </>);
-                                    }
-                                    if (producto.unidadMedica) {
-                                        campos.push(<>
-                                            <span className="font-semibold">Unidad médica: </span>
-                                            {producto.unidadMedica}
-                                        </>);
-                                    }
-                                    if (producto.serie) {
-                                        campos.push(<>
-                                            <span className="font-semibold">Serie: </span>
-                                            {producto.serie}
-                                        </>);
-                                    }
-                                    if (producto.riesgo) {
-                                        campos.push(<>
-                                            <span className="font-semibold">Riesgo: </span>
-                                            {producto.riesgo}
-                                        </>);
-                                    }
-                                    return (
-                                        <p className="text-sm text-muted-foreground my-2">
-                                            {campos.map((campo, index) => (
-                                                <span key={index}>
-                                                    {index > 0 && " • "}
-                                                    {campo}
-                                                </span>
-                                            ))}
-                                        </p>
-                                    );
-                                })()}
-                            </div>
                         </>)}
-                    <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-                        <CardTitulo>Información</CardTitulo>
-                        
-                        <div className="grid rounded-2xl border border-gray-200 bg-white sm:grid-cols-2 xl:grid-cols-4 dark:border-gray-800 dark:bg-gray-900 mt-2">
+                    <div>
+                        <div className="grid rounded-2xl border border-gray-200 bg-white sm:grid-cols-2 xl:grid-cols-4 dark:border-gray-800 dark:bg-gray-900 mt-3">
                             {/* Forma farmaceutica */}
                             {producto?.formaFarmaceutica && (
                                 <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
@@ -159,12 +97,12 @@ const ProductoPagina = ({ tipo }) => {
                             )}
 
                             {/* Unidad de medida */}
-                            {producto?.unidadMedica && (
+                            {producto?.unidadMedida && (
                                 <div className="px-6 py-5">
                                     <span className="text-sm text-gray-500 dark:text-gray-400">Unidad medida</span>
                                     <div className="mt-2 flex items-end gap-3">
                                         <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            {producto.unidadMedica}
+                                            {producto.unidadMedida}
                                         </h4>
                                     </div>
                                 </div>
@@ -197,26 +135,22 @@ const ProductoPagina = ({ tipo }) => {
                                     </div>
                                 </div>
                             )}
-
-                            {/* Stock requerido */}
-                            {producto?.stockRequerido && (
-                                <div className="px-6 py-5">
-                                    <span className="text-sm text-gray-500 dark:text-gray-400">Stock requerido</span>
-                                    <div className="mt-2 flex items-end gap-3">
-                                        <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            {producto?.stockRequerido}
-                                        </h4>
-                                    </div>
-                                </div>
-                            )}
+                           
                         </div>
                     </div>        
                 </div>
             </div>
             <TarjetasStockProducto productoId={productoId}/>
-            <div className="mt-4 grid gap-4">
+            <div className="grid w-full md:grid-cols-12 gap-6 mt-4 ">
+                <div className='col-span-12 xl:col-span-4'>
+                    <InformacionProducto />
+                </div>
+                <div className="min-w-0 col-span-12 xl:col-span-8 grid xl:gap-4">
+                    <Lotes tipo={tipo} productoId={productoId} />
+                </div>
+            </div>
+            <div className="mt-4">
                 <GraficaComportamientoStock />
-                <Lotes tipo={tipo} productoId={productoId} />
             </div>
         </Layout>
     );

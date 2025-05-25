@@ -36,7 +36,7 @@ const InformacionProducto = () => {
 
     return (
         <>
-            <Card className={`text-sm text-gray-700 dark:text-gray-400`}>
+            <Card className={`text-sm text-gray-700 dark:text-gray-400 h-full`}>
                 {/* Loading */}
                 {loading && (<div>
                     <div className='flex items-center mt-2 justify-between'>
@@ -52,16 +52,16 @@ const InformacionProducto = () => {
                 {!loading && error && <p className='text-center my-8'>{error}</p>}
                 {!loading && !error && producto && ( <>
                     <div className='flex items-center mt-2 justify-between'>
-                        <CardTitulo> {producto.nombre} </CardTitulo>
                         <SubirImagenProducto 
                             producto={producto}
                             setProducto={setProducto}
                             tipo = {producto?.tipo}
                         />
+                        <CardTitulo> {producto.nombre} </CardTitulo>
                     </div>
                     <div className='my-5'>
                         {/* Tipo */}
-                        <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                        <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                             <span className="text-theme-sm">
                                 Tipo
                             </span>
@@ -72,7 +72,7 @@ const InformacionProducto = () => {
 
                         {producto?.tipo === "medicamento" && (<>
                             {/* Forma farmaceutica */}
-                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                            <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                                 <span className="text-theme-sm">
                                     Forma farmacéutica
                                 </span>
@@ -82,7 +82,7 @@ const InformacionProducto = () => {
                             </div>
 
                             {/* Concentración */}
-                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                            <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                                 <span className="text-theme-sm">
                                     Concentración
                                 </span>
@@ -92,7 +92,7 @@ const InformacionProducto = () => {
                             </div>
 
                             {/* Presentación */}
-                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                            <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                                 <span className="text-theme-sm">
                                     Presentación
                                 </span>
@@ -102,7 +102,7 @@ const InformacionProducto = () => {
                             </div>
 
                             {/* Unidad médica */}
-                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                            <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                                 <span className="text-theme-sm">
                                     Unidad médica
                                 </span>
@@ -114,7 +114,7 @@ const InformacionProducto = () => {
 
                         {producto?.tipo === "dispositivo" && (<>
                             {/* Presentación comercial */}
-                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                            <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                                 <span className="text-theme-sm">
                                     Presentacion comercial
                                 </span>
@@ -124,7 +124,7 @@ const InformacionProducto = () => {
                             </div>
 
                             {/* Serie */}
-                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                            <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                                 <span className="text-theme-sm">
                                     Serie
                                 </span>
@@ -134,7 +134,7 @@ const InformacionProducto = () => {
                             </div>
 
                             {/* Riesgo */}
-                            <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                            <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                                 <span className="text-theme-sm">
                                     Riesgo
                                 </span>
@@ -145,7 +145,7 @@ const InformacionProducto = () => {
                         </>)}
 
                         {/* Stock requerido */}
-                        <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                        <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                             <span className="text-theme-sm">
                                 Stock requerido
                             </span>

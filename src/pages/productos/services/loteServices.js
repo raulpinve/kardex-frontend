@@ -13,6 +13,16 @@ const obtenerLotes = (token, tipo, medicamentoId, pagina = 1, consulta) => {
             throw err
         })
 } 
+
+const obtenerLote = (token, loteId) => {
+    const request = apiClient(token).get(`/lotes/${loteId}`);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
 const crearLote = (token, data) => {
     const request = apiClient(token).post(`/lotes`, data);
     return request
@@ -44,5 +54,6 @@ export {
     obtenerLotes,
     crearLote, 
     editarLote,
+    obtenerLote,
     eliminarLote
 }

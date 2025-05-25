@@ -79,7 +79,7 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
 
     return (
         <>  
-            <Card className={`col-span-12 xl:col-span-8 2xl:col-span-8 h-full flex flex-col`}>
+            <Card className={``}>
                 {/* Header */}
                 <div className="flex justify-between items-center">
                     <CardTitulo>Movimientos</CardTitulo>

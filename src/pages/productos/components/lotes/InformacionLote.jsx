@@ -2,11 +2,11 @@ import { dateColombiaFormat, obtenerEstadoVencimiento } from '../../../../utils/
 import SkeletonElement from '../../../../shared/components/SkeletonElement';
 import MessageError from '../../../../shared/components/MessageError';
 import CardTitulo from '../../../../shared/components/CardTitulo';
-import { obtenerLote } from '../../services/loteServices';
 import Card from '../../../../shared/components/Card';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { obtenerLote } from '../../services/loteServices';
 
 const InformacionLote = () => {
     const token = useSelector(state => state.auth.token);
@@ -36,7 +36,7 @@ const InformacionLote = () => {
     const { estado, color } = obtenerEstadoVencimiento(lote?.fechaVencimiento);
 
     return (
-        <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 h-full`}>
+        <Card className={`text-sm text-gray-700 dark:text-gray-400 col-span-12 xl:col-span-4 h-full`}>
             <div className='my-5'>
                 {!loading && !lote && error && (<>
                     <MessageError>
@@ -76,7 +76,7 @@ const InformacionLote = () => {
                     </CardTitulo>
 
                     {/* Producto */}
-                    <div className="flex items-center mt-3 justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                    <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                         <span className="text-theme-sm">
                             Producto
                         </span>
@@ -86,7 +86,7 @@ const InformacionLote = () => {
                     </div>
 
                     {/* Registro sanitario */}
-                    <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                    <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                         <span className="text-theme-sm">
                             Registro sanitario
                         </span>
@@ -96,11 +96,11 @@ const InformacionLote = () => {
                     </div>
 
                     {/* Fecha de vencimiento */}
-                    <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                    <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                         <span className="text-theme-sm">
                             Fecha de vencimiento
                         </span>
-                        {lote?.fechaVencimiento && (<div className='flex gap-2 items-center'>
+                        {lote?.fechaVencimiento && (<div>
                             <p className="text-gray-700 dark:text-gray-400">{dateColombiaFormat(lote?.fechaVencimiento)}</p>
                             <p className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${color}`}>
                                 {estado}
@@ -109,7 +109,7 @@ const InformacionLote = () => {
                     </div>
 
                     {/* Stock disponible */}
-                    <div className="flex items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                    <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                         <span className="text-theme-sm">
                             StockDisponible
                         </span>

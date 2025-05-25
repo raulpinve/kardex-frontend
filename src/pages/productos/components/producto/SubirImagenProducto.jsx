@@ -31,7 +31,7 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
             setSubiendoAvatar(true);
             setMostrarMenu(true);
 
-            await eliminarAvatar(token, tipo, producto.id);
+            await eliminarAvatar(token, tipo, producto?.id);
             setProducto(prev => ({
                 ...prev,
                 avatar: null,
@@ -70,7 +70,7 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
 
         setSubiendoAvatar(true);
         try {
-            const respuesta = await subirAvatar(token, tipo, producto.id, file);
+            const respuesta = await subirAvatar(token, tipo, producto?.id, file);
             if(respuesta?.data?.avatarThumbnail){
                 setProducto(prev => ({
                     ...prev,
@@ -85,9 +85,9 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
         }
     };
     useEffect(() => {
-        setImageThumbnailSrc(producto.avatarThumbnail ? `${host}${producto.avatarThumbnail}`: imageDefault)
-        setImageSrc(producto.avatar ? `${host}${producto.avatar}`: imageDefault)
-    }, [producto.avatar, producto.avatarThumbnail])
+        setImageThumbnailSrc(producto?.avatarThumbnail ? `${host}${producto?.avatarThumbnail}`: imageDefault)
+        setImageSrc(producto?.avatar ? `${host}${producto?.avatar}`: imageDefault)
+    }, [producto?.avatar, producto?.avatarThumbnail])
 
     return (
         <div className="relative group w-12 h-12 my-1 group">

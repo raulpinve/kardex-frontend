@@ -3,7 +3,6 @@ import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import { formatDate, obtenerEstadoVencimiento } from '../../../../utils/utilities';
 import { useEffect, useState } from 'react';
-import { obtenerLote } from '@/pages/lotes/services/loteServices';
 import { useSelector } from 'react-redux';
 import MessageError from '@/shared/components/MessageError';
 

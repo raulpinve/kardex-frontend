@@ -3,7 +3,7 @@ import { formatDateCorte } from "../../../../utils/utilities";
 import Badge from "../../../../shared/components/Badge";
 import SeleccionarCorte from "./SeleccionarCorte";
 import { useParams } from "react-router-dom";
-import { LuCalendar } from "react-icons/lu";
+import { LuCalendar, LuChevronRight } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -35,15 +35,13 @@ const Corte = () => {
 
     return (<> 
         <div className="flex items-center">
-            {corte && !mensajeError && (
-                <Badge className={`h-[25px] mr-[10px]`} tipo = {corte?.cerrado === true ? "danger": "success"}>{corte?.cerrado == true ? "Cerrado" : "Activo" }</Badge>
-            )}
+            <LuChevronRight />
             {periodo && (
                 <div 
                     onClick={() => setModalActivo(true)}
-                    className="py-2 px-4 cursor-pointer border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 text-sm font-semibold rounded-lg bg-white dark:bg-gray-800 flex gap-2 items-center"
+                    // className="py-2 px-4 cursor-pointer border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 text-sm font-semibold rounded-lg bg-white dark:bg-gray-800 flex gap-2 items-center"
                 >
-                    <LuCalendar />
+                    {/* <LuCalendar /> */}
                     <p>{formatDateCorte(periodo)}</p>
                 </div>
             )}

@@ -19,9 +19,9 @@ import VerificarEmailPage from "./pages/auth/VerificarEmailPage";
 import InventariosPagina from "./pages/inventarios/InventariosPagina";
 import ProductosPagina from "./pages/productos/ProductosPagina";
 import productoPagina from "./pages/productos/productoPagina";
-import LotePagina from "./pages/lotes/LotePagina";
 import InventarioProductoPagina from "./pages/inventarios/InventarioProductoPagina";
 import InventarioLotesPagina from "./pages/inventarios/InventarioLotesPagina";
+import LotePagina from "./pages/productos/LotePagina";
 
 function App() {
   const dispatch = useDispatch();
