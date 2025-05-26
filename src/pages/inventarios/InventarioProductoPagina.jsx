@@ -73,7 +73,7 @@ const InventarioProductoPagina = () => {
                     <SkeletonElement className={`max-w-[250px]`} />
                     <SkeletonElement className={`max-w-[500px] mt-3`} />
                 </div>)}
-                {!loading && producto && (<div className=' my-8'>
+                {!loading && producto && (<div className='my-8'>
                     {/* Titulo */}
                     <h1 className="text-2xl font-semibold tracking-tight text-gray-900 flex gap-4 items-center">
                         <SubirImagenProducto 
@@ -87,7 +87,7 @@ const InventarioProductoPagina = () => {
                         </div>
                     </h1>
                     <p className="text-sm text-gray-700 dark:text-gray-300 my-4 hidden">
-                        {producto?.formaFarmaceutica && <span><b>Forma farmacéutica:</b> {producto.formaFarmaceutica}</span>}
+                        {producto?.formaFarmaceutica && <span> • <b>Forma farmacéutica:</b> {producto.formaFarmaceutica}</span>}
                         {producto?.presentacionComercial && <span> • <b>Presentación:</b> {producto.presentacionComercial}</span>}
                         {producto?.concentracion && <span> • <b>Concentración:</b> {producto.concentracion}</span>}
                         {producto?.unidadMedida && <span> • <b>Unidad:</b> {producto.unidadMedida}</span>}

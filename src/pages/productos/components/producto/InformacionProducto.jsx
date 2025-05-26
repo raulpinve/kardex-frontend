@@ -61,14 +61,14 @@ const InformacionProducto = () => {
                     </div>
                     <div className='my-5'>
                         {/* Tipo */}
-                        <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                        {/* <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                             <span className="text-theme-sm">
                                 Tipo
                             </span>
                             <span className="text-right text-theme-sm capitalize">
                                 {producto?.tipo}
                             </span>
-                        </div>
+                        </div> */}
 
                         {producto?.tipo === "medicamento" && (<>
                             {/* Forma farmaceutica */}
@@ -145,14 +145,14 @@ const InformacionProducto = () => {
                         </>)}
 
                         {/* Stock requerido */}
-                        <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
+                        {/* <div className="flex gap-2 items-center justify-between border-b border-gray-100 py-3 dark:border-gray-800">
                             <span className="text-theme-sm">
                                 Stock requerido
                             </span>
                             <span className="text-right text-theme-sm capitalize">
                                 {producto?.stockRequerido}
                             </span>
-                        </div>
+                        </div> */}
                     </div>
                 </>)}
             </Card>

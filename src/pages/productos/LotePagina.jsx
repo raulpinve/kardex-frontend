@@ -9,7 +9,6 @@ import SkeletonElement from '@/shared/components/SkeletonElement';
 import { LuChevronRight } from 'react-icons/lu';
 import { formatDate, obtenerEstadoVencimiento } from '@/utils/utilities';
 import Movimientos from './components/movimientos/Movimientos';
-import InformacionLote from './components/lotes/InformacionLote';
 import { obtenerLote } from './services/loteServices';
 
 const LotePagina = () => {
@@ -52,7 +51,7 @@ const LotePagina = () => {
     return (
         <Layout>
             {/* Encabezado */}
-            <div className='hidden'>
+            <div className=''>
                 {loading && (<div>
                     <SkeletonElement className={`max-w-[250px]`} />
                     <SkeletonElement className={`max-w-[500px] mt-3`} />
@@ -126,17 +125,10 @@ const LotePagina = () => {
                     </div>
                 </div>)}
             </div>
-
-            <div className="grid w-full md:grid-cols-12 gap-6 mt-4 ">
-                <div className='col-span-12 xl:col-span-4 '>
-                    <InformacionLote />
-                </div>
-                <div className="min-w-0 col-span-12 xl:col-span-8  grid xl:gap-4  items-start">
-                    <Movimientos loteId={loteId} />
-                </div>
-            </div>
-            <div className="mt-4">
-                <GraficaComportamientoStock tipo="lote"/>
+       
+            <div className="mt-4 grid gap-4">
+                <GraficaComportamientoStock tipo="lote"/>   
+                <Movimientos loteId={loteId} />
             </div>
         </Layout>
     );

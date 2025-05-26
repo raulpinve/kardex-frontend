@@ -157,7 +157,7 @@ const Productos = ({ tipo, corteId }) => {
                     </thead>
                     {/* Loading */}
                     {loading && (
-                        <SkeletonTable rows={7} columns={8}/>
+                        <SkeletonTable rows={7} columns={6}/>
                     )}
 
                     <tbody className='divide-y divide-gray-100  text-sm dark:divide-gray-800'>

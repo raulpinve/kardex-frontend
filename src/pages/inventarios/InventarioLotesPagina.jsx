@@ -57,7 +57,7 @@ const InventarioLotesPagina = () => {
                     {mensajeError}
                </p>
             )}
-            {!mensajeError && !loading && corte && (<div className='mt-6'>
+            {!mensajeError && !loading && corte && (<div className='mt-8'>
                 <TarjetasInformacionStock corteId={corte?.id} loteId={loteId} refreshStock={refreshStock}/> 
                 <div className="mt-4">
                     <Movimientos corteId={corte?.id} loteId={loteId} setRefreshStock={setRefreshStock}/>

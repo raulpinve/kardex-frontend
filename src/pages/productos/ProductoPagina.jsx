@@ -8,8 +8,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Lotes from "./components/lotes/Lotes";
 import { useSelector } from "react-redux";
-import CardTitulo from "@/shared/components/CardTitulo";
-import InformacionProducto from "./components/producto/InformacionProducto";
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();
@@ -38,29 +36,41 @@ const ProductoPagina = ({ tipo }) => {
         <Layout>
             <div className="mt-4">
                 {/* Encabezado */}
-                <div className="hidden">
+                <div className="">
                     {loading && (<div>
                         <SkeletonElement className={`max-w-[250px]`} />
                         <SkeletonElement className={`max-w-[500px] mt-3`} />
                     </div>)}
+                    
                     {!loading && producto && (<>
-                            {/* Titulo */}
-                            <h1 className="text-2xl font-semibold tracking-tight text-gray-900 flex gap-4 items-center my-4">
-                                <SubirImagenProducto 
-                                    producto={producto}
-                                    setProducto={setProducto}
-                                    tipo = {producto?.tipo + "s"}
-                                />
-                                <div>
-                                    <span> {producto?.nombre?.charAt(0).toUpperCase() + producto?.nombre?.slice(1)}</span>
-                                    <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{producto.tipo}</p>
-                                </div>
-                            </h1>
-                        </>)}
-                    <div>
-                        <div className="grid rounded-2xl border border-gray-200 bg-white sm:grid-cols-2 xl:grid-cols-4 dark:border-gray-800 dark:bg-gray-900 mt-3">
-                            {/* Forma farmaceutica */}
-                            {producto?.formaFarmaceutica && (
+                        {/* Titulo */}
+                        <h1 className="text-2xl font-semibold tracking-tight text-gray-900 flex gap-4 items-center my-4">
+                            <SubirImagenProducto 
+                                producto={producto}
+                                setProducto={setProducto}
+                                tipo = {producto?.tipo + "s"}
+                            />
+                            <div>
+                                <span> {producto?.nombre?.charAt(0).toUpperCase() + producto?.nombre?.slice(1)}</span>
+                                <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{producto.tipo}</p>
+                            </div>
+                        </h1>
+                    </>)}
+                     <p className="text-sm text-gray-700 dark:text-gray-300 my-4 hidden">
+                        {producto?.presentacionComercial && <span>  <b>Presentación:</b> {producto.presentacionComercial}</span>}
+                        {producto?.formaFarmaceutica && <span> • <b>Forma farmacéutica:</b> {producto.formaFarmaceutica}</span>}
+                        {producto?.concentracion && <span> • <b>Concentración:</b> {producto.concentracion}</span>}
+                        {producto?.unidadMedida && <span> • <b>Unidad:</b> {producto.unidadMedida}</span>}
+                        {producto?.serie && <span> • <b>Serie:</b> {producto.serie}</span>}
+                        {producto?.riesgo && <span> • <b>Riesgo:</b> {producto.riesgo}</span>}
+                    </p>
+                    <div className="">
+                        <div className={`grid rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 mt-3 ${
+                            producto?.tipo === 'dispositivo' ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-4'
+                        }`}>
+                            
+                            {/* Forma farmacéutica (solo si NO es dispositivo) */}
+                            {producto?.formaFarmaceutica && producto?.tipo !== 'dispositivo' && (
                                 <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
                                     <span className="text-sm text-gray-500 dark:text-gray-400">Forma farmacéutica</span>
                                     <div className="mt-2 flex items-end gap-3">
@@ -70,9 +80,10 @@ const ProductoPagina = ({ tipo }) => {
                                     </div>
                                 </div>
                             )}
-                            {/* Presentacion */}
+
+                            {/* Presentación comercial */}
                             {producto?.presentacionComercial && (
-                                <div className="border-b border-gray-200 px-6 py-5 xl:border-r xl:border-b-0 dark:border-gray-800">
+                                <div className="border-b border-gray-200 px-6 py-5 md:border-r xl:border-b-0 dark:border-gray-800">
                                     <span className="text-sm text-gray-500 dark:text-gray-400">Presentación comercial</span>
                                     <div className="mt-2 flex items-end gap-3">
                                         <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
@@ -82,22 +93,20 @@ const ProductoPagina = ({ tipo }) => {
                                 </div>
                             )}
 
-                            {/* Concentración */}
-                            {producto?.concentracion && (
+                            {/* Concentración (solo si NO es dispositivo) */}
+                            {producto?.concentracion && producto?.tipo !== 'dispositivo' && (
                                 <div className="border-b border-gray-200 px-6 py-5 sm:border-r sm:border-b-0 dark:border-gray-800">
-                                    <div>
-                                        <span className="text-sm text-gray-500 dark:text-gray-400">Concentración</span>
-                                        <div className="mt-2 flex items-end gap-3">
-                                            <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                                {producto.concentracion}
-                                            </h4>
-                                        </div>
+                                    <span className="text-sm text-gray-500 dark:text-gray-400">Concentración</span>
+                                    <div className="mt-2 flex items-end gap-3">
+                                        <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                            {producto.concentracion}
+                                        </h4>
                                     </div>
                                 </div>
                             )}
 
-                            {/* Unidad de medida */}
-                            {producto?.unidadMedida && (
+                            {/* Unidad medida (solo si NO es dispositivo) */}
+                            {producto?.unidadMedida && producto?.tipo !== 'dispositivo' && (
                                 <div className="px-6 py-5">
                                     <span className="text-sm text-gray-500 dark:text-gray-400">Unidad medida</span>
                                     <div className="mt-2 flex items-end gap-3">
@@ -108,49 +117,40 @@ const ProductoPagina = ({ tipo }) => {
                                 </div>
                             )}
 
-                            {/* Serie */}
-                            {producto?.serie && (
-                                <div className="border-b border-gray-200 px-6 py-5 sm:border-r sm:border-b-0 dark:border-gray-800">
-                                    <div>
-                                        <span className="text-sm text-gray-500 dark:text-gray-400">Serie</span>
-                                        <div className="mt-2 flex items-end gap-3">
-                                            <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                                {producto.serie}
-                                            </h4>
-                                        </div>
+                            {/* Serie (solo si es dispositivo) */}
+                            {producto?.serie && producto?.tipo === 'dispositivo' && (
+                                <div className="border-b border-gray-200 px-6 py-5 md:border-r dark:border-gray-800">
+                                    <span className="text-sm text-gray-500 dark:text-gray-400">Serie</span>
+                                    <div className="mt-2 flex items-end gap-3">
+                                        <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                            {producto.serie}
+                                        </h4>
                                     </div>
                                 </div>
                             )}
 
-                            {/* Riesgo */}
-                            {producto?.riesgo && (
-                                <div className="border-b border-gray-200 px-6 py-5 sm:border-r sm:border-b-0 dark:border-gray-800">
-                                    <div>
-                                        <span className="text-sm text-gray-500 dark:text-gray-400">Riesgo</span>
-                                        <div className="mt-2 flex items-end gap-3">
-                                            <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                                {producto.riesgo}
-                                            </h4>
-                                        </div>
+                            {/* Riesgo (solo si es dispositivo) */}
+                            {producto?.riesgo && producto?.tipo === 'dispositivo' && (
+                                <div className="border-b border-gray-200 px-6 py-5 dark:border-gray-800">
+                                    <span className="text-sm text-gray-500 dark:text-gray-400">Riesgo</span>
+                                    <div className="mt-2 flex items-end gap-3">
+                                        <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                            {producto.riesgo}
+                                        </h4>
                                     </div>
                                 </div>
                             )}
-                           
+
                         </div>
-                    </div>        
-                </div>
-            </div>
-            <TarjetasStockProducto productoId={productoId}/>
-            <div className="grid w-full md:grid-cols-12 gap-6 mt-4 ">
-                <div className='col-span-12 xl:col-span-4'>
-                    <InformacionProducto />
-                </div>
-                <div className="min-w-0 col-span-12 xl:col-span-8 grid xl:gap-4">
-                    <Lotes tipo={tipo} productoId={productoId} />
+                    </div>
                 </div>
             </div>
             <div className="mt-4">
+                <TarjetasStockProducto productoId={productoId}/>
+            </div>
+            <div className="grid gap-6 mt-6">
                 <GraficaComportamientoStock />
+                <Lotes tipo={tipo} productoId={productoId} />
             </div>
         </Layout>
     );
