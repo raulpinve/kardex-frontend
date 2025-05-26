@@ -23,7 +23,17 @@ const obtenerEvolucionProducto = (token, tipo, id) => {
             throw err
         })
 }
+
+const obtenerEvolucionProductoCorte = (token, tipo, id, corteId) => {
+    const request = apiClient(token).get(`/cortes/${corteId}/${tipo}/${id}/evolucion`)
+        return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
 export {
     obtenerInformacionHistorial,
-    obtenerEvolucionProducto
+    obtenerEvolucionProducto,
+    obtenerEvolucionProductoCorte
 }

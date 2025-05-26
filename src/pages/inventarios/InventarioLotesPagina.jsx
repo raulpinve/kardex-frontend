@@ -11,6 +11,7 @@ import Movimientos from '../productos/components/movimientos/Movimientos';
 import { obtenerCortePeriodo } from './services/cortesServices';
 import TituloInventarios from './components/TituloInventarios';
 import SkeletonElement from '@/shared/components/SkeletonElement';
+import GraficaComportamientoStock from '@/shared/components/GraficaComportamientoStock';
 
 const InventarioLotesPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -59,7 +60,8 @@ const InventarioLotesPagina = () => {
             )}
             {!mensajeError && !loading && corte && (<div className='mt-8'>
                 <TarjetasInformacionStock corteId={corte?.id} loteId={loteId} refreshStock={refreshStock}/> 
-                <div className="mt-4">
+                <div className="mt-4 grid gap-4">
+                    <GraficaComportamientoStock tipo={`lote`} corteId={corte?.id}/>
                     <Movimientos corteId={corte?.id} loteId={loteId} setRefreshStock={setRefreshStock}/>
                 </div>
             </div>)}

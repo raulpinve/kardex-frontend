@@ -11,6 +11,7 @@ import { obtenerProducto } from './services/productoServices';
 import SkeletonElement from '@/shared/components/SkeletonElement';
 import SubirImagenProducto from '../productos/components/producto/SubirImagenProducto';
 import TituloInventarios from './components/TituloInventarios';
+import GraficaComportamientoStock from '@/shared/components/GraficaComportamientoStock';
 
 const InventarioProductoPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -105,7 +106,8 @@ const InventarioProductoPagina = () => {
             )}
             {!mensajeError && !loading && corte && (<>
                 <TarjetasInformacionStockProducto corteId={corte?.id} productoId={productoId}/> 
-                <div className="mt-4">
+                <div className="mt-4 grid gap-4">
+                    <GraficaComportamientoStock corteId={corte?.id}/>
                     <InventarioLotes corteId={corte?.id} />
                 </div>
             </>)}

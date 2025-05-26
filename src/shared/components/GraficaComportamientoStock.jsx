@@ -1,4 +1,4 @@
-import { obtenerEvolucionProducto, obtenerInformacionHistorial } from "../services/historialStockServices";
+import { obtenerEvolucionProducto, obtenerEvolucionProductoCorte, obtenerInformacionHistorial } from "../services/historialStockServices";
 import { LuCalendar, LuChartColumn, LuChartSpline, LuCloudDownload, LuRefreshCcw } from "react-icons/lu";
 import React, { useEffect, useMemo, useState } from "react";
 import { formatDateCorte, formatFechaCorte } from "../../utils/utilities";
@@ -17,7 +17,7 @@ import { format } from  'date-fns';
 import { es } from "date-fns/locale/es";
 import { useDarkMode } from "../hooks/useDarkMode";
 
-const GraficaComportamientoStock = ({tipo = "producto"}) => {
+const GraficaComportamientoStock = ({tipo = "producto", corteId}) => {
     const [mostrarBotones, setMostrarBotones] = useState(false);
     const [tipoGrafica, setTipoGrafica] = useState("area");
     const [messageError, setMessageError] = useState(null);
@@ -133,6 +133,7 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
             try {
                 const respuesta = await obtenerInformacionHistorial(token, tipo, id, fechasFormateadas);
                 const datosRespuestas = respuesta?.data?.datos || [];
+
                 setDatos(datosRespuestas);
                 setSeries([
                     {
@@ -183,7 +184,7 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                     {
                         name: "Stock inicial",
                         data: datosRespuesta.map(corte => ({
-                            x: formatFechaCorte(corte.periodo),
+                            x: formatDateCorte(corte.periodo),
                             y: corte.stockInicial
                         })),
                     },
@@ -217,15 +218,61 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
             }
         }
 
-        if(tipo, id){
-            if(fechasFormateadas.length > 0){
+        const obtenerEvolucionPorCorte = async() => {
+         setLoading(true);
+            setMessageError(null);
+            try {
+                const respuesta = await obtenerEvolucionProductoCorte(token, tipo, id, corteId)
+                const datosRespuestas = respuesta?.data?.datos || [];
+                setDatos(datosRespuestas);
+                setSeries([
+                    {
+                        name: "Stock inicial",
+                        data: datosRespuestas.map(corte => ({
+                            x: formatFechaCorte(corte.periodo),
+                            y: corte.stockInicial
+                        })),
+                    },
+                    {
+                        name: "Ingresos",
+                        data: datosRespuestas.map(corte => ({
+                            x: formatFechaCorte(corte.periodo),
+                            y: corte.ingresos,
+                        })),
+                    },
+                    {
+                        name: "Salidas",
+                        data: datosRespuestas.map(corte => ({
+                            x: formatFechaCorte(corte.periodo),
+                            y: corte.salidas
+                        })),
+                    },
+                    {
+                        name: "Stock Final",
+                        data: datosRespuestas.map(corte => ({
+                            x: formatFechaCorte(corte.periodo),
+                            y: corte.stockFinal
+                        })),
+                    }
+                ]);
+                setMostrarBotones(true);
+            } catch (error) {
+                handleErrorsBasic(error, setMessageError)
+            } finally {
+                setLoading(false);
+            }
+        }
+        if(tipo && id){
+            if(corteId){
+                obtenerEvolucionPorCorte()
+            }else if(fechasFormateadas.length){
                 fetchHistorialEntreFechas()
             }else{
                 fetchObtenerCortes()
             }
         }
 
-    },[token, tipo, id, fechasFormateadas]);
+    },[token, tipo, id, fechasFormateadas, corteId]);
 
     return (
         <Card className={`relative`}>
@@ -233,11 +280,16 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
             <div className="md:flex justify-between items-center">
                 <div>
                     <CardTitulo>Comportamiento del stock</CardTitulo>
-                    {fechasFormateadas.length === 0 ? (
+                    {fechasFormateadas.length === 0 && !corteId && (
                         <p className="text-sm text-gray-400 dark:text-gray-200">Evolución desde el ultimo año</p>
-                    ): (
+                    )}
+                    {fechasFormateadas.length === 0 && corteId && (
+                        <p className="text-sm text-gray-400 dark:text-gray-200">Evolución en el corte</p>
+                    )}
+                    {fechasFormateadas.length > 0 && (
                         <p className="text-sm text-gray-400 dark:text-gray-200">Evolución desde {formatearRangoFechas(fechasFormateadas)}</p>
                     )}
+
                 </div>
                 <div className="flex items-center mt-3 gap-1">
                     {mostrarBotones && (<>                        
@@ -251,32 +303,35 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                             onClick={toggleChartType} 
                             className="button-form button-form-secondary"
                         >{tipoGrafica === "bar" ? <LuChartSpline /> : <LuChartColumn />}</button>
-                        <button
-                            type="button"
-                            className="button-form button-form-secondary"
-                            onClick={() => {
-                                setRangoFechas([])
-                            }}
-                        >
-                            <LuRefreshCcw />
-                        </button>
+                        
+                        {!corteId && (<>
+                            <button
+                                type="button"
+                                className="button-form button-form-secondary"
+                                onClick={() => {
+                                    setRangoFechas([])
+                                }}
+                            >
+                                <LuRefreshCcw />
+                            </button>
+                            <div className="relative">
+                                <LuCalendar className="absolute top-[14px] left-4 text-gray-600 dark:text-gray-500"/>
+                                <Flatpickr
+                                    options={{
+                                        mode: "range",
+                                        dateFormat: "Y-m-d", 
+                                        altInput: true,
+                                        altFormat: "j \\d\\e F \\d\\e Y", // j = día sin 0, F = mes nombre completo, \\d\\e para texto literal "de"
+                                        locale: Spanish,
+                                    }}
+                                    placeholder="Selecciona un rango de fechas..."
+                                    value={rangoFechas}
+                                    onClose={(fechaSeleccionada) => setRangoFechas(fechaSeleccionada)}
+                                    className="input-form shadow pl-10"
+                                />
+                            </div>
+                        </>)}
                     </>)}
-                    <div className="relative">
-                        <LuCalendar className="absolute top-[14px] left-4 text-gray-600 dark:text-gray-500"/>
-                        <Flatpickr
-                            options={{
-                                mode: "range",
-                                dateFormat: "Y-m-d", 
-                                altInput: true,
-                                altFormat: "j \\d\\e F \\d\\e Y", // j = día sin 0, F = mes nombre completo, \\d\\e para texto literal "de"
-                                locale: Spanish,
-                            }}
-                            placeholder="Selecciona un rango de fechas..."
-                            value={rangoFechas}
-                            onClose={(fechaSeleccionada) => setRangoFechas(fechaSeleccionada)}
-                            className="input-form shadow pl-10"
-                        />
-                    </div>
                 </div>
             </div>
             {loading && (<div className={`h-[400px] w-full mt-5 flex items-center  justify-center`}>
@@ -330,12 +385,12 @@ const GraficaComportamientoStock = ({tipo = "producto"}) => {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-100dark:divide-gray-800">
+                                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                                     {datos.map(dato => (
                                         <tr key={dato.periodo} className="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
                                             <td className="py-3 px-2 text-left">
                                                 <p className="text-gray-700 dark:text-gray-400">
-                                                {fechasFormateadas.length === 0 ? formatDateCorte(dato.periodo) : formatFechaCorte(dato.periodo)}
+                                                {fechasFormateadas.length > 0 || corteId ?  formatFechaCorte(dato.periodo): formatDateCorte(dato.periodo)}
                                                 </p>
                                             </td>
                                             <td className="py-3 px-2">
