@@ -7,6 +7,7 @@ import DropdownProfile from './DropdownProfile';
 import { useDarkMode } from "../hooks/useDarkMode";  // Importamos el hook
 import { useLocation } from 'react-router-dom';
 import { deleteAlmacen } from '../../store/almacenSlice';
+import SearchDropdown from './SearchDropdown';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -28,13 +29,7 @@ const Header = () => {
             </button>
 
             {/* Search input */}
-            <div className="relative hidden sm:block">
-              <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
-              <input 
-                type="text" 
-                placeholder="Buscar medicamentos o dispositivos..." 
-                className="input-form pl-10 dark:bg-gray-900"/>
-            </div>
+            <SearchDropdown />
           </div>
 
           {/* Profile, modo nocturno y notificaciones */}

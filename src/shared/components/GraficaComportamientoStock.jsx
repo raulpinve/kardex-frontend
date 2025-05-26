@@ -51,7 +51,7 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId}) => {
         yaxis: {
             labels: {
                 style: {
-                    fontFamily: "Work Sans, sans-serif", 
+                    fontFamily: "Outfit, sans-serif", 
                 },
             },
             tickAmount: 4,
@@ -72,7 +72,7 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId}) => {
             type: 'category',
             labels: {
                 style: {
-                    fontFamily: "Work Sans", 
+                    fontFamily: "Outfit", 
                 },
             },
         },
@@ -81,7 +81,7 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId}) => {
         },
         colors: ['#16a34a', '#2563eb', '#f97316', '#6b21a8'], // verde, azul, naranja, violeta oscuro,
         legend: {
-            fontFamily: 'Work Sans, sans-serif', 
+            fontFamily: 'Outfit, sans-serif', 
         }
     };
 
