@@ -30,7 +30,7 @@ const ProductosPagina = ({ tipo }) => {
     const [modalActivo, setModalActivo] = useState("");
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
     const debouncedConsulta = useDebounce(consulta, 500);
-
+    
     // Obtener productos 
     useEffect(() => {
         const fetchUsuarios = async () => {

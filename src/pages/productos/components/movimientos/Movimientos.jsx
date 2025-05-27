@@ -25,7 +25,6 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [movimientoSeleccionado, setMovimientoSeleccionado] = useState(null);
     const [modalActivo, setModalActivo] = useState(null);
-    const [fresh, setRefresh] = useState(1);
     const token = useSelector(state => state.auth.token);
     const [consulta, setConsulta] = useState("");
     const [loading, setLoading] = useState(false);
@@ -69,7 +68,7 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
             // TODO: Obtener movimientos del lote
             fetchMovimientosCorte();
         }
-    }, [loteId, corteId, token, debouncedConsulta, paginaActual, fresh, tipo, fecha]);
+    }, [loteId, corteId, token, debouncedConsulta, paginaActual, tipo, fecha]);
 
     useEffect(() => {
         if(setRefreshStock){

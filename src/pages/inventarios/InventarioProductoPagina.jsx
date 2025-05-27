@@ -76,7 +76,7 @@ const InventarioProductoPagina = () => {
                 </div>)}
                 {!loading && producto && (<div className='my-8'>
                     {/* Titulo */}
-                    <h1 className="text-2xl font-semibold tracking-tight text-gray-900 flex gap-4 items-center">
+                    <h1 className="text-2xl font-semibold tracking-tight text-gray-700 dark:text-gray-200 flex gap-4 items-center">
                         <SubirImagenProducto 
                             producto={producto}
                             setProducto={setProducto}

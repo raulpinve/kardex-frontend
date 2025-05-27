@@ -44,7 +44,7 @@ const ProductoPagina = ({ tipo }) => {
                     
                     {!loading && producto && (<>
                         {/* Titulo */}
-                        <h1 className="text-2xl font-semibold tracking-tight text-gray-900 flex gap-4 items-center my-4">
+                        <h1 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center my-4">
                             <SubirImagenProducto 
                                 producto={producto}
                                 setProducto={setProducto}

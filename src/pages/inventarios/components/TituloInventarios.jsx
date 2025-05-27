@@ -41,24 +41,27 @@ const TituloInventarios = ({ productoId, loteId }) => {
   }, [loteId, token]);
 
   return (
-    <h1 className="flex flex-wrap items-center text-xl font-bold my-3 h-auto gap-1">
-      <Link to="/inventarios" className="hover:underline shrink-0">
+    <h1 className="flex flex-wrap items-center text-xl font-bold my-3 h-auto gap-1 text-gray-700 dark:text-gray-200 py-2 rounded-md">
+      <Link
+        to="/inventarios"
+        className="shrink-0  transition-colors duration-200"
+      >
         Kardex
       </Link>
 
       {periodo && (
         <>
-          <LuChevronRight className="shrink-0" />
+          <LuChevronRight className="shrink-0mx-1" />
           <span className="shrink-0">{formatDateCorte(periodo)}</span>
         </>
       )}
 
       {periodo && producto && (
         <>
-          <LuChevronRight className="shrink-0" />
+          <LuChevronRight className="shrink-0 mx-1" />
           <Link
             to={`/inventarios/${periodo}/${productoId}`}
-            className="flex items-center hover:underline min-w-0"
+            className="flex items-center hover:underline min-w-0 text-gray-700 dark:text-gray-200 transition-colors duration-200"
             title={producto?.nombre}
           >
             <span className="truncate max-w-[180px] sm:max-w-[250px] md:max-w-[320px]">
@@ -72,10 +75,10 @@ const TituloInventarios = ({ productoId, loteId }) => {
         <>
           {lote?.productoNombre && (
             <>
-              <LuChevronRight className="shrink-0" />
+              <LuChevronRight className="shrink-0 text-gray-400 mx-1" />
               <Link
                 to={`/inventarios/${periodo}/${lote?.productoId}`}
-                className="flex items-center hover:underline min-w-0"
+                className="flex items-center hover:underline min-w-0transition-colors duration-200"
                 title={lote?.productoNombre}
               >
                 <span className="truncate max-w-[180px] sm:max-w-[250px] md:max-w-[320px]">
@@ -85,7 +88,7 @@ const TituloInventarios = ({ productoId, loteId }) => {
             </>
           )}
 
-          <LuChevronRight className="shrink-0" />
+          <LuChevronRight className="shrink-0 text-gray-400 mx-1" />
           <span
             className="truncate max-w-[120px] sm:max-w-[150px] md:max-w-[200px]"
             title={lote?.numeroLote}
@@ -97,6 +100,5 @@ const TituloInventarios = ({ productoId, loteId }) => {
     </h1>
   );
 };
-
 
 export default TituloInventarios;

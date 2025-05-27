@@ -59,7 +59,7 @@ const LotePagina = () => {
 
                 {!loading && producto && lote && (<div>
                     {/* Titulo */}
-                    <h2 className="text-2xl font-semibold tracking-tight text-gray-900 flex gap-4 items-center my-4">
+                    <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center my-4">
                         <SubirImagenProducto 
                             producto={producto}
                             setProducto={setProducto}
@@ -112,7 +112,7 @@ const LotePagina = () => {
                         )}
 
                         {/* Stock requerido */}
-                        {lote?.stockDisponible && (
+                        {lote?.stockDisponible ||  lote.stockDisponible === 0 && (
                             <div className="px-6 py-5">
                                 <span className="text-sm text-gray-500 dark:text-gray-400">Stock disponible</span>
                                 <div className="mt-2 flex items-end gap-3">

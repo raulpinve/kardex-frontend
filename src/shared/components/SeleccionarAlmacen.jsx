@@ -18,8 +18,8 @@ const SeleccionarAlmacen = () => {
     const location = useLocation();
     const dispatch = useDispatch();
 
-    const rutasSinModal = ['/configuracion', '/otra-ruta-opcional'];
-    const enRutaExcluida = rutasSinModal.includes(location.pathname);
+    // const rutasSinModal = ['/configuracion', '/otra-ruta-opcional'];
+    // const enRutaExcluida = rutasSinModal.includes(location.pathname);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -63,7 +63,8 @@ const SeleccionarAlmacen = () => {
     }, [almacen]);
     
     return (
-        !validandoAlmacen && !almacen && !enRutaExcluida && (
+        !validandoAlmacen && !almacen && (
+            // !validandoAlmacen && !almacen && !enRutaExcluida && (
             <Modal
                 isOpenModal={isOpenModal}
                 setIsOpenModal={() => setIsOpenModal(false)}

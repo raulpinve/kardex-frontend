@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { crearCorte } from "../../services/cortesServices";
 import SkeletonElement from "../../../../shared/components/SkeletonElement";
 import { useNavigate } from "react-router-dom";
+import { handleErrors, handleErrorsBasic } from "@/utils/handleErrors";
 
 const ModalCrearCorte = (props) => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -30,7 +31,7 @@ const ModalCrearCorte = (props) => {
             navigate(`/inventarios/${res.data.periodo}`);
             cerrarModal();
         } catch (error) {
-            setMessageError(error?.response?.data?.message || "Ha ocurrido un error al intentar crear el corte.")
+            handleErrorsBasic(error, setMessageError)
         } finally {
             setLoading(false);
         }

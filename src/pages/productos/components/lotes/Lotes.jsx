@@ -165,7 +165,8 @@ const Lotes = ({ productoId, tipo }) => {
                                                     <button
                                                         className="cursor-pointer p-1"
                                                         title="Editar lote"
-                                                        onClick={() => {
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
                                                             setModalActivo("editar");
                                                             setLoteSeleccionado(lote);
                                                         }}
@@ -175,7 +176,8 @@ const Lotes = ({ productoId, tipo }) => {
                                                     <button
                                                         className="cursor-pointer p-1"
                                                         title="Eliminar lote"
-                                                        onClick={() => {
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
                                                             setLoteSeleccionado(lote);
                                                             setModalActivo("eliminar");
                                                         }}

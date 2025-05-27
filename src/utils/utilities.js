@@ -83,6 +83,36 @@ const formatDateCorte = (fecha) => {
   return `${nombreMes} de ${anio}`;
 };
 
+function tiempoRelativoCreativo(fechaISO) {
+    const ahora = new Date();
+    const fecha = new Date(fechaISO);
+    const diffMs = ahora - fecha;
+    const diffSeg = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSeg / 60);
+    const diffHor = Math.floor(diffMin / 60);
+    const diffDia = Math.floor(diffHor / 24);
+    const diffMes = Math.floor(diffDia / 30);
+    const diffAnio = Math.floor(diffDia / 365);
+
+    if (diffSeg < 10) return "Justo ahora";
+    if (diffSeg < 60) return `Hace ${diffSeg} segundo${diffSeg === 1 ? '' : 's'}`;
+    if (diffMin === 1) return "Hace un minuto";
+    if (diffMin < 60) return `Hace ${diffMin} minuto${diffMin === 1 ? '' : 's'}`;
+    if (diffHor === 1) return "Hace una hora";
+    if (diffHor < 24) return `Hace ${diffHor} hora${diffHor === 1 ? '' : 's'}`;
+    if (diffDia === 1) return "Ayer";
+    if (diffDia < 7) return `Hace ${diffDia} día${diffDia === 1 ? '' : 's'}`;
+    if (diffDia < 30) {
+        const semanas = Math.floor(diffDia / 7);
+        return semanas === 1
+            ? "Hace una semana"
+            : `Hace ${semanas} semana${semanas === 1 ? '' : 's'}`;
+    }
+    if (diffMes === 1) return "Hace un mes";
+    if (diffMes < 12) return `Hace ${diffMes} mes${diffMes === 1 ? '' : 'es'}`;
+    if (diffAnio === 1) return "Hace un año";
+    return `Hace ${diffAnio} años`;
+}
 
 export {
     formatDateLetters,
@@ -91,5 +121,6 @@ export {
     obtenerEstadoVencimiento,
     analizarStock,
     formatFechaCorte,
-    formatDateCorte
+    formatDateCorte,
+    tiempoRelativoCreativo
 }

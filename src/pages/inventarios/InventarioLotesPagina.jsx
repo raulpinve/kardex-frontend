@@ -1,8 +1,6 @@
 import TarjetasInformacionStock from './components/lotes/TarjetasInformacionStock';
-// import TituloInventarios from './components/TituloInventarios';
 import Layout from '../../shared/components/Layout';
 import React, { useEffect, useState } from 'react';
-import Corte from './components/cortes/Corte';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Spinner from '@/shared/components/Spinner';
@@ -10,7 +8,6 @@ import { formatDateCorte } from '@/utils/utilities';
 import Movimientos from '../productos/components/movimientos/Movimientos';
 import { obtenerCortePeriodo } from './services/cortesServices';
 import TituloInventarios from './components/TituloInventarios';
-import SkeletonElement from '@/shared/components/SkeletonElement';
 import GraficaComportamientoStock from '@/shared/components/GraficaComportamientoStock';
 
 const InventarioLotesPagina = () => {

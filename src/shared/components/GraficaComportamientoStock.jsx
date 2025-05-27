@@ -368,19 +368,19 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId}) => {
                             <table className="w-full min-w-max text-sm text-center">
                                 <thead className='border-b border-gray-200 dark:border-gray-800 text-xs'>
                                     <tr>
-                                        <th className="py-3 px-2 text-left bg-gray-100 dark:bg-gray-800 rounded-tl-lg">
+                                        <th className="p-3 text-left bg-gray-100 dark:bg-gray-800 rounded-tl-lg">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
                                         </th>
-                                        <th className="py-3 px-2 bg-gray-100 dark:bg-gray-800">
+                                        <th className="p-3 bg-gray-100 dark:bg-gray-800">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Stock inicial</p>
                                         </th>
-                                        <th className="py-3 px-2 bg-gray-100 dark:bg-gray-800">
+                                        <th className="p-3 bg-gray-100 dark:bg-gray-800">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Ingresos</p>
                                         </th>
-                                        <th className="py-3 px-2 bg-gray-100 dark:bg-gray-800">
+                                        <th className="p-3 bg-gray-100 dark:bg-gray-800">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Salidas</p>
                                         </th>
-                                        <th className="py-3 px-2 bg-gray-100 dark:bg-gray-800 rounded-tr-lg">
+                                        <th className="p-3 bg-gray-100 dark:bg-gray-800 rounded-tr-lg">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Stock Final</p>
                                         </th>
                                     </tr>
@@ -388,21 +388,21 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId}) => {
                                 <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                                     {datos.map(dato => (
                                         <tr key={dato.periodo} className="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                                            <td className="py-3 px-2 text-left">
+                                            <td className="p-3 text-left">
                                                 <p className="text-gray-700 dark:text-gray-400">
                                                 {fechasFormateadas.length > 0 || corteId ?  formatFechaCorte(dato.periodo): formatDateCorte(dato.periodo)}
                                                 </p>
                                             </td>
-                                            <td className="py-3 px-2">
+                                            <td className="p-3">
                                                 <p className="text-gray-700 dark:text-gray-400">{dato.stockInicial}</p>
                                             </td>
-                                            <td className="py-3 px-2">
+                                            <td className="p-3">
                                                 <p className="text-gray-700 dark:text-gray-400">{dato.ingresos}</p>
                                             </td>
-                                            <td className="py-3 px-2">
+                                            <td className="p-3">
                                                 <p className="text-gray-700 dark:text-gray-400">{dato.salidas}</p>
                                             </td>
-                                            <td className="py-3 px-2">
+                                            <td className="p-3">
                                                 <p className="text-gray-700 dark:text-gray-400">{dato.stockFinal}</p>
                                             </td>
                                         </tr>
