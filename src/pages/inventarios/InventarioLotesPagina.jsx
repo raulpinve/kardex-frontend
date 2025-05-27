@@ -47,7 +47,7 @@ const InventarioLotesPagina = () => {
 
     return (
         <Layout>
-            <TituloInventarios loteId={loteId} />
+            <TituloInventarios loteId={loteId} corte={corte} />
 
             {loading && (<Spinner />)}
             {!loading && mensajeError && (

@@ -68,7 +68,7 @@ const InventarioProductoPagina = () => {
 
     return (
         <Layout>
-            <TituloInventarios />
+            <TituloInventarios corte={corte} />
             <div>
                 {loading && (<div>
                     <SkeletonElement className={`max-w-[250px]`} />

@@ -1,5 +1,4 @@
 import { obtenerCortePeriodo, obtenerCortes } from "./services/cortesServices";
-import Corte from "./components/cortes/Corte";
 import ModalCrearCorte from "./components/cortes/ModalCrearCorte";
 import { useNavigate, useParams } from "react-router-dom";
 import Productos from "./components/productos/Productos";
@@ -21,7 +20,6 @@ const InventariosPagina = () => {
     const [ modalActivo, setModalActivo ] = useState("");
     const [ loading, setLoading ] = useState(false);
 
-    // Obtener corte
     useEffect(() => {
         const cargarCorte = async () => {
             setLoading(true);
@@ -56,7 +54,7 @@ const InventariosPagina = () => {
         <Layout>
             {/* Header */}
             <div className="flex items-center justify-between gap-2">
-                <TituloInventarios />
+                <TituloInventarios corte={corte} />
                 <div className="flex items-center gap-2">
                     <div className="flex gap-2">
                         <Button
@@ -90,6 +88,7 @@ const InventariosPagina = () => {
                     cerrarModal={() => setModalActivo(null)} 
                 />
             )}
+            
         </Layout>
     );
 };
