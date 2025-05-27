@@ -84,18 +84,15 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                     <CardTitulo>Movimientos</CardTitulo>
                     <div className="flex gap-1 items-center justify-between">
 
-                        {/* Solo se pueden crear movimientos en la página de inventarios */}
-                        {primeraParteSegmento === "inventarios" && (
-                            <Button
-                                type="button"
-                                colorButton="primary"
-                                onClick={() => {
-                                    setModalActivo("crear")
-                                }}
-                            >   
-                                Crear 
-                            </Button>
-                        )}
+                        <Button
+                            type="button"
+                            colorButton="primary"
+                            onClick={() => {
+                                setModalActivo("crear")
+                            }}
+                        >   
+                            Crear 
+                        </Button>
                         {/* Buscar en movimientos */}
                         <div className="relative hidden">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
@@ -164,12 +161,9 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                     <th className="py-3 px-4 min-w-[200px]">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Descripción</p>
                                     </th>
-                                    {/* Solo es permitido modificar los movimientos en inventarios */}
-                                    {primeraParteSegmento === "inventarios" && (
-                                        <th className="py-3 px-4">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                                        </th>
-                                    )}
+                                    <th className="py-3 px-4">
+                                        <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
+                                    </th>
                                 </tr>
                             </thead>
                             {loading && <SkeletonTable rows={7} columns={5}/>}
@@ -212,35 +206,32 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                                     <td className="py-3 px-4 items-center">
                                                         <p>{movimiento.descripcion}</p>
                                                     </td>
-                                                    {/* Solo es permitido modificar los movimientos en inventarios */}
-                                                    {primeraParteSegmento === "inventarios" && (
-                                                        <td className="py-3 px-4">
-                                                            <div className="flex gap-2">
-                                                                <button 
-                                                                    className="cursor-pointer p-1"
-                                                                    title="Editar movimiento"
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        setModalActivo("editar"); 
-                                                                        setMovimientoSeleccionado(movimiento);
-                                                                    }}    
-                                                                >
-                                                                    <LuPencil />
-                                                                </button>
-                                                                <button 
-                                                                    className="cursor-pointer p-1"
-                                                                    title="Eliminar movimiento"
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation(); 
-                                                                        setModalActivo("eliminar"); 
-                                                                        setMovimientoSeleccionado(movimiento);
-                                                                    }} 
-                                                                >
-                                                                    <LuEraser />
-                                                                </button> 
-                                                            </div>
-                                                        </td>
-                                                    )}
+                                                    <td className="py-3 px-4">
+                                                        <div className="flex gap-2">
+                                                            <button 
+                                                                className="cursor-pointer p-1"
+                                                                title="Editar movimiento"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setModalActivo("editar"); 
+                                                                    setMovimientoSeleccionado(movimiento);
+                                                                }}    
+                                                            >
+                                                                <LuPencil />
+                                                            </button>
+                                                            <button 
+                                                                className="cursor-pointer p-1"
+                                                                title="Eliminar movimiento"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation(); 
+                                                                    setModalActivo("eliminar"); 
+                                                                    setMovimientoSeleccionado(movimiento);
+                                                                }} 
+                                                            >
+                                                                <LuEraser />
+                                                            </button> 
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             );
                                         })}

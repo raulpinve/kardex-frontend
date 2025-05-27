@@ -74,7 +74,7 @@ const InventarioProductoPagina = () => {
                     <SkeletonElement className={`max-w-[250px]`} />
                     <SkeletonElement className={`max-w-[500px] mt-3`} />
                 </div>)}
-                {!loading && producto && (<div className='my-8'>
+                {!loading && producto && (<div className='my-6 flex justify-between items-start'>
                     {/* Titulo */}
                     <h1 className="text-2xl font-semibold tracking-tight text-gray-700 dark:text-gray-200 flex gap-4 items-center">
                         <SubirImagenProducto 
@@ -87,8 +87,8 @@ const InventarioProductoPagina = () => {
                             <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{producto.tipo}</p>
                         </div>
                     </h1>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 my-4 hidden">
-                        {producto?.formaFarmaceutica && <span> • <b>Forma farmacéutica:</b> {producto.formaFarmaceutica}</span>}
+                    <p className="text-sm text-gray-700 dark:text-gray-300 my-5 hidden">
+                        {producto?.formaFarmaceutica && <span> <b>Forma farmacéutica:</b> {producto.formaFarmaceutica}</span>}
                         {producto?.presentacionComercial && <span> • <b>Presentación:</b> {producto.presentacionComercial}</span>}
                         {producto?.concentracion && <span> • <b>Concentración:</b> {producto.concentracion}</span>}
                         {producto?.unidadMedida && <span> • <b>Unidad:</b> {producto.unidadMedida}</span>}
@@ -107,8 +107,8 @@ const InventarioProductoPagina = () => {
             {!mensajeError && !loading && corte && (<>
                 <TarjetasInformacionStockProducto corteId={corte?.id} productoId={productoId}/> 
                 <div className="mt-4 grid gap-4">
-                    <GraficaComportamientoStock corteId={corte?.id}/>
                     <InventarioLotes corteId={corte?.id} />
+                    <GraficaComportamientoStock corteId={corte?.id}/>
                 </div>
             </>)}
         </Layout>

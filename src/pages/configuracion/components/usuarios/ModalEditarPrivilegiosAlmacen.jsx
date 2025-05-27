@@ -43,7 +43,7 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
         if (usuarioSeleccionado) {
           cargarDatos();
         }
-    }, [JSON.stringify(usuarioSeleccionado)]);
+    }, [usuarioSeleccionado]);
 
     const guardarCambios = async() => {
         setMessageError(false)
@@ -69,59 +69,53 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
             description="Asigna al usuario los privilegios necesarios para acceder a los almacenes que elijas"
             size="md"
         >
-            <form action="">
-                {almacenes.length === 0 ? <p className='text-center text-sm'>No hay almacenes creados</p>: <>
+            <form>
+                {almacenes.length === 0 && !loadingData && <p className='text-center text-sm'>No hay almacenes creados</p>}
+                {loadingData && (<>
+                    {[...Array(5)].map((_, i) => (
+                        <div className='flex gap-2 mb-2' key={i}>
+                            <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded w-7 h-5"></div>
+                            <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded w-30 h-5"></div>
+                        </div>
+                    ))}
+                </>)}
+                {!loadingData && messageErrorCargarData && <MessageError>
+                    {messageErrorCargarData}
+                </MessageError>}
+                {!loading && messageError && 
+                    <MessageError>
+                        {messageError}
+                    </MessageError>
+                }
+                {!loadingData && almacenes.length > 0 && (<>
                     <h5 className="mb-4 text-lg font-medium text-gray-800 dark:text-white/90">
                         Almacenes
                     </h5>
-                    {loadingData ? <>
-                        {[...Array(5)].map((_, i) => (
-                            <div className='flex gap-2 mb-2' key={i}>
-                                <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded w-5 h-5"></div>
-                                <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded w-25 h-5"></div>
+                    {
+                        almacenes.map((almacen) => (
+                            <div key={almacen.id}>
+                                <label htmlFor={`almacen-${almacen.id}`} className="flex cursor-pointer items-center text-sm  text-gray-700 select-none dark:text-gray-400">
+                                    <div className="relative">
+                                        <input 
+                                            type="checkbox" 
+                                            id={`almacen-${almacen.id}`}  
+                                            className="hover:border-brand-500 dark:hover:border-brand-500 mr-2 flex h-4 w-4 items-center justify-center rounded-md border-[1.25px] border-brand-500 bg-brand-500" 
+                                            checked={almacenesSeleccionados.includes(almacen.id)}
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setAlmacenesSeleccionados([...almacenesSeleccionados, almacen.id]);
+                                                } else {
+                                                    setAlmacenesSeleccionados(almacenesSeleccionados.filter(id => id !== almacen.id));
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                    {almacen.nombre}
+                                </label>
                             </div>
-                        ))}
-                    </> : 
-                        <>
-                            { messageErrorCargarData ? <MessageError>
-                                {messageErrorCargarData}
-                            </MessageError>
-                            : <> 
-                                {
-                                    almacenes.map((almacen) => (
-                                        <div key={almacen.id}>
-                                            <label htmlFor={`almacen-${almacen.id}`} className="flex cursor-pointer items-center text-sm  text-gray-700 select-none dark:text-gray-400">
-                                                <div className="relative">
-                                                    <input 
-                                                        type="checkbox" 
-                                                        id={`almacen-${almacen.id}`}  
-                                                        className="hover:border-brand-500 dark:hover:border-brand-500 mr-2 flex h-4 w-4 items-center justify-center rounded-md border-[1.25px] border-brand-500 bg-brand-500" 
-                                                        checked={almacenesSeleccionados.includes(almacen.id)}
-                                                        onChange={(e) => {
-                                                            if (e.target.checked) {
-                                                                setAlmacenesSeleccionados([...almacenesSeleccionados, almacen.id]);
-                                                            } else {
-                                                                setAlmacenesSeleccionados(almacenesSeleccionados.filter(id => id !== almacen.id));
-                                                            }
-                                                        }}
-                                                    />
-                                                </div>
-                                                {almacen.nombre}
-                                            </label>
-                                        </div>
-                                    ))
-                                }
-                            </> 
-                        }
-                        </>
+                        ))
                     }
-
-                    {messageError && 
-                        <MessageError>
-                            {messageError}
-                        </MessageError>
-                    }
-                    <div className="mt-4 flex justify-end gap-2">
+                     <div className="mt-4 flex justify-end gap-2">
                         <Button 
                             colorButton={`secondary`}
                             textButton={`Cerrar`}
@@ -138,7 +132,7 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
                             onClick={guardarCambios}
                         />
                     </div>
-                </>}
+                </>)}
             </form>
         </Modal>
     );

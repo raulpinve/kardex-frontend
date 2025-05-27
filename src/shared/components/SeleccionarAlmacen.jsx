@@ -18,8 +18,8 @@ const SeleccionarAlmacen = () => {
     const location = useLocation();
     const dispatch = useDispatch();
 
-    // const rutasSinModal = ['/configuracion', '/otra-ruta-opcional'];
-    // const enRutaExcluida = rutasSinModal.includes(location.pathname);
+    const rutasSinModal = ['/configuracion', '/otra-ruta-opcional'];
+    const enRutaExcluida = rutasSinModal.includes(location.pathname);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -63,8 +63,8 @@ const SeleccionarAlmacen = () => {
     }, [almacen]);
     
     return (
-        !validandoAlmacen && !almacen && (
-            // !validandoAlmacen && !almacen && !enRutaExcluida && (
+        // !validandoAlmacen && !almacen && (
+            !validandoAlmacen && !almacen && !enRutaExcluida && (
             <Modal
                 isOpenModal={isOpenModal}
                 setIsOpenModal={() => setIsOpenModal(false)}
@@ -87,6 +87,7 @@ const SeleccionarAlmacen = () => {
                                     <button 
                                         onClick={() => {
                                             navigate('/configuracion'); // Ajustá esta ruta si es distinta
+                                            localStorage.setItem('activeTab', "Almacenes")
                                         }}
                                         className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                                     >

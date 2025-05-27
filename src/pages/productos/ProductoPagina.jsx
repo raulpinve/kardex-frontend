@@ -44,7 +44,7 @@ const ProductoPagina = ({ tipo }) => {
                     
                     {!loading && producto && (<>
                         {/* Titulo */}
-                        <h1 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center my-4">
+                        <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center my-6">
                             <SubirImagenProducto 
                                 producto={producto}
                                 setProducto={setProducto}
@@ -149,8 +149,8 @@ const ProductoPagina = ({ tipo }) => {
                 <TarjetasStockProducto productoId={productoId}/>
             </div>
             <div className="grid gap-6 mt-6">
-                <GraficaComportamientoStock />
                 <Lotes tipo={tipo} productoId={productoId} />
+                <GraficaComportamientoStock />
             </div>
         </Layout>
     );

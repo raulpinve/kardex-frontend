@@ -54,7 +54,7 @@ const TituloInventarios = ({ productoId, loteId, corte }) => {
 
         {periodo && (
           <div 
-              className='cursor-pointer flex justify-between'
+              className='cursor-pointer flex justify-between items-center'
               onClick={()=> setModalActivo(true)}
           >
               <LuChevronRight className="shrink-0 mx-1" />

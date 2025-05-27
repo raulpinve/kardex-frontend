@@ -23,7 +23,6 @@ const Usuarios = () => {
     const [usuarios, setUsuarios] = useState([]);
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
-    const [refresh, setRefresh] = useState(0); 
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [consulta, setConsulta] = useState("");
@@ -55,7 +54,7 @@ const Usuarios = () => {
             }
         }
         fetchUsuarios();
-    }, [debouncedConsulta, token, refresh, paginaActual])
+    }, [debouncedConsulta, token, paginaActual])
 
     const redireccionarUsuario = (usuarioId) => {
         navigate(`/perfil/${usuarioId}`)
@@ -89,16 +88,6 @@ const Usuarios = () => {
                                 }}
                             />
                         </div>
-                        {/* <Button
-                            type="button"
-                            colorButton="secondary"
-                            onClick={() => {
-                                setPaginaActual(1)
-                                setRefresh((prev) => prev + 1)
-                            }}
-                        >
-                            <LuRefreshCcw />
-                        </Button> */}
                     </div>
                 </div>
 

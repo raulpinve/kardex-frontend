@@ -14,7 +14,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const { darkMode, toggleDarkMode } = useDarkMode();
     const almacen = useSelector(state => state.almacen.almacen);
-    // const location = useLocation();
+    const location = useLocation();
 
     return (
         <header className="sticky top-0 w-full border-b border-gray-200 z-50 bg-white px-3 lg:px-0 dark:bg-gray-900 bg- dark:text-gray-200 dark:border-gray-800 transition-colors">
@@ -36,8 +36,7 @@ const Header = () => {
           <div className="flex justify-between items-center gap-3">
              {/* Nombre almacén */}
               <h3 className={`text-xs uppercase leading-[20px] text-gray-500 font-medium ellipsis select-none cursor-pointer`}>
-                  {almacen?.nombre && (
-                  // {almacen?.nombre && location.pathname !== "/configuracion" && (
+                  {almacen?.nombre && location.pathname !== "/configuracion" && (
                       <p
                           onClick={() => {
                               localStorage.removeItem('almacenSeleccionado');
@@ -56,7 +55,9 @@ const Header = () => {
             </button>
 
             {/* Bell */}
-            <NotificationDropdown />
+            {almacen?.nombre && location.pathname !== "/configuracion" && (
+              <NotificationDropdown />
+            )}
             
             {/* Profile */}
             <DropdownProfile />

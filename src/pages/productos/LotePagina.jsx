@@ -59,7 +59,7 @@ const LotePagina = () => {
 
                 {!loading && producto && lote && (<div>
                     {/* Titulo */}
-                    <h2 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center my-4">
+                    <h2 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center my-6">
                         <SubirImagenProducto 
                             producto={producto}
                             setProducto={setProducto}
@@ -111,14 +111,13 @@ const LotePagina = () => {
                             </div>
                         )}
 
-                        {/* Stock requerido */}
-                        {lote?.stockDisponible ||  lote.stockDisponible === 0 && (
+                        {(lote?.stockDisponible !== undefined && lote?.stockDisponible !== null) && (
                             <div className="px-6 py-5">
                                 <span className="text-sm text-gray-500 dark:text-gray-400">Stock disponible</span>
                                 <div className="mt-2 flex items-end gap-3">
-                                    <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                        {lote?.stockDisponible}
-                                    </h4>
+                                <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                    {lote.stockDisponible}
+                                </h4>
                                 </div>
                             </div>
                         )}
@@ -127,8 +126,8 @@ const LotePagina = () => {
             </div>
        
             <div className="mt-4 grid gap-4">
-                <GraficaComportamientoStock tipo="lote"/>   
                 <Movimientos loteId={loteId} />
+                <GraficaComportamientoStock tipo="lote"/>   
             </div>
         </Layout>
     );
