@@ -48,7 +48,6 @@ const InventarioLotesPagina = () => {
     return (
         <Layout>
             <TituloInventarios loteId={loteId} corte={corte} />
-
             {loading && (<Spinner />)}
             {!loading && mensajeError && (
                 <p className="rounded mt-4 text-center text-gray-600 dark:text-gray-200">

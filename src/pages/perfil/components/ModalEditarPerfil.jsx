@@ -61,7 +61,7 @@ const ModalEditarPerfil = (props) => {
             size="lg"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
                     {/* Primer nombre */}
                     <div>
                         <label htmlFor="primerNombre" className="label-form">

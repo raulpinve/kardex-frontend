@@ -24,7 +24,6 @@ const Categorias = () => {
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
-    const [refresh, setRefresh] = useState(0); 
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [tipo, setTipo] = useState("");
@@ -49,7 +48,7 @@ const Categorias = () => {
             }
         }
         fetchCategorias();
-    }, [debouncedConsulta, tipo, paginaActual, token, refresh]);
+    }, [debouncedConsulta, tipo, paginaActual, token]);
 
     return (
         <>
@@ -93,22 +92,12 @@ const Categorias = () => {
                             </select>
                             <LuChevronDown className="absolute top-[16px] right-2 dark:text-gray-200" />
                         </div>
-                        {/* <Button
-                            type="button"
-                            colorButton="secondary"
-                            onClick={() => {
-                                setPaginaActual(1)
-                                setRefresh((prev) => prev + 1)
-                            }}
-                        >
-                            <LuRefreshCcw />
-                        </Button> */}
                     </div>
                 </div>
                 {/* Cuerpo */}
                 <div className="overflow-x-auto">
                     <table className="min-w-max w-full mt-3">
-                        <thead className='border-gray-100 border-y dark:border-gray-800 dark:bg-gray-800 text-xs'>
+                        <thead className='border-gray-100 border-y text-xs'>
                             <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
                                 <th className="py-3 px-4">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">Nombre de la categoría</p>

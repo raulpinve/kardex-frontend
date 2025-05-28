@@ -80,7 +80,7 @@ const InventarioLotes = ({corteId}) => {
             </div>
             <div className="min-w-0 flex-grow">
                 <div className="overflow-x-auto w-full ">
-                    <table className="mt-3 min-w-full ">
+                    <table className="mt-3 min-w-max w-full">
                         <thead>
                             <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
                                 <th className="py-3 px-4">

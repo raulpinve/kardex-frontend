@@ -53,7 +53,7 @@ const InventariosPagina = () => {
     return (
         <Layout>
             {/* Header */}
-            <div className="flex items-center justify-between gap-2">
+            <div className="md:flex md:items-center md:justify-between gap-2">
                 <TituloInventarios corte={corte} />
                 <div className="flex items-center gap-2">
                     <div className="flex gap-2">

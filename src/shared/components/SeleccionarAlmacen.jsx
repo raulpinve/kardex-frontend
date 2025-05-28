@@ -17,9 +17,9 @@ const SeleccionarAlmacen = () => {
     const [almacenes, setAlmacenes] = useState([]);
     const location = useLocation();
     const dispatch = useDispatch();
-
-    const rutasSinModal = ['/configuracion', '/otra-ruta-opcional'];
-    const enRutaExcluida = rutasSinModal.includes(location.pathname);
+    
+    const rutasSinModal = ['/configuracion', '/editar-perfil', '/perfil'];
+    const enRutaExcluida = rutasSinModal.some(ruta => location.pathname.startsWith(ruta));
     const navigate = useNavigate();
 
     useEffect(() => {

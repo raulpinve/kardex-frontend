@@ -21,11 +21,11 @@ const Modal = (props) => {
 
     let sizePixels =
         size === "sm"
-            ? "md:w-[350px]"
+            ? "sm:w-[350px]"
             : size === "md"
-            ? "md:w-[500px]"
+            ? "md:w-[700px]"
             : size === "lg"
-            ? "lg:w-[700px]"
+            ? "lg:w-[800px]"
             : size === "xl"
             ? "xl:w-[1000px]"
             : size === "2xl"
@@ -78,7 +78,7 @@ const Modal = (props) => {
 
     return (
         <div 
-            className={`fixed inset-0 h-full w-full bg-gray-400/50 dark:bg-gray-800/50 backdrop-blur-[26px] ${zIndex} flex items-${position} justify-center p-4 md:p-0`}
+            className={`fixed inset-0 h-full w-full bg-gray-400/50 dark:bg-gray-800/50 backdrop-blur-[26px] ${zIndex} flex items-${position} justify-center p-4 md:p-6`}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
         >

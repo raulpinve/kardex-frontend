@@ -19,7 +19,6 @@ const Almacenes = () => {
     const [almacenes, setAlmacenes] = useState([]);
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
-    const [refresh, setRefresh] = useState(0); 
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [consulta, setConsulta] = useState("");
@@ -43,7 +42,7 @@ const Almacenes = () => {
             }
         }
         fetchUsuarios();
-    }, [debouncedConsulta, token, refresh, paginaActual])
+    }, [debouncedConsulta, token, paginaActual])
 
     return (
         <>
@@ -74,21 +73,11 @@ const Almacenes = () => {
                                 }}
                             />
                         </div>
-                        {/* <Button
-                            type="button"
-                            colorButton="secondary"
-                            onClick={() => {
-                                setPaginaActual(1)
-                                setRefresh((prev) => prev + 1)
-                            }}
-                        >
-                            <LuRefreshCcw />
-                        </Button> */}
                     </div>
                 </div>
     
                 <table className="min-w-full mt-3">
-                    <thead className='border-gray-100 border-y dark:border-gray-800 dark:bg-gray-800 text-xs'>
+                    <thead className='border-gray-100 border-y text-xs'>
                         <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
                             <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">Nombre del almacén</p>

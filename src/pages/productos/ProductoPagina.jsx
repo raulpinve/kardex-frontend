@@ -56,16 +56,8 @@ const ProductoPagina = ({ tipo }) => {
                             </div>
                         </h1>
                     </>)}
-                     <p className="text-sm text-gray-700 dark:text-gray-300 my-4 hidden">
-                        {producto?.presentacionComercial && <span>  <b>Presentación:</b> {producto.presentacionComercial}</span>}
-                        {producto?.formaFarmaceutica && <span> • <b>Forma farmacéutica:</b> {producto.formaFarmaceutica}</span>}
-                        {producto?.concentracion && <span> • <b>Concentración:</b> {producto.concentracion}</span>}
-                        {producto?.unidadMedida && <span> • <b>Unidad:</b> {producto.unidadMedida}</span>}
-                        {producto?.serie && <span> • <b>Serie:</b> {producto.serie}</span>}
-                        {producto?.riesgo && <span> • <b>Riesgo:</b> {producto.riesgo}</span>}
-                    </p>
                     <div className="">
-                        <div className={`grid rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 mt-3 ${
+                        <div className={`grid rounded-2xl border border-gray-200 bg-white mt-3 dark:border-gray-800 dark:bg-white/[0.01] ${
                             producto?.tipo === 'dispositivo' ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-4'
                         }`}>
                             

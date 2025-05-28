@@ -35,7 +35,7 @@ const TarjetasInformacionStockProducto = ({corteId, productoId}) => {
     if(error) return
     return (
         <>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-4">
                 {/* Stock inicial */}
                 <CardStockInformation 
                     titulo={`Stock inicial`}

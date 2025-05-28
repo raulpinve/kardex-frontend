@@ -11,7 +11,6 @@ const ModalAbrirImagenPerfil = (props) => {
     const handleImageLoad = () => {
         setIsLoading(false); // Cuando la imagen se haya cargado, se desactiva el loader
     };
-
     return (
         <Modal
             isOpenModal={true}
@@ -22,8 +21,7 @@ const ModalAbrirImagenPerfil = (props) => {
             <div>
                 {isLoading && <Loader />} {/* Mostrar el loader mientras la imagen carga */}
                 <img 
-                    src={`${host}/uploads/avatar-usuarios/${usuario.id}/${usuario.avatar}`}
-                    alt="" 
+                    src={`${host}${usuario.avatar}`}
                     onLoad={handleImageLoad} 
                     onError={(e) => {
                         e.target.onerror = null;
@@ -31,7 +29,6 @@ const ModalAbrirImagenPerfil = (props) => {
                     }}
                     style={{ display: isLoading ? 'none' : 'block' }}  // Ocultar la imagen hasta que se haya cargado
                 />
-                
             </div>
         </Modal>
     );

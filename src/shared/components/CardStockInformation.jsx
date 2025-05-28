@@ -44,8 +44,8 @@ const CardStockInformation = ({titulo, loading, tipo = undefined, value}) => {
         icon = <LuPackageCheck />;
     }
 
-    return (<div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6 relative flex items-center">
-        <div className="hidden xl:flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:text-gray-200 text-xl">
+    return (<div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.01] md:p-6 relative flex items-center">
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:text-gray-200 text-xl">
             {icon}
         </div>
         <div className="flex items-end justify-between pl-4">

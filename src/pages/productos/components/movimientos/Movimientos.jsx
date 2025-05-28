@@ -118,7 +118,7 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                 <option value="salida">Salida</option>
                             </select>
                         </div>
-                        <div className="relative">
+                        <div className="relative hidden sm:block">
                             <LuCalendar className="absolute top-[14px] left-4 text-gray-600 dark:text-gray-500"/>
                             <Flatpickr
                                 options={{
@@ -146,9 +146,9 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
 
                 <div className="min-w-0 flex-grow mt-4">
                     <div className="overflow-x-auto w-full max-h-[320px] overflow-y-auto custom-scrollbar ">
-                        <table className="mt-3 min-w-full">
+                        <table className="mt-3 min-w-max w-full">
                             <thead className='sticky top-0'>
-                                <tr className="border-gray-100 border-y text-xs dark:border-gray-800 text-left bg-white dark:bg-gray-800">
+                                <tr className="border-gray-100 border-y text-xs dark:border-gray-800 text-left">
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
                                     </th>

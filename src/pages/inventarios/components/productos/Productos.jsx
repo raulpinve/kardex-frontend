@@ -63,7 +63,6 @@ const Productos = ({ tipo, corteId }) => {
     const [productos, setProductos] = useState([]);
     const token = useSelector(state => state.auth.token);
     const [consulta, setConsulta] = useState("");
-    const [refresh, setRefresh] = useState(0); 
     const {periodo} = useParams();
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
     const navigate = useNavigate();
@@ -89,7 +88,7 @@ const Productos = ({ tipo, corteId }) => {
         if(corteId){
             fetchProductos();
         }
-    }, [token, corteId, tipo, paginaActual, refresh, debouncedConsulta]);
+    }, [token, corteId, tipo, paginaActual, debouncedConsulta]);
 
     const redireccionarProductoCorte = (productoId) => {
         navigate(`/inventarios/${periodo}/${productoId}`)
@@ -113,21 +112,11 @@ const Productos = ({ tipo, corteId }) => {
                             }}
                         />
                     </div>
-                    <Button
-                        type="button"
-                        colorButton="secondary"
-                        onClick={() => {
-                            setPaginaActual(1)
-                            setRefresh((prev) => prev + 1)
-                        }}
-                    >
-                        <LuRefreshCcw />
-                    </Button>
                 </div>
             </div>
         
             <div className="overflow-x-auto mt-3">
-                <table className="min-w-full table-auto text-sm">
+                <table className="min-w-max w-full table-auto text-sm">
                     <thead className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>
                         <tr className="text-sm">
                             <th className="py-3 px-4">

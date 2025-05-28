@@ -68,7 +68,7 @@ const PerfilPagina = () => {
                                     )}
                                     {!loading && perfil && (
                                         <img 
-                                            src={`${host}/uploads/avatar-usuarios/${perfil.id}/${perfil.avatar}`}
+                                            src={`${host}${perfil.avatarThumbnail}`}
                                             onError={(e) => {
                                                 e.target.onerror = null;
                                                 e.target.src = imageDefault; 
@@ -87,7 +87,7 @@ const PerfilPagina = () => {
                                             <h4 className="text-lg font-semibold  text-gray-800 dark:text-white/90">
                                                 {perfil?.primerNombre} {perfil?.apellidos}
                                             </h4>
-                                            <div className="flex flex-col gap-1 xl:flex-row xl:gap-3">
+                                            <div className="flex flex-col items-center gap-1 xl:flex-row xl:gap-3">
                                                 <p className="text-sm text-gray-500 dark:text-gray-400">
                                                     {perfil?.username}
                                                 </p>

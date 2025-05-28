@@ -73,7 +73,7 @@ const LotePagina = () => {
                         <p>{lote?.numeroLote}</p>
                     </h2>
 
-                    <div className="grid rounded-2xl border border-gray-200 bg-white sm:grid-cols-2 xl:grid-cols-4 dark:border-gray-800 dark:bg-gray-900 mt-3">
+                    <div className="grid rounded-2xl border border-gray-200 bg-white sm:grid-cols-2 xl:grid-cols-4 dark:border-gray-800 dark:bg-white/[0.01] mt-3">
                         {/* Registro sanitario */}
                         {lote?.registroSanitario && (
                             <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
@@ -111,7 +111,7 @@ const LotePagina = () => {
                             </div>
                         )}
 
-                        {(lote?.stockDisponible !== undefined && lote?.stockDisponible !== null) && (
+                        {typeof lote?.stockDisponible === "number" && (
                             <div className="px-6 py-5">
                                 <span className="text-sm text-gray-500 dark:text-gray-400">Stock disponible</span>
                                 <div className="mt-2 flex items-end gap-3">

@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import { LuCamera, LuCloudUpload, LuRefreshCcw, LuTrash2 } from "react-icons/lu";
 
 const SubirImagenPerfil = ({usuario, setModalActivo}) => {
-    const [avatarPreview, setAvatarPreview] = useState(usuario.avatarThumbnail);
     const [subiendoAvatar, setSubiendoAvatar] = useState(false);
     const fileInputRef = useRef(null);
     const menuRef = useRef(null); 
@@ -17,10 +16,6 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
     const token = useSelector(state => state.auth.token);
     const [mostrarMenu, setMostrarMenu] = useState(false);
     const toggleMenu = () => setMostrarMenu(!mostrarMenu);
-
-    const handleImageClick = () => {
-        fileInputRef.current.click();
-    };
 
     // Cambiar avatar
     const handleOpcionCambiar = () => {
@@ -35,8 +30,6 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
             setMostrarMenu(true);
 
             await eliminarAvatar(token);
-            setAvatarPreview(imageDefault);
-
             toast.success("Avatar eliminado exitosamente.");
             setTieneImagen(false);
         } catch (error) {
@@ -47,47 +40,26 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
         }
     };
 
-    useEffect(() => {
-        const verificarImagen = async () => {
-            const url = `${host}/uploads/avatar-usuarios/${usuario.id}/${avatarPreview}`;
-            try {
-                const response = await fetch(url, { method: 'HEAD' });
-                setTieneImagen(response.ok); // true si status 200
-            } catch{
-                setTieneImagen(false);
-            }
-        };
-    
-        if (avatarPreview) {
-            verificarImagen();
-        }
-    }, [avatarPreview, usuario.id]);
-    
-        
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
         setSubiendoAvatar(true);
 
         try {
             const respuesta = await subirAvatar(token, file);
-            if (respuesta?.archivo) {
-                setAvatarPreview(respuesta.archivo.miniatura);
-
-                // Actualizar en el store (lo que hace que el header también cambie)
+            if (respuesta?.data) {
                 dispatch(actualizarAvatar({
-                    avatarThumbnail: respuesta.archivo.miniatura, 
-                    avatar: respuesta.archivo.original
+                    avatarThumbnail: respuesta.data.avatarThumbnail, 
+                    avatar: respuesta.data.avatar
                 }));
             }
+
         } catch (error){
             toast.error(error?.response?.data?.message || "No se pudo cambiar la imagen de perfil. Por favor, inténtalo de nuevo.");
         } finally {
             setSubiendoAvatar(false);
         }
     };
-
     // Administrar dropdown apertura y cierre
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -105,11 +77,13 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
         };
     }, [mostrarMenu]);
 
+    const avatarUrl = `${host}${usuario.avatarThumbnail}&v=${Date.now()}`;
+
     return (
         <div className="relative group w-20 h-20">
             {/* Imagen de perfil */}
             <img 
-                src={`${host}/uploads/avatar-usuarios/${usuario.id}/${avatarPreview}`}
+                src={avatarUrl}
                 onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = imageDefault; 
@@ -145,15 +119,11 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
                         onClick={handleOpcionCambiar}
                         className="flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
                     >
-                        {tieneImagen ? (
-                            <>
-                                <LuRefreshCcw className="mr-2" /> Cambiar avatar
-                            </>
-                        ) : (
-                            <>
-                                <LuCloudUpload className="mr-2" /> Subir avatar
-                            </>
-                        )}
+                        {tieneImagen ? (<>
+                            <LuRefreshCcw className="mr-2" /> Cambiar avatar
+                        </>) : (<>
+                            <LuCloudUpload className="mr-2" /> Subir avatar
+                        </>)}
                     </button>
                     {tieneImagen && (
                         <button
@@ -173,8 +143,7 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
                 accept="image/*"
                 className="hidden"
             />
-        </div>
-        );
+        </div>);
 };
 
 export default SubirImagenPerfil;

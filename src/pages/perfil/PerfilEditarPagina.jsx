@@ -23,17 +23,17 @@ const PerfilPagina = () => {
                         <div className="p-5 mb-6 mt-4 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between items-center">
                             <div className="flex gap-3">
                                 <SubirImagenPerfil usuario={usuario} setModalActivo={setModalActivo} />
-                                <div className="order-3 mt-3 xl:order-2">
-                                    <h4 className="text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
+                               <div className="order-3 mt-3 xl:order-2">
+                                    <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90">
                                         {usuario?.primerNombre} {usuario?.apellidos}
                                     </h4>
-                                    <div className="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                                            {usuario?.username}
+                                    <div className="flex flex-col items-start gap-1 xl:flex-row xl:gap-3">
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 text-justify">
+                                        {usuario?.username}
                                         </p>
                                         <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
                                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                                            {usuario?.email}
+                                        {usuario?.email}
                                         </p>
                                     </div>
                                 </div>
