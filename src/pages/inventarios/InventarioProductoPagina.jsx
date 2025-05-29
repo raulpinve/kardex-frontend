@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../../shared/components/Layout';
 import TarjetasInformacionStockProducto from './components/productos/TarjetasInformacionStockProducto';
 import InventarioLotes from './components/productos/InventarioLotes';
 import { useParams } from 'react-router-dom';
@@ -67,7 +66,7 @@ const InventarioProductoPagina = () => {
     }, [productoId, token])
 
     return (
-        <Layout>
+        <>
             <TituloInventarios corte={corte} />
             <div>
                 {loading && (<div>
@@ -111,7 +110,7 @@ const InventarioProductoPagina = () => {
                     <InventarioLotes corteId={corte?.id} />
                 </div>
             </>)}
-        </Layout>
+        </>
     );
 };
 

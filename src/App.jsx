@@ -18,10 +18,11 @@ import PerfilPagina from "./pages/perfil/PerfilPagina";
 import VerificarEmailPage from "./pages/auth/VerificarEmailPage";
 import InventariosPagina from "./pages/inventarios/InventariosPagina";
 import ProductosPagina from "./pages/productos/ProductosPagina";
-import productoPagina from "./pages/productos/productoPagina";
+import ProductoPagina from "./pages/productos/ProductoPagina";
 import InventarioProductoPagina from "./pages/inventarios/InventarioProductoPagina";
 import InventarioLotesPagina from "./pages/inventarios/InventarioLotesPagina";
 import LotePagina from "./pages/productos/LotePagina";
+import Layout from "./shared/components/Layout";
 
 function App() {
   const dispatch = useDispatch();
@@ -71,25 +72,28 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/inventarios" replace />} />
-        <Route path="/inventarios/:periodo?" element={<PrivateRoute Component={InventariosPagina} />} />
-        <Route path="/inventarios/:periodo/:productoId" element={<PrivateRoute Component={InventarioProductoPagina} />} />
-        <Route path="/inventarios/:periodo/:loteId/lote" element={<PrivateRoute Component={InventarioLotesPagina} />} />
+		{/* Rutas protegidas */}
+        <Route path="/" element={<PrivateRoute Component={Layout}/>}>
+          	<Route path="/inventarios/:periodo?" element={<InventariosPagina />}/>
+          	<Route path="/inventarios/:periodo/:productoId" element={<InventarioProductoPagina/>}/>
+        	<Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
+			<Route path="/configuracion" element={<ConfiguracionPage/>}/>
+			<Route path="/editar-perfil" element={<PerfilEditarPagina/>}/>
+			<Route path="/perfil/:perfilId" element={<PerfilPagina/>}/>
+        	<Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
+        	<Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
+        	<Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>
+			<Route path="/dispositivos/:productoId" element={<ProductoPagina tipo="dispositivos"/>} />
+			<Route path="/medicamentos/lotes/:loteId" element={<LotePagina/>}/>
+        	<Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
+        </Route>
+		<Route path="/:token/verificar-email" element={<VerificarEmailPage />} />
+		<Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
         <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />
-        <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
-        <Route path="/:token/verificar-email" element={<VerificarEmailPage />} />
-        <Route path="/configuracion" element={<PrivateRoute Component={ConfiguracionPage} />} />
-        <Route path="/editar-perfil" element={<PrivateRoute Component={PerfilEditarPagina} />} />
-        <Route path="/perfil/:perfilId" element={<PrivateRoute Component={PerfilPagina} />} />
-        <Route path="/medicamentos" element={<PrivateRoute Component={ProductosPagina} tipo = "medicamentos"/>} />
-        <Route path="/dispositivos" element={<PrivateRoute Component={ProductosPagina} tipo = "dispositivos"/>} />
-        <Route path="/medicamentos/:productoId" element={<PrivateRoute Component={productoPagina} tipo="medicamentos" />} />
-        <Route path="/dispositivos/:productoId" element={<PrivateRoute Component={productoPagina} tipo="dispositivos" />} />
-        <Route path="/medicamentos/lotes/:loteId" element={<PrivateRoute Component={LotePagina}/>} />
-        <Route path="/dispositivos/lotes/:loteId" element={<PrivateRoute Component={LotePagina}/>} />
-        
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
+
       <Toaster richColors theme={isDark ? "dark" : "light"}/>
     </BrowserRouter>
   )

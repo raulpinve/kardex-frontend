@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../../shared/components/Layout';
 import Title from '../../shared/components/Title';
 import Usuarios from './components/usuarios/Usuarios';
 import Almacenes from './components/almacenes/Almacenes';
@@ -33,35 +32,33 @@ const ConfiguracionPage = () => {
 
     if(loading) return null;
 
-    return (
-        <Layout>
-            <Title>Configuración</Title>  
-            <div className="flex gap-2 my-6">
-                {tabs.map((tab) => (
-                    <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`px-4 py-2 text-sm font-medium rounded-lg transition cursor-pointer
-                            ${
-                            activeTab === tab
-                                ? "bg-blue-600 dark:bg-gray-700 text-white shadow"
-                                : "bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600"
-                            }
-                            dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-gray-800
-                        `}
-                    >
-                        {tab}
-                    </button>
-                ))}
-            </div>
-            {/* Contenido */}
-            <div>
-                {activeTab === "Almacenes" && <Almacenes />}
-                {activeTab === "Categorías" && <Categorias />}
-                {activeTab === "Usuarios" && <Usuarios />}
-            </div>
-        </Layout>
-    );
+    return (<>
+        <Title>Configuración</Title>  
+        <div className="flex gap-2 my-6">
+            {tabs.map((tab) => (
+                <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition cursor-pointer
+                        ${
+                        activeTab === tab
+                            ? "bg-blue-600 dark:bg-gray-700 text-white shadow"
+                            : "bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600"
+                        }
+                        dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-gray-800
+                    `}
+                >
+                    {tab}
+                </button>
+            ))}
+        </div>
+        {/* Contenido */}
+        <div>
+            {activeTab === "Almacenes" && <Almacenes />}
+            {activeTab === "Categorías" && <Categorias />}
+            {activeTab === "Usuarios" && <Usuarios />}
+        </div>
+    </>);
 };
 
 export default ConfiguracionPage;

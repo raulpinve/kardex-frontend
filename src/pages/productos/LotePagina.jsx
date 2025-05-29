@@ -48,89 +48,87 @@ const LotePagina = () => {
         }
     }, [lote])
 
-    return (
-        <Layout>
-            {/* Encabezado */}
-            <div className=''>
-                {loading && (<div>
-                    <SkeletonElement className={`max-w-[250px]`} />
-                    <SkeletonElement className={`max-w-[500px] mt-3`} />
-                </div>)}
+    return (<>
+        {/* Encabezado */}
+        <div className=''>
+            {loading && (<div>
+                <SkeletonElement className={`max-w-[250px]`} />
+                <SkeletonElement className={`max-w-[500px] mt-3`} />
+            </div>)}
 
-                {!loading && producto && lote && (<div>
-                    {/* Titulo */}
-                    <h2 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center my-6">
-                        <SubirImagenProducto 
-                            producto={producto}
-                            setProducto={setProducto}
-                            tipo = {producto?.tipo + "s"}
-                        />
-                        <Link to={`/${producto?.tipo === "medicamento" ? "medicamentos": "dispositivos"}/${producto?.id}`}>
-                            <span> {producto?.nombre?.charAt(0).toUpperCase() + producto?.nombre?.slice(1)}</span>
-                            <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{producto.tipo}</p>
-                        </Link>
-                        <LuChevronRight />
-                        <p>{lote?.numeroLote}</p>
-                    </h2>
+            {!loading && producto && lote && (<div>
+                {/* Titulo */}
+                <h2 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center my-6">
+                    <SubirImagenProducto 
+                        producto={producto}
+                        setProducto={setProducto}
+                        tipo = {producto?.tipo + "s"}
+                    />
+                    <Link to={`/${producto?.tipo === "medicamento" ? "medicamentos": "dispositivos"}/${producto?.id}`}>
+                        <span> {producto?.nombre?.charAt(0).toUpperCase() + producto?.nombre?.slice(1)}</span>
+                        <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{producto.tipo}</p>
+                    </Link>
+                    <LuChevronRight />
+                    <p>{lote?.numeroLote}</p>
+                </h2>
 
-                    <div className="grid rounded-2xl border border-gray-200 bg-white sm:grid-cols-2 xl:grid-cols-4 dark:border-gray-800 dark:bg-white/[0.01] mt-3">
-                        {/* Registro sanitario */}
-                        {lote?.registroSanitario && (
-                            <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
-                                <span className="text-sm text-gray-500 dark:text-gray-400">Registro sanitario</span>
-                                <div className="mt-2 flex items-end gap-3">
-                                    <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                       {lote?.registroSanitario}
-                                    </h4>
-                                </div>
-                            </div>
-                        )}
-                        {/* Fecha de vencimiento */}
-                        {lote?.fechaVencimiento && (
-                            <div className="border-b border-gray-200 px-6 py-5 xl:border-r xl:border-b-0 dark:border-gray-800">
-                                <span className="text-sm text-gray-500 dark:text-gray-400">Fecha de vencimiento</span>
-                                <div className="mt-2 flex items-end gap-3">
-                                    <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                        {formatDate(lote?.fechaVencimiento)}
-                                    </h4>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Estado */}
-                        {estado && (
-                            <div className="border-b border-gray-200 px-6 py-5 sm:border-r sm:border-b-0 dark:border-gray-800">
-                                <div>
-                                    <span className="text-sm text-gray-500 dark:text-gray-400">Estado</span>
-                                    <div className="mt-2 flex items-end gap-3">
-                                        <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            <p className={`inline-block rounded-full px-2 py-0.5 text-sm font-medium ${color} text-right`}>{estado}</p>
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {typeof lote?.stockDisponible === "number" && (
-                            <div className="px-6 py-5">
-                                <span className="text-sm text-gray-500 dark:text-gray-400">Stock disponible</span>
-                                <div className="mt-2 flex items-end gap-3">
+                <div className="grid rounded-2xl border border-gray-200 bg-white sm:grid-cols-2 xl:grid-cols-4 dark:border-gray-800 dark:bg-white/[0.01] mt-3">
+                    {/* Registro sanitario */}
+                    {lote?.registroSanitario && (
+                        <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
+                            <span className="text-sm text-gray-500 dark:text-gray-400">Registro sanitario</span>
+                            <div className="mt-2 flex items-end gap-3">
                                 <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                    {lote.stockDisponible}
+                                    {lote?.registroSanitario}
                                 </h4>
+                            </div>
+                        </div>
+                    )}
+                    {/* Fecha de vencimiento */}
+                    {lote?.fechaVencimiento && (
+                        <div className="border-b border-gray-200 px-6 py-5 xl:border-r xl:border-b-0 dark:border-gray-800">
+                            <span className="text-sm text-gray-500 dark:text-gray-400">Fecha de vencimiento</span>
+                            <div className="mt-2 flex items-end gap-3">
+                                <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                    {formatDate(lote?.fechaVencimiento)}
+                                </h4>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Estado */}
+                    {estado && (
+                        <div className="border-b border-gray-200 px-6 py-5 sm:border-r sm:border-b-0 dark:border-gray-800">
+                            <div>
+                                <span className="text-sm text-gray-500 dark:text-gray-400">Estado</span>
+                                <div className="mt-2 flex items-end gap-3">
+                                    <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                        <p className={`inline-block rounded-full px-2 py-0.5 text-sm font-medium ${color} text-right`}>{estado}</p>
+                                    </h4>
                                 </div>
                             </div>
-                        )}
-                    </div>
-                </div>)}
-            </div>
-       
-            <div className="mt-4 grid gap-4">
-                <Movimientos loteId={loteId} />
-                <GraficaComportamientoStock tipo="lote"/>   
-            </div>
-        </Layout>
-    );
+                        </div>
+                    )}
+
+                    {typeof lote?.stockDisponible === "number" && (
+                        <div className="px-6 py-5">
+                            <span className="text-sm text-gray-500 dark:text-gray-400">Stock disponible</span>
+                            <div className="mt-2 flex items-end gap-3">
+                            <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                {lote.stockDisponible}
+                            </h4>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>)}
+        </div>
+    
+        <div className="mt-4 grid gap-4">
+            <Movimientos loteId={loteId} />
+            <GraficaComportamientoStock tipo="lote"/>   
+        </div>
+    </>);
 };
 
 export default LotePagina;

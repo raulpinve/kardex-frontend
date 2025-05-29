@@ -1,5 +1,4 @@
 import TarjetasInformacionStock from './components/lotes/TarjetasInformacionStock';
-import Layout from '../../shared/components/Layout';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -45,24 +44,22 @@ const InventarioLotesPagina = () => {
 
     }, [periodo, token, almacenId])
 
-    return (
-        <Layout>
-            <TituloInventarios loteId={loteId} corte={corte} />
-            {loading && (<Spinner />)}
-            {!loading && mensajeError && (
-                <p className="rounded mt-4 text-center text-gray-600 dark:text-gray-200">
-                    {mensajeError}
-               </p>
-            )}
-            {!mensajeError && !loading && corte && (<div className='mt-8'>
-                <TarjetasInformacionStock corteId={corte?.id} loteId={loteId} refreshStock={refreshStock}/> 
-                <div className="mt-4 grid gap-4">
-                    <GraficaComportamientoStock tipo={`lote`} corteId={corte?.id}/>
-                    <Movimientos corteId={corte?.id} loteId={loteId} setRefreshStock={setRefreshStock}/>
-                </div>
-            </div>)}
-        </Layout>
-    );
+    return (<>
+        <TituloInventarios loteId={loteId} corte={corte} />
+        {loading && (<Spinner />)}
+        {!loading && mensajeError && (
+            <p className="rounded mt-4 text-center text-gray-600 dark:text-gray-200">
+                {mensajeError}
+            </p>
+        )}
+        {!mensajeError && !loading && corte && (<div className='mt-8'>
+            <TarjetasInformacionStock corteId={corte?.id} loteId={loteId} refreshStock={refreshStock}/> 
+            <div className="mt-4 grid gap-4">
+                <GraficaComportamientoStock tipo={`lote`} corteId={corte?.id}/>
+                <Movimientos corteId={corte?.id} loteId={loteId} setRefreshStock={setRefreshStock}/>
+            </div>
+        </div>)}
+    </>);
 };
 
 export default InventarioLotesPagina;

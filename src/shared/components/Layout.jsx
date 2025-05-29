@@ -1,10 +1,9 @@
 import React from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import { Outlet } from 'react-router-dom';
 
-const Layout = (props) => {
-    const {children} = props;
-
+const Layout = () => {
     const [sidebarOpen, setSidebarOpen] = React.useState(() => {
         if (typeof window !== "undefined") {
             const savedState = localStorage.getItem("sidebarOpen");
@@ -38,7 +37,7 @@ const Layout = (props) => {
             <div className="relative flex flex-col flex-1 overflow-x-hidden min-w-0">
                 <Header setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
                 <div className='px-3 lg:px-8 py-4  w-full min-w-0 2xl:max-w-[1536px] mx-auto'> 
-                    {children}
+                    <Outlet /> 
                 </div>
             </div>
         </div>

@@ -57,118 +57,116 @@ const PerfilPagina = () => {
                 <ErrorPage {...error} />
             )}
             {!error && (<>
-                <Layout>
-                    <div className="mt-4">
-                        <Card>
-                            <CardTitulo>Perfil</CardTitulo>
-                            <div className="p-5 mb-6 mt-4 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between items-center">
-                                <div className="flex gap-4">
-                                    {loading && (
-                                        <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded-full w-20 h-20"></div>
-                                    )}
-                                    {!loading && perfil && (
-                                        <img 
-                                            src={`${host}${perfil.avatarThumbnail}`}
-                                            onError={(e) => {
-                                                e.target.onerror = null;
-                                                e.target.src = imageDefault; 
-                                            }}
-                                            onClick={() => {setModalActivo("imagen-perfil")}}
-                                            alt="Perfil" 
-                                            className="w-20 h-20 object-cover rounded-full select-none cursor-pointer"  
-                                        />
-                                    )}
-                                    <div className="order-3 xl:mt-3 xl:order-2 min-w-[190px]">
-                                        {loading && (<>
-                                            <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded  h-[25px]"></div>
-                                            <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded  h-[25px] mt-2"></div>
-                                        </>)}
-                                        {!loading && perfil && (<>
-                                            <h4 className="text-lg font-semibold  text-gray-800 dark:text-white/90">
-                                                {perfil?.primerNombre} {perfil?.apellidos}
-                                            </h4>
-                                            <div className="flex flex-col items-center gap-1 xl:flex-row xl:gap-3">
-                                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                                    {perfil?.username}
-                                                </p>
-                                                <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
-                                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                                    {perfil?.email}
-                                                </p>
-                                            </div>
-                                        </>)}
-                                    </div>
+                <div className="mt-4">
+                    <Card>
+                        <CardTitulo>Perfil</CardTitulo>
+                        <div className="p-5 mb-6 mt-4 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between items-center">
+                            <div className="flex gap-4">
+                                {loading && (
+                                    <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded-full w-20 h-20"></div>
+                                )}
+                                {!loading && perfil && (
+                                    <img 
+                                        src={`${host}${perfil.avatarThumbnail}`}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = imageDefault; 
+                                        }}
+                                        onClick={() => {setModalActivo("imagen-perfil")}}
+                                        alt="Perfil" 
+                                        className="w-20 h-20 object-cover rounded-full select-none cursor-pointer"  
+                                    />
+                                )}
+                                <div className="order-3 xl:mt-3 xl:order-2 min-w-[190px]">
+                                    {loading && (<>
+                                        <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded  h-[25px]"></div>
+                                        <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded  h-[25px] mt-2"></div>
+                                    </>)}
+                                    {!loading && perfil && (<>
+                                        <h4 className="text-lg font-semibold  text-gray-800 dark:text-white/90">
+                                            {perfil?.primerNombre} {perfil?.apellidos}
+                                        </h4>
+                                        <div className="flex flex-col items-center gap-1 xl:flex-row xl:gap-3">
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                {perfil?.username}
+                                            </p>
+                                            <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                {perfil?.email}
+                                            </p>
+                                        </div>
+                                    </>)}
                                 </div>
                             </div>
-                            <div className="">
-                                <div className="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between">
-                                    <div>
-                                        <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
-                                            Información personal
-                                        </h4>
-                                        <div className="grid md:grid-cols-2 gap-4">
-                                            {/* Primer nombre */}
-                                            <div>
-                                                <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                                    Primer nombre
+                        </div>
+                        <div className="">
+                            <div className="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between">
+                                <div>
+                                    <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-6">
+                                        Información personal
+                                    </h4>
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        {/* Primer nombre */}
+                                        <div>
+                                            <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
+                                                Primer nombre
+                                            </p>
+                                            {loading ? (
+                                                <SkeletonElement className="min-w-[130px] md:min-w-[200px]" />
+                                            ): (
+                                                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                                                    {perfil?.primerNombre}
                                                 </p>
-                                                {loading ? (
-                                                    <SkeletonElement className="min-w-[130px] md:min-w-[200px]" />
-                                                ): (
-                                                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                                                        {perfil?.primerNombre}
-                                                    </p>
-                                                )}
-                                            </div>
+                                            )}
+                                        </div>
 
-                                            {/* Apellidos */}
-                                            <div>
-                                                <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                                    Apellidos
+                                        {/* Apellidos */}
+                                        <div>
+                                            <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
+                                                Apellidos
+                                            </p>
+                                            {loading ? (
+                                                <SkeletonElement />
+                                            ): (
+                                                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                                                    {perfil?.apellidos}
                                                 </p>
-                                                {loading ? (
-                                                    <SkeletonElement />
-                                                ): (
-                                                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                                                        {perfil?.apellidos}
-                                                    </p>
-                                                )}
-                                            </div>
+                                            )}
+                                        </div>
 
-                                            {/* Username */}
-                                            <div>
-                                                <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                                    Username
+                                        {/* Username */}
+                                        <div>
+                                            <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
+                                                Username
+                                            </p>
+                                            {loading ? (
+                                                <SkeletonElement />
+                                            ): (
+                                                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                                                    {perfil?.username}
                                                 </p>
-                                                {loading ? (
-                                                    <SkeletonElement />
-                                                ): (
-                                                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                                                        {perfil?.username}
-                                                    </p>
-                                                )}
-                                            </div>
+                                            )}
+                                        </div>
 
-                                            {/* E-mail */}
-                                            <div>
-                                                <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
-                                                    E-mail
+                                        {/* E-mail */}
+                                        <div>
+                                            <p className="text-xs leading-normal text-gray-500 dark:text-gray-400">
+                                                E-mail
+                                            </p>
+                                            {loading ? (
+                                                <SkeletonElement />
+                                            ): (
+                                                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                                                    {perfil?.email}
                                                 </p>
-                                                {loading ? (
-                                                    <SkeletonElement />
-                                                ): (
-                                                    <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                                                        {perfil?.email}
-                                                    </p>
-                                                )}
-                                            </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </Card>
-                    </div>  
-                </Layout>
+                        </div>
+                    </Card>
+                </div>  
                 {modalActivo === "imagen-perfil" && (
                     <ModalAbrirImagenPerfil 
                         cerrarModal={() => setModalActivo(null)}

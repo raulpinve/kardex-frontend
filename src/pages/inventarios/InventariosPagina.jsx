@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import Productos from "./components/productos/Productos";
 import Spinner from "../../shared/components/Spinner";
 import Button from "../../shared/components/Button";
-import Layout from "../../shared/components/Layout";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DropdownEditarCorte from "./components/cortes/DropdownEditarCorte";
@@ -51,7 +50,7 @@ const InventariosPagina = () => {
     }, [periodo,  almacenId, navigate, token]);
 
     return (
-        <Layout>
+        <>
             {/* Header */}
             <div className="md:flex md:items-center md:justify-between gap-2">
                 <TituloInventarios corte={corte} />
@@ -88,8 +87,7 @@ const InventariosPagina = () => {
                     cerrarModal={() => setModalActivo(null)} 
                 />
             )}
-            
-        </Layout>
+        </>
     );
 };
 
