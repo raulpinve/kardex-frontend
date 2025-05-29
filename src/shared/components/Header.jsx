@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { LuMoon, LuSun } from 'react-icons/lu';
 import { RiMenu2Fill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../store/sidebarSlice';
 import DropdownProfile from './DropdownProfile';
-import { useDarkMode } from "../hooks/useDarkMode";  // Importamos el hook
+import { useDarkMode } from "../hooks/useDarkMode"; 
 import { deleteAlmacen } from '../../store/almacenSlice';
 import SearchDropdown from './SearchDropdown';
 import NotificationDropdown from './NotificationDropdown';

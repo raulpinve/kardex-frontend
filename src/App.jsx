@@ -86,6 +86,7 @@ function App() {
         <Route path="/dispositivos/:productoId" element={<PrivateRoute Component={productoPagina} tipo="dispositivos" />} />
         <Route path="/medicamentos/lotes/:loteId" element={<PrivateRoute Component={LotePagina}/>} />
         <Route path="/dispositivos/lotes/:loteId" element={<PrivateRoute Component={LotePagina}/>} />
+        
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>

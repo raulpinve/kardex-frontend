@@ -13,6 +13,21 @@ const obtenerNotificaciones = (token, almacenId, pagina) => {
         })
 }
 
+const obtenerNotificacionesNoVistas = (token, almacenId, pagina) => {
+    const request = apiClient(token).get(`/notificaciones/${almacenId}/notificaciones_no_vistas`, {
+        params: {
+            ...(pagina && { pagina })
+        }
+    });
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
+
 export {
-    obtenerNotificaciones
+    obtenerNotificaciones,
+    obtenerNotificacionesNoVistas
 }

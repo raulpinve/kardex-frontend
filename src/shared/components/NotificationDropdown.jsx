@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { LuBell } from "react-icons/lu";
 import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
-import { obtenerNotificaciones } from "../services/notificacionesServices";
+import { obtenerNotificaciones, obtenerNotificacionesNoVistas } from "../services/notificacionesServices";
 import imageDefault from '../../assets/image-default.png';
 import { host } from "@/utils/config";
 import { Link } from "react-router-dom";
@@ -13,6 +13,7 @@ const NotificationDrawer = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
     const almacen = useSelector(state => state.almacen?.almacen);
     const token = useSelector(state => state.auth.token);
+    const [notificacionesNoVistas, setNotificacionesNoVistas] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [notificaciones, setNotificaciones] = useState([]);
@@ -68,6 +69,19 @@ const NotificationDrawer = () => {
     };
     const hayMas = paginaActual < totalPaginas;
 
+    // Obtener cantidad de notificaciones sin leer
+    useEffect(() => {
+        const fetchNotificaciones = async () => {
+            try {
+                const res = await obtenerNotificacionesNoVistas(token, almacenId, paginaActual);
+                setNotificacionesNoVistas(res?.data?.notificacionesNoVistas || 0)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchNotificaciones();
+    }, [])
+
     return (
         <>
             {/* Botón campana */}
@@ -76,8 +90,12 @@ const NotificationDrawer = () => {
                 className="relative cursor-pointer w-10 h-10 rounded-full border border-gray-300 dark:border-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
                 <LuBell />
-                <span className="absolute top-0 right-0 w-2 h-2 bg-orange-400 rounded-full animate-ping" />
-                <span className="absolute top-0 right-0 w-2 h-2 bg-orange-400 rounded-full" />
+                {notificacionesNoVistas > 0 && (
+                    <>
+                        <span className="absolute top-0.5 -right-0.5 w-2 h-2 bg-orange-400 rounded-full animate-ping" />
+                        <span className="absolute top-0.5 -right-0.5 w-2 h-2 bg-orange-400 rounded-full" />
+                    </>
+                )}
             </button>
 
             {/* Drawer */}
@@ -105,7 +123,7 @@ const NotificationDrawer = () => {
                                 onClick={closeDrawer}
                                 className=" text-gray-500 dark:text-gray-400 hover:underline cursor-pointer text-2xl"
                             >
-                                 ✕
+                                ✕
                             </button>
                         </div>
 
