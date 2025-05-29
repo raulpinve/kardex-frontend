@@ -111,11 +111,11 @@ const SeleccionarAlmacen = () => {
                         ) : (
                             <div className=''>
                                 <p className='text-sm'>Por favor selecciona un almacén para continuar: </p>
-                                <ul className="list-disc pl-5 space-y-2 dark:text-gray-300 mt-3">
+                                <ul className="space-y-2 dark:text-gray-300 mt-3">
                                     {almacenes.map(almacen => (
                                         <li 
                                             key={almacen.id} 
-                                            className="cursor-pointer hover:font-medium select-none"
+                                            className="cursor-pointer hover:font-medium select-none font-semibold"
                                             onClick={() => {
                                                 localStorage.setItem('almacenSeleccionado', JSON.stringify(almacen));
                                                 dispatch(setAlmacen(almacen));

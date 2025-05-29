@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { LuBell } from "react-icons/lu";
 import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
-import { obtenerNotificaciones, obtenerNotificacionesNoVistas } from "../services/notificacionesServices";
+import { marcarNotificacionesComoLeidas, obtenerNotificaciones, obtenerNotificacionesNoVistas } from "../services/notificacionesServices";
 import imageDefault from '../../assets/image-default.png';
 import { host } from "@/utils/config";
 import { Link } from "react-router-dom";
@@ -81,6 +81,49 @@ const NotificationDrawer = () => {
         }
         fetchNotificaciones();
     }, [])
+
+    useEffect(() => {
+        if (isOpen) {
+            setNotificaciones([]); 
+            setPaginaActual(1);
+
+            // ✅ Marcar notificaciones como leídas al abrir
+            const marcarLeidas = async () => {
+                try {
+                    await marcarNotificacionesComoLeidas(token, almacenId);
+                    setNotificacionesNoVistas(0); // Refrescar el contador en la UI
+                } catch (err) {
+                    console.error("Error al marcar notificaciones como leídas:", err);
+                }
+            };
+
+            marcarLeidas();
+
+            const timeout = setTimeout(() => setIsVisible(true), 10);
+            return () => clearTimeout(timeout);
+        } else {
+            setIsVisible(false);
+        }
+    }, [isOpen]);
+
+    // Obtener cantidad de notificaciones sin leer periódicamente
+    useEffect(() => {
+        const fetchNotificacionesNoVistas = async () => {
+            try {
+            const res = await obtenerNotificacionesNoVistas(token, almacenId);
+            setNotificacionesNoVistas(res?.data?.notificacionesNoVistas || 0);
+            } catch (error) {
+            console.error(error);
+            }
+        };
+
+        // Llamar inmediatamente y después cada 30 segundos
+        fetchNotificacionesNoVistas();
+        const intervalId = setInterval(fetchNotificacionesNoVistas, 30000); // 30 segundos
+
+        return () => clearInterval(intervalId); // Limpieza al desmontar
+    }, [token, almacenId]);
+
 
     return (
         <>

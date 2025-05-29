@@ -349,10 +349,14 @@ const ModalCrearProducto = (props) => {
                         </div>
                     </div>
                 </div>
-
-                {messageError || errors.almacenId && 
+                {messageError && (
                     <MessageError>
                         {messageError || errors.almacenId.message}
+                    </MessageError>
+                )}
+                {errors.almacenId && 
+                    <MessageError>
+                        {errors.almacenId.message}
                     </MessageError>
                 }
                 <div className="mt-4 flex justify-end gap-2">

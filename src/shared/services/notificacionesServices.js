@@ -25,9 +25,17 @@ const obtenerNotificacionesNoVistas = (token, almacenId, pagina) => {
             throw err
         })
 }
-
+const marcarNotificacionesComoLeidas = (token, almacenId) => {
+    const request = apiClient(token).post(`/notificaciones/${almacenId}/vistas`);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
 
 export {
     obtenerNotificaciones,
-    obtenerNotificacionesNoVistas
+    obtenerNotificacionesNoVistas,
+    marcarNotificacionesComoLeidas
 }

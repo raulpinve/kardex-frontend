@@ -8,12 +8,14 @@ import { useDarkMode } from "../hooks/useDarkMode";
 import { deleteAlmacen } from '../../store/almacenSlice';
 import SearchDropdown from './SearchDropdown';
 import NotificationDropdown from './NotificationDropdown';
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
     const dispatch = useDispatch();
     const { darkMode, toggleDarkMode } = useDarkMode();
+    const location = useLocation();
     const almacen = useSelector(state => state.almacen.almacen);
-    console.log("here")
+
     return (
         <header className="sticky top-0 w-full border-b border-gray-200 z-50 bg-white px-3 lg:px-0 dark:bg-gray-900 bg- dark:text-gray-200 dark:border-gray-800 transition-colors">
         <div className="flex grow  items-center justify-between lg:px-6 py-3">
