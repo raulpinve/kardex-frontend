@@ -8,11 +8,13 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LuChevronDown } from "react-icons/lu";
+import { obtenerTodasCategorias } from "../../services/categoriaServices";
 
 const ModalCrearProducto = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue, reset} = useForm({  mode: "onChange" })
     const { cerrarModal, setProductos, tipo, almacenId} = props;
     const [messageError, setMessageError] = useState(false);
+    const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
 
@@ -25,7 +27,7 @@ const ModalCrearProducto = (props) => {
                 almacenId
             }, tipo)
             const data = result?.data;
-            setProductos(prevProductos => [data, ...prevProductos]);;
+            setProductos(prevProductos => [data, ...prevProductos]);
             cerrarModal();
             reset();
             toast.success(`${tipo === "medicamentos" ? "Medicamento": "Dispositivo"} creado exitosamente.`);
@@ -35,6 +37,20 @@ const ModalCrearProducto = (props) => {
             setLoading(false)
         }
     }
+
+    // Obtener categorias
+    useEffect(() => {
+        const fecthCategorias = async() => {
+            try {
+                const result = await obtenerTodasCategorias(token, tipo === "medicamentos" ? "medicamento": "dispositivo");
+                setCategorias(result.data)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fecthCategorias();
+
+    }, [tipo])
 
     useEffect(() => {
         setValue("nombre", "Atropina");
@@ -311,6 +327,26 @@ const ModalCrearProducto = (props) => {
                             id="stockRequerido"
                         />
                         {errors.stockRequerido && errors.stockRequerido.message && (<p className="input-message-error">{errors.stockRequerido.message}</p>)} 
+                    </div>
+
+                    {/* Categoría (opcional) */}
+                    <div>
+                        <label htmlFor="categoriaId" className="label-form">
+                            Categoría
+                        </label>
+                        <div className="relative">
+                            <select
+                                className={`select-form`}
+                                {...register("categoriaId")}
+                                id="categoriaId"
+                            >
+                            <option value="">Sin categoría</option>
+                                {categorias.map(cat => (
+                                    <option key={cat.id} value={cat.id}>{cat.nombre}</option>
+                                ))}
+                            </select>
+                            <LuChevronDown className="absolute top-[16px] right-2" />
+                        </div>
                     </div>
                 </div>
 

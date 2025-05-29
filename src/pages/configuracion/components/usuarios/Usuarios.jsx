@@ -91,11 +91,10 @@ const Usuarios = () => {
                     </div>
                 </div>
 
-                {/* Body */}
                 <div className="overflow-x-auto">
-                    <table className="min-w-max w-full table-auto mt-3">
-                        <thead className='sticky top-0 bg-white dark:bg-gray-800'>
-                            <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
+                    <table className="min-w-max w-full mt-3">
+                        <thead className='sticky top-0 bg-white dark:bg-gray-800 border-gray-100 border-y text-sm dark:border-gray-800'>
+                            <tr className="text-left">
                                 <th className="py-3 px-4">
                                     <p className="font-medium text-gray-700 dark:text-gray-400">Nombres</p>
                                 </th>

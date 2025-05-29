@@ -1,19 +1,23 @@
 import MessageError from "../../../../shared/components/MessageError";
 import { handleErrors } from "../../../../utils/handleErrors";
-import { crearProducto, editarProducto } from "../../services/productoServices";
+import { editarProducto } from "../../services/productoServices";
 import Button from "../../../../shared/components/Button";
 import Modal from "../../../../shared/components/Modal";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import { obtenerTodasCategorias } from "../../services/categoriaServices";
+import { LuChevronDown } from "react-icons/lu";
 
 const ModalEditarProducto = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue, reset} = useForm({  mode: "onChange" })
     const { cerrarModal, setProductos, productoSeleccionado, tipo, almacenId} = props;
     const [messageError, setMessageError] = useState(false);
+    const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
+    const [categoriasCargadas, setCategoriasCargadas] = useState(false);
 
     const onSubmit = async(values) => {
         setMessageError(false)
@@ -39,23 +43,40 @@ const ModalEditarProducto = (props) => {
             setLoading(false)
         }
     }
+    
+    useEffect(() => {
+        const fecthCategorias = async() => {
+            try {
+                const result = await obtenerTodasCategorias(token, tipo === "medicamentos" ? "medicamento": "dispositivo");
+                setCategorias(result.data);
+                setCategoriasCargadas(true);  // indicamos que ya se cargaron
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fecthCategorias();
+    }, [tipo]);
 
     useEffect(() => {
-        if(productoSeleccionado && tipo === "medicamentos"){
-            setValue("nombre", productoSeleccionado.nombre);
-            setValue("formaFarmaceutica", productoSeleccionado.formaFarmaceutica);
-            setValue("concentracion", productoSeleccionado.concentracion);
-            setValue("presentacionComercial", productoSeleccionado.presentacionComercial);
-            setValue("unidadMedida", productoSeleccionado.unidadMedida);
+        if(productoSeleccionado && categoriasCargadas){
+            // Solo setear los valores cuando las categorías ya están cargadas
+            setValue("nombre", productoSeleccionado.nombre || "");
+            setValue("categoriaId", productoSeleccionado.categoriaId || "");
+            // ...otros setValue según tipo...
+            if(tipo === "medicamentos"){
+                setValue("formaFarmaceutica", productoSeleccionado.formaFarmaceutica || "");
+                setValue("concentracion", productoSeleccionado.concentracion || "");
+                setValue("presentacionComercial", productoSeleccionado.presentacionComercial || "");
+                setValue("unidadMedida", productoSeleccionado.unidadMedida || "");
+            }
+            if(tipo === "dispositivos"){
+                setValue("serie", productoSeleccionado.serie || "");
+                setValue("riesgo", productoSeleccionado.riesgo || "");
+                setValue("presentacionComercial", productoSeleccionado.presentacionComercial || "");
+            }
+            setValue("stockRequerido", productoSeleccionado.stockRequerido || "");
         }
-        if(productoSeleccionado && tipo === "dispositivos"){
-            setValue("nombre", productoSeleccionado.nombre);
-            setValue("serie", productoSeleccionado.serie);
-            setValue("riesgo", productoSeleccionado.riesgo);
-            setValue("presentacionComercial", productoSeleccionado.presentacionComercial);
-        }
-        setValue("stockRequerido", productoSeleccionado.stockRequerido);
-    }, [productoSeleccionado, tipo, setValue])
+    }, [productoSeleccionado, categoriasCargadas, setValue, tipo]);
 
     return (
         <Modal
@@ -317,11 +338,41 @@ const ModalEditarProducto = (props) => {
                         />
                         {errors.stockRequerido && errors.stockRequerido.message && (<p className="input-message-error">{errors.stockRequerido.message}</p>)} 
                     </div>
+
+                    {/* Categoría */}
+                    <div>
+                        <label htmlFor="categoriaId" className="label-form">
+                            Categoría
+                        </label>
+                        <select
+                            className={`${errors.categoriaId && errors.categoriaId.message ? "input-form-error" : ""} select-form`}
+                            {...register("categoriaId")}
+                            id="categoriaId"
+                        >
+                            <option value="">Seleccionar...</option>
+                            {categorias.map(cat => (
+                                <option key={cat.id} value={cat.id}>
+                                    {cat.nombre}
+                                </option>
+                            ))}
+                        </select>
+
+                        {errors.categoriaId && errors.categoriaId.message && (
+                            <p className="input-message-error">{errors.categoriaId.message}</p>
+                        )}
+                    </div>
+
                 </div>
 
-                {messageError || errors.almacenId && 
+                {messageError && 
                     <MessageError>
-                        {messageError || errors.almacenId.message}
+                        {messageError}
+                    </MessageError>
+                }
+
+                {errors.almacenId && 
+                    <MessageError>
+                        {errors.almacenId.message}
                     </MessageError>
                 }
                 <div className="mt-4 flex justify-end gap-2">

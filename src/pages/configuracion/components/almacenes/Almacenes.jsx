@@ -75,69 +75,70 @@ const Almacenes = () => {
                         </div>
                     </div>
                 </div>
-    
-                <table className="min-w-full mt-3">
-                    <thead className='sticky top-0 bg-white dark:bg-gray-800'>
-                        <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
-                            <th className="py-3 px-4">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Nombre del almacén</p>
-                            </th>
-                            <th className="py-3 px-4 w-[130px]">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                            </th>
-                        </tr>
-                    </thead>
-                    {loading ? <SkeletonTable rows={5} columns={2}/>: 
-                        <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
-                            {error ? <tr>
-                                <td colSpan="5" className="py-3 px-4">
-                                    <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
-                                </td>
-                            </tr> : 
-                            <>
-                                {almacenes.length === 0 ? 
-                                    <tr>
-                                        <td colSpan="5" className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400 text-center"> No hay almacenes por mostrar</p>
-                                        </td>
-                                    </tr>: 
-                                    <>
-                                        {almacenes.map(almacen => {
-                                            return <tr key={almacen.id}>
-                                                <td className="py-3 px-4">
-                                                    <p className="text-gray-700 dark:text-gray-400"> {almacen.nombre} </p>
-                                                </td>
-                                                <td className="py-3 px-4">
-                                                    <div className="text-gray-700 dark:text-gray-400 flex gap-2">
-                                                        <button 
-                                                            className="cursor-pointer p-1"
-                                                            title="Editar almacén"
-                                                            onClick={() => {
-                                                                setModalActivo("editar"); 
-                                                                setAlmacenSeleccionado(almacen);
-                                                            }}    
-                                                        >
-                                                            <LuPencil />
-                                                        </button>
-                                                        <button 
-                                                            className="cursor-pointer p-1"
-                                                            title="Eliminar almacén"
-                                                            onClick={() => {
-                                                                setAlmacenSeleccionado(almacen);
-                                                                setModalActivo("eliminar"); 
-                                                            }} 
-                                                        >
-                                                            <LuEraser />
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        })}
+                <div className="overflow-x-auto">
+                    <table className="min-w-max w-full mt-3">
+                        <thead className='sticky top-0 bg-white dark:bg-gray-800 border-gray-100 border-y text-sm dark:border-gray-800'>
+                            <tr className="text-left">
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Nombre del almacén</p>
+                                </th>
+                                <th className="py-3 px-4 w-[130px]">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        {loading ? <SkeletonTable rows={5} columns={2}/>: 
+                            <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
+                                {error ? <tr>
+                                    <td colSpan="5" className="py-3 px-4">
+                                        <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
+                                    </td>
+                                </tr> : 
+                                <>
+                                    {almacenes.length === 0 ? 
+                                        <tr>
+                                            <td colSpan="5" className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400 text-center"> No hay almacenes por mostrar</p>
+                                            </td>
+                                        </tr>: 
+                                        <>
+                                            {almacenes.map(almacen => {
+                                                return <tr key={almacen.id}>
+                                                    <td className="py-3 px-4">
+                                                        <p className="text-gray-700 dark:text-gray-400"> {almacen.nombre} </p>
+                                                    </td>
+                                                    <td className="py-3 px-4">
+                                                        <div className="text-gray-700 dark:text-gray-400 flex gap-2">
+                                                            <button 
+                                                                className="cursor-pointer p-1"
+                                                                title="Editar almacén"
+                                                                onClick={() => {
+                                                                    setModalActivo("editar"); 
+                                                                    setAlmacenSeleccionado(almacen);
+                                                                }}    
+                                                            >
+                                                                <LuPencil />
+                                                            </button>
+                                                            <button 
+                                                                className="cursor-pointer p-1"
+                                                                title="Eliminar almacén"
+                                                                onClick={() => {
+                                                                    setAlmacenSeleccionado(almacen);
+                                                                    setModalActivo("eliminar"); 
+                                                                }} 
+                                                            >
+                                                                <LuEraser />
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            })}
+                                        </>}
                                     </>}
-                                </>}
-                        </tbody>
-                    }
-                </table>
+                            </tbody>
+                        }
+                    </table>
+                </div>
                 {!loading && (
                     <Pagination
                         paginaActual={paginaActual}

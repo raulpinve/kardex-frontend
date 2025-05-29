@@ -49,7 +49,7 @@ const TituloInventarios = ({ productoId, loteId, corte }) => {
               to="/inventarios"
               className="shrink-0  transition-colors duration-200"
           >
-            Kardex
+            Inventarios
           </Link>
 
         {periodo && (

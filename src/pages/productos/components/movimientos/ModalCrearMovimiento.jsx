@@ -122,16 +122,11 @@ const ModalCrearMovimiento = (props) => {
                     {/* Descripción */}
                     <div>
                         <label htmlFor="descripcion" className="label-form">
-                            Descripción <span className="input-required">*</span>
+                            Descripción
                         </label>
                         <textarea 
                             className={`${errors.descripcion && errors.descripcion.message ? "input-form-error" : ""} input-form resize-none h-[70px]`}
-                            {...register("descripcion", {
-                                required: {
-                                    value: true, 
-                                    message: "Debe proporcionar una descripción."
-                                }
-                            })}
+                            {...register("descripcion")}
                         ></textarea>
                         {errors?.descripcion?.message && (<p className="input-message-error">{errors.descripcion.message}</p>)} 
                     </div>

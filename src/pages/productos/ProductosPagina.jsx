@@ -4,7 +4,7 @@ import ModalCrearProducto from "./components/productos/ModalCrearProducto";
 import ModalEditarProducto from "./components/productos/ModalEditarProducto";
 import ModalEliminarProducto from "./components/productos/ModalEliminarProducto";
 import ModalAbrirImagenPerfil from "../../shared/components/ModalAbrirImagenPerfil";
-import { LuEraser, LuPencil, LuSearch } from "react-icons/lu";
+import { LuChevronDown, LuEraser, LuPencil, LuSearch } from "react-icons/lu";
 import { obtenerProductos } from './services/productoServices';
 import CardTitulo from "../../shared/components/CardTitulo";
 import imageDefault from "../../assets/image-default.png";
@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { host } from '../../utils/config';
+import { obtenerTodasCategorias } from "./services/categoriaServices";
 
 const ProductosPagina = ({ tipo }) => {
     const almacen = useSelector(state => state.almacen.almacen);
@@ -23,12 +24,14 @@ const ProductosPagina = ({ tipo }) => {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(null);
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("")
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [consulta, setConsulta] = useState("");
     const [productos, setProductos] = useState([]);
     const [modalActivo, setModalActivo] = useState("");
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+    const [categorias, setCategorias] = useState([]);
     const debouncedConsulta = useDebounce(consulta, 500);
     
     // Obtener productos 
@@ -38,7 +41,7 @@ const ProductosPagina = ({ tipo }) => {
             setError(null); 
             
             try {
-                const respuesta = await obtenerProductos(token, tipo, almacen.id, paginaActual, debouncedConsulta)
+                const respuesta = await obtenerProductos(token, tipo, almacen.id, paginaActual, debouncedConsulta, categoriaSeleccionada)
                 setProductos(respuesta.data)
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
@@ -51,7 +54,21 @@ const ProductosPagina = ({ tipo }) => {
         if(almacen){
             fetchUsuarios();
         }
-    }, [debouncedConsulta, almacen, token, paginaActual, tipo]);
+    }, [debouncedConsulta, almacen, token, paginaActual, tipo, categoriaSeleccionada]);
+
+    // Obtener categorias
+    useEffect(() => {
+        const fecthCategorias = async() => {
+            try {
+                const result = await obtenerTodasCategorias(token, tipo === "medicamentos" ? "medicamento": "dispositivo");
+                setCategorias(result.data)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fecthCategorias();
+
+    }, [tipo])
 
     // Redireccionar   
     const irAProducto = (id) => {
@@ -88,6 +105,19 @@ const ProductosPagina = ({ tipo }) => {
                                         }}
                                     />
                                 </div>
+                                <div className="relative">
+                                    <select
+                                        className={`select-form`}
+                                        value={categoriaSeleccionada}
+                                        onChange={(e) => setCategoriaSeleccionada(e.currentTarget.value)}
+                                    >
+                                    <option value="">Seleccionar categoría...</option>
+                                        {categorias.map(cat => (
+                                            <option key={cat.id} value={cat.id}>{cat.nombre}</option>
+                                        ))}
+                                    </select>
+                                    <LuChevronDown className="absolute top-[16px] right-2" />
+                                </div>
                             </div>
                         </div>
                         <div className="overflow-x-auto">
@@ -97,6 +127,11 @@ const ProductosPagina = ({ tipo }) => {
                                         <th className="py-3 px-4">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">
                                                 { tipo === "medicamentos" ? "Principio activo": "Nombre"}
+                                            </p>
+                                        </th>
+                                        <th className="py-3 px-4">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">
+                                                Categoría
                                             </p>
                                         </th>
                                         {tipo === "medicamentos" ? (<>
@@ -174,6 +209,9 @@ const ProductosPagina = ({ tipo }) => {
                                                                     />
                                                                     <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
                                                                 </div>
+                                                            </td>
+                                                            <td className="py-3 px-4">
+                                                                <p className="text-gray-700 dark:text-gray-400"> {producto?.categoriaNombre ? producto?.categoriaNombre : "N/A"} </p>
                                                             </td>
                                                             {tipo === "medicamentos" ? (<>
                                                                 <td className="py-3 px-4">

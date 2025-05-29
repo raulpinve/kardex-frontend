@@ -93,8 +93,8 @@ const Lotes = ({ productoId, tipo }) => {
                 <div className="min-w-0">
                     <div className="overflow-x-auto w-full">
                         <table className="mt-3 min-w-max w-full text-gray-700 dark:text-gray-200">
-                            <thead className='sticky top-0 bg-white dark:bg-gray-800'>
-                                <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
+                            <thead className='sticky top-0 bg-white dark:bg-gray-800 border-gray-100 border-y text-sm dark:border-gray-800 '>
+                                <tr className="text-left">
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Número de lote</p>
                                     </th>

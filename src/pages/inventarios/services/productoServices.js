@@ -1,9 +1,10 @@
 import { apiClient } from "../../../utils/authUtils";
 
-const obtenerProductosCorte = (token, corteId, tipo, pagina = 1, consulta) => {
+const obtenerProductosCorte = (token, corteId, tipo, pagina = 1, consulta, categoriaId) => {
     const request = apiClient(token).get(`/cortes/${corteId}/${tipo}`, {
         params: {
             pagina,
+            categoriaId,
             ...(consulta && { consulta })
         }
     });

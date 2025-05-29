@@ -153,7 +153,7 @@ const InventarioLotes = ({ corteId }) => {
                                 <td className="py-3 px-4 flex gap-2">
                                     <button
                                         title="Registrar movimiento"
-                                        className="cursor-pointer p-1 mx-auto"
+                                        className="cursor-pointer p-1"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setLoteSeleccionado(lote);
