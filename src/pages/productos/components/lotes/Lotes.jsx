@@ -19,7 +19,6 @@ const Lotes = ({ productoId, tipo }) => {
     const [error, setError] = useState(null);
     const [lotes, setLotes] = useState([]);
     const [loteSeleccionado, setLoteSeleccionado] = useState(null);
-    const [refresh, setRefresh] = useState(0); 
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [modalActivo, setModalActivo] = useState(); 
@@ -46,11 +45,12 @@ const Lotes = ({ productoId, tipo }) => {
             }
         }
         fetchCategorias();
-    }, [debouncedConsulta, paginaActual, token, refresh, productoId, tipo]);
+    }, [debouncedConsulta, paginaActual, token, productoId, tipo]);
     
     const irALote = (loteId) => {
         navigate(`/${tipo}/lotes/${loteId}`)
     }
+
     return (
         <>
             <Card>
@@ -84,7 +84,6 @@ const Lotes = ({ productoId, tipo }) => {
                             className="hidden md:block"
                             onClick={() => {
                                 setPaginaActual(1)
-                                setRefresh((prev) => prev + 1)
                             }}
                         >
                             <LuRefreshCcw />
@@ -94,7 +93,7 @@ const Lotes = ({ productoId, tipo }) => {
                 <div className="min-w-0">
                     <div className="overflow-x-auto w-full">
                         <table className="mt-3 min-w-max w-full text-gray-700 dark:text-gray-200">
-                            <thead>
+                            <thead className='sticky top-0 bg-white dark:bg-gray-800'>
                                 <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Número de lote</p>

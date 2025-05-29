@@ -100,15 +100,15 @@ const InventarioProductoPagina = () => {
 
             {loading && (<Spinner />)}
             {!loading && mensajeError && (
-                <p className="rounded mt-4 text-center text-gray-600 dark:text-gray-200">
+                <p className="rounded mt-4 text-center text-sm text-gray-600 dark:text-gray-200">
                     {mensajeError}
                </p>
             )}
             {!mensajeError && !loading && corte && (<>
                 <TarjetasInformacionStockProducto corteId={corte?.id} productoId={productoId}/> 
                 <div className="mt-4 grid gap-4">
-                    <InventarioLotes corteId={corte?.id} />
                     <GraficaComportamientoStock corteId={corte?.id}/>
+                    <InventarioLotes corteId={corte?.id} />
                 </div>
             </>)}
         </Layout>

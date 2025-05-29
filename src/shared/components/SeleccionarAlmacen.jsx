@@ -15,6 +15,7 @@ const SeleccionarAlmacen = () => {
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [almacenes, setAlmacenes] = useState([]);
+    const [crearAlmacen, setCrearAlmacen] = useState(false);
     const location = useLocation();
     const dispatch = useDispatch();
     
@@ -64,15 +65,16 @@ const SeleccionarAlmacen = () => {
     
     return (
         // !validandoAlmacen && !almacen && (
-            !validandoAlmacen && !almacen && !enRutaExcluida && (
+        !validandoAlmacen && !almacen && !enRutaExcluida && (
             <Modal
                 isOpenModal={isOpenModal}
                 setIsOpenModal={() => setIsOpenModal(false)}
                 title="Seleccionar almacén"
+                // description = "Selecciona un almacén para acceder a su información."
                 size="md"
                 allowClose= { false }
             >
-                <div className='grid gap-4 mt-5 text-sm'>
+                <div className='grid gap-4 text-sm'>
                     {/* Loading  */}
                     {loading && <>{
                         [...Array(5)].map((_,index) => <div key={index} className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded-xl h-[20px] mb-3">
@@ -107,24 +109,27 @@ const SeleccionarAlmacen = () => {
                                 </>)}
                             </div>
                         ) : (
-                            <>
-                                <p className='text-sm'>Por favor selecciona un almacén para continuar. </p>
-                                {almacenes.map(almacen => (
-                                    <p 
-                                        key={almacen.id} 
-                                        className="dark:bg-gray-900 cursor-pointer hover:font-medium select-none"
-                                        onClick={() => {
-                                            localStorage.setItem('almacenSeleccionado', JSON.stringify(almacen));
-                                            dispatch(setAlmacen(almacen));
+                            <div className=''>
+                                <p className='text-sm'>Por favor selecciona un almacén para continuar: </p>
+                                <ul className="list-disc pl-5 space-y-2 dark:text-gray-300 mt-3">
+                                    {almacenes.map(almacen => (
+                                        <li 
+                                            key={almacen.id} 
+                                            className="cursor-pointer hover:font-medium select-none"
+                                            onClick={() => {
+                                                localStorage.setItem('almacenSeleccionado', JSON.stringify(almacen));
+                                                dispatch(setAlmacen(almacen));
 
-                                            const primerSegmento = location.pathname.split('/')[1]; // te da 'medicamentos', 'configuracion', etc.
-                                            navigate(`/${primerSegmento}`);
-                                        }}
-                                    >
-                                        {almacen.nombre}
-                                    </p>
-                                ))}
-                        </>) 
+                                                const primerSegmento = location.pathname.split('/')[1];
+                                                navigate(`/${primerSegmento}`);
+                                            }}
+                                        >
+                                            {almacen.nombre}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                        </div>) 
                         } 
                     </>) 
                     }

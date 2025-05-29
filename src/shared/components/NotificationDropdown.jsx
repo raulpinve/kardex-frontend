@@ -11,6 +11,7 @@ import ReactMarkdown from 'react-markdown';
 
 const NotificationDrawer = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
+    const almacen = useSelector(state => state.almacen?.almacen);
     const token = useSelector(state => state.auth.token);
     const [isOpen, setIsOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -93,15 +94,18 @@ const NotificationDrawer = () => {
                             isVisible ? 'translate-x-0' : 'translate-x-full'
                         }`}
                     >
-                        <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
-                                Notificaciones
-                            </h2>
+                        <div className="flex items-start justify-between mb-4">
+                            <div>
+                                <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+                                    Notificaciones
+                                </h2>
+                                {almacen?.nombre && <span className="text-gray-600 text-sm relative -top-1">{almacen?.nombre}</span>}
+                            </div>
                             <button
                                 onClick={closeDrawer}
-                                className="text-sm text-gray-500 dark:text-gray-400 hover:underline cursor-pointer"
+                                className=" text-gray-500 dark:text-gray-400 hover:underline cursor-pointer text-2xl"
                             >
-                                Cerrar ✕
+                                 ✕
                             </button>
                         </div>
 

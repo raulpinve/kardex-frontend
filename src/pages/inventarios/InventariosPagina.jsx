@@ -70,7 +70,7 @@ const InventariosPagina = () => {
                 </div>
             </div>
             {mensajeError && (
-                <p className="rounded mt-4 text-center text-gray-600 dark:text-gray-200">
+                <p className="rounded mt-4 text-center text-sm text-gray-600 dark:text-gray-200">
                     {mensajeError}
                </p>
             )}

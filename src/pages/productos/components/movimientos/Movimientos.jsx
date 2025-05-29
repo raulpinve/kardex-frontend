@@ -147,8 +147,8 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                 <div className="min-w-0 flex-grow mt-4">
                     <div className="overflow-x-auto w-full max-h-[320px] overflow-y-auto custom-scrollbar ">
                         <table className="mt-3 min-w-max w-full">
-                            <thead className='sticky top-0'>
-                                <tr className="border-gray-100 border-y text-xs dark:border-gray-800 text-left">
+                            <thead className='sticky top-0 bg-white dark:bg-gray-800'>
+                                <tr className="border-gray-100 border-y text-sm dark:border-gray-800 text-left">
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
                                     </th>
@@ -161,9 +161,12 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                     <th className="py-3 px-4 min-w-[200px]">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Descripción</p>
                                     </th>
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                                    </th>
+                                    {/* Solo muestra las acciones en la página de inventarios */}
+                                    {primeraParteSegmento === "inventarios" && (
+                                        <th className="py-3 px-4">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
+                                        </th>
+                                    )}
                                 </tr>
                             </thead>
                             {loading && <SkeletonTable rows={7} columns={5}/>}
@@ -190,7 +193,7 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                             return (
                                                 <tr 
                                                     key={movimiento.id} 
-                                                    className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm"
+                                                    className="text-sm cursor-pointer"
                                                 >
                                                     <td className="py-3 px-4 capitalize">
                                                         <div className="items-center flex gap-3 rounded-full">
@@ -206,32 +209,35 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                                     <td className="py-3 px-4 items-center">
                                                         <p>{movimiento.descripcion}</p>
                                                     </td>
-                                                    <td className="py-3 px-4">
-                                                        <div className="flex gap-2">
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Editar movimiento"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    setModalActivo("editar"); 
-                                                                    setMovimientoSeleccionado(movimiento);
-                                                                }}    
-                                                            >
-                                                                <LuPencil />
-                                                            </button>
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Eliminar movimiento"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation(); 
-                                                                    setModalActivo("eliminar"); 
-                                                                    setMovimientoSeleccionado(movimiento);
-                                                                }} 
-                                                            >
-                                                                <LuEraser />
-                                                            </button> 
-                                                        </div>
-                                                    </td>
+                                                    {/* Solo muestra los acciones en la página de inventarios */}
+                                                    {primeraParteSegmento === "inventarios" && (
+                                                        <td className="py-3 px-4">
+                                                            <div className="flex gap-2">
+                                                                <button 
+                                                                    className="cursor-pointer p-1"
+                                                                    title="Editar movimiento"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setModalActivo("editar"); 
+                                                                        setMovimientoSeleccionado(movimiento);
+                                                                    }}    
+                                                                >
+                                                                    <LuPencil />
+                                                                </button>
+                                                                <button 
+                                                                    className="cursor-pointer p-1"
+                                                                    title="Eliminar movimiento"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation(); 
+                                                                        setModalActivo("eliminar"); 
+                                                                        setMovimientoSeleccionado(movimiento);
+                                                                    }} 
+                                                                >
+                                                                    <LuEraser />
+                                                                </button> 
+                                                            </div>
+                                                        </td>
+                                                    )}
                                                 </tr>
                                             );
                                         })}
@@ -251,6 +257,7 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
             {modalActivo === "crear" && (<>
                 <ModalCrearMovimiento 
                     cerrarModal = {() => setModalActivo(null) }
+                    loteId = {loteId}
                     setMovimientos = {setMovimientos}
                 />
             </>)}

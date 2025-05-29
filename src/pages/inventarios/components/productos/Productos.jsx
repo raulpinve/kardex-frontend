@@ -3,7 +3,7 @@ import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import Pagination from '../../../../shared/components/Pagination';
 import Button from '../../../../shared/components/Button';
-import { LuCircleAlert, LuCircleCheck, LuRefreshCcw, LuSearch } from 'react-icons/lu';
+import { LuCircleAlert, LuCircleCheck, LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
 import { useSelector } from 'react-redux';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { Tooltip } from 'react-tooltip';
@@ -117,30 +117,39 @@ const Productos = ({ tipo, corteId }) => {
         
             <div className="overflow-x-auto mt-3">
                 <table className="min-w-max w-full table-auto text-sm">
-                    <thead className='border-gray-100 border-y  text-sm dark:border-gray-800 text-left'>
+                    <thead className='sticky top-0 bg-white dark:bg-gray-800 text-left'>
                         <tr className="text-sm">
                             <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">
                                     {tipo === "medicamentos" ? "Principio activo" : "Nombre"}
                                 </p>
                             </th>
+                            {tipo === "medicamentos" ? (<>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Forma farmacéutica</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Concentración</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Presentación</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Unidad médica</p>
+                                </th>
+                            </>):(<>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Serie</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Presentación comercial</p>
+                                </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Riesgo</p>
+                                </th>
+                            </>)}
                             <th className="py-3 px-4">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Stock inicial</p>
-                            </th>
-                            <th className="py-3 px-4">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Ingresos</p>
-                            </th>
-                            <th className="py-3 px-4">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">salidas</p>
-                            </th>
-                            <th className="py-3 px-4">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Stock final</p>
-                            </th>
-                            <th className="py-3 px-4">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Stock requerido</p>
-                            </th>
-                            <th className="py-3 px-4 min-w-[120px] hidden">
-                                <p className="font-medium text-gray-700 dark:text-gray-400">Pedidos</p>
+                                <p className="font-medium text-gray-700 dark:text-gray-400">Stock disponible</p>
                             </th>
                         </tr>
                     </thead>
@@ -174,9 +183,9 @@ const Productos = ({ tipo, corteId }) => {
                                         className="cursor-pointer"
                                     >
                                         <td className="py-3 px-4">
-                                            <div className='flex items-center gap-3'>
+                                            <div className="w-full flex items-center gap-3">
                                                 <img 
-                                                    src={`${host}${producto.avatar}`}
+                                                    src={`${host}${producto.avatarThumbnail}`}
                                                     onError={(e) => {
                                                         e.target.onerror = null;
                                                         e.target.src = imageDefault; 
@@ -192,21 +201,34 @@ const Productos = ({ tipo, corteId }) => {
                                                 <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
                                             </div>
                                         </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {producto.stockInicial} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {producto.ingresos} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {producto.salidas} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {producto.stockFinal} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {producto.stockRequerido} </p>
-                                        </td>
+                                        {tipo === "medicamentos" ? (<>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.formaFarmaceutica} </p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.concentracion} </p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.presentacionComercial} </p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.unidadMedida} </p>
+                                            </td>
+                                           
+                                        </>):(<>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.serie} </p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.presentacionComercial} </p>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.riesgo} </p>
+                                            </td>
+                                        </>)}
+                                            <td className="py-3 px-4">
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.stockFinal} </p>
+                                            </td>
                                     </tr>
                                 })}
                             </>

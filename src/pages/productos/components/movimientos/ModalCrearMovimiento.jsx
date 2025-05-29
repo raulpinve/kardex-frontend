@@ -8,14 +8,12 @@ import MessageError from "../../../../shared/components/MessageError";
 import Button from "../../../../shared/components/Button";
 import { crearMovimiento } from "../../services/movimientoServices";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 
 const ModalCrearMovimiento = (props) => {
-    const { cerrarModal, setMovimientos} = props;
+    const { cerrarModal, setMovimientos, loteId, lote, actualizarLote} = props;
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const {corteId, loteId} = useParams();
     const token = useSelector(state => state.auth.token);
 
     const onSubmit = async(values) => {
@@ -24,17 +22,21 @@ const ModalCrearMovimiento = (props) => {
         try {
             const respuesta = await crearMovimiento(token, {
                 ...values, 
-                corteId, 
                 loteId,
             })
             const data = respuesta.data;
             if(data){
-                setMovimientos(prevMovimientos => [data, ...prevMovimientos]);
+                if(setMovimientos){
+                  setMovimientos(prevMovimientos => [data, ...prevMovimientos]);
+                }
                 cerrarModal();
                 setValue("tipo", "");
                 setValue("cantidad", "");
                 setValue("fecha", "");
                 setValue("descripcion", "");
+                if(actualizarLote){
+                  actualizarLote(loteId, values.tipo, values.cantidad);
+                }
             }
             toast.success("Movimiento creado exitosamente.");
         } catch (error) {
@@ -44,19 +46,12 @@ const ModalCrearMovimiento = (props) => {
             setLoading(false)
         }
     }
-
-    useEffect(() => {
-        setValue("tipo", "entrada");
-        setValue("cantidad", 100);
-        setValue("fecha", "2025-05-12");
-        setValue("descripcion", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ");
-    }, [setValue])
-
     return (
         <Modal
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
-            title="Crear movimiento"
+            title={lote ? "Registrar movimiento": "Crear movimiento"}
+            description = {lote ? "Crea un nuevo movimiento el lote " + lote?.numeroLote : ""}
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
