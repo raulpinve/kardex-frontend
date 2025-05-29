@@ -168,7 +168,7 @@ const ProductosPagina = ({ tipo }) => {
                             </tr>
                         </thead>
 
-                        {loading ? <SkeletonTable rows={7} columns={7}/>: 
+                        {loading ? <SkeletonTable rows={7} columns={tipo === "medicamentos" ? 8 : 7}/>: 
                             <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
                                 {error ? <tr>
                                     <td colSpan={tipo === "medicamentos" ? 8 : 7} className="py-3">

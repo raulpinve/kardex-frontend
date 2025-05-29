@@ -124,7 +124,6 @@ const NotificationDrawer = () => {
         return () => clearInterval(intervalId); // Limpieza al desmontar
     }, [token, almacenId]);
 
-
     return (
         <>
             {/* Botón campana */}

@@ -77,10 +77,12 @@ const InventariosPagina = () => {
             {!mensajeError && loading && (
                 <Spinner className={`mt-4`}/>
             )}
-            {!loading && !mensajeError && corte && (<div className="mt-6">
-                <Productos tipo = "medicamentos" corteId={corte.id} />
-                <Productos tipo = "dispositivos" corteId={corte.id} />
-            </div>)}
+            {corte && !mensajeError && !loading && (
+                <div className="mt-6">
+                    <Productos tipo="medicamentos" corteId={corte.id} />
+                    <Productos tipo="dispositivos" corteId={corte.id} />
+                </div>
+            )}
 
             {modalActivo === "crear" && (
                 <ModalCrearCorte 

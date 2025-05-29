@@ -112,7 +112,7 @@ const Usuarios = () => {
                                 </th>
                             </tr>
                         </thead>
-                        {loading ? <SkeletonTable rows={7} columns={6}/>: 
+                        {loading ? <SkeletonTable rows={7} columns={5}/>: 
                             <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
                                 {error ? <tr>
                                     <td colSpan="5" className="py-3">

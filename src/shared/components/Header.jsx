@@ -9,6 +9,7 @@ import { deleteAlmacen } from '../../store/almacenSlice';
 import SearchDropdown from './SearchDropdown';
 import NotificationDropdown from './NotificationDropdown';
 import { useLocation } from 'react-router-dom';
+import AlertasVencimiento from './AlertasVencimiento';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const Header = () => {
           </div>
 
           {/* Profile, modo nocturno y notificaciones */}
-          <div className="flex justify-between items-center gap-3">
+          <div className="flex justify-between items-center gap-2">
              {/* Nombre almacén */}
               <h3 className={`text-xs uppercase leading-[20px] text-gray-500 font-medium ellipsis select-none cursor-pointer`}>
                 {almacen?.nombre && location.pathname !== "/configuracion" && (
@@ -58,7 +59,9 @@ const Header = () => {
             {almacen?.nombre && location.pathname !== "/configuracion" && (
               <NotificationDropdown />
             )}
-            
+            {almacen?.nombre && location.pathname !== "/configuracion" && (
+              <AlertasVencimiento/>
+            )}
             {/* Profile */}
             <DropdownProfile />
           </div>

@@ -83,7 +83,6 @@ const Productos = ({ tipo, corteId }) => {
                 setPaginaActual(res.paginacion.paginaActual);
                 setTotalPaginas(res.paginacion.totalPaginas);
             } catch (error) {
-                console.log(error)
                 setError(error?.response?.data?.message || "Ha ocurrido un error interno");
             } finally{
                 setLoading(false);
@@ -193,7 +192,7 @@ const Productos = ({ tipo, corteId }) => {
                         </thead>
                         {/* Loading */}
                         {loading && (
-                            <SkeletonTable rows={7} columns={7}/>
+                            <SkeletonTable rows={7} columns={tipo === "medicamentos" ? 7 : 6}/>
                         )}
 
                         <tbody className='divide-y divide-gray-100  text-sm dark:divide-gray-800'>

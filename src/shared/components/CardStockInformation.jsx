@@ -64,7 +64,7 @@ const CardStockInformation = ({titulo, loading, tipo = undefined, value}) => {
                 </h4>
             </div>
         </div>
-        {tipo === "cantidadPedir"
+        {tipo === "cantidadPedir" && value
             && (
                 <StockStatus
                     value={value}
