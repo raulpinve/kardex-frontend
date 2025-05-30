@@ -37,9 +37,9 @@ const obtenerEstadoVencimiento = (fechaVencimientoStr) => {
   if (diasRestantes < 0) {
       return { estado: "Vencido", color: "text-red-600 bg-red-600/10" };
   } else if (diasRestantes <= 30) {
-      return { estado: "Por vencer", color: "text-orange-600 bg-orange-600/10" };
+      return { estado: "Por vencer (crítico)", color: "text-orange-600 bg-orange-600/10" };
   } else if (diasRestantes <= 90) {
-      return { estado: "Por vencer", color: "text-yellow-600 bg-yellow-600/10" };
+      return { estado: "Por vencer (moderado)", color: "text-yellow-600 bg-yellow-600/10" };
   } else {
       return { estado: "Vigente", color: "text-green-600 bg-green-600/10" };
   }

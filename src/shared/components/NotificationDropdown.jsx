@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { LuBell } from "react-icons/lu";
 import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
 import { marcarNotificacionesComoLeidas, obtenerNotificaciones, obtenerNotificacionesNoVistas } from "../services/notificacionesServices";
 import imageDefault from '../../assets/image-default.png';
 import { host } from "@/utils/config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { tiempoRelativoCreativo } from "@/utils/utilities";
 import ReactMarkdown from 'react-markdown';
 
@@ -20,6 +20,7 @@ const NotificationDrawer = () => {
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     // Animación apertura/cierre
     useEffect(() => {
@@ -110,10 +111,10 @@ const NotificationDrawer = () => {
     useEffect(() => {
         const fetchNotificacionesNoVistas = async () => {
             try {
-            const res = await obtenerNotificacionesNoVistas(token, almacenId);
-            setNotificacionesNoVistas(res?.data?.notificacionesNoVistas || 0);
+                const res = await obtenerNotificacionesNoVistas(token, almacenId);
+                setNotificacionesNoVistas(res?.data?.notificacionesNoVistas || 0);
             } catch (error) {
-            console.error(error);
+                console.error(error);
             }
         };
 
@@ -123,6 +124,21 @@ const NotificationDrawer = () => {
 
         return () => clearInterval(intervalId); // Limpieza al desmontar
     }, [token, almacenId]);
+
+   const redireccionarNotificacion = (recurso, recursoId) => {
+    const rutas = {
+        medicamento: "/medicamentos",
+        dispositivo: "/dispositivos",
+        lote: "/lotes",
+        corte: "/cortes"
+    };
+
+    const baseUrl = rutas[recurso];
+    if (baseUrl && recursoId) {
+        return `${baseUrl}/${recursoId}`;
+    }
+    return null;
+};
 
     return (
         <>
@@ -174,13 +190,11 @@ const NotificationDrawer = () => {
                             style={{ maxHeight: "calc(100vh - 100px)" }}
                         >
                             <ul>
-                                {notificaciones.map((notificacion) => (
-                                    <li key={notificacion.id}>
-                                        <Link
-                                            to={`/${notificacion.recurso}s/${notificacion.recursoId}`}
-                                            className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
-                                            onClick={() => setIsOpen(false)}
-                                        >
+                                {notificaciones.map((notificacion) => {
+                                    const url = redireccionarNotificacion(notificacion.recurso, notificacion.recursoId);
+
+                                    const contenido = (
+                                        <>
                                             <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0 min-w-[40px] min-h-[40px]">
                                                 <img
                                                     src={`${host}${notificacion.avatarThumbnail}`}
@@ -198,11 +212,34 @@ const NotificationDrawer = () => {
                                                     <ReactMarkdown>{notificacion.mensaje}</ReactMarkdown>{" "}
                                                     <span className="font-medium">{notificacion.project}</span>
                                                 </div>
-                                                <p className="text-xs text-gray-500 mt-1">{tiempoRelativoCreativo(notificacion.createdAt)}</p>
+                                                <p className="text-xs text-gray-500 mt-1">
+                                                    {tiempoRelativoCreativo(notificacion.createdAt)}
+                                                </p>
                                             </div>
-                                        </Link>
-                                    </li>
-                                ))}
+                                        </>
+                                    );
+
+                                    return (
+                                        <li key={notificacion.id}>
+                                            {url ? (
+                                                <Link
+                                                    to={url}
+                                                    onClick={() => setIsOpen(false)}
+                                                    className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+                                                >
+                                                    {contenido}
+                                                </Link>
+                                            ) : (
+                                                <div
+                                                    className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 cursor-default dark:border-gray-800"
+                                                >
+                                                    {contenido}
+                                                </div>
+                                            )}
+                                        </li>
+                                    );
+                                })}
+
                             </ul>
 
                             {loading && <Spinner className="mx-auto mt-4" />}

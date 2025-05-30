@@ -76,16 +76,17 @@ function App() {
         <Route path="/" element={<PrivateRoute Component={Layout}/>}>
           	<Route path="/inventarios/:periodo?" element={<InventariosPagina />}/>
           	<Route path="/inventarios/:periodo/:productoId" element={<InventarioProductoPagina/>}/>
-        	<Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
-			<Route path="/configuracion" element={<ConfiguracionPage/>}/>
-			<Route path="/editar-perfil" element={<PerfilEditarPagina/>}/>
-			<Route path="/perfil/:perfilId" element={<PerfilPagina/>}/>
-        	<Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
-        	<Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
-        	<Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>
-			<Route path="/dispositivos/:productoId" element={<ProductoPagina tipo="dispositivos"/>} />
-			<Route path="/medicamentos/lotes/:loteId" element={<LotePagina/>}/>
-        	<Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
+        	  <Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
+            <Route path="/configuracion" element={<ConfiguracionPage/>}/>
+            <Route path="/editar-perfil" element={<PerfilEditarPagina/>}/>
+            <Route path="/perfil/:perfilId" element={<PerfilPagina/>}/>
+            <Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
+            <Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
+            <Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>
+            <Route path="/dispositivos/:productoId" element={<ProductoPagina tipo="dispositivos"/>} />
+            <Route path="/medicamentos/lotes/:loteId" element={<LotePagina/>}/>
+            <Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
+            <Route path="/lotes/:loteId" element={< LotePagina/>}/>
         </Route>
 		<Route path="/:token/verificar-email" element={<VerificarEmailPage />} />
 		<Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />

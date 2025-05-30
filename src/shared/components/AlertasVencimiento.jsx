@@ -4,6 +4,8 @@ import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
 import { obtenerAlertasVencimiento } from "../services/loteServices";
 import Badge from "./Badge";
+import { useNavigate } from "react-router-dom";
+import { dateColombiaFormat } from "@/utils/utilities";
 
 const AlertasVencimiento = () => {
   const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -15,7 +17,8 @@ const AlertasVencimiento = () => {
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
+  
   // Carga alertas al montar o al cambiar almacen/token, sin necesidad de abrir el drawer
   useEffect(() => {
     const fetchAlertasInicial = async () => {
@@ -79,6 +82,12 @@ const AlertasVencimiento = () => {
     alerta.estado === 'Por vencer (moderado)'
   ).length;
 
+  const redirectLote = (tipo, loteId) => {
+    let productoTipo = tipo === "medicamento" ? "medicamentos" : "dispositivos";
+    setIsOpen(false)
+    navigate(`/${productoTipo}/lotes/${loteId}`);
+  }
+
   return (
     <>
       {/* Botón para abrir el drawer */}
@@ -131,27 +140,33 @@ const AlertasVencimiento = () => {
                 {alertas.map(alerta => (
                   <li
                     key={alerta.loteId}
-                    className="flex justify-between p-4 mb-2 rounded-lg border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    onClick={() => redirectLote(alerta.tipo, alerta.loteId)}
                   >
-                    <div className="text-sm text-gray-700 dark:text-gray-300">
-                      <p className="font-semibold">Lote: {alerta.numeroLote}</p>
-                      <p className="mt-1">Producto: {alerta.producto}</p>
-                      <p>Stock: <span>{alerta.stockActual}</span></p>
-                      <p>
-                        Vence: <time dateTime={alerta.fechaVencimiento}>{new Date(alerta.fechaVencimiento).toLocaleDateString()}</time>
-                      </p>
-                    </div>
+                    <div className="p-4 border-b border-gray-100 rounded-lg cursor-pointer bg-white dark:bg-gray-900 w-full max-w-sm relative hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5">
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="text-sm font-semibold text-gray-800 dark:text-white">
+                          Lote: <span className="font-bold">{alerta.numeroLote}</span>
+                        </h3>
+                        <Badge 
+                          tipo={
+                            alerta.estado === 'Vencido' ? 'danger' :
+                            (alerta.estado === 'Por vencer (crítico)' || alerta.estado === 'Por vencer (moderado)') ? 'warning' :
+                            'success'
+                          }
+                        >
+                          {alerta.estado}
+                        </Badge>
+                      </div>
 
-                    <div className="flex-shrink-0">
-                      <Badge 
-                        tipo={
-                          alerta.estado === 'Vencido' ? 'danger' :
-                          (alerta.estado === 'Por vencer (crítico)' || alerta.estado === 'Por vencer (moderado)') ? 'warning' :
-                          'success'
-                        }
-                      >
-                        {alerta.estado}
-                      </Badge>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <span className="font-medium">Producto:</span> {alerta.producto}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <span className="font-medium">Stock:</span> {alerta.stockActual}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <span className="font-medium">Vence:</span> {dateColombiaFormat(alerta.fechaVencimiento)}
+                      </p>
                     </div>
                   </li>
                 ))}
