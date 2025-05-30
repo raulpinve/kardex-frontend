@@ -17,6 +17,7 @@ const LotePagina = () => {
     const [producto, setProducto] = useState();
     const [estado, setEstado] = useState();
     const [lote, setLote] = useState(null);
+    const [refreshStock, setRefreshStock] = useState(0)
     const [color, setColor] = useState();
 
     useEffect(() => {
@@ -49,7 +50,6 @@ const LotePagina = () => {
     return (<>
         {/* Encabezado */}
         <div className=''>
-
             {loading && !producto && (<>
                 <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center my-6">
                     <SkeletonElement className="w-12 h-12 rounded-full"/>
@@ -153,10 +153,9 @@ const LotePagina = () => {
                 </>)}
             </div>
         </div>
-    
         <div className="mt-4 grid gap-4">
             <Movimientos loteId={loteId} />
-            <GraficaComportamientoStock tipo="lote"/>   
+            <GraficaComportamientoStock refreshStock ={refreshStock} tipo="lote"/>   
         </div>
     </>);
 };

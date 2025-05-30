@@ -83,16 +83,17 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                 <div className="flex justify-between items-center">
                     <CardTitulo>Movimientos</CardTitulo>
                     <div className="flex gap-1 items-center justify-between">
-
-                        <Button
-                            type="button"
-                            colorButton="primary"
-                            onClick={() => {
-                                setModalActivo("crear")
-                            }}
-                        >   
-                            Crear 
-                        </Button>
+                        {primeraParteSegmento === "inventarios" && (
+                            <Button
+                                type="button"
+                                colorButton="primary"
+                                onClick={() => {
+                                    setModalActivo("crear")
+                                }}
+                            >   
+                                Crear 
+                            </Button>
+                        )}
                         {/* Buscar en movimientos */}
                         <div className="relative hidden">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
@@ -158,7 +159,7 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                     <th className="py-3 px-4 min-w-[120px]">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
                                     </th>
-                                    <th className="py-3 px-4 min-w-[200px]">
+                                    <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Descripción</p>
                                     </th>
                                     {/* Solo muestra las acciones en la página de inventarios */}
@@ -207,7 +208,7 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                                         <p>{dateColombiaFormat(movimiento.fecha)}</p>
                                                     </td>
                                                     <td className="py-3 px-4 items-center">
-                                                        <p>{movimiento.descripcion}</p>
+                                                        <p>{movimiento.descripcion ? movimiento.descripcion : "N/A"}</p>
                                                     </td>
                                                     {/* Solo muestra los acciones en la página de inventarios */}
                                                     {primeraParteSegmento === "inventarios" && (

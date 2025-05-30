@@ -12,7 +12,7 @@ import { dateColombiaFormat, obtenerEstadoVencimiento } from '@/utils/utilities'
 import Button from '@/shared/components/Button';
 import ModalCrearMovimiento from '@/pages/productos/components/movimientos/ModalCrearMovimiento';
 
-const InventarioLotes = ({ corteId }) => {
+const InventarioLotes = ({ corteId, setRefreshStock }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [paginaActual, setPaginaActual] = useState(1);
@@ -66,6 +66,7 @@ const InventarioLotes = ({ corteId }) => {
         return { ...lote, stockDisponible: nuevoStock };
       })
     );
+    setRefreshStock(prev => prev + 1);
   };
 
   return (

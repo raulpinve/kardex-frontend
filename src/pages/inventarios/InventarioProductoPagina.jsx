@@ -15,11 +15,12 @@ import GraficaComportamientoStock from '@/shared/components/GraficaComportamient
 const InventarioProductoPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
     const token = useSelector(state => state.auth.token);
-    const [loading, setLoading] = useState(true);
+    const [refreshStock, setRefreshStock] = useState(0);
     const [mensajeError, setMensajeError] = useState();
+    const [loading, setLoading] = useState(true);
+    const [producto, setProducto] = useState();
     const {periodo, productoId} = useParams();
     const [corte, setCorte] = useState();
-    const [producto, setProducto] = useState();
 
     // Obtener información del corte
     useEffect(() => {
@@ -106,8 +107,8 @@ const InventarioProductoPagina = () => {
             {!mensajeError && !loading && corte && (<>
                 <TarjetasInformacionStockProducto corteId={corte?.id} productoId={productoId}/> 
                 <div className="mt-4 grid gap-4">
-                    <GraficaComportamientoStock corteId={corte?.id}/>
-                    <InventarioLotes corteId={corte?.id} />
+                    <GraficaComportamientoStock corteId={corte?.id} refreshStock={refreshStock}/>
+                    <InventarioLotes corteId={corte?.id} setRefreshStock={setRefreshStock}/>
                 </div>
             </>)}
         </>

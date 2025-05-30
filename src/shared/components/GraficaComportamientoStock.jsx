@@ -17,7 +17,7 @@ import { format } from  'date-fns';
 import { es } from "date-fns/locale/es";
 import { useDarkMode } from "../hooks/useDarkMode";
 
-const GraficaComportamientoStock = ({tipo = "producto", corteId}) => {
+const GraficaComportamientoStock = ({tipo = "producto", corteId, refreshStock}) => {
     const [mostrarBotones, setMostrarBotones] = useState(false);
     const [tipoGrafica, setTipoGrafica] = useState("area");
     const [messageError, setMessageError] = useState(null);
@@ -272,7 +272,7 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId}) => {
             }
         }
 
-    },[token, tipo, id, fechasFormateadas, corteId]);
+    },[token, tipo, id, fechasFormateadas, corteId, refreshStock]);
 
     return (
         <Card className={`relative`}>
