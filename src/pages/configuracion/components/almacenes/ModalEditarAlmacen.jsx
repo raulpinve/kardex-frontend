@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import Modal from "../../../../shared/components/Modal";
 import Button from "../../../../shared/components/Button";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
 import { editarAlmacen } from "../../services/almacenService";
+import { setAlmacen } from "@/store/almacenSlice";
 
 const ModalEditarAlmacen = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
@@ -14,20 +15,24 @@ const ModalEditarAlmacen = (props) => {
     const [messageError, setMessageError] = useState(false);
     const token = useSelector(state => state.auth.token);
     const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
 
     const onSubmit = async(values) => {
-        setMessageError(false)
-        setLoading(true)
+        setMessageError(false);
+        setLoading(true);
+
         try {
-            const result = await editarAlmacen(token, almacenSeleccionado.id, values)
-            const data = result?.data
+            const result = await editarAlmacen(token, almacenSeleccionado.id, values);
+            const data = result?.data;
             setAlmacenes(prevAlmacenes =>
                 prevAlmacenes.map(almacen => {
                     return almacen.id === data.id ? { ...almacen, ...data } : almacen
                 })
             );
-            cerrarModal()
-            setValue("nombre", "")
+            cerrarModal();
+            setValue("nombre", "");
+            dispatch(setAlmacen(data));
+            
             toast.success('Almacén editado exitosamente.');
         } catch (error) {
             handleErrors(error, setError, setMessageError);

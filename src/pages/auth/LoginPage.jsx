@@ -1,25 +1,23 @@
-import { useEffect, useState } from "react"
-import Button from "../../shared/components/Button"
-import { useForm } from "react-hook-form"
-import { Link, useNavigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import { loginService } from "../services/loginService"
-import { login } from "../../store/authSlice"
-import { handleErrors } from "../../utils/handleErrors"
 import { useDarkMode } from "../../shared/hooks/useDarkMode"
+import { loginService } from "../services/loginService"
+import { handleErrors } from "../../utils/handleErrors"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
+import Button from "../../shared/components/Button"
 import { LuMoon, LuSun } from "react-icons/lu"
+import { login } from "../../store/authSlice"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
 
 const LoginPage = () => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const { darkMode, toggleDarkMode } = useDarkMode();  // Usamos el hook
-    
-    const [ loading, setLoading ] = useState(false)
-    const [ messageError, setMessageError ] = useState(null)
-    const { isAuthenticated } = useSelector((state) => state.auth)
-    const { register, handleSubmit, setError, formState: { errors }, setValue } = useForm({
-        mode: "onChange"
-    })
+    const { register, handleSubmit, setError, formState: { errors }, setValue } = useForm({ mode: "onChange" });
+    const { isAuthenticated } = useSelector((state) => state.auth);
+    const [ messageError, setMessageError ] = useState(null);
+    const { darkMode, toggleDarkMode } = useDarkMode();
+    const [ loading, setLoading ] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (isAuthenticated) {
             navigate("/");
@@ -30,24 +28,25 @@ const LoginPage = () => {
         setMessageError(false)
         setLoading(true)
         try {
-          const resultado = await loginService(data)
-          if(resultado.data.token){
-            dispatch(login(resultado.data))
-            localStorage.setItem("token", resultado.data.token)
-            navigate("/")
-          }else{
-            throw "errorInterno"
-          }
+            const resultado = await loginService(data)
+            if(resultado.data.token){
+                localStorage.setItem("token", resultado.data.token)
+                dispatch(login(resultado.data))
+                navigate("/")
+            }else{
+                throw "errorInterno"
+            }
         } catch (error) {
-          if(error === "errorInterno"){
-            setMessageError("Ha ocurrido un error interno. Por favor, inténtalo nuevamente.")
-          }else{
-            handleErrors(error, setError, setMessageError)
-          }
+            if(error === "errorInterno"){
+                setMessageError("Ha ocurrido un error interno. Por favor, inténtalo nuevamente.")
+            }else{
+                handleErrors(error, setError, setMessageError)
+            }
         } finally {
-          setLoading(false)
+            setLoading(false)
         }
     }
+
     // Establece el modo nocturno en caso de que este activado
     useEffect(() => {
         const sidebarMode = localStorage.getItem("sidebarMode")
@@ -55,11 +54,6 @@ const LoginPage = () => {
             document.body.classList.add("dark")
         }
     }, []);
-
-    useEffect(() => {
-        setValue("username", "raulpinve");
-        setValue("password", "Bogota123@");
-      }, [])
 
     return (
         <div className="relative flex flex-col justify-center w-full h-screen bg-white dark:bg-gray-900 sm:p-0 lg:flex-row">

@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Modal from './Modal';
 import { obtenerAlmacenes } from '../../pages/configuracion/services/almacenService';
-import { setAlmacen } from '../../store/almacenSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAlmacen } from '../../store/almacenSlice';
+import React, { useEffect, useState } from 'react';
 import { logout } from '../../store/authSlice';
 import { LuLogOut } from 'react-icons/lu';
+import Modal from './Modal';
 
 const SeleccionarAlmacen = () => {
+    const [validandoAlmacen, setValidandoAlmacen] = useState(true);
     const almacen = useSelector(state => state.almacen.almacen);
     const usuario = useSelector(state => state.auth.usuario);
-    const token = useSelector(state => state.auth.token);
-    const [validandoAlmacen, setValidandoAlmacen] = useState(true);
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const token = useSelector(state => state.auth.token);
     const [almacenes, setAlmacenes] = useState([]);
-    const [crearAlmacen, setCrearAlmacen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const location = useLocation();
     const dispatch = useDispatch();
     
@@ -40,7 +39,6 @@ const SeleccionarAlmacen = () => {
                         localStorage.setItem('almacenSeleccionado', JSON.stringify(almacenActualizado));
                         return;
                     }
-
                     localStorage.removeItem('almacenSeleccionado');
                     dispatch(setAlmacen(null));
                 }
@@ -62,15 +60,27 @@ const SeleccionarAlmacen = () => {
     useEffect(() => {
         setIsOpenModal(!almacen);
     }, [almacen]);
-    
+
+    // Obtiene el listado de almacenes cuando cambia el valor de almacén
+    useEffect(() => {
+        const refrescarAlmacenes = async () => {
+            try {
+                const res = await obtenerAlmacenes(token);
+                setAlmacenes(res.data);
+            } catch (error) {
+                console.error('Error al refrescar almacenes:', error);
+            }
+        };
+
+        refrescarAlmacenes();
+    }, [almacen, token]);
+
     return (
-        // !validandoAlmacen && !almacen && (
         !validandoAlmacen && !almacen && !enRutaExcluida && (
             <Modal
                 isOpenModal={isOpenModal}
                 setIsOpenModal={() => setIsOpenModal(false)}
                 title="Seleccionar almacén"
-                // description = "Selecciona un almacén para acceder a su información."
                 size="md"
                 allowClose= { false }
             >
