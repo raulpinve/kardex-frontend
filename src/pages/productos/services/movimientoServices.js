@@ -34,6 +34,34 @@ const obtenerMovimientosLote = (token, loteId, tipo, fecha, pagina, consulta) =>
         })
 }
 
+// Movimientos por producto dentro de un corte
+const obtenerCorteMovimientosProducto = (token, corteId, productoId, tipo, fecha, pagina, consulta) => {
+    return apiClient(token).get(`/cortes/${corteId}/productos/${productoId}/movimientos`, {
+        params: {
+            pagina,
+            ...(consulta && { consulta }),
+            ...(tipo && { tipo }),
+            ...(fecha && { fecha }),
+        }
+    })
+    .then(res => res.data)
+    .catch(err => { throw err });
+}
+
+// Movimientos por producto sin corte
+const obtenerMovimientosProducto = (token, productoId, tipo, fecha, pagina, consulta) => {
+    return apiClient(token).get(`/movimientos/productos/${productoId}`, {
+        params: {
+            pagina,
+            ...(consulta && { consulta }),
+            ...(tipo && { tipo }),
+            ...(fecha && { fecha }),
+        }
+    })
+    .then(res => res.data)
+    .catch(err => { throw err });
+}
+
 const crearMovimiento = (token, data) => {
     const request = apiClient(token).post(`/movimientos`, data);
     return request
@@ -66,5 +94,7 @@ export {
     obtenerCorteMovimientosLote,
     crearMovimiento,
     editarMovimiento,
-    eliminarMovimiento
+    eliminarMovimiento,
+    obtenerCorteMovimientosProducto,
+    obtenerMovimientosProducto
 }

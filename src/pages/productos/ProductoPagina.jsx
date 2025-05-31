@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Lotes from "./components/lotes/Lotes";
 import { useSelector } from "react-redux";
+import Movimientos from "./components/movimientos/Movimientos";
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();
@@ -179,6 +180,7 @@ const ProductoPagina = ({ tipo }) => {
         <div className="grid gap-6 mt-6">
             <GraficaComportamientoStock />
             <Lotes tipo={tipo} productoId={productoId} />
+            <Movimientos productoId={productoId} tipoMovimiento="producto"/>
         </div>
     </>);
 };

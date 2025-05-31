@@ -11,7 +11,7 @@ import useDebounce from '../../../../shared/hooks/useDebounce';
 import { dateColombiaFormat, obtenerEstadoVencimiento } from '@/utils/utilities';
 import ModalCrearMovimiento from '@/pages/productos/components/movimientos/ModalCrearMovimiento';
 
-const InventarioLotes = ({ corte, corteId, setRefreshStock }) => {
+const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimientos }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [paginaActual, setPaginaActual] = useState(1);
@@ -65,6 +65,7 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock }) => {
       })
     );
     setRefreshStock(prev => prev + 1);
+    setRefreshMovimientos(prev => prev + 1)
   };
 
   return (

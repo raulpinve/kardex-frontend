@@ -11,6 +11,7 @@ import SkeletonElement from '@/shared/components/SkeletonElement';
 import SubirImagenProducto from '../productos/components/producto/SubirImagenProducto';
 import TituloInventarios from './components/TituloInventarios';
 import GraficaComportamientoStock from '@/shared/components/GraficaComportamientoStock';
+import Movimientos from '../productos/components/movimientos/Movimientos';
 
 const InventarioProductoPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -21,6 +22,7 @@ const InventarioProductoPagina = () => {
     const [producto, setProducto] = useState();
     const {periodo, productoId} = useParams();
     const [corte, setCorte] = useState();
+    const [refeshMovimientos, setRefreshMovimientos] = useState(0)
 
     // Obtener información del corte
     useEffect(() => {
@@ -108,7 +110,8 @@ const InventarioProductoPagina = () => {
                 <TarjetasInformacionStockProducto  corteId={corte?.id} refreshStock={refreshStock} productoId={productoId}/> 
                 <div className="mt-4 grid gap-4">
                     <GraficaComportamientoStock corteId={corte?.id} refreshStock={refreshStock}/>
-                    <InventarioLotes corte={corte} corteId={corte?.id} setRefreshStock={setRefreshStock}/>
+                    <InventarioLotes corte={corte} corteId={corte?.id} setRefreshStock={setRefreshStock} setRefreshMovimientos={setRefreshMovimientos}/>
+                    <Movimientos corteId={corte?.id} productoId={productoId} setRefreshStock={setRefreshStock} refeshMovimientos={refeshMovimientos} tipoMovimiento="producto"/>
                 </div>
             </>)}
         </>
