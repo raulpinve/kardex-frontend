@@ -80,6 +80,7 @@ const NotificationDrawer = () => {
                 console.error(error);
             }
         }
+        if(!almacenId) return; 
         fetchNotificaciones();
     }, [])
 
@@ -118,9 +119,11 @@ const NotificationDrawer = () => {
             }
         };
 
+        if(!almacenId) return 
+
         // Llamar inmediatamente y después cada 30 segundos
         fetchNotificacionesNoVistas();
-        const intervalId = setInterval(fetchNotificacionesNoVistas, 30000); // 30 segundos
+        const intervalId = setInterval(fetchNotificacionesNoVistas, 30000);
 
         return () => clearInterval(intervalId); // Limpieza al desmontar
     }, [token, almacenId]);

@@ -23,6 +23,7 @@ const ModalAbrirImagenPerfil = (props) => {
                 <img 
                     src={`${host}${usuario.avatar}`}
                     onLoad={handleImageLoad} 
+                    className='w-full'
                     onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = imageDefault; 

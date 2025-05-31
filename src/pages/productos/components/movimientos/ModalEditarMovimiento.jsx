@@ -22,10 +22,10 @@ const ModalEditarMovimiento = (props) => {
         setLoading(true);
         
         try {
-            await editarMovimiento(token, movimientoSeleccionado.id, values);
+            const res = await editarMovimiento(token, movimientoSeleccionado.id, values)
             setMovimientos(prevMovimientos =>
                 prevMovimientos.map(movimiento => {
-                    return movimiento.id === movimientoSeleccionado.id ? { ...movimientoSeleccionado, ...values } : movimiento
+                    return movimiento.id === movimientoSeleccionado.id ? { ...movimientoSeleccionado, ...res.data } : movimiento
                 })
             );
             cerrarModal();
@@ -129,12 +129,7 @@ const ModalEditarMovimiento = (props) => {
                         </label>
                         <textarea 
                             className={`${errors.descripcion && errors.descripcion.message ? "input-form-error" : ""} input-form resize-none h-[70px]`}
-                            {...register("descripcion", {
-                                required: {
-                                    value: true, 
-                                    message: "Debe proporcionar una descripción."
-                                }
-                            })}
+                            {...register("descripcion")}
                         ></textarea>
                         {errors?.descripcion?.message && (<p className="input-message-error">{errors.descripcion.message}</p>)} 
                     </div>

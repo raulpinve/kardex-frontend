@@ -59,7 +59,7 @@ const ProductoPagina = ({ tipo }) => {
                         </div>
                     </h1>
                 </>)}
-                <div className="">
+                <div>
                     {loading && !producto && (<div className="grid rounded-2xl border border-gray-200 bg-white mt-3 dark:border-gray-800 dark:bg-white/[0.01] grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
                         <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800 grid gap-2">
                             <SkeletonElement className="w-[55%] h-[25px]"/>
@@ -177,8 +177,8 @@ const ProductoPagina = ({ tipo }) => {
             <TarjetasStockProducto productoId={productoId}/>
         </div>
         <div className="grid gap-6 mt-6">
-            <Lotes tipo={tipo} productoId={productoId} />
             <GraficaComportamientoStock />
+            <Lotes tipo={tipo} productoId={productoId} />
         </div>
     </>);
 };

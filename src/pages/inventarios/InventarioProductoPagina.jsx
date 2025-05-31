@@ -105,10 +105,10 @@ const InventarioProductoPagina = () => {
                </p>
             )}
             {!mensajeError && !loading && corte && (<>
-                <TarjetasInformacionStockProducto corteId={corte?.id} productoId={productoId}/> 
+                <TarjetasInformacionStockProducto  corteId={corte?.id} refreshStock={refreshStock} productoId={productoId}/> 
                 <div className="mt-4 grid gap-4">
                     <GraficaComportamientoStock corteId={corte?.id} refreshStock={refreshStock}/>
-                    <InventarioLotes corteId={corte?.id} setRefreshStock={setRefreshStock}/>
+                    <InventarioLotes corte={corte} corteId={corte?.id} setRefreshStock={setRefreshStock}/>
                 </div>
             </>)}
         </>

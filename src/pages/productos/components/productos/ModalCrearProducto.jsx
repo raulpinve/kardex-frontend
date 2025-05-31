@@ -52,19 +52,6 @@ const ModalCrearProducto = (props) => {
 
     }, [tipo])
 
-    useEffect(() => {
-        setValue("nombre", "Atropina");
-        setValue("formaFarmaceutica", "Solución inyectable");
-        setValue("concentracion", "1mg/ml");
-        setValue("presentacionComercial", "Ampolla");
-        setValue("unidadMedida", "mg/ml");
-        setValue("nombre", "Sonda levin");
-        setValue("serie", "N/A");
-        setValue("riesgo", "IIA");
-        setValue("presentacionComercial", "Unidad");
-        setValue("stockRequerido", 5);
-    }, [])
-
     return (
         <Modal
             isOpenModal={true}
@@ -315,13 +302,14 @@ const ModalCrearProducto = (props) => {
                         </label>
                         <input 
                             type="number"
+                            min={0}
                             className={`${errors.stockRequerido && errors.stockRequerido.message ? "input-form-error" : ""} input-form`}
                             {...register("stockRequerido", {
-                                required: "El stock requerido debe ser mayor que cero",
+                                required: "Debe proporcionar un stock requerido",
                                 valueAsNumber: true,
                                 min: {
-                                    value: 1,
-                                    message: "El stock requerido debe ser mayor que cero",
+                                    value: 0,
+                                    message: "El stock requerido debe ser igual o mayor que cero",
                                 }
                             })}
                             id="stockRequerido"
@@ -340,7 +328,7 @@ const ModalCrearProducto = (props) => {
                                 {...register("categoriaId")}
                                 id="categoriaId"
                             >
-                            <option value="">Sin categoría</option>
+                            <option value="">Seleccionar...</option>
                                 {categorias.map(cat => (
                                     <option key={cat.id} value={cat.id}>{cat.nombre}</option>
                                 ))}

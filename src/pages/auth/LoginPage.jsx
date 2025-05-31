@@ -65,7 +65,7 @@ const LoginPage = () => {
                     {/* Formulario para iniciar sesión */}
                     <form
                         action=""
-                        className="flex flex-col gap-4 text-sm text-gray-600 dark:text-white mt-6"
+                        className="flex flex-col gap-2 text-sm text-gray-600 dark:text-white mt-6"
                         onSubmit={handleSubmit(onSubmit)}
                         autoComplete="off"
                     >

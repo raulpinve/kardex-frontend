@@ -42,9 +42,9 @@ const ModalCrearLote = (props) => {
     }
 
     useEffect(() => {
-        setValue("numeroLote", "L-2025-04-01");
+        setValue("numeroLote", "L-2025-04-03");
         setValue("registroSanitario", "RS-INVIMA-2025M-0012345");
-        setValue("fechaVencimiento", "2023-02-12");
+        setValue("fechaVencimiento", "2025-10-12");
     }, [])
 
     return (

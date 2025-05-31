@@ -42,7 +42,7 @@ const Pagination = ({ paginaActual, totalPaginas, onPageChange, className }) => 
       <button
         onClick={() => onPageChange(paginaActual - 1)}
         disabled={paginaActual === 1}
-        className={`flex items-center gap-2 rounded-md border border-gray-300 bg-white p-1.5 text-gray-700 shadow-sm hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 ${paginaActual === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+        className={`flex items-center gap-2 rounded-md border cursor-pointer border-gray-300 bg-white p-1.5 text-gray-700 shadow-sm hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 ${paginaActual === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
       >
         <LuChevronLeft className="w-4 h-4" />
       </button>
@@ -62,7 +62,7 @@ const Pagination = ({ paginaActual, totalPaginas, onPageChange, className }) => 
                 else if (pagina === "right-dots") setExpandirDerecha(true);
                 else if (typeof pagina === "number") onPageChange(pagina);
               }}
-              className={`flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium transition-colors
+              className={`flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer
                 ${
                   paginaActual === pagina
                     ? "bg-blue-600 dark:bg-gray-700 text-white hover:bg-blue-600"
@@ -79,7 +79,7 @@ const Pagination = ({ paginaActual, totalPaginas, onPageChange, className }) => 
       <button
         onClick={() => onPageChange(paginaActual + 1)}
         disabled={paginaActual === totalPaginas}
-        className={`flex items-center gap-2 rounded-md border border-gray-300 bg-white p-1.5 text-gray-700 shadow-sm hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 ${paginaActual === totalPaginas ? "opacity-50 cursor-not-allowed" : ""}`}
+        className={`flex items-center gap-2 cursor-pointer rounded-md border border-gray-300 bg-white p-1.5 text-gray-700 shadow-sm hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 ${paginaActual === totalPaginas ? "opacity-50 cursor-not-allowed" : ""}`}
       >
         <LuChevronRight className="w-4 h-4" />
       </button>

@@ -11,9 +11,9 @@ const ModalAbrirImagenPerfil = ({cerrarModal, urlImage, tipo = "perfil"}) => {
     };
 
     let titulo;
-    if(tipo === "dispositivo"){
+    if(tipo === "dispositivo" || tipo === "dispositivos"){
         titulo = "Imagen del dispositivo";
-    }else if (tipo === "medicamento"){
+    }else if (tipo === "medicamento" || tipo === "medicamentos"){
         titulo = "Imagen del medicamento";
     }else{
         titulo = "Imagen de perfil";
@@ -30,6 +30,7 @@ const ModalAbrirImagenPerfil = ({cerrarModal, urlImage, tipo = "perfil"}) => {
                 {loading && <Loader />} {/* Mostrar el loader mientras la imagen carga */}
                 <img 
                     src={host + urlImage}
+                    className='w-full'
                     onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = imageDefault; 

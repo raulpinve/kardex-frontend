@@ -364,8 +364,8 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId, refreshStock}) 
 
                     {/* Contenedor tabla */}
                     <div className="xl:order-1 mt-6 xl:mt-0 xl:border-r border rounded-lg border-gray-200 dark:border-gray-800">
-                        <div className="overflow-x-auto w-full">
-                            <table className="w-full min-w-max text-sm text-center">
+                        <div className="overflow-x-auto w-full h-[300px]">
+                            <table className="w-full min-w-max text-sm text-center ">
                                 <thead className='border-b border-gray-200 dark:border-gray-800 text-xs'>
                                     <tr>
                                         <th className="p-3 text-left bg-gray-100 dark:bg-gray-800 rounded-tl-lg">

@@ -79,7 +79,11 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
                 }));
             }
         } catch (error){
-            toast.error(error?.response?.data?.message || "No se pudo cambiar la imagen de perfil. Por favor, inténtalo de nuevo.");
+            const fieldErrors = error?.response?.data?.error?.fieldErrors;
+            const message = Array.isArray(fieldErrors) && fieldErrors.length > 0
+                ? fieldErrors[0].message
+                : "No se pudo cambiar la imagen de perfil. Por favor, inténtalo de nuevo.";
+            toast.error(message);
         } finally {
             setSubiendoAvatar(false);
         }

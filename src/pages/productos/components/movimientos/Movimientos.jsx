@@ -3,7 +3,7 @@ import { LuCalendar, LuEraser, LuPencil, LuSearch } from 'react-icons/lu';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import Pagination from '../../../../shared/components/Pagination';
 import CardTitulo from '../../../../shared/components/CardTitulo';
-import { dateColombiaFormat } from '../../../../utils/utilities';
+import { dateColombiaFormat, formatDateCorte, formatFechaCorte } from '../../../../utils/utilities';
 import ModalEliminarMovimiento from './ModalEliminarMovimiento';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import ModalEditarMovimiento from './ModalEditarMovimiento';
@@ -205,7 +205,7 @@ const Movimientos = ({corteId, loteId, setRefreshStock}) => {
                                                         <p>{movimiento.cantidad}</p>
                                                     </td>
                                                     <td className="py-3 px-4 lg:gap-2 items-center">
-                                                        <p>{dateColombiaFormat(movimiento.fecha)}</p>
+                                                        <p>{formatFechaCorte(movimiento.fecha)}</p>
                                                     </td>
                                                     <td className="py-3 px-4 items-center">
                                                         <p>{movimiento.descripcion ? movimiento.descripcion : "N/A"}</p>

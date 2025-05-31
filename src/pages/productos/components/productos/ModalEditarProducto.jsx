@@ -74,7 +74,7 @@ const ModalEditarProducto = (props) => {
                 setValue("riesgo", productoSeleccionado.riesgo || "");
                 setValue("presentacionComercial", productoSeleccionado.presentacionComercial || "");
             }
-            setValue("stockRequerido", productoSeleccionado.stockRequerido || "");
+            setValue("stockRequerido", productoSeleccionado.stockRequerido || 0);
         }
     }, [productoSeleccionado, categoriasCargadas, setValue, tipo]);
 
@@ -327,11 +327,11 @@ const ModalEditarProducto = (props) => {
                             type="number"
                             className={`${errors.stockRequerido && errors.stockRequerido.message ? "input-form-error" : ""} input-form`}
                             {...register("stockRequerido", {
-                                required: "El stock requerido debe ser mayor que cero",
+                                required: "Debe proporcionar un stock requerido",
                                 valueAsNumber: true,
                                 min: {
-                                    value: 1,
-                                    message: "El stock requerido debe ser mayor que cero",
+                                    value: 0,
+                                    message: "El stock requerido debe ser igual o mayor que cero",
                                 }
                             })}
                             id="stockRequerido"

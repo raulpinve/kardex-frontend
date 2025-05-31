@@ -55,10 +55,10 @@ const ModalCrearUsuario = (props) => {
             size="lg"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+                <h5 className="text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
                     Información personal
                 </h5>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 gap-2">
                     {/* Primer nombre */}
                     <div>
                         <label htmlFor="primerNombre" className="label-form">
@@ -173,15 +173,13 @@ const ModalCrearUsuario = (props) => {
                     </div>
                 </div>
 
-                <h5 className="mt-6 mb-1 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+                <h5 className="my-5 mb-1 text-lg font-medium text-gray-800 dark:text-white/90 ">
                     Privilegios
                 </h5>
                 <div className="grid grid-cols-2 gap-4 mb-4">
                     {/* Rol */}
                     <div>
-                        <label htmlFor="rol" className="label-form">
-                            Rol
-                        </label>
+                        <label htmlFor="rol" className="label-form"> Rol </label>
                         <div className="relative">
                             <LuChevronDown  className="absolute right-3.5 top-[13px] dark:text-gray-200" />                     
                             <select 

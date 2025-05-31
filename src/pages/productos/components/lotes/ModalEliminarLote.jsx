@@ -5,6 +5,7 @@ import Button from '../../../../shared/components/Button';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
 import { eliminarLote } from '../../services/loteServices';
+import { handleErrorsBasic } from '@/utils/handleErrors';
 
 const ModalEliminarLote = (props) => {
     const {cerrarModal, loteSeleccionado, setLotes} = props;
@@ -31,8 +32,8 @@ const ModalEliminarLote = (props) => {
             )
             toast.success("Lote eliminado exitosamente");
             cerrarModal();
-        } catch {
-            toast.error("Ocurrió un error al eliminar el lote");
+        } catch (error){
+            handleErrorsBasic(error, setMessageError)
         } finally {
             setLoading(false);
         }

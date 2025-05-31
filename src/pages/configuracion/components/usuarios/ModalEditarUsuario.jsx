@@ -60,10 +60,10 @@ const ModalEditarUsuario = (props) => {
             size="lg"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+                <h5 className="text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
                     Información personal
                 </h5>
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-2">
                     {/* Primer nombre */}
                     <div>
                         <label htmlFor="primerNombre" className="label-form">
@@ -129,7 +129,7 @@ const ModalEditarUsuario = (props) => {
                     </div>
                 </div>
 
-                <h5 className="mt-6 mb-1 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+                <h5 className="my-5 mb-1 text-lg font-medium text-gray-800 dark:text-white/90 ">
                     Privilegios
                 </h5>
                 <div className="grid grid-cols-2 gap-4">

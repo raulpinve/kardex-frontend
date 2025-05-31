@@ -88,7 +88,8 @@ const ModalCrearCategoria = (props) => {
                                 validate: value => ["medicamento", "dispositivo"].includes(value) || "Tipo inválido"
                             })}
                             id="tipo"
-                        >
+                        >   
+                            <option value="">Seleccionar...</option>
                             <option value="dispositivo">Dispositivo</option>
                             <option value="medicamento">Medicamento</option>
                         </select>

@@ -105,7 +105,7 @@ const ProductosPagina = ({ tipo }) => {
                         </div>
                         <div className="relative">
                             <select
-                                className={`select-form`}
+                                className={`select-form max-w-[210px]`}
                                 value={categoriaSeleccionada}
                                 onChange={(e) => setCategoriaSeleccionada(e.currentTarget.value)}
                             >
@@ -119,7 +119,7 @@ const ProductosPagina = ({ tipo }) => {
                     </div>
                 </div>
                 <div className="overflow-x-auto">
-                    <table className="min-w-max w-full table-auto mt-3">
+                    <table className="min-w-max 2xl:min-w-full w-full table-auto mt-3">
                         <thead className='sticky top-0 bg-white dark:bg-gray-800'>
                             <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
                                 <th className="py-3 px-4">
@@ -169,7 +169,7 @@ const ProductosPagina = ({ tipo }) => {
                         </thead>
 
                         {loading ? <SkeletonTable rows={7} columns={tipo === "medicamentos" ? 8 : 7}/>: 
-                            <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
+                            <tbody className="divide-y divide-gray-100 text-sm dark:divide-gray-800">
                                 {error ? <tr>
                                     <td colSpan={tipo === "medicamentos" ? 8 : 7} className="py-3">
                                         <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>

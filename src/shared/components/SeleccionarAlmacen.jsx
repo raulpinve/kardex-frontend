@@ -90,6 +90,7 @@ const SeleccionarAlmacen = () => {
                         [...Array(5)].map((_,index) => <div key={index} className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded-xl h-[20px] mb-3">
                         </div>)
                     }</>}
+
                     {/* Mostrando contenido */}
                     {!loading && (<>
                         {almacenes.length === 0 ? (
@@ -121,11 +122,11 @@ const SeleccionarAlmacen = () => {
                         ) : (
                             <div className=''>
                                 <p className='text-sm'>Por favor selecciona un almacén para continuar: </p>
-                                <ul className="space-y-2 dark:text-gray-300 mt-3">
+                                <ul className="space-y-2 dark:text-gray-300 mt-3 divide-y py-1 divide-gray-200">
                                     {almacenes.map(almacen => (
                                         <li 
                                             key={almacen.id} 
-                                            className="cursor-pointer hover:font-medium select-none font-semibold"
+                                            className="cursor-pointer hover:font-medium select-none p-1"
                                             onClick={() => {
                                                 localStorage.setItem('almacenSeleccionado', JSON.stringify(almacen));
                                                 dispatch(setAlmacen(almacen));

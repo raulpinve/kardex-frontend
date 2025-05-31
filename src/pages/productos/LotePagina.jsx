@@ -154,8 +154,8 @@ const LotePagina = () => {
             </div>
         </div>
         <div className="mt-4 grid gap-4">
-            <Movimientos loteId={loteId} />
             <GraficaComportamientoStock refreshStock ={refreshStock} tipo="lote"/>   
+            <Movimientos loteId={loteId} />
         </div>
     </>);
 };

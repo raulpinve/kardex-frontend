@@ -53,9 +53,13 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
                     avatar: respuesta.data.avatar
                 }));
             }
-
         } catch (error){
-            toast.error(error?.response?.data?.message || "No se pudo cambiar la imagen de perfil. Por favor, inténtalo de nuevo.");
+            const fieldErrors = error?.response?.data?.error?.fieldErrors;
+            const message = Array.isArray(fieldErrors) && fieldErrors.length > 0
+                ? fieldErrors[0].message
+                : "No se pudo cambiar la imagen de perfil. Por favor, inténtalo de nuevo.";
+            toast.error(message);
+
         } finally {
             setSubiendoAvatar(false);
         }
@@ -113,19 +117,20 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
             {mostrarMenu && (
                 <div 
                     ref={menuRef}
-                    className="absolute top-[100%] left-[50%] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg w-[150px]"
+                    className="absolute top-[100%] left-0 z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg w-[150px]"
                 >
                     <button
                         onClick={handleOpcionCambiar}
                         className="flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
                     >
-                        {tieneImagen ? (<>
+                        {usuario?.avatarThumbnail ?  <>
                             <LuRefreshCcw className="mr-2" /> Cambiar avatar
-                        </>) : (<>
+                        </>
+                        : <>
                             <LuCloudUpload className="mr-2" /> Subir avatar
-                        </>)}
+                        </>} 
                     </button>
-                    {tieneImagen && (
+                    {usuario?.avatarThumbnail && (
                         <button
                             onClick={handleOpcionEliminar}
                             className="flex items-center px-3 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"

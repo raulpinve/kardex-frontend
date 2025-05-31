@@ -72,7 +72,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/inventarios" replace />} />
-		{/* Rutas protegidas */}
+		    {/* Rutas protegidas */}
         <Route path="/" element={<PrivateRoute Component={Layout}/>}>
           	<Route path="/inventarios/:periodo?" element={<InventariosPagina />}/>
           	<Route path="/inventarios/:periodo/:productoId" element={<InventarioProductoPagina/>}/>
@@ -88,8 +88,9 @@ function App() {
             <Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
             <Route path="/lotes/:loteId" element={< LotePagina/>}/>
         </Route>
-		<Route path="/:token/verificar-email" element={<VerificarEmailPage />} />
-		<Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
+        
+        <Route path="/:token/verificar-email" element={<VerificarEmailPage />} />
+        <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
         <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />

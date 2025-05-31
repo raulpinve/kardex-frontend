@@ -129,20 +129,18 @@ const Productos = ({ tipo, corteId }) => {
                             }}
                         />
                     </div>
-                    <div>
-                        <div className="relative">
-                            <select
-                                className={`select-form`}
-                                value={categoriaSeleccionada}
-                                onChange={(e) => setCategoriaSeleccionada(e.currentTarget.value)}
-                            >
-                            <option value="">Seleccionar categoría...</option>
-                                {categorias.map(cat => (
-                                    <option key={cat.id} value={cat.id}>{cat.nombre}</option>
-                                ))}
-                            </select>
-                            <LuChevronDown className="absolute top-[16px] right-2" />
-                        </div>
+                    <div className="relative">
+                        <select
+                            className={`select-form`}
+                            value={categoriaSeleccionada}
+                            onChange={(e) => setCategoriaSeleccionada(e.currentTarget.value)}
+                        >
+                        <option value="">Seleccionar categoría...</option>
+                            {categorias.map(cat => (
+                                <option key={cat.id} value={cat.id}>{cat.nombre}</option>
+                            ))}
+                        </select>
+                        <LuChevronDown className="absolute top-[16px] right-2" />
                     </div>
                 </div>
             </div>

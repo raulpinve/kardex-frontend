@@ -65,7 +65,7 @@ const SignupPage = () => {
                     <p className="text-sm text-gray-500 dark:text-gray-400">Crea una cuenta ingresando tu nombre de usuario, correo y una contraseña segura.</p>
 
                     {/* Formulario para iniciar sesión */}
-                    <form action="" className="gap-4 mt-6 text-sm text-gray-600 dark:text-white" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+                    <form action="" className="gap-2 mt-6 text-sm text-gray-600 dark:text-white" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                         <div className="lg:flex gap-2">
                             {/* Primer nombre */}
                             <div>

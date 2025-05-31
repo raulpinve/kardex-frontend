@@ -9,10 +9,9 @@ import { useSelector } from 'react-redux';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { dateColombiaFormat, obtenerEstadoVencimiento } from '@/utils/utilities';
-import Button from '@/shared/components/Button';
 import ModalCrearMovimiento from '@/pages/productos/components/movimientos/ModalCrearMovimiento';
 
-const InventarioLotes = ({ corteId, setRefreshStock }) => {
+const InventarioLotes = ({ corte, corteId, setRefreshStock }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [paginaActual, setPaginaActual] = useState(1);
@@ -20,7 +19,6 @@ const InventarioLotes = ({ corteId, setRefreshStock }) => {
   const [consulta, setConsulta] = useState("");
   const [lotes, setLotes] = useState([]);
   const token = useSelector(state => state.auth.token);
-  const [modalActivo, setModalActivo] = useState(null);
   const [modalMovimientoActivo, setModalMovimientoActivo] = useState(false);
   const [loteSeleccionado, setLoteSeleccionado] = useState(null);
 
@@ -75,13 +73,6 @@ const InventarioLotes = ({ corteId, setRefreshStock }) => {
       <div className="flex justify-between items-center">
         <CardTitulo>Lotes</CardTitulo>
         <div className="flex gap-1 items-center justify-between">
-          <Button
-            type="button"
-            colorButton="primary"
-            onClick={() => setModalActivo("crear")}
-          >
-            Crear
-          </Button>
           <div className="relative hidden md:block">
             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
             <input
@@ -113,9 +104,11 @@ const InventarioLotes = ({ corteId, setRefreshStock }) => {
                 <th className="py-3 px-4">
                     <p className="font-medium text-gray-700 dark:text-gray-400">Stock disponible</p>
                 </th>
-                <th className="py-3 px-4">
+                {!corte?.cerrado && (
+                  <th className="py-3 px-4">
                     <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                </th>
+                  </th>
+                )}
               </tr>
             </thead>
             {loading && <SkeletonTable rows={7} columns={5} />}
@@ -151,19 +144,21 @@ const InventarioLotes = ({ corteId, setRefreshStock }) => {
                                     </p>
                                 </td>
                                 <td className="py-3 px-4">{lote.stockDisponible}</td>
-                                <td className="py-3 px-4 flex gap-2">
-                                    <button
-                                        title="Registrar movimiento"
-                                        className="cursor-pointer p-1"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setLoteSeleccionado(lote);
-                                            setModalMovimientoActivo(true);
-                                        }}
-                                    >
-                                        <LuArrowLeftRight />
-                                    </button>
-                                </td>
+                                {!corte?.cerrado && (
+                                  <td className="py-3 px-4 flex gap-2">
+                                      <button
+                                          title="Registrar movimiento"
+                                          className="cursor-pointer p-1"
+                                          onClick={(e) => {
+                                              e.stopPropagation();
+                                              setLoteSeleccionado(lote);
+                                              setModalMovimientoActivo(true);
+                                          }}
+                                      >
+                                          <LuArrowLeftRight />
+                                      </button>
+                                  </td>
+                                )}
                             </tr>
                         );
                     })}

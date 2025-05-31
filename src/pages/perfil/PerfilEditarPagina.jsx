@@ -20,7 +20,7 @@ const PerfilPagina = () => {
                 <div className="p-5 mb-6 mt-4 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 flex justify-between items-center">
                     <div className="flex gap-3">
                         <SubirImagenPerfil usuario={usuario} setModalActivo={setModalActivo} />
-                        <div className="order-3 mt-3 xl:order-2">
+                        <div className="order-3 xl:order-2">
                             <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90">
                                 {usuario?.primerNombre} {usuario?.apellidos}
                             </h4>
