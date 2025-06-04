@@ -56,7 +56,7 @@ const InventarioLotesPagina = () => {
             <TarjetasInformacionStock corteId={corte?.id} loteId={loteId} refreshStock={refreshStock}/> 
             <div className="mt-4 grid gap-4">
                 <GraficaComportamientoStock tipo={`lote`} corteId={corte?.id} refreshStock={refreshStock}/>
-                <Movimientos corteId={corte?.id} loteId={loteId} setRefreshStock={setRefreshStock}/>
+                <Movimientos corte={corte} corteId={corte?.id} loteId={loteId} setRefreshStock={setRefreshStock}/>
             </div>
         </div>)}
     </>);

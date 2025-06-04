@@ -19,7 +19,7 @@ import { useDarkMode } from "../hooks/useDarkMode";
 
 const GraficaComportamientoStock = ({tipo = "producto", corteId, refreshStock}) => {
     const [mostrarBotones, setMostrarBotones] = useState(false);
-    const [tipoGrafica, setTipoGrafica] = useState("area");
+    const [tipoGrafica, setTipoGrafica] = useState("bar");
     const [messageError, setMessageError] = useState(null);
     const token = useSelector(state => state.auth.token);
     const [rangoFechas, setRangoFechas] = useState([]);
@@ -34,7 +34,7 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId, refreshStock}) 
         chart: {
             redrawOnParentResize: true,
             id: "stockChart",
-            background: darkMode ? '#transparent' : '',
+            background: 'transparent',
             type: tipoGrafica,
                 toolbar: {
                     show: false,
@@ -97,7 +97,6 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId, refreshStock}) 
     };
 
     function parseDateLocal(dateString) {
-        // dateString esperado: "YYYY-MM-DD"
         const [year, month, day] = dateString.split('-');
         return new Date(year, month - 1, day); // Mes es 0-based
     }
@@ -366,7 +365,7 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId, refreshStock}) 
                     <div className="xl:order-1 mt-6 xl:mt-0 xl:border-r border rounded-lg border-gray-200 dark:border-gray-800">
                         <div className="overflow-x-auto w-full h-[300px]">
                             <table className="w-full min-w-max text-sm text-center ">
-                                <thead className='border-b border-gray-200 dark:border-gray-800 text-xs'>
+                                <thead className='border-b border-gray-200 dark:border-gray-800 text-xs sticky top-0'>
                                     <tr>
                                         <th className="p-3 text-left bg-gray-100 dark:bg-gray-800 rounded-tl-lg">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>

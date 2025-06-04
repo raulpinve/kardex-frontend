@@ -6,6 +6,7 @@ import Button from "@/shared/components/Button";
 import MessageError from "@/shared/components/MessageError";
 import { cerrarCorte } from "../../services/cortesServices";
 import { useNavigate } from "react-router-dom";
+import { handleErrorsBasic } from "@/utils/handleErrors";
 
 const ModalCerrarCorte = ({ cerrarModal, corteId }) => {
     const token = useSelector(state => state.auth.token);
@@ -32,7 +33,7 @@ const ModalCerrarCorte = ({ cerrarModal, corteId }) => {
             navigate(`/inventarios`);
             cerrarModal();
         } catch (error){
-            setMessageError(error?.response?.data?.message || "Ha ocurrido un error al intentar cerrar el corte. Por favor, inténtalo de nuevo.")
+            handleErrorsBasic(error, setMessageError);
         } finally {
             setLoading(false);
         }

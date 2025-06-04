@@ -57,11 +57,23 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
     setLotes((prevLotes) =>
       prevLotes.map((lote) => {
         if (lote.id !== loteId) return lote;
+        
         const nuevoStock =
           tipo === "entrada"
-            ? lote.stockDisponible + Number(cantidad)
-            : lote.stockDisponible - Number(cantidad);
-        return { ...lote, stockDisponible: nuevoStock };
+            ? lote.stockFinal + Number(cantidad)
+            : lote.stockFinal - Number(cantidad);
+
+        const nuevosIngresos = 
+          tipo === "entrada"
+            ? lote.ingresos + Number(cantidad)
+            : lote.ingresos
+
+        const nuevosEgresos = 
+          tipo === "salida"
+            ? lote.salidas + Number(cantidad)
+            : lote.salidas
+
+        return { ...lote, stockFinal: nuevoStock, ingresos: nuevosIngresos, salidas:  nuevosEgresos};
       })
     );
     setRefreshStock(prev => prev + 1);
@@ -103,27 +115,37 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
                     <p className="font-medium text-gray-700 dark:text-gray-400">Fecha de vencimiento</p>
                 </th>
                 <th className="py-3 px-4">
-                    <p className="font-medium text-gray-700 dark:text-gray-400">Stock disponible</p>
+                  <p className="font-medium text-gray-700 dark:text-gray-400">Stock inicial</p>
                 </th>
-                {!corte?.cerrado && (
+                 <th className="py-3 px-4">
+                  <p className="font-medium text-gray-700 dark:text-gray-400">Ingresos</p>
+                </th>
+                 <th className="py-3 px-4">
+                  <p className="font-medium text-gray-700 dark:text-gray-400">Salidas</p>
+                </th>
+                <th className="py-3 px-4">
+                  <p className="font-medium text-gray-700 dark:text-gray-400">Stock final</p>
+                </th>
+                {!corte?.cerrado && (<>
                   <th className="py-3 px-4">
                     <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
                   </th>
+                </>
                 )}
               </tr>
             </thead>
-            {loading && <SkeletonTable rows={7} columns={5} />}
+            {loading && <SkeletonTable rows={7} columns={8} />}
                 <tbody className="text-sm">
                     {!loading && error && (
                         <tr>
-                            <td colSpan="5" className="py-3 px-4 text-center text-gray-700 dark:text-gray-400">
+                            <td colSpan="8" className="py-3 px-4 text-center text-gray-700 dark:text-gray-400">
                                 {error}
                             </td>
                         </tr>
                     )}
                     {!loading && !error && lotes.length === 0 && (
                         <tr>
-                            <td colSpan="5" className="py-3 px-4 text-center text-gray-700 dark:text-gray-400">
+                            <td colSpan="8" className="py-3 px-4 text-center text-gray-700 dark:text-gray-400">
                                 No hay lotes por mostrar.
                             </td>
                         </tr>
@@ -136,7 +158,7 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
                                 className="cursor-pointer text-sm"
                                 onClick={() => redireccionar(lote.id)}
                             >
-                                <td className="py-3 px-4">{lote.numeroLote}</td>
+                                <td className="py-3 px-4">{lote.numeroLote} {lote?.eliminado === true ? <span className='text-gray-500 text-xs font-medium'>(Eliminado)</span>: null }</td>
                                 <td className="py-3 px-4">{lote.registroSanitario}</td>
                                 <td className="py-3 px-4 lg:flex lg:gap-2 items-center">
                                     <p>{dateColombiaFormat(lote.fechaVencimiento)}</p>
@@ -144,8 +166,11 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
                                         {estado}
                                     </p>
                                 </td>
-                                <td className="py-3 px-4">{lote.stockDisponible}</td>
-                                {!corte?.cerrado && (
+                                <td className="py-3 px-4">{lote.stockInicial}</td>
+                                <td className="py-3 px-4">{lote.ingresos}</td>
+                                <td className="py-3 px-4">{lote.salidas}</td>
+                                <td className="py-3 px-4">{lote.stockFinal}</td>
+                                {!corte?.cerrado && (<>
                                   <td className="py-3 px-4 flex gap-2">
                                       <button
                                           title="Registrar movimiento"
@@ -159,7 +184,7 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
                                           <LuArrowLeftRight />
                                       </button>
                                   </td>
-                                )}
+                                </>)}
                             </tr>
                         );
                     })}

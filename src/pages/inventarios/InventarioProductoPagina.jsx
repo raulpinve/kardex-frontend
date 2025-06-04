@@ -111,7 +111,7 @@ const InventarioProductoPagina = () => {
                 <div className="mt-4 grid gap-4">
                     <GraficaComportamientoStock corteId={corte?.id} refreshStock={refreshStock}/>
                     <InventarioLotes corte={corte} corteId={corte?.id} setRefreshStock={setRefreshStock} setRefreshMovimientos={setRefreshMovimientos}/>
-                    <Movimientos corteId={corte?.id} productoId={productoId} setRefreshStock={setRefreshStock} refeshMovimientos={refeshMovimientos} tipoMovimiento="producto"/>
+                    <Movimientos corte={corte} corteId={corte?.id} productoId={productoId} setRefreshStock={setRefreshStock} refeshMovimientos={refeshMovimientos} tipoMovimiento="producto"/>
                 </div>
             </>)}
         </>

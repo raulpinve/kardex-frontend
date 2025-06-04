@@ -28,9 +28,10 @@ import "../../../../assets/datePicker.css"
 
 const Movimientos = ({ 
   corteId, 
+  corte,
   loteId, 
   productoId, 
-  tipoMovimiento = "lote", // "lote" o "producto"
+  tipoMovimiento = "lote", 
   setRefreshStock, 
   refeshStock, refeshMovimientos
 }) => {
@@ -104,7 +105,6 @@ const Movimientos = ({
             setRefreshStock(prev => prev + 1);
         }
     }, [movimientos, setRefreshStock]);
-
     return (
         <>  
             <Card>
@@ -112,7 +112,7 @@ const Movimientos = ({
                 <div className="flex justify-between items-center">
                     <CardTitulo>Movimientos</CardTitulo>
                     <div className="flex gap-1 items-center justify-between">
-                        {primeraParteSegmento === "inventarios" && (
+                        {primeraParteSegmento === "inventarios" && !corte?.cerrado && (
                             <Button
                                 type="button"
                                 colorButton="primary"
@@ -184,6 +184,11 @@ const Movimientos = ({
                                     <th className="py-3 px-4 min-w-[120px]">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
                                     </th>
+                                    {productoId && (
+                                        <th className="py-3 px-4">
+                                            <p className="font-medium text-gray-700 dark:text-gray-400">Número lote</p>
+                                        </th>
+                                    )}
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
                                     </th>
@@ -193,7 +198,7 @@ const Movimientos = ({
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Descripción</p>
                                     </th>
-                                    {primeraParteSegmento === "inventarios" && (
+                                     {primeraParteSegmento === "inventarios" && !corte?.cerrado && (
                                         <th className="py-3 px-4">
                                             <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
                                         </th>
@@ -221,10 +226,15 @@ const Movimientos = ({
                                 )}
 
                                 {!loading && !error && movimientos.length > 0 && movimientos.map(movimiento => (
-                                    <tr key={movimiento.id} className="text-sm cursor-pointer">
+                                    <tr key={movimiento.id} className="text-sm">
                                         <td className="py-3 px-4 lg:gap-2 items-center">
                                             <p>{formatFechaCorte(movimiento.fecha)}</p>
                                         </td>
+                                        {productoId && (
+                                            <td className="py-3 px-4 capitalize">
+                                                <p>{movimiento.numeroLote}</p>
+                                            </td>
+                                        )}
                                         <td className="py-3 px-4 capitalize">
                                             <p>{movimiento.tipo}</p>
                                         </td>
@@ -234,7 +244,7 @@ const Movimientos = ({
                                         <td className="py-3 px-4 items-center">
                                             <p>{movimiento.descripcion || "N/A"}</p>
                                         </td>
-                                        {primeraParteSegmento === "inventarios" && (
+                                         {primeraParteSegmento === "inventarios" && !corte?.cerrado && (
                                             <td className="py-3 px-4">
                                                 <div className="flex gap-2">
                                                     <button 
