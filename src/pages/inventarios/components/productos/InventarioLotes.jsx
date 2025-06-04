@@ -56,7 +56,7 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
   const actualizarLote = (loteId, tipo, cantidad) => {
     setLotes((prevLotes) =>
       prevLotes.map((lote) => {
-        if (lote.id !== loteId) return lote;
+        if (lote.loteId !== loteId) return lote;
         
         const nuevoStock =
           tipo === "entrada"

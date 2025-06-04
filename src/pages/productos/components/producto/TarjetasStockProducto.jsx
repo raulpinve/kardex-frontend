@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CardStockInformation from "@/shared/components/CardStockInformation";
-import { obtenerProducto } from "../../services/productoServices";
+import { obtenerStockDisponible } from "../../services/productoServices";
 
 const TarjetasStockProducto = ({productoId}) => {
     const [loading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ const TarjetasStockProducto = ({productoId}) => {
         const fetchProductoCorte = async () => {
             setLoading(true)
             try {
-                const res = await obtenerProducto(token,productoId);
+                const res = await obtenerStockDisponible(token,productoId);
                 setProducto(res.data);
             } catch (error) {
                 setError(error.response.data.message || "Ha ocurrido un error interno al intentar obtener la información del stock.")
@@ -25,7 +25,6 @@ const TarjetasStockProducto = ({productoId}) => {
 
         if(!productoId) return
         fetchProductoCorte()
-
         return () => {
             setError(null)
             setLoading(null)

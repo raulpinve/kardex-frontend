@@ -32,6 +32,14 @@ const obtenerProducto = (token, productoId) => {
         });
 }
 
+const obtenerStockDisponible = (token, productoId) => {
+    return apiClient(token).get(`/productos/${productoId}/stock_disponible`)
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+}
+
 const editarProducto = (token, tipo, productoId, data) => {
     const request = apiClient(token).put(`/${tipo}/${productoId}`, data);
     return request
@@ -72,6 +80,7 @@ const eliminarAvatar = (token, tipo, productoId) => {
 export {
     obtenerProductos,
     obtenerProducto,
+    obtenerStockDisponible,
     crearProducto,
     editarProducto,
     eliminarProducto,
