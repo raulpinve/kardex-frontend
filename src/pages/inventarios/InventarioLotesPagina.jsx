@@ -40,7 +40,7 @@ const InventarioLotesPagina = () => {
             }
         }
         if(!periodo || !almacenId) return;
-        fetchCorte()    
+        fetchCorte();   
 
     }, [periodo, token, almacenId])
 

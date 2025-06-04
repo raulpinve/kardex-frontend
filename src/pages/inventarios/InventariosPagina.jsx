@@ -56,12 +56,16 @@ const InventariosPagina = () => {
                 <TituloInventarios corte={corte} />
                 <div className="flex items-center gap-2">
                     <div className="flex gap-2">
-                        <Button
-                            colorButton={`primary`}
-                            onClick={() => setModalActivo("crear")}
-                        >
-                            Crear corte 
-                        </Button>
+
+                        {corte && corte?.cerrado && (
+                            <Button
+                                colorButton={`primary`}
+                                onClick={() => setModalActivo("crear")}
+                            >
+                                Crear corte 
+                            </Button>
+                        )}
+                        
                         {corte && !corte?.cerrado &&(
                             <DropdownEditarCorte corteId={corte?.id} />
                         )}

@@ -79,7 +79,7 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
     setRefreshStock(prev => prev + 1);
     setRefreshMovimientos(prev => prev + 1)
   };
-
+  
   return (
     <Card className={`h-full flex flex-col`}>
       {/* Header */}
@@ -146,7 +146,7 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
                     {!loading && !error && lotes.length === 0 && (
                         <tr>
                             <td colSpan="8" className="py-3 px-4 text-center text-gray-700 dark:text-gray-400">
-                                No hay lotes por mostrar.
+                                No hay lotes en el inventario por mostrar.
                             </td>
                         </tr>
                     )}
@@ -154,9 +154,9 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
                         const { estado, color } = obtenerEstadoVencimiento(lote.fechaVencimiento);
                         return (
                             <tr
-                                key={lote.id}
+                                key={lote.loteId}
                                 className="cursor-pointer text-sm"
-                                onClick={() => redireccionar(lote.id)}
+                                onClick={() => redireccionar(lote.loteId)}
                             >
                                 <td className="py-3 px-4">{lote.numeroLote} {lote?.eliminado === true ? <span className='text-gray-500 text-xs font-medium'>(Eliminado)</span>: null }</td>
                                 <td className="py-3 px-4">{lote.registroSanitario}</td>
@@ -204,7 +204,7 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
       {modalMovimientoActivo && loteSeleccionado && (
         <ModalCrearMovimiento
           cerrarModal={() => setModalMovimientoActivo(false)}
-          loteId = {loteSeleccionado?.id}
+          loteId = {loteSeleccionado?.loteId}
           lote={loteSeleccionado}
           actualizarLote={actualizarLote}
         />
