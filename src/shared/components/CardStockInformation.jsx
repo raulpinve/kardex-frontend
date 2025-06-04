@@ -15,7 +15,7 @@ const StockStatus = ({ value }) => {
             };
         }
         return {
-            text: `${cantidadApedir === 0 ? "Perfecto" : `+ ${cantidadApedir}`} unidades`,
+            text: `${cantidadApedir === 0 ? "¡Stock óptimo!" : `+ ${cantidadApedir} unidades`} `,
             bgColor: "bg-green-200 dark:bg-gray-900",
             textColor: "text-green-800",
         };
@@ -64,12 +64,10 @@ const CardStockInformation = ({titulo, loading, tipo = undefined, value}) => {
                 </h4>
             </div>
         </div>
-        {tipo === "cantidadPedir" && value
-            && (
-                <StockStatus
-                    value={value}
-                />
-            )}
+        {tipo === "cantidadPedir" && (value !== null && value !== undefined) && (
+            <StockStatus value={value} />
+        )}
+
     </div>)
 };
 
