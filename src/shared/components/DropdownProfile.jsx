@@ -29,7 +29,7 @@ const DropdownProfile = () => {
 		};
     }, []);
 
-	const avatarUrl = `${host}${usuario.avatarThumbnail}&v=${Date.now()}`;
+	const avatarUrl = `${host}${usuario.avatarThumbnail}`;
 	
     return (
       <div className="relative" ref={dropdownRef}>
