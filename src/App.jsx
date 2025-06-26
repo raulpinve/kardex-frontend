@@ -72,11 +72,18 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/inventarios" replace />} />
-		    {/* Rutas protegidas */}
-        <Route path="/" element={<PrivateRoute Component={Layout}/>}>
-          	<Route path="/inventarios/:periodo?" element={<InventariosPagina />}/>
-          	<Route path="/inventarios/:periodo/:productoId" element={<InventarioProductoPagina/>}/>
-        	  <Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
+          {/* Rutas protegidas con Layout persistente  */}
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Layout />
+              </PrivateRoute>
+            }
+          >
+            <Route path="/inventarios/:periodo?" element={<InventariosPagina />}/>
+            <Route path="/inventarios/:periodo/:productoId" element={<InventarioProductoPagina/>}/>
+            <Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
             <Route path="/configuracion" element={<ConfiguracionPage/>}/>
             <Route path="/editar-perfil" element={<PerfilEditarPagina/>}/>
             <Route path="/perfil/:perfilId" element={<PerfilPagina/>}/>

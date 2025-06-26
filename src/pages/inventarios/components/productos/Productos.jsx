@@ -183,18 +183,6 @@ const Productos = ({ tipo, corteId }) => {
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Riesgo</p>
                                     </th>
                                 </>)}
-                                {/* <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Stock inicial</p>
-                                </th>
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Ingresos</p>
-                                </th>
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Salidas</p>
-                                </th> */}
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Stock final</p>
-                                </th>
                             </tr>
                         </thead>
                         {/* Loading */}
@@ -273,12 +261,6 @@ const Productos = ({ tipo, corteId }) => {
                                                     <p className="text-gray-700 dark:text-gray-400"> {producto.riesgo} </p>
                                                 </td>
                                             </>)}
-                                                {/* <td className="py-3 px-4">{producto.stockInicial}</td>
-                                                <td className="py-3 px-4">{producto.ingresos}</td>
-                                                <td className="py-3 px-4">{producto.salidas}</td> */}
-                                                <td className="py-3 px-4">
-                                                    <p className="text-gray-700 dark:text-gray-400"> {producto.stockFinal} </p>
-                                                </td>
                                         </tr>
                                     })}
                                 </>

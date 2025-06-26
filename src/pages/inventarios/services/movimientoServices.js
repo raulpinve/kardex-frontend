@@ -27,8 +27,42 @@ const eliminarMovimiento = (token, movimientoId) => {
         })
 }
 
+
+const obtenerCorteMovimientosLote = (token, corteId, loteId, tipo, fecha, pagina, consulta) => {
+    const request = apiClient(token).get(`/cortes/${corteId}/${loteId}/movimientos`, {
+            params: {
+                pagina,
+                ...(consulta && { consulta }),
+                ...(tipo && { tipo }),
+                ...(fecha && { fecha }),
+            }
+        }
+    );
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}
+
+const obtenerCorteMovimientosProducto = (token, corteId, productoId, tipo, fecha, pagina, consulta) => {
+    return apiClient(token).get(`/cortes/${corteId}/productos/${productoId}/movimientos`, {
+        params: {
+            pagina,
+            ...(consulta && { consulta }),
+            ...(tipo && { tipo }),
+            ...(fecha && { fecha }),
+        }
+    })
+    .then(res => res.data)
+    .catch(err => { throw err });
+}
+
+
 export {
     crearMovimiento,
     editarMovimiento,
-    eliminarMovimiento
+    eliminarMovimiento,
+    obtenerCorteMovimientosLote,
+    obtenerCorteMovimientosProducto
 }

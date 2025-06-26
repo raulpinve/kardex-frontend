@@ -11,7 +11,7 @@ import SkeletonElement from '@/shared/components/SkeletonElement';
 import SubirImagenProducto from '../productos/components/producto/SubirImagenProducto';
 import TituloInventarios from './components/TituloInventarios';
 import GraficaComportamientoStock from '@/shared/components/GraficaComportamientoStock';
-import Movimientos from '../productos/components/movimientos/Movimientos';
+import Movimientos from './components/movimientos/Movimientos';
 
 const InventarioProductoPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);

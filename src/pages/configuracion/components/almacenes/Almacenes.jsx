@@ -22,7 +22,6 @@ const Almacenes = () => {
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [consulta, setConsulta] = useState("");
-
     const debouncedConsulta = useDebounce(consulta, 500);
 
     // Obtener almacenes

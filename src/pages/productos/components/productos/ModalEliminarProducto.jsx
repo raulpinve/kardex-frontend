@@ -32,8 +32,9 @@ const ModalEliminarProducto = (props) => {
             )
             toast.success(`${tipo === "medicamentos" ? "Medicamento": "Dispositivo"} eliminado exitosamente`);
             cerrarModal();
-        } catch {
-            toast.error(`Ocurrió un error al eliminar el ${tipo === "medicamentos" ? "medicamento": "dispositivo"}.`);
+        } catch (error){
+            const mensaje = error?.response?.data?.message || `Ocurrió un error al eliminar el ${tipo === "medicamentos" ? "medicamento": "dispositivo"}.`;
+            toast.error(mensaje);
         } finally {
             setLoading(false);
         }

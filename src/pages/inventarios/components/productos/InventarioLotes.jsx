@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { dateColombiaFormat, obtenerEstadoVencimiento } from '@/utils/utilities';
-import ModalCrearMovimiento from '@/pages/productos/components/movimientos/ModalCrearMovimiento';
+import ModalCrearMovimiento from '../movimientos/ModalCrearMovimiento';
 
 const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimientos }) => {
   const [loading, setLoading] = useState(false);
@@ -56,7 +56,7 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
   const actualizarLote = (loteId, tipo, cantidad) => {
     setLotes((prevLotes) =>
       prevLotes.map((lote) => {
-        if (lote.loteId !== loteId) return lote;
+        if (lote.id !== loteId) return lote;
         
         const nuevoStock =
           tipo === "entrada"
@@ -154,9 +154,9 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
                         const { estado, color } = obtenerEstadoVencimiento(lote.fechaVencimiento);
                         return (
                             <tr
-                                key={lote.loteId}
+                                key={lote.id}
                                 className="cursor-pointer text-sm"
-                                onClick={() => redireccionar(lote.loteId)}
+                                onClick={() => redireccionar(lote.id)}
                             >
                                 <td className="py-3 px-4">{lote.numeroLote} {lote?.eliminado === true ? <span className='text-gray-500 text-xs font-medium'>(Eliminado)</span>: null }</td>
                                 <td className="py-3 px-4">{lote.registroSanitario}</td>
@@ -204,7 +204,7 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
       {modalMovimientoActivo && loteSeleccionado && (
         <ModalCrearMovimiento
           cerrarModal={() => setModalMovimientoActivo(false)}
-          loteId = {loteSeleccionado?.loteId}
+          loteId = {loteSeleccionado?.id}
           lote={loteSeleccionado}
           actualizarLote={actualizarLote}
         />

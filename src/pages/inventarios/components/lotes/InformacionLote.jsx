@@ -5,6 +5,7 @@ import { formatDate, obtenerEstadoVencimiento } from '../../../../utils/utilitie
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import MessageError from '@/shared/components/MessageError';
+import { obtenerLote } from '@/pages/productos/services/loteServices';
 
 const InformacionLote = () => {
     const {loteId} = useParams();

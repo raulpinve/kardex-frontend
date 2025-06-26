@@ -34,7 +34,7 @@ const Layout = () => {
         <div className="flex h-screen overflow-hidden min-w-0">
             {/* Sidebar */}
             <Sidebar sidebarOpen={sidebarOpen} />
-            <div className="relative flex flex-col flex-1 overflow-x-hidden min-w-0">
+            <div className="relative flex flex-col flex-1 overflow-x-hidden  overflow-y-scroll  min-w-0">
                 <Header setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
                 <div className='px-3 lg:px-8 py-4  w-full min-w-0 2xl:max-w-[1536px] mx-auto'> 
                     <Outlet /> 

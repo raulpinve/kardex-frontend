@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "../../../../shared/components/Modal";
 import { toast } from "sonner";
 import { handleErrors } from "../../../../utils/handleErrors";

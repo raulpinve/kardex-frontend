@@ -1,17 +1,22 @@
-import { Navigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import SeleccionarAlmacen from './SeleccionarAlmacen'
-import VerificarEmail from "./VerificarEmail"
-// import VerificarDowngrade from './VerificarDowngrade'
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import SeleccionarAlmacen from "./SeleccionarAlmacen";
+import VerificarEmail from "./VerificarEmail";
 
-const PrivateRoute = ({ Component, ...rest}) => {
-    const { isAuthenticated } = useSelector(state => state.auth)
-    return isAuthenticated ?
+const PrivateRoute = ({ children }) => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+
+  return (
     <>
-        <Component {...rest}/>
-        <SeleccionarAlmacen/>
-        <VerificarEmail />
-    </> : <Navigate to="/login"/>
-}
+      {children}
+      <SeleccionarAlmacen />
+      <VerificarEmail />
+    </>
+  );
+};
 
-export default PrivateRoute
+export default PrivateRoute;

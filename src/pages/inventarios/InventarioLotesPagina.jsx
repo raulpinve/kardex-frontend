@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Spinner from '@/shared/components/Spinner';
 import { formatDateCorte } from '@/utils/utilities';
-import Movimientos from '../productos/components/movimientos/Movimientos';
 import { obtenerCortePeriodo } from './services/cortesServices';
 import TituloInventarios from './components/TituloInventarios';
 import GraficaComportamientoStock from '@/shared/components/GraficaComportamientoStock';
+import Movimientos from './components/movimientos/Movimientos';
 
 const InventarioLotesPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);

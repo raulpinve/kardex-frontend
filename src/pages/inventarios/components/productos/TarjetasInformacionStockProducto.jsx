@@ -31,7 +31,6 @@ const TarjetasInformacionStockProducto = ({corteId, productoId, refreshStock}) =
             setLoading(null)
         }
     }, [corteId, token, productoId, refreshStock])
-    
     if(error) return
     return (
         <>
