@@ -1,30 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
-import Flatpickr from "react-flatpickr";
-import { Spanish } from "flatpickr/dist/l10n/es";
-import { format } from 'date-fns';
-
-import { 
-  obtenerMovimientosLote,
-  obtenerMovimientosProducto
-} from '../../services/movimientoServices';
-
-import { LuCalendar, LuEraser, LuPencil, LuSearch } from 'react-icons/lu';
+import { obtenerMovimientosLote } from '../../services/movimientoServices';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import Pagination from '../../../../shared/components/Pagination';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import { formatFechaCorte } from '../../../../utils/utilities';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import Card from '../../../../shared/components/Card';
+import { LuCalendar, LuSearch } from 'react-icons/lu';
 import "react-datepicker/dist/react-datepicker.css";
+import React, { useEffect, useState } from 'react';
+import { Spanish } from "flatpickr/dist/l10n/es";
+import { useParams } from 'react-router-dom';
 import "../../../../assets/datePicker.css"
+import { useSelector } from 'react-redux';
+import Flatpickr from "react-flatpickr";
+import { format } from 'date-fns';
 
-const Movimientos = ({ 
-  loteId, 
-  productoId, 
-  tipoMovimiento = "lote", 
-}) => {
+const Movimientos = ({ loteId }) => {
     const [movimientos, setMovimientos] = useState([]);
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
@@ -41,16 +32,8 @@ const Movimientos = ({
         const fetchMovimientos = async () => {
             setLoading(true);
             setError(null);
-
             try {
-                let respuesta;
-
-                if (tipoMovimiento === "producto") {
-                    respuesta = await obtenerMovimientosProducto(token, productoId, tipo, fecha, paginaActual, debouncedConsulta);
-                } else {
-                    respuesta = await obtenerMovimientosLote(token, loteId, tipo, fecha, paginaActual, debouncedConsulta);
-                }
-
+                const respuesta = await obtenerMovimientosLote(token, loteId, tipo, fecha, paginaActual, debouncedConsulta);
                 if (respuesta?.data) {
                     setMovimientos(respuesta.data);
                     setPaginaActual(respuesta.paginacion.paginaActual);
@@ -62,9 +45,8 @@ const Movimientos = ({
                 setLoading(false);
             }
         };
-
         fetchMovimientos();
-    }, [tipoMovimiento, loteId, productoId, token, debouncedConsulta, paginaActual, tipo, fecha]);
+    }, [ loteId, token, debouncedConsulta, paginaActual, tipo, fecha]);
 
     return (
         <>  
@@ -135,11 +117,6 @@ const Movimientos = ({
                                     <th className="py-3 px-4 min-w-[120px]">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
                                     </th>
-                                    {productoId && (
-                                        <th className="py-3 px-4">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Número lote</p>
-                                        </th>
-                                    )}
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
                                     </th>
@@ -152,12 +129,12 @@ const Movimientos = ({
                                 </tr>
                             </thead>
 
-                            {loading && <SkeletonTable rows={7} columns={5}/>}
+                            {loading && <SkeletonTable rows={7} columns={4}/>}
 
                             <tbody className="divide-y divide-gray-100 text-sm dark:divide-gray-800 text-gray-700 dark:text-gray-400">
                                 {!loading && error && (
                                     <tr>
-                                        <td colSpan="6" className="py-3 px-4">
+                                        <td colSpan="4" className="py-3 px-4">
                                             <p className="text-center">{error}</p>
                                         </td>
                                     </tr>
@@ -165,7 +142,7 @@ const Movimientos = ({
 
                                 {!loading && !error && movimientos.length === 0 && (
                                     <tr>
-                                        <td colSpan="6" className="py-3 px-4">
+                                        <td colSpan="4" className="py-3 px-4">
                                             <p className="text-center">No hay movimientos por mostrar</p>
                                         </td>
                                     </tr>
@@ -176,11 +153,6 @@ const Movimientos = ({
                                         <td className="py-3 px-4 lg:gap-2 items-center">
                                             <p>{formatFechaCorte(movimiento.fecha)}</p>
                                         </td>
-                                        {productoId && (
-                                            <td className="py-3 px-4 capitalize">
-                                                <p>{movimiento.numeroLote}</p>
-                                            </td>
-                                        )}
                                         <td className="py-3 px-4 capitalize">
                                             <p>{movimiento.tipo}</p>
                                         </td>

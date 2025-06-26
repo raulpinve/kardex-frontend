@@ -9,9 +9,8 @@ import { useSelector } from 'react-redux';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { dateColombiaFormat, obtenerEstadoVencimiento } from '@/utils/utilities';
-import ModalCrearMovimiento from '../movimientos/ModalCrearMovimiento';
 
-const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimientos }) => {
+const InventarioLotes = ({ corteId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [paginaActual, setPaginaActual] = useState(1);
@@ -19,9 +18,6 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
   const [consulta, setConsulta] = useState("");
   const [lotes, setLotes] = useState([]);
   const token = useSelector(state => state.auth.token);
-  const [modalMovimientoActivo, setModalMovimientoActivo] = useState(false);
-  const [loteSeleccionado, setLoteSeleccionado] = useState(null);
-
   const navigate = useNavigate();
   const { productoId, periodo } = useParams();
   const debouncedConsulta = useDebounce(consulta, 500);
@@ -52,34 +48,6 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
     navigate(`/inventarios/${periodo}/${loteId}/lote`);
   };
 
-  // Actualiza stock localmente en la lista de lotes
-  const actualizarLote = (loteId, tipo, cantidad) => {
-    setLotes((prevLotes) =>
-      prevLotes.map((lote) => {
-        if (lote.id !== loteId) return lote;
-        
-        const nuevoStock =
-          tipo === "entrada"
-            ? lote.stockFinal + Number(cantidad)
-            : lote.stockFinal - Number(cantidad);
-
-        const nuevosIngresos = 
-          tipo === "entrada"
-            ? lote.ingresos + Number(cantidad)
-            : lote.ingresos
-
-        const nuevosEgresos = 
-          tipo === "salida"
-            ? lote.salidas + Number(cantidad)
-            : lote.salidas
-
-        return { ...lote, stockFinal: nuevoStock, ingresos: nuevosIngresos, salidas:  nuevosEgresos};
-      })
-    );
-    setRefreshStock(prev => prev + 1);
-    setRefreshMovimientos(prev => prev + 1)
-  };
-  
   return (
     <Card className={`h-full flex flex-col`}>
       {/* Header */}
@@ -126,12 +94,6 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
                 <th className="py-3 px-4">
                   <p className="font-medium text-gray-700 dark:text-gray-400">Stock final</p>
                 </th>
-                {!corte?.cerrado && (<>
-                  <th className="py-3 px-4">
-                    <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                  </th>
-                </>
-                )}
               </tr>
             </thead>
             {loading && <SkeletonTable rows={7} columns={8} />}
@@ -170,21 +132,6 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
                                 <td className="py-3 px-4">{lote.ingresos}</td>
                                 <td className="py-3 px-4">{lote.salidas}</td>
                                 <td className="py-3 px-4">{lote.stockFinal}</td>
-                                {!corte?.cerrado && (<>
-                                  <td className="py-3 px-4 flex gap-2">
-                                      <button
-                                          title="Registrar movimiento"
-                                          className="cursor-pointer p-1"
-                                          onClick={(e) => {
-                                              e.stopPropagation();
-                                              setLoteSeleccionado(lote);
-                                              setModalMovimientoActivo(true);
-                                          }}
-                                      >
-                                          <LuArrowLeftRight />
-                                      </button>
-                                  </td>
-                                </>)}
                             </tr>
                         );
                     })}
@@ -199,16 +146,6 @@ const InventarioLotes = ({ corte, corteId, setRefreshStock, setRefreshMovimiento
         totalPaginas={totalPaginas}
         onPageChange={setPaginaActual}
       />
-
-      {/* Modal para crear movimiento */}
-      {modalMovimientoActivo && loteSeleccionado && (
-        <ModalCrearMovimiento
-          cerrarModal={() => setModalMovimientoActivo(false)}
-          loteId = {loteSeleccionado?.id}
-          lote={loteSeleccionado}
-          actualizarLote={actualizarLote}
-        />
-      )}
     </Card>
   );
 };

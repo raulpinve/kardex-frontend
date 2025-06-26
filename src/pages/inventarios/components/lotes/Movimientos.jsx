@@ -1,37 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Flatpickr from "react-flatpickr";
 import { Spanish } from "flatpickr/dist/l10n/es";
 import { format } from 'date-fns';
-
-import { 
-  obtenerCorteMovimientosLote, 
-  obtenerCorteMovimientosProducto,
-} from '../../services/movimientoServices';
-
+import { obtenerCorteMovimientosLote } from '../../services/movimientoServices';
 import { LuCalendar, LuEraser, LuPencil, LuSearch } from 'react-icons/lu';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import Pagination from '../../../../shared/components/Pagination';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import { formatFechaCorte } from '../../../../utils/utilities';
-import ModalEliminarMovimiento from './ModalEliminarMovimiento';
 import useDebounce from '../../../../shared/hooks/useDebounce';
-import ModalEditarMovimiento from './ModalEditarMovimiento';
-import ModalCrearMovimiento from './ModalCrearMovimiento';
 import Button from '../../../../shared/components/Button';
 import Card from '../../../../shared/components/Card';
 import "react-datepicker/dist/react-datepicker.css";
 import "../../../../assets/datePicker.css"
+import ModalCrearMovimiento from './ModalCrearMovimiento';
+import ModalEditarMovimiento from './ModalEditarMovimiento';
+import ModalEliminarMovimiento from './ModalEliminarMovimiento';
 
 const Movimientos = ({ 
   corteId, 
-  corte,
   loteId, 
-  productoId, 
-  tipoMovimiento = "lote", 
   setRefreshStock, 
-  refeshStock, refeshMovimientos
+  refeshStock, 
+  refeshMovimientos
 }) => {
     const [movimientos, setMovimientos] = useState([]);
     const [paginaActual, setPaginaActual] = useState(1);
@@ -45,9 +38,7 @@ const Movimientos = ({
     const [fecha, setFecha] = useState(null);
     const [tipo, setTipo] = useState("");
     const { periodo } = useParams();
-    const location = useLocation();
     const debouncedConsulta = useDebounce(consulta, 500);
-    const primeraParteSegmento = location.pathname.split('/')[1];
 
     useEffect(() => {
         const fetchMovimientos = async () => {
@@ -55,14 +46,7 @@ const Movimientos = ({
             setError(null);
 
             try {
-                let respuesta;
-
-                if (tipoMovimiento === "producto") {
-                    respuesta = await obtenerCorteMovimientosProducto(token, corteId, productoId, tipo, fecha, paginaActual, debouncedConsulta);
-                } else {
-                    respuesta = await obtenerCorteMovimientosLote(token, corteId, loteId, tipo, fecha, paginaActual, debouncedConsulta);
-                }
-
+                const respuesta = await obtenerCorteMovimientosLote(token, corteId, loteId, tipo, fecha, paginaActual, debouncedConsulta);
                 if (respuesta?.data) {
                     setMovimientos(respuesta.data);
                     setPaginaActual(respuesta.paginacion.paginaActual);
@@ -76,7 +60,7 @@ const Movimientos = ({
         };
 
         fetchMovimientos();
-    }, [tipoMovimiento, corteId, loteId, productoId, token, debouncedConsulta, paginaActual, tipo, fecha, refeshStock,refeshMovimientos]);
+    }, [corteId, loteId, token, debouncedConsulta, paginaActual, tipo, fecha, refeshStock,refeshMovimientos]);
 
     useEffect(() => {
         if (setRefreshStock) {
@@ -90,15 +74,13 @@ const Movimientos = ({
                 <div className="flex justify-between items-center">
                     <CardTitulo>Movimientos</CardTitulo>
                     <div className="flex gap-1 items-center justify-between">
-                        {primeraParteSegmento === "inventarios" && !corte?.cerrado && (
-                            <Button
-                                type="button"
-                                colorButton="primary"
-                                onClick={() => setModalActivo("crear")}
-                            >   
-                                Crear 
-                            </Button>
-                        )}
+                        <Button
+                            type="button"
+                            colorButton="primary"
+                            onClick={() => setModalActivo("crear")}
+                        >   
+                            Crear 
+                        </Button>
 
                         {/* Buscar en movimientos */}
                         <div className="relative hidden">
@@ -162,11 +144,6 @@ const Movimientos = ({
                                     <th className="py-3 px-4 min-w-[120px]">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Fecha</p>
                                     </th>
-                                    {productoId && (
-                                        <th className="py-3 px-4">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Número lote</p>
-                                        </th>
-                                    )}
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
                                     </th>
@@ -176,11 +153,9 @@ const Movimientos = ({
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Descripción</p>
                                     </th>
-                                     {primeraParteSegmento === "inventarios" && !corte?.cerrado && (
-                                        <th className="py-3 px-4">
-                                            <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                                        </th>
-                                    )}
+                                    <th className="py-3 px-4">
+                                        <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
+                                    </th>
                                 </tr>
                             </thead>
 
@@ -208,11 +183,6 @@ const Movimientos = ({
                                         <td className="py-3 px-4 lg:gap-2 items-center">
                                             <p>{formatFechaCorte(movimiento.fecha)}</p>
                                         </td>
-                                        {productoId && (
-                                            <td className="py-3 px-4 capitalize">
-                                                <p>{movimiento.numeroLote}</p>
-                                            </td>
-                                        )}
                                         <td className="py-3 px-4 capitalize">
                                             <p>{movimiento.tipo}</p>
                                         </td>
@@ -222,34 +192,32 @@ const Movimientos = ({
                                         <td className="py-3 px-4 items-center">
                                             <p>{movimiento.descripcion || "N/A"}</p>
                                         </td>
-                                         {primeraParteSegmento === "inventarios" && !corte?.cerrado && (
-                                            <td className="py-3 px-4">
-                                                <div className="flex gap-2">
-                                                    <button 
-                                                        className="cursor-pointer p-1"
-                                                        title="Editar movimiento"
-                                                        onClick={e => {
-                                                            e.stopPropagation();
-                                                            setModalActivo("editar"); 
-                                                            setMovimientoSeleccionado(movimiento);
-                                                        }}
-                                                    >
-                                                        <LuPencil />
-                                                    </button>
-                                                    <button 
-                                                        className="cursor-pointer p-1"
-                                                        title="Eliminar movimiento"
-                                                        onClick={e => {
-                                                            e.stopPropagation();
-                                                            setModalActivo("eliminar");
-                                                            setMovimientoSeleccionado(movimiento);
-                                                        }}
-                                                    >
-                                                        <LuEraser />
-                                                    </button> 
-                                                </div>
-                                            </td>
-                                        )}
+                                        <td className="py-3 px-4">
+                                            <div className="flex gap-2">
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title="Editar movimiento"
+                                                    onClick={e => {
+                                                        e.stopPropagation();
+                                                        setModalActivo("editar"); 
+                                                        setMovimientoSeleccionado(movimiento);
+                                                    }}
+                                                >
+                                                    <LuPencil />
+                                                </button>
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title="Eliminar movimiento"
+                                                    onClick={e => {
+                                                        e.stopPropagation();
+                                                        setModalActivo("eliminar");
+                                                        setMovimientoSeleccionado(movimiento);
+                                                    }}
+                                                >
+                                                    <LuEraser />
+                                                </button> 
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -268,9 +236,9 @@ const Movimientos = ({
                 <ModalCrearMovimiento 
                     cerrarModal={() => setModalActivo(null)}
                     loteId={loteId}
-                    productoId={productoId}
+                    // productoId={productoId}
                     setMovimientos={setMovimientos}
-                    tipoMovimiento={tipoMovimiento}
+                    // tipoMovimiento={tipoMovimiento}
                 />
             )}
 

@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Lotes from "./components/lotes/Lotes";
 import { useSelector } from "react-redux";
-import Movimientos from "./components/movimientos/Movimientos";
+import Movimientos from "./components/producto/Movimientos";
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();

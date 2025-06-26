@@ -11,18 +11,16 @@ import SkeletonElement from '@/shared/components/SkeletonElement';
 import SubirImagenProducto from '../productos/components/producto/SubirImagenProducto';
 import TituloInventarios from './components/TituloInventarios';
 import GraficaComportamientoStock from '@/shared/components/GraficaComportamientoStock';
-import Movimientos from './components/movimientos/Movimientos';
+import Movimientos from './components/productos/Movimientos';
 
 const InventarioProductoPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
     const token = useSelector(state => state.auth.token);
-    const [refreshStock, setRefreshStock] = useState(0);
     const [mensajeError, setMensajeError] = useState();
     const [loading, setLoading] = useState(true);
     const [producto, setProducto] = useState();
     const {periodo, productoId} = useParams();
     const [corte, setCorte] = useState();
-    const [refeshMovimientos, setRefreshMovimientos] = useState(0)
 
     // Obtener información del corte
     useEffect(() => {
@@ -107,11 +105,11 @@ const InventarioProductoPagina = () => {
                </p>
             )}
             {!mensajeError && !loading && corte && (<>
-                <TarjetasInformacionStockProducto  corteId={corte?.id} refreshStock={refreshStock} productoId={productoId}/> 
+                <TarjetasInformacionStockProducto  corteId={corte?.id} productoId={productoId}/> 
                 <div className="mt-4 grid gap-4">
-                    <GraficaComportamientoStock corteId={corte?.id} refreshStock={refreshStock}/>
-                    <InventarioLotes corte={corte} corteId={corte?.id} setRefreshStock={setRefreshStock} setRefreshMovimientos={setRefreshMovimientos}/>
-                    <Movimientos corte={corte} corteId={corte?.id} productoId={productoId} setRefreshStock={setRefreshStock} refeshMovimientos={refeshMovimientos} tipoMovimiento="producto"/>
+                    <GraficaComportamientoStock corteId={corte?.id} />
+                    <InventarioLotes corte={corte} corteId={corte?.id} />
+                    <Movimientos corteId={corte?.id} productoId={productoId} />
                 </div>
             </>)}
         </>

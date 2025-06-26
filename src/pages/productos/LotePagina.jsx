@@ -2,13 +2,13 @@ import GraficaComportamientoStock from '../../shared/components/GraficaComportam
 import SubirImagenProducto from './components/producto/SubirImagenProducto';
 import { formatDate, obtenerEstadoVencimiento } from '@/utils/utilities';
 import SkeletonElement from '@/shared/components/SkeletonElement';
-import Movimientos from './components/movimientos/Movimientos';
 import { obtenerProducto } from './services/productoServices';
 import { obtenerLote } from './services/loteServices';
 import { Link, useParams } from 'react-router-dom';
 import { LuChevronRight } from 'react-icons/lu';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import Movimientos from './components/lotes/Movimientos';
 
 const LotePagina = () => {
     const { loteId} = useParams();
@@ -17,7 +17,6 @@ const LotePagina = () => {
     const [producto, setProducto] = useState();
     const [estado, setEstado] = useState();
     const [lote, setLote] = useState(null);
-    const [refreshStock, setRefreshStock] = useState(0)
     const [color, setColor] = useState();
 
     useEffect(() => {
@@ -154,7 +153,7 @@ const LotePagina = () => {
             </div>
         </div>
         <div className="mt-4 grid gap-4">
-            <GraficaComportamientoStock refreshStock ={refreshStock} tipo="lote"/>   
+            <GraficaComportamientoStock tipo="lote"/>   
             <Movimientos loteId={loteId} />
         </div>
     </>);
