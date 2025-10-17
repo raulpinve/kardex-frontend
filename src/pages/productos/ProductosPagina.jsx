@@ -7,7 +7,7 @@ import ModalAbrirImagenPerfil from "../../shared/components/ModalAbrirImagenPerf
 import { LuChevronDown, LuEraser, LuPencil, LuSearch } from "react-icons/lu";
 import { obtenerProductos } from './services/productoServices';
 import CardTitulo from "../../shared/components/CardTitulo";
-import imageDefault from "../../assets/image-default.png";
+import imageDefault from "../../assets/images/image-default.png";
 import useDebounce from '../../shared/hooks/useDebounce';
 import Layout from '../../shared/components/Layout';
 import Button from "../../shared/components/Button";

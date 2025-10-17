@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
-import imageDefault from "../../assets/image-default.png"
+import imageDefault from "../../assets/images/image-default.png"
 import Loader from './Loader';
 import { host } from '../../utils/config';
 

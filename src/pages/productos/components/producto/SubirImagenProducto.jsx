@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LuCamera, LuCloudUpload, LuRefreshCcw, LuTrash2 } from "react-icons/lu";
 import { host } from "../../../../utils/config";
-import imageDefault from "../../../../assets/image-default.png";
+import imageDefault from "../../../../assets/images/image-default.png";
 import ModalAbrirImagenPerfil from "../../../../shared/components/ModalAbrirImagenPerfil";
 import { eliminarAvatar, subirAvatar } from "../../services/productoServices";
 

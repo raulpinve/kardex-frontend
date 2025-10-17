@@ -1,4 +1,4 @@
-import imageDefault from "../../../assets/image-default.png";
+import imageDefault from "../../../assets/images/image-default.png";
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { eliminarAvatar, subirAvatar } from "../services/perfilService";

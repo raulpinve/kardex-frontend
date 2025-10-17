@@ -6,7 +6,7 @@ import CardTitulo from "../../shared/components/CardTitulo";
 import { host } from "../../utils/config";
 import { useSelector } from "react-redux";
 import ModalAbrirImagenPerfil from "./components/ModalAbrirImagenPerfil";
-import imageDefault from "../../assets/image-default.png";
+import imageDefault from "../../assets/images/image-default.png";
 import { useParams } from "react-router-dom";
 import { obtenerPerfil } from "./services/perfilService";
 import ErrorPage from "../../shared/components/ErrorPage";

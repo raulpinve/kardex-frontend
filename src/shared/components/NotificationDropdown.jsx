@@ -3,7 +3,7 @@ import { LuBell } from "react-icons/lu";
 import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
 import { marcarNotificacionesComoLeidas, obtenerNotificaciones, obtenerNotificacionesNoVistas } from "../services/notificacionesServices";
-import imageDefault from '../../assets/image-default.png';
+import imageDefault from '../../assets/images/image-default.png';
 import { host } from "@/utils/config";
 import { Link, useNavigate } from "react-router-dom";
 import { tiempoRelativoCreativo } from "@/utils/utilities";

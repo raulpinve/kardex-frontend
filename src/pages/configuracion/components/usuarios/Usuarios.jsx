@@ -14,7 +14,7 @@ import CardTitulo from "../../../../shared/components/CardTitulo";
 import useDebounce from "../../../../shared/hooks/useDebounce";
 import { useNavigate } from "react-router-dom";
 import { host } from "../../../../utils/config";
-import imageDefault from "../../../../assets/image-default.png";
+import imageDefault from "../../../../assets/images/image-default.png";
 import ModalAbrirImagenPerfil from "../../../../shared/components/ModalAbrirImagenPerfil";
 
 const Usuarios = () => {

@@ -5,7 +5,7 @@ import { logout } from '../../store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { host } from '../../utils/config';
-import imageDefault from '../../assets/image-default.png'
+import imageDefault from '../../assets/images/image-default.png'
 
 const DropdownProfile = () => {
     const [isOpen, setIsOpen] = useState(false);
