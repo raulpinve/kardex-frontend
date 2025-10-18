@@ -80,6 +80,7 @@ function App() {
             </PrivateRoute>
           }
         >
+          <Route path="/" element={<Navigate to="/inventarios" replace />} />
           <Route path="/inventarios/:periodo?" element={<InventariosPagina />}/>
           <Route path="/inventarios/:periodo/:productoId" element={<InventarioProductoPagina/>}/>
           <Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
