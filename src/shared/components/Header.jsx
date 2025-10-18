@@ -16,6 +16,11 @@ const Header = () => {
     const { darkMode, toggleDarkMode } = useDarkMode();
     const location = useLocation();
     const almacen = useSelector(state => state.almacen.almacen);
+    const excludedPaths = ["/configuracion", "/editar-perfil", "/perfil"];
+
+    const isExcluded = excludedPaths.some(path =>
+      location.pathname === path || location.pathname.startsWith(`${path}/`)
+    );
 
     return (
         <header className="sticky top-0 w-full border-b border-gray-200 z-50 bg-white px-3 lg:px-0 dark:bg-gray-900 bg- dark:text-gray-200 dark:border-gray-800 transition-colors">
@@ -37,7 +42,7 @@ const Header = () => {
           <div className="flex justify-between items-center gap-2">
              {/* Nombre almacén */}
               <h3 className={`text-xs uppercase leading-[20px] text-gray-500 font-medium ellipsis select-none cursor-pointer`}>
-                {almacen?.nombre && location.pathname !== "/configuracion" && (
+                {almacen?.nombre && !isExcluded && (
                       <p
                         onClick={() => {
                           localStorage.removeItem('almacenSeleccionado');
@@ -56,10 +61,11 @@ const Header = () => {
             </button>
 
             {/* Bell */}
-            {almacen?.nombre && location.pathname !== "/configuracion" && (
+            {almacen?.nombre && !isExcluded && (
               <NotificationDropdown />
             )}
-            {almacen?.nombre && location.pathname !== "/configuracion" && (
+
+            {almacen?.nombre && !isExcluded && (
               <AlertasVencimiento/>
             )}
             {/* Profile */}

@@ -37,7 +37,7 @@ const DropdownProfile = () => {
 				<img 
 					src={avatarUrl}
 					onError={(e) => {
-						e.target.onerror = null; // Evita bucle si la imagen de fallback también falla
+						e.target.onerror = null; 
 						e.target.src = imageDefault; 
 					}}
 					alt="Perfil" 
@@ -56,22 +56,24 @@ const DropdownProfile = () => {
 			>
 				<h3 className="font-medium text-sm text-gray-600 dark:text-white/90">{usuario?.primerNombre} {usuario?.apellidos}</h3>
 				<h4 className="text-sm text-gray-500 dark:text-white/90">{usuario?.email}</h4>
-
 				<ul className="mt-1 border-b border-gray-200 mb-2 py-2 text-gray-600 dark:text-white/90 text-md dark:border-gray-800">
 					<Link 
 						to={`/editar-perfil`}
 						className="header-profile-li"
+						onClick={() => {
+							setIsOpen(false);
+						}}
 					>
-					<LuCircleUser />
-					<span>Editar perfil</span>
+						<LuCircleUser />
+						<span>Editar perfil</span>
 					</Link>
 				</ul>
 				<button 
-						className="header-profile-li"
-						onClick={() => {
-							dispatch(logout())
-						}}
-					>
+					className="header-profile-li"
+					onClick={() => {
+						dispatch(logout())
+					}}
+				>
 					<LuLogOut />
 					<span>Salir</span>
 				</button>
