@@ -14,7 +14,7 @@ const PrivateRoute = ({ children }) => {
     <>
       {children}
       <SeleccionarAlmacen />
-      <VerificarEmail />
+      {/* <VerificarEmail /> */}
     </>
   );
 };

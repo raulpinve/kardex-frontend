@@ -62,7 +62,7 @@ const ModalEditarProducto = (props) => {
             // Solo setear los valores cuando las categorías ya están cargadas
             setValue("nombre", productoSeleccionado.nombre || "");
             setValue("categoriaId", productoSeleccionado.categoriaId || "");
-            // ...otros setValue según tipo...
+            setValue("codigoBarra", productoSeleccionado.codigoBarra)
             if(tipo === "medicamentos"){
                 setValue("formaFarmaceutica", productoSeleccionado.formaFarmaceutica || "");
                 setValue("concentracion", productoSeleccionado.concentracion || "");
@@ -112,6 +112,31 @@ const ModalEditarProducto = (props) => {
                                 id="nombre"
                             />
                             {errors.nombre && errors.nombre.message && (<p className="input-message-error">{errors.nombre.message}</p>)} 
+                        </div>
+
+                        {/* Código de barras */}
+                        <div>
+                            <label htmlFor="codigoBarra" className="label-form">Código de barras</label>
+                            <input 
+                                className={`${errors.codigoBarra && errors.codigoBarra.message ? "input-form-error" : ""} input-form`}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                {...register("codigoBarra", {
+                                    minLength: {
+                                        value: 6,
+                                        message: "El código de barras debe tener al menos 6 caracteres.",
+                                    },
+                                    maxLength: {
+                                        value: 30,
+                                        message: "El código de barras no debe exceder los 30 caracteres.",
+                                    },
+                                })}
+                                id="codigoBarra"
+                            />
+                            {errors.codigoBarra && errors.codigoBarra.message && (<p className="input-message-error">{errors.codigoBarra.message}</p>)} 
                         </div>
 
                         {/* Forma farmaceutica */}
@@ -242,6 +267,31 @@ const ModalEditarProducto = (props) => {
                                 id="nombre"
                             />
                             {errors.nombre && errors.nombre.message && (<p className="input-message-error">{errors.nombre.message}</p>)} 
+                        </div>
+
+                        {/* Código de barras */}
+                        <div>
+                            <label htmlFor="codigoBarra" className="label-form">Código de barras</label>
+                            <input 
+                                className={`${errors.codigoBarra && errors.codigoBarra.message ? "input-form-error" : ""} input-form`}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                {...register("codigoBarra", {
+                                    minLength: {
+                                        value: 6,
+                                        message: "El código de barras debe tener al menos 6 caracteres.",
+                                    },
+                                    maxLength: {
+                                        value: 30,
+                                        message: "El código de barras no debe exceder los 30 caracteres.",
+                                    },
+                                })}
+                                id="codigoBarra"
+                            />
+                            {errors.codigoBarra && errors.codigoBarra.message && (<p className="input-message-error">{errors.codigoBarra.message}</p>)} 
                         </div>
 
                         {/* Serie */}

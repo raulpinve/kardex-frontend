@@ -4,7 +4,7 @@ import ModalCrearProducto from "./components/productos/ModalCrearProducto";
 import ModalEditarProducto from "./components/productos/ModalEditarProducto";
 import ModalEliminarProducto from "./components/productos/ModalEliminarProducto";
 import ModalAbrirImagenPerfil from "../../shared/components/ModalAbrirImagenPerfil";
-import { LuChevronDown, LuEraser, LuPencil, LuSearch } from "react-icons/lu";
+import { LuBarcode, LuChevronDown, LuEraser, LuPencil, LuSearch } from "react-icons/lu";
 import { obtenerProductos } from './services/productoServices';
 import CardTitulo from "../../shared/components/CardTitulo";
 import imageDefault from "../../assets/images/image-default.png";
@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { host } from '../../utils/config';
 import { obtenerTodasCategorias } from "./services/categoriaServices";
+import ModalMostrarCodigoBarras from "./components/productos/ModalMostrarCodigoBarras";
 
 const ProductosPagina = ({ tipo }) => {
     const almacen = useSelector(state => state.almacen.almacen);
@@ -93,14 +94,18 @@ const ProductosPagina = ({ tipo }) => {
                         </Button>
                         <div className="relative hidden md:block">
                             <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
-                            <input 
-                                type="text" 
-                                placeholder="Buscar..."
-                                className="input-form pl-10 dark:bg-gray-900"
+                            <input
+                                type="text"
+                                placeholder={`Buscar ${tipo} por nombre o código...`}
+                                className="input-form pl-10 dark:bg-gray-900 w-full"
                                 value={consulta}
-                                onChange={(e) => {
-                                    setConsulta(e.currentTarget.value);
+                                onChange={(e) => setConsulta(e.currentTarget.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        setConsulta(e.currentTarget.value.trim());
+                                    }
                                 }}
+                                autoFocus
                             />
                         </div>
                         <div className="relative">
@@ -132,6 +137,9 @@ const ProductosPagina = ({ tipo }) => {
                                         Categoría
                                     </p>
                                 </th>
+                                <th className="py-3 px-4">
+                                    <p className="font-medium text-gray-700 dark:text-gray-400">Cód. barras</p>
+                                </th>
                                 {tipo === "medicamentos" ? (<>
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Forma farmacéutica</p>
@@ -139,6 +147,7 @@ const ProductosPagina = ({ tipo }) => {
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Concentración</p>
                                     </th>
+                                   
                                     <th className="py-3 px-4">
                                         <p className="font-medium text-gray-700 dark:text-gray-400">Presentación</p>
                                     </th>
@@ -210,6 +219,22 @@ const ProductosPagina = ({ tipo }) => {
                                                     </td>
                                                     <td className="py-3 px-4">
                                                         <p className="text-gray-700 dark:text-gray-400"> {producto?.categoriaNombre ? producto?.categoriaNombre : "N/A"} </p>
+                                                    </td>
+                                                    <td className="py-3 px-4">
+                                                        <p className="text-gray-700 dark:text-gray-400"> 
+                                                            { producto?.codigoBarra }
+                                                            <button 
+                                                                className="cursor-pointer ml-2 p-1 rounded-[2px] bg-gray-700 text-white"
+                                                                title={`Mostrar código de barras`}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation(); 
+                                                                    setModalActivo("codigo-barra");
+                                                                    setProductoSeleccionado(producto);
+                                                                }}    
+                                                            >
+                                                                <LuBarcode />
+                                                            </button>
+                                                        </p>
                                                     </td>
                                                     {tipo === "medicamentos" ? (<>
                                                         <td className="py-3 px-4">
@@ -289,6 +314,14 @@ const ProductosPagina = ({ tipo }) => {
                 setProductos = {setProductos}
                 tipo = {tipo}
                 almacenId = {almacen.id}
+            />
+        )}
+
+        {modalActivo === "codigo-barra" && (
+            <ModalMostrarCodigoBarras 
+                cerrarModal={() => setModalActivo(null)}
+                productoSeleccionado = {productoSeleccionado}
+                tipo = {tipo}
             />
         )}
 

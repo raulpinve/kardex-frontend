@@ -3,7 +3,7 @@ import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import Pagination from '../../../../shared/components/Pagination';
 import Button from '../../../../shared/components/Button';
-import { LuChevronDown, LuCircleAlert, LuCircleCheck, LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
+import { LuBarcode, LuChevronDown, LuCircleAlert, LuCircleCheck, LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
 import { useSelector } from 'react-redux';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { Tooltip } from 'react-tooltip';
@@ -14,6 +14,7 @@ import { host } from '../../../../utils/config';
 import imageDefault from "../../../../assets/images/image-default.png";
 import ModalAbrirImagenPerfil from '../../../../shared/components/ModalAbrirImagenPerfil';
 import { obtenerTodasCategorias } from '@/pages/productos/services/categoriaServices';
+import ModalMostrarCodigoBarras from '@/pages/productos/components/productos/ModalMostrarCodigoBarras';
 
 // Componente para mostrar el estado del stock
 const StockStatus = ({ stockRequerido, stockFinal }) => {
@@ -117,27 +118,35 @@ const Productos = ({ tipo, corteId }) => {
             <div className="flex justify-between items-center ">
                 <CardTitulo className={`capitalize`}>{tipo}</CardTitulo>
                 <div className="flex gap-1 items-center justify-between">
-                    <div className="relative hidden md:block">
+                    <div className="relative hidden md:block flex-1">
                         <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
-                        <input 
-                            type="text" 
-                            placeholder={`Buscar ${tipo}...`}
-                            className="input-form pl-10 dark:bg-gray-900"
+                        <input
+                            type="text"
+                            placeholder={`Buscar ${tipo} por nombre o código...`}
+                            className="input-form pl-10 dark:bg-gray-900 w-full"
                             value={consulta}
-                            onChange={(e) => {
-                                setConsulta(e.currentTarget.value);
+                            onChange={(e) => setConsulta(e.currentTarget.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    setConsulta(e.currentTarget.value.trim());
+                                }
                             }}
+                            autoFocus
                         />
                     </div>
+
+                    {/* 🧾 Selector de categoría */}
                     <div className="relative">
                         <select
-                            className={`select-form`}
+                            className="select-form"
                             value={categoriaSeleccionada}
                             onChange={(e) => setCategoriaSeleccionada(e.currentTarget.value)}
                         >
                         <option value="">Seleccionar categoría...</option>
-                            {categorias.map(cat => (
-                                <option key={cat.id} value={cat.id}>{cat.nombre}</option>
+                            {categorias.map((cat) => (
+                                <option key={cat.id} value={cat.id}>
+                                {cat.nombre}
+                                </option>
                             ))}
                         </select>
                         <LuChevronDown className="absolute top-[16px] right-2" />
@@ -153,6 +162,9 @@ const Productos = ({ tipo, corteId }) => {
                                 <p className="font-medium text-gray-700 dark:text-gray-400">
                                     {tipo === "medicamentos" ? "Principio activo" : "Nombre"}
                                 </p>
+                            </th>
+                            <th className='py-3 px-4'>
+                                <p className="font-medium text-gray-700 dark:text-gray-400">Cód. barras</p>
                             </th>
                             <th className="py-3 px-4">
                                 <p className="font-medium text-gray-700 dark:text-gray-400">
@@ -233,6 +245,18 @@ const Productos = ({ tipo, corteId }) => {
                                                 <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
                                             </div>
                                         </td>
+                                        <td className='py-3 px-4'>
+                                            <button
+                                                className='cursor-pointer ml-2 p-1 rounded-[2px] bg-gray-700 text-white'
+                                                onClick={(e) => {
+                                                    e.stopPropagation(); 
+                                                    setModalActivo("codigo-barra");
+                                                    setProductoSeleccionado(producto)
+                                                }}
+                                            >
+                                                <LuBarcode />
+                                            </button>
+                                        </td>
                                         <td className="py-3 px-4">
                                             <p className="text-gray-700 dark:text-gray-400"> {producto?.categoriaNombre ? producto.categoriaNombre : "N/A"} </p>
                                         </td>
@@ -275,6 +299,15 @@ const Productos = ({ tipo, corteId }) => {
                 onPageChange={setPaginaActual}
             />
         </Card>
+        
+        {modalActivo === "codigo-barra" && (
+            <ModalMostrarCodigoBarras 
+                cerrarModal={() => setModalActivo(null)}
+                productoSeleccionado = {productoSeleccionado}
+                tipo = {tipo}
+            />
+        )}
+
         {modalActivo === "imagen-perfil" && (
             <ModalAbrirImagenPerfil 
                 cerrarModal={() => setModalActivo(null)}

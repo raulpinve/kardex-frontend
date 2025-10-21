@@ -8,12 +8,16 @@ import { useParams } from "react-router-dom";
 import Lotes from "./components/lotes/Lotes";
 import { useSelector } from "react-redux";
 import Movimientos from "./components/producto/Movimientos";
+import Barcode from "react-barcode";
+import { LuBarcode } from "react-icons/lu";
+import ModalMostrarCodigoBarras from "./components/productos/ModalMostrarCodigoBarras";
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();
     const [producto, setProducto] = useState();
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
+    const [modalActivo, setModalActivo] = useState("");
 
     // Obtener la información del producto
     useEffect(() => {
@@ -32,7 +36,7 @@ const ProductoPagina = ({ tipo }) => {
         fecthProducto()
     }, [productoId, token])
 
-
+    
     return (<>
         <div className="mt-4">
             {/* Encabezado */}
@@ -46,9 +50,9 @@ const ProductoPagina = ({ tipo }) => {
                         </div>
                     </h1>
                 </>)}
-                {!loading && producto && (<>
+                {!loading && producto && (<div className="flex items-center gap-4">
                     {/* Titulo */}
-                    <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center my-6">
+                    <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center">
                         <SubirImagenProducto 
                             producto={producto}
                             setProducto={setProducto}
@@ -59,7 +63,17 @@ const ProductoPagina = ({ tipo }) => {
                             <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{producto.tipo}</p>
                         </div>
                     </h1>
-                </>)}
+                    <button 
+                        className="bg-gray-700 text-white p-2 rounded-[2px] cursor-pointer"
+                        title={`Mostrar código de barras`}
+                        onClick={() => {
+                            setModalActivo("codigo-barra");
+                        }}
+                    >
+                        <LuBarcode />
+                    </button>
+                </div>)}
+
                 <div>
                     {loading && !producto && (<div className="grid rounded-2xl border border-gray-200 bg-white mt-3 dark:border-gray-800 dark:bg-white/[0.01] grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
                         <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800 grid gap-2">
@@ -84,7 +98,6 @@ const ProductoPagina = ({ tipo }) => {
                         <div className={`grid rounded-2xl border border-gray-200 bg-white mt-3 dark:border-gray-800 dark:bg-white/[0.01] ${
                             producto?.tipo === 'dispositivo' ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4' : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-5'
                         }`}>
-                            
                             {/* Forma farmacéutica (solo si NO es dispositivo) */}
                             {producto?.formaFarmaceutica && producto?.tipo !== 'dispositivo' && (
                                 <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
@@ -168,7 +181,6 @@ const ProductoPagina = ({ tipo }) => {
                                     </div>
                                 </div>
                             )}
-
                         </div>
                     </>)}
                 </div>
@@ -182,6 +194,14 @@ const ProductoPagina = ({ tipo }) => {
             <Lotes tipo={tipo} productoId={productoId} />
             <Movimientos productoId={productoId} tipoMovimiento="producto"/>
         </div>
+
+        {modalActivo === "codigo-barra" && (
+            <ModalMostrarCodigoBarras 
+                cerrarModal={() => setModalActivo(null)}
+                productoSeleccionado = {producto}
+                tipo = {tipo}
+            />
+        )}
     </>);
 };
 

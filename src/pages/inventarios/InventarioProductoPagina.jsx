@@ -12,6 +12,8 @@ import SubirImagenProducto from '../productos/components/producto/SubirImagenPro
 import TituloInventarios from './components/TituloInventarios';
 import GraficaComportamientoStock from '@/shared/components/GraficaComportamientoStock';
 import Movimientos from './components/productos/Movimientos';
+import ModalMostrarCodigoBarras from '../productos/components/productos/ModalMostrarCodigoBarras';
+import { LuBarcode } from 'react-icons/lu';
 
 const InventarioProductoPagina = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
@@ -21,6 +23,7 @@ const InventarioProductoPagina = () => {
     const [producto, setProducto] = useState();
     const {periodo, productoId} = useParams();
     const [corte, setCorte] = useState();
+    const [modalActivo, setModalActivo] = useState("");
 
     // Obtener información del corte
     useEffect(() => {
@@ -74,19 +77,28 @@ const InventarioProductoPagina = () => {
                     <SkeletonElement className={`max-w-[250px]`} />
                     <SkeletonElement className={`max-w-[500px] mt-3`} />
                 </div>)}
-                {!loading && producto && (<div className='my-6 flex justify-between items-start'>
+                {!loading && producto && (<div className='flex items-center gap-4 my-6'>
                     {/* Titulo */}
-                    <h1 className="text-2xl font-semibold tracking-tight text-gray-700 dark:text-gray-200 flex gap-4 items-center">
-                        <SubirImagenProducto 
-                            producto={producto}
-                            setProducto={setProducto}
-                            tipo = {producto?.tipo + "s"}
-                        />
-                        <div>
-                            <span> {producto?.nombre?.charAt(0).toUpperCase() + producto?.nombre?.slice(1)}</span>
-                            <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{producto.tipo}</p>
-                        </div>
-                    </h1>
+                        <h1 className="text-2xl font-semibold tracking-tight text-gray-700 dark:text-gray-200 flex gap-4 items-center">
+                            <SubirImagenProducto 
+                                producto={producto}
+                                setProducto={setProducto}
+                                tipo = {producto?.tipo + "s"}
+                            />
+                            <div>
+                                <span> {producto?.nombre?.charAt(0).toUpperCase() + producto?.nombre?.slice(1)}</span>
+                                <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{producto.tipo}</p>
+                            </div>
+                        </h1>
+                        <button 
+                            className="bg-gray-700 text-white p-2 rounded-[2px] cursor-pointer"
+                            title={`Mostrar código de barras`}
+                            onClick={() => {
+                                setModalActivo("codigo-barra");
+                            }}
+                        >
+                            <LuBarcode />
+                        </button>
                     <p className="text-sm text-gray-700 dark:text-gray-300 my-5 hidden">
                         {producto?.formaFarmaceutica && <span> <b>Forma farmacéutica:</b> {producto.formaFarmaceutica}</span>}
                         {producto?.presentacionComercial && <span> • <b>Presentación:</b> {producto.presentacionComercial}</span>}
@@ -112,6 +124,13 @@ const InventarioProductoPagina = () => {
                     <Movimientos corteId={corte?.id} productoId={productoId} />
                 </div>
             </>)}
+
+            {modalActivo === "codigo-barra" && (
+            <ModalMostrarCodigoBarras 
+                cerrarModal={() => setModalActivo(null)}
+                productoSeleccionado = {producto}
+            />
+        )}
         </>
     );
 };

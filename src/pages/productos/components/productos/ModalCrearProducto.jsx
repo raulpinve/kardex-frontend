@@ -52,6 +52,16 @@ const ModalCrearProducto = (props) => {
 
     }, [tipo])
 
+    useEffect(() => {
+        setValue("nombre", "Glicerina")
+        setValue("formaFarmaceutica", "Forma farmaceutica")
+        setValue("codigoBarra", "444444")
+        setValue("concentracion", "25mg")
+        setValue("presentacionComercial", "Frasco")
+        setValue("unidadMedida", "ml")
+        setValue("stockRequerido", 25)
+    }, [])
+
     return (
         <Modal
             isOpenModal={true}
@@ -61,10 +71,11 @@ const ModalCrearProducto = (props) => {
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <div className="px-2 grid lg:grid-cols-2 gap-2">
+
                     {tipo === "medicamentos" ? (<>
                         {/* Principio activo */}
                         <div>
-                            <label htmlFor="formaFarmaceutica" className="label-form">
+                            <label htmlFor="nombre" className="label-form">
                                 Principio activo <span className="input-required">*</span>
                             </label>
                             <input 
@@ -88,9 +99,34 @@ const ModalCrearProducto = (props) => {
                             {errors.nombre && errors.nombre.message && (<p className="input-message-error">{errors.nombre.message}</p>)} 
                         </div>
 
+                        {/* Código de barras */}
+                        <div>
+                            <label htmlFor="codigoBarra" className="label-form">Código de barras</label>
+                            <input 
+                                className={`${errors.codigoBarra && errors.codigoBarra.message ? "input-form-error" : ""} input-form`}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                {...register("codigoBarra", {
+                                    minLength: {
+                                        value: 6,
+                                        message: "El código de barras debe tener al menos 6 caracteres.",
+                                    },
+                                    maxLength: {
+                                        value: 30,
+                                        message: "El código de barras no debe exceder los 30 caracteres.",
+                                    },
+                                })}
+                                id="codigoBarra"
+                            />
+                            {errors.codigoBarra && errors.codigoBarra.message && (<p className="input-message-error">{errors.codigoBarra.message}</p>)} 
+                        </div>
+
                         {/* Forma farmaceutica */}
                         <div>
-                            <label htmlFor="formaFarmaceutica" className="label-form">
+                            <label htmlFor="codigoBarra" className="label-form">
                                 Forma farmacéutica <span className="input-required">*</span>
                             </label>
                             <input 
@@ -216,6 +252,31 @@ const ModalCrearProducto = (props) => {
                                 id="nombre"
                             />
                             {errors.nombre && errors.nombre.message && (<p className="input-message-error">{errors.nombre.message}</p>)} 
+                        </div>
+
+                        {/* Código de barras */}
+                        <div>
+                            <label htmlFor="codigoBarra" className="label-form">Código de barras</label>
+                            <input 
+                                className={`${errors.codigoBarra && errors.codigoBarra.message ? "input-form-error" : ""} input-form`}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                {...register("codigoBarra", {
+                                    minLength: {
+                                        value: 6,
+                                        message: "El código de barras debe tener al menos 6 caracteres.",
+                                    },
+                                    maxLength: {
+                                        value: 30,
+                                        message: "El código de barras no debe exceder los 30 caracteres.",
+                                    },
+                                })}
+                                id="codigoBarra"
+                            />
+                            {errors.codigoBarra && errors.codigoBarra.message && (<p className="input-message-error">{errors.codigoBarra.message}</p>)} 
                         </div>
 
                         {/* Serie */}
