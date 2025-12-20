@@ -4,7 +4,7 @@ import Button from '../../../../shared/components/Button';
 import Modal from '../../../../shared/components/Modal';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setAlmacen } from '@/store/almacenSlice';
 
 const ModalEliminarAlmacen = (props) => {
@@ -12,7 +12,6 @@ const ModalEliminarAlmacen = (props) => {
     const [messageError, setMessageError] = useState();
     const [loading, setLoading] = useState();
     const [inputNombre, setInputNombre] = useState("");
-    const token = useSelector(state => state.auth.token);
     const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
@@ -27,7 +26,7 @@ const ModalEliminarAlmacen = (props) => {
         setLoading(true);
 
         try {
-            await eliminarAlmacen(token, almacenSeleccionado.id);
+            await eliminarAlmacen(almacenSeleccionado.id);
             setAlmacenes(prevAlmacenes =>
                 prevAlmacenes.filter(almacen => almacen.id !== almacenSeleccionado.id) 
             )

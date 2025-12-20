@@ -11,7 +11,6 @@ import { setAlmacen } from "@/store/almacenSlice";
 
 const ModalCrearAlmacen = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({  mode: "onChange" });
-    const token = useSelector(state => state.auth.token);
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
     const {cerrarModal, setAlmacenes} = props;
@@ -21,7 +20,7 @@ const ModalCrearAlmacen = (props) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await crearAlmacen(token, values);
+            const result = await crearAlmacen(values);
             const data = result?.data;
             setAlmacenes(prevAlmacenes => [data, ...prevAlmacenes]);
             cerrarModal();

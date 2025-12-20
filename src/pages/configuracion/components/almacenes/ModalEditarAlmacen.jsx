@@ -13,7 +13,6 @@ const ModalEditarAlmacen = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
     const { cerrarModal, setAlmacenes, almacenSeleccionado} = props;
     const [messageError, setMessageError] = useState(false);
-    const token = useSelector(state => state.auth.token);
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
@@ -22,7 +21,7 @@ const ModalEditarAlmacen = (props) => {
         setLoading(true);
 
         try {
-            const result = await editarAlmacen(token, almacenSeleccionado.id, values);
+            const result = await editarAlmacen(almacenSeleccionado.id, values);
             const data = result?.data;
             setAlmacenes(prevAlmacenes =>
                 prevAlmacenes.map(almacen => {
@@ -55,7 +54,7 @@ const ModalEditarAlmacen = (props) => {
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-                <div className="px-2">
+                <div className="">
                     {/* Nombre */}
                     <div>
                         <label htmlFor="nombre" className="label-form">

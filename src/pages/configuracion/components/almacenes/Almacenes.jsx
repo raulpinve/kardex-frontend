@@ -8,12 +8,16 @@ import Button from "../../../../shared/components/Button";
 import ModalCrearAlmacen from "./ModalCrearAlmacen";
 import ModalEditarAlmacen from "./ModalEditarAlmacen";
 import ModalEliminarAlmacen from "./ModalEliminarAlmacen";
-import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from "react-icons/lu";
+import { LuEraser, LuPencil, LuSearch } from "react-icons/lu";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import Table from "@/shared/components/Table";
+import TableThead from "@/shared/components/TableThead";
+import TableTr from "@/shared/components/TableTr";
+import TableTh from "@/shared/components/TableTh";
+import TableTbody from "@/shared/components/TableTbody";
+import TableTd from "@/shared/components/TableTd";
 
 const Almacenes = () => {
-    const token = useSelector(state => state.auth.token);
     const [almacenSeleccionado, setAlmacenSeleccionado] = useState(null);
     const [modalActivo, setModalActivo] = useState(null); 
     const [almacenes, setAlmacenes] = useState([]);
@@ -30,7 +34,7 @@ const Almacenes = () => {
             setLoading(true);
             setError(null); 
             try {
-                const respuesta = await obtenerAlmacenes(token, paginaActual, debouncedConsulta)
+                const respuesta = await obtenerAlmacenes(paginaActual, debouncedConsulta)
                 setAlmacenes(respuesta.data)
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
@@ -41,7 +45,7 @@ const Almacenes = () => {
             }
         }
         fetchUsuarios();
-    }, [debouncedConsulta, token, paginaActual])
+    }, [debouncedConsulta, paginaActual])
 
     return (
         <>
@@ -74,77 +78,67 @@ const Almacenes = () => {
                         </div>
                     </div>
                 </div>
-                <div className="overflow-x-auto">
-                    <table className="min-w-max w-full mt-3">
-                        <thead className='sticky top-0 bg-white dark:bg-gray-800 border-gray-100 border-y text-sm dark:border-gray-800'>
-                            <tr className="text-left">
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Nombre del almacén</p>
-                                </th>
-                                <th className="py-3 px-4 w-[130px]">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                                </th>
-                            </tr>
-                        </thead>
-                        {loading ? <SkeletonTable rows={5} columns={2}/>: 
-                            <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
-                                {error ? <tr>
-                                    <td colSpan="5" className="py-3 px-4">
-                                        <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
-                                    </td>
-                                </tr> : 
-                                <>
-                                    {almacenes.length === 0 ? 
-                                        <tr>
-                                            <td colSpan="5" className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400 text-center"> No hay almacenes por mostrar</p>
-                                            </td>
-                                        </tr>: 
-                                        <>
-                                            {almacenes.map(almacen => {
-                                                return <tr key={almacen.id}>
-                                                    <td className="py-3 px-4">
-                                                        <p className="text-gray-700 dark:text-gray-400"> {almacen.nombre} </p>
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <div className="text-gray-700 dark:text-gray-400 flex gap-2">
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Editar almacén"
-                                                                onClick={() => {
-                                                                    setModalActivo("editar"); 
-                                                                    setAlmacenSeleccionado(almacen);
-                                                                }}    
-                                                            >
-                                                                <LuPencil />
-                                                            </button>
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Eliminar almacén"
-                                                                onClick={() => {
-                                                                    setAlmacenSeleccionado(almacen);
-                                                                    setModalActivo("eliminar"); 
-                                                                }} 
-                                                            >
-                                                                <LuEraser />
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            })}
-                                        </>}
-                                    </>}
-                            </tbody>
-                        }
-                    </table>
+                <div className="mt-4">
+                    <Table>
+                        <TableThead>
+                            <TableTr>
+                                <TableTh>Nombre del almacén</TableTh>
+                                <TableTh className="text-center">Acciones</TableTh>
+                            </TableTr>
+                        </TableThead>
+                        {loading && <SkeletonTable rows={7} columns={2} />}
+                        <TableTbody>
+                            {!loading && error && (
+                                <TableTr>
+                                    <TableTd colSpan={2}>{error}</TableTd>
+                                </TableTr>
+                            )}
+                            {!loading && !error && almacenes.length === 0 && (
+                                <TableTr>
+                                    <TableTd colSpan={2}>No hay almacenes por mostrar</TableTd>
+                                </TableTr>
+                            )}
+                            {!loading && !error && almacenes.length > 0 && (
+                                almacenes.map(almacen => {
+                                    return <TableTr key={almacen.id}>
+                                        <TableTd>{almacen.nombre}</TableTd>
+                                        <TableTd>
+                                            <div className="flex justify-center gap-2">
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title="Editar almacén"
+                                                    onClick={() => {
+                                                        setModalActivo("editar"); 
+                                                        setAlmacenSeleccionado(almacen);
+                                                    }}    
+                                                >
+                                                    <LuPencil />
+                                                </button>
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title="Eliminar almacén"
+                                                    onClick={() => {
+                                                        setAlmacenSeleccionado(almacen);
+                                                        setModalActivo("eliminar"); 
+                                                    }} 
+                                                >
+                                                    <LuEraser />
+                                                </button>
+                                            </div>
+                                        </TableTd>
+                                    </TableTr>
+                                })
+                            )}
+                        </TableTbody>
+                    </Table>
+                    {!loading && (
+                        <Pagination
+                            paginaActual={paginaActual}
+                            totalPaginas={totalPaginas}
+                            onPageChange={setPaginaActual}
+                        />
+                    )}
                 </div>
-                {!loading && (
-                    <Pagination
-                        paginaActual={paginaActual}
-                        totalPaginas={totalPaginas}
-                        onPageChange={setPaginaActual}
-                    />
-                )}
             </Card>
 
             {modalActivo === "crear" && (
