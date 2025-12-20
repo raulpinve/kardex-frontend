@@ -4,7 +4,6 @@ import Button from '../../../../shared/components/Button';
 import Modal from '../../../../shared/components/Modal';
 import MessageError from '../../../../shared/components/MessageError';
 import { obtenerAlmacenes } from '../../services/almacenService';
-import { useSelector } from 'react-redux';
 import { obtenerPrivilegiosUsuario } from '../../services/usuarioService';
 import { actualizarPrivilegiosUsuario } from '../../services/usuarioService';
 import { handleErrorsBasic } from '../../../../utils/handleErrors';
@@ -15,7 +14,6 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
     const [almacenesSeleccionados, setAlmacenesSeleccionados] = useState([]);
     const [loadingData, setLoadingData] = useState(false);
     const [loading, setLoading] = useState(false);
-    const token = useSelector(state => state.auth.token);
     const [messageError,setMessageError] = useState(null);
     const [messageErrorCargarData, setMessageErrorCargarData] = useState(null);
 
@@ -25,8 +23,8 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
             setMessageErrorCargarData(null);
             try {
                 const [resAlmacenes, resPrivilegios] = await Promise.all([
-                    obtenerAlmacenes(token),
-                    obtenerPrivilegiosUsuario(token, usuarioSeleccionado.id),
+                    obtenerAlmacenes(),
+                    obtenerPrivilegiosUsuario(usuarioSeleccionado.id),
                 ]);
         
                 setAlmacenes(resAlmacenes?.data || []);
@@ -49,7 +47,7 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
         setMessageError(false)
         setLoading(true)
         try {
-            await actualizarPrivilegiosUsuario(token, usuarioSeleccionado.id, {
+            await actualizarPrivilegiosUsuario(usuarioSeleccionado.id, {
                 almacenesIds: almacenesSeleccionados
             })
             toast.success('Privilegios actualizados correctamente.');

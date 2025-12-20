@@ -5,7 +5,6 @@ import Button from "../../../../shared/components/Button";
 import Modal from "../../../../shared/components/Modal";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LuChevronDown } from "react-icons/lu";
 
@@ -13,14 +12,13 @@ const ModalEditarUsuario = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange"})
     const {cerrarModal, setUsuarios, usuarioSeleccionado} = props;
     const [messageError, setMessageError] = useState(false);
-    const token = useSelector(state => state.auth.token);
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async(values) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await editarUsuario(token, usuarioSeleccionado.id, values)
+            const result = await editarUsuario(usuarioSeleccionado.id, values)
             const data = result?.data
             if(data){
                 setUsuarios(prevUsuarios =>

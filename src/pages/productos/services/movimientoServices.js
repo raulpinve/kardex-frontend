@@ -1,7 +1,7 @@
-import { apiClient } from "../../../utils/authUtils";
+import {api}from "../../../utils/authUtils";
 
 const obtenerMovimientosLote = (token, loteId, tipo, fecha, pagina, consulta) => {
-    const request = apiClient(token).get(`/movimientos/${loteId}/lote`, {
+    const request = api.get(`/movimientos/${loteId}/lote`, {
             params: {
                 pagina,
                 ...(consulta && { consulta }),
@@ -19,7 +19,7 @@ const obtenerMovimientosLote = (token, loteId, tipo, fecha, pagina, consulta) =>
 
 // Movimientos por producto dentro de un corte
 const obtenerCorteMovimientosProducto = (token, corteId, productoId, tipo, fecha, pagina, consulta) => {
-    return apiClient(token).get(`/cortes/${corteId}/productos/${productoId}/movimientos`, {
+    return api.get(`/cortes/${corteId}/productos/${productoId}/movimientos`, {
         params: {
             pagina,
             ...(consulta && { consulta }),
@@ -33,7 +33,7 @@ const obtenerCorteMovimientosProducto = (token, corteId, productoId, tipo, fecha
 
 // Movimientos por producto sin corte
 const obtenerMovimientosProducto = (token, productoId, tipo, fecha, pagina, consulta) => {
-    return apiClient(token).get(`/movimientos/productos/${productoId}`, {
+    return api.get(`/movimientos/productos/${productoId}`, {
         params: {
             pagina,
             ...(consulta && { consulta }),
@@ -46,7 +46,7 @@ const obtenerMovimientosProducto = (token, productoId, tipo, fecha, pagina, cons
 }
 
 const crearMovimiento = (token, data) => {
-    const request = apiClient(token).post(`/movimientos`, data);
+    const request = api.post(`/movimientos`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -55,7 +55,7 @@ const crearMovimiento = (token, data) => {
 }
 
 const editarMovimiento = (token, movimientoId, data) => {
-    const request = apiClient(token).put(`/movimientos/${movimientoId}`, data);
+    const request = api.put(`/movimientos/${movimientoId}`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -64,7 +64,7 @@ const editarMovimiento = (token, movimientoId, data) => {
 }
 
 const eliminarMovimiento = (token, movimientoId) => {
-    const request = apiClient(token).delete(`/movimientos/${movimientoId}`);
+    const request = api.delete(`/movimientos/${movimientoId}`);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -72,7 +72,7 @@ const eliminarMovimiento = (token, movimientoId) => {
         })
 }
 const obtenerCorteMovimientosLote = (token, corteId, loteId, tipo, fecha, pagina, consulta) => {
-    const request = apiClient(token).get(`/cortes/${corteId}/${loteId}/movimientos`, {
+    const request = api.get(`/cortes/${corteId}/${loteId}/movimientos`, {
             params: {
                 pagina,
                 ...(consulta && { consulta }),

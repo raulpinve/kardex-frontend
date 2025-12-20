@@ -1,7 +1,7 @@
-import { apiClient } from "@/utils/authUtils";
+import {api}from "@/utils/authUtils";
 
 const obtenerProductos = (token ,almacenId, consulta) => {
-    const request = apiClient(token).get(`/productos/${almacenId}/almacen`, {
+    const request = api.get(`/productos/${almacenId}/almacen`, {
         params: {
             ...(consulta && { consulta }),
             tamanoPagina: 3

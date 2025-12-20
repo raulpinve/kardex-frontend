@@ -1,7 +1,7 @@
-import { apiClient } from "../../../utils/authUtils";
+import {api} from "../../../utils/authUtils";
 
-const crearAlmacen = (token, data) => {
-    const request = apiClient(token).post(`/almacenes`, data);
+const crearAlmacen = (data) => {
+    const request = api.post(`/almacenes`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -9,8 +9,8 @@ const crearAlmacen = (token, data) => {
         })
 }
 
-const obtenerAlmacenes = (token, pagina = 1, consulta) => {
-    const request = apiClient(token).get(`/almacenes`, {
+const obtenerAlmacenes = (pagina = 1, consulta) => {
+    const request = api.get(`/almacenes`, {
         params: {
             pagina,
             ...(consulta && { consulta })
@@ -23,8 +23,8 @@ const obtenerAlmacenes = (token, pagina = 1, consulta) => {
         })
 } 
 
-const editarAlmacen = (token, almacenId, data) => {
-    const request = apiClient(token).put(`/almacenes/${almacenId}`, data);
+const editarAlmacen = (almacenId, data) => {
+    const request = api.put(`/almacenes/${almacenId}`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -32,8 +32,8 @@ const editarAlmacen = (token, almacenId, data) => {
         })
 }
 
-const eliminarAlmacen = (token, almacenId) => {
-    const request = apiClient(token).delete(`/almacenes/${almacenId}`);
+const eliminarAlmacen = (almacenId) => {
+    const request = api.delete(`/almacenes/${almacenId}`);
     return request
         .then(response => response.data)
         .catch(err => {

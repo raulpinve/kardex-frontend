@@ -1,7 +1,7 @@
-import { apiClient } from "../../utils/authUtils";
+import {api}from "../../utils/authUtils";
 
 const obtenerNotificaciones = (token, almacenId, pagina) => {
-    const request = apiClient(token).get(`/notificaciones/${almacenId}`, {
+    const request = api.get(`/notificaciones/${almacenId}`, {
         params: {
             ...(pagina && { pagina })
         }
@@ -14,7 +14,7 @@ const obtenerNotificaciones = (token, almacenId, pagina) => {
 }
 
 const obtenerNotificacionesNoVistas = (token, almacenId, pagina) => {
-    const request = apiClient(token).get(`/notificaciones/${almacenId}/notificaciones_no_vistas`, {
+    const request = api.get(`/notificaciones/${almacenId}/notificaciones_no_vistas`, {
         params: {
             ...(pagina && { pagina })
         }
@@ -26,7 +26,7 @@ const obtenerNotificacionesNoVistas = (token, almacenId, pagina) => {
         })
 }
 const marcarNotificacionesComoLeidas = (token, almacenId) => {
-    const request = apiClient(token).post(`/notificaciones/${almacenId}/vistas`);
+    const request = api.post(`/notificaciones/${almacenId}/vistas`);
     return request
         .then(response => response.data)
         .catch(err => {

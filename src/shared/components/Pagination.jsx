@@ -8,6 +8,7 @@ const Pagination = ({ paginaActual, totalPaginas, onPageChange, className }) => 
   const generarPaginacion = () => {
     let paginas = [];
 
+
     if (totalPaginas <= 7) {
       for (let i = 1; i <= totalPaginas; i++) {
         paginas.push(i);
@@ -35,6 +36,8 @@ const Pagination = ({ paginaActual, totalPaginas, onPageChange, className }) => 
 
     return paginas;
   };
+    if(totalPaginas < 2) return;
+
   
   return (
     <nav className={`flex items-center justify-between gap-2 px-4 py-3 sm:justify-normal ${className}`}>

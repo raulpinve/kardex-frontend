@@ -1,7 +1,7 @@
-import { apiClient } from "../../../utils/authUtils";
+import {api}from "../../../utils/authUtils";
 
 const obtenerCortes = (token, almacenId, pagina = 1, consulta) => {
-    const request = apiClient(token).get(`/cortes/${almacenId}/almacen`, {
+    const request = api.get(`/cortes/${almacenId}/almacen`, {
         params: {
             pagina,
             ...(consulta && { consulta })
@@ -15,7 +15,7 @@ const obtenerCortes = (token, almacenId, pagina = 1, consulta) => {
 } 
 
 const crearCorte = (token, data) => {
-    const request = apiClient(token).post(`/cortes`, data);
+    const request = api.post(`/cortes`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -24,7 +24,7 @@ const crearCorte = (token, data) => {
 }
 
 const obtenerCortePeriodo = (token, periodo, almacenId) => {
-    const request = apiClient(token).get(`/cortes/${periodo}/${almacenId}/periodo`);
+    const request = api.get(`/cortes/${periodo}/${almacenId}/periodo`);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -33,7 +33,7 @@ const obtenerCortePeriodo = (token, periodo, almacenId) => {
 }
 
 const obtenerCorte = (token, corteId) => {
-    const request = apiClient(token).get(`/cortes/${corteId}`);
+    const request = api.get(`/cortes/${corteId}`);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -42,7 +42,7 @@ const obtenerCorte = (token, corteId) => {
 }
 
 const cerrarCorte = (token, corteId) => {
-    const request = apiClient(token).put(`/cortes/${corteId}/cerrar`);
+    const request = api.put(`/cortes/${corteId}/cerrar`);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -51,7 +51,7 @@ const cerrarCorte = (token, corteId) => {
 }
 
 const obtenerCorteLote = (token, corteId, loteId) => {
-    return apiClient(token).get(`/cortes/${corteId}/${loteId}/lote`)
+    return api.get(`/cortes/${corteId}/${loteId}/lote`)
         .then(response => response.data)
         .catch(err => {
             throw err;
@@ -59,7 +59,7 @@ const obtenerCorteLote = (token, corteId, loteId) => {
 }
 
 const obtenerCorteLotes = (token, corteId, productoId, pagina, consulta) => {
-    return apiClient(token).get(`/cortes/${corteId}/${productoId}/lotes`, {
+    return api.get(`/cortes/${corteId}/${productoId}/lotes`, {
         params: {
             pagina,
             ...(consulta && { consulta })
@@ -72,7 +72,7 @@ const obtenerCorteLotes = (token, corteId, productoId, pagina, consulta) => {
 }
 
 const eliminarCorte = (token, corteId) => {
-    const request = apiClient(token).delete(`/cortes/${corteId}`);
+    const request = api.delete(`/cortes/${corteId}`);
     return request
         .then(response => response.data)
         .catch(err => {

@@ -1,7 +1,7 @@
-import { apiClient } from "../../../utils/authUtils";
+import {api}from "../../../utils/authUtils";
 
-const obtenerUsuarios = (token, pagina = 1, consulta) => {
-    const request = apiClient(token).get(`/usuarios`, {
+const obtenerUsuarios = (pagina = 1, consulta) => {
+    const request = api.get(`/usuarios`, {
         params: {
             pagina,
             ...(consulta && { consulta })
@@ -14,8 +14,8 @@ const obtenerUsuarios = (token, pagina = 1, consulta) => {
         })
 } 
 
-const crearUsuario = (token, data) => {
-    const request = apiClient(token).post('/usuarios/', data)
+const crearUsuario = (data) => {
+    const request = api.post('/usuarios/', data)
     return request
         .then(response => response.data)
         .catch(err => {
@@ -23,8 +23,8 @@ const crearUsuario = (token, data) => {
         })
 }
 
-const editarUsuario = (token, usuarioId, data) => {
-    const request = apiClient(token).put(`/usuarios/${usuarioId}`, data)
+const editarUsuario = (usuarioId, data) => {
+    const request = api.put(`/usuarios/${usuarioId}`, data)
     return request
         .then(response => response.data)
         .catch(err => {
@@ -32,8 +32,8 @@ const editarUsuario = (token, usuarioId, data) => {
         })
 }
 
-const obtenerPrivilegiosUsuario = (token, usuarioId) => {
-    const request = apiClient(token).get(`/usuarios/${usuarioId}/privilegios-almacen`)
+const obtenerPrivilegiosUsuario = (usuarioId) => {
+    const request = api.get(`/usuarios/${usuarioId}/privilegios-almacen`)
     return request
         .then(response => response.data)
         .catch(err => {
@@ -41,8 +41,8 @@ const obtenerPrivilegiosUsuario = (token, usuarioId) => {
         })
 }
 
-const actualizarPrivilegiosUsuario = (token, usuarioId, data) => {
-    const request = apiClient(token).put(`/usuarios/${usuarioId}/privilegios-almacen`, data)
+const actualizarPrivilegiosUsuario = (usuarioId, data) => {
+    const request = api.put(`/usuarios/${usuarioId}/privilegios-almacen`, data)
     return request
         .then(response => response.data)
         .catch(err => {
@@ -50,8 +50,8 @@ const actualizarPrivilegiosUsuario = (token, usuarioId, data) => {
         })
 }
 
-const eliminarUsuario = (token, usuarioId) => {
-    const request = apiClient(token).delete(`/usuarios/${usuarioId}`)
+const eliminarUsuario = (usuarioId) => {
+    const request = api.delete(`/usuarios/${usuarioId}`)
     return request
         .then(response => response.data)
         .catch(err => {

@@ -4,14 +4,12 @@ import MessageError from '../../../../shared/components/MessageError';
 import Button from '../../../../shared/components/Button';
 import { eliminarUsuario } from '../../services/usuarioService';
 import { toast } from 'sonner';
-import { useSelector } from 'react-redux';
 
 const ModalEliminarUsuario = (props) => {
     const {cerrarModal, usuarioSeleccionado, setUsuarios} = props;
     const [messageError, setMessageError] = useState();
     const [loading, setLoading] = useState();
     const [inputNombre, setInputNombre] = useState("");
-    const token = useSelector(state => state.auth.token);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +23,7 @@ const ModalEliminarUsuario = (props) => {
         setLoading(true);
 
         try {
-            await eliminarUsuario(token, usuarioSeleccionado.id);
+            await eliminarUsuario(usuarioSeleccionado.id);
             setUsuarios(prevUsuarios =>
                 prevUsuarios.filter(usuario => usuario.id !== usuarioSeleccionado.id) 
             )

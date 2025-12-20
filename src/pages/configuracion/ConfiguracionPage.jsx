@@ -4,34 +4,31 @@ import Usuarios from './components/usuarios/Usuarios';
 import Almacenes from './components/almacenes/Almacenes';
 import Categorias from './components/categorias/Categorias';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const ConfiguracionPage = () => {
     const usuario = useSelector(state => state.auth.usuario);
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
     const tabs = ["Usuarios", "Almacenes", "Categorías"];
 
     // Leer activeTab de localStorage al inicio (o usar "Almacenes" por defecto)
-    const [activeTab, setActiveTab] = useState(() => {
-        return localStorage.getItem('activeTab') || "Usuarios";
-    });
-
-    useEffect(() => {
-        if(usuario?.rol !== "superadmin"){
-            navigate("/");
-        } else {
-            setLoading(false);
-        }
-    }, [usuario, navigate]);
+    const [activeTab, setActiveTab] = useState(() => { return localStorage.getItem('activeTab') || "Usuarios"; });
 
     // Guardar activeTab en localStorage cada vez que cambie
     useEffect(() => {
         localStorage.setItem('activeTab', activeTab);
     }, [activeTab]);
 
-    if(loading) return null;
 
+    // Usuario aún no hidratado
+    if(usuario === undefined || usuario === null){
+        return null; 
+    }
+
+    // Usuario sin permisos
+    if(usuario.rol === "superadmin"){
+        <Navigate to={``} replace />
+    }
+    
     return (<>
         <Title>Configuración</Title>  
         <div className="flex gap-2 my-6">

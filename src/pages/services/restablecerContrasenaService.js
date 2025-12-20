@@ -1,7 +1,7 @@
-import { apiClient } from '../../utils/authUtils'
+import {api}from '../../utils/authUtils'
 
 const solicitarRestablecer = (token, data) => {
-    const request = apiClient(token).post(`/solicitud-restablecer-contrasena`, data)
+    const request = api.post(`/solicitud-restablecer-contrasena`, data)
     return request
     .then(response => response.data)
     .catch(err => {
@@ -10,7 +10,7 @@ const solicitarRestablecer = (token, data) => {
 }
 
 const restablecerContrasena = (token, data) => {
-    const request = apiClient(token).post(`/restablecer-contrasena`, data)
+    const request = api.post(`/restablecer-contrasena`, data)
     return request
     .then(response => response.data)
     .catch(err => {

@@ -1,7 +1,7 @@
-import { apiClient } from "../../../utils/authUtils";
+import {api}from "../../../utils/authUtils";
 
 const obtenerTodasCategorias = async (token, tipo) => {
-    const respuesta = await apiClient(token).get("/categorias/todas", {
+    const respuesta = await api.get("/categorias/todas", {
         params: {
             ...(tipo && { tipo }),
         }

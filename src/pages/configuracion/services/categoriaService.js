@@ -1,7 +1,7 @@
-import { apiClient } from "../../../utils/authUtils";
+import {api}from "../../../utils/authUtils";
 
 const obtenerCategorias = async (token, pagina=1, tipo, consulta) => {
-    const respuesta = await apiClient(token).get("/categorias", {
+    const respuesta = await api.get("/categorias", {
         params: {
             pagina,
             ...(tipo && { tipo }),
@@ -12,7 +12,7 @@ const obtenerCategorias = async (token, pagina=1, tipo, consulta) => {
 };
 
 const crearCategoria = (token, data) => {
-    const request = apiClient(token).post(`/categorias`, data);
+    const request = api.post(`/categorias`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -21,7 +21,7 @@ const crearCategoria = (token, data) => {
 }
 
 const editarCategoria = (token, categoriaId, data) => {
-    const request = apiClient(token).put(`/categorias/${categoriaId}`, data);
+    const request = api.put(`/categorias/${categoriaId}`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -30,7 +30,7 @@ const editarCategoria = (token, categoriaId, data) => {
 }
 
 const eliminarCategoria = (token, almacenId) => {
-    const request = apiClient(token).delete(`/categorias/${almacenId}`);
+    const request = api.delete(`/categorias/${almacenId}`);
     return request
         .then(response => response.data)
         .catch(err => {

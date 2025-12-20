@@ -1,7 +1,7 @@
-import { apiClient } from "../../../utils/authUtils";
+import {api}from "../../../utils/authUtils";
 
 const obtenerProductosCorte = (token, corteId, tipo, pagina = 1, consulta, categoriaId) => {
-    const request = apiClient(token).get(`/cortes/${corteId}/${tipo}`, {
+    const request = api.get(`/cortes/${corteId}/${tipo}`, {
         params: {
             pagina,
             categoriaId,
@@ -16,7 +16,7 @@ const obtenerProductosCorte = (token, corteId, tipo, pagina = 1, consulta, categ
 }
 
 const obtenerProductoCorte = (token, corteId, productoId) => {
-    return apiClient(token).get(`/cortes/${corteId}/${productoId}/producto`)
+    return api.get(`/cortes/${corteId}/${productoId}/producto`)
         .then(response => response.data)
         .catch(err => {
             throw err;
@@ -24,7 +24,7 @@ const obtenerProductoCorte = (token, corteId, productoId) => {
 }
 
 const obtenerProducto = (token, productoId) => {
-    return apiClient(token).get(`/productos/${productoId}`)
+    return api.get(`/productos/${productoId}`)
         .then(response => response.data)
         .catch(err => {
             throw err;

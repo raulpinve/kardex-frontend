@@ -3,7 +3,6 @@ import Modal from "../../../../shared/components/Modal";
 import Button from "../../../../shared/components/Button";
 import { useForm } from "react-hook-form";
 import { crearUsuario } from "../../services/usuarioService";
-import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
@@ -13,17 +12,14 @@ const ModalCrearUsuario = (props) => {
     const {cerrarModal, setUsuarios} = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const token = useSelector(state => state.auth.token);
     const [mostrarPassword, setMostrarPassword] = useState(false);
-    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ 
-        mode: "onChange"
-    })
+    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
 
     const onSubmit = async(values) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await crearUsuario(token, values)
+            const result = await crearUsuario(values)
             const data = result?.data
             if(data){
                 setUsuarios(prevUsuarios => [data, ...prevUsuarios]);
@@ -45,7 +41,6 @@ const ModalCrearUsuario = (props) => {
     useEffect(() => {
         setValue("rol", "");
     }, [setValue])
-
     return (
         <Modal
             isOpenModal={true}

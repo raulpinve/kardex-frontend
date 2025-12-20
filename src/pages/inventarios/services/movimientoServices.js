@@ -1,7 +1,7 @@
-import { apiClient } from "../../../utils/authUtils";
+import {api}from "../../../utils/authUtils";
 
 const crearMovimiento = (token, data) => {
-    const request = apiClient(token).post(`/movimientos`, data);
+    const request = api.post(`/movimientos`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -10,7 +10,7 @@ const crearMovimiento = (token, data) => {
 }
 
 const editarMovimiento = (token, movimientoId, data) => {
-    const request = apiClient(token).put(`/movimientos/${movimientoId}`, data);
+    const request = api.put(`/movimientos/${movimientoId}`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -19,7 +19,7 @@ const editarMovimiento = (token, movimientoId, data) => {
 }
 
 const eliminarMovimiento = (token, movimientoId) => {
-    const request = apiClient(token).delete(`/movimientos/${movimientoId}`);
+    const request = api.delete(`/movimientos/${movimientoId}`);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -29,7 +29,7 @@ const eliminarMovimiento = (token, movimientoId) => {
 
 
 const obtenerCorteMovimientosLote = (token, corteId, loteId, tipo, fecha, pagina, consulta) => {
-    const request = apiClient(token).get(`/cortes/${corteId}/${loteId}/movimientos`, {
+    const request = api.get(`/cortes/${corteId}/${loteId}/movimientos`, {
             params: {
                 pagina,
                 ...(consulta && { consulta }),
@@ -46,7 +46,7 @@ const obtenerCorteMovimientosLote = (token, corteId, loteId, tipo, fecha, pagina
 }
 
 const obtenerCorteMovimientosProducto = (token, corteId, productoId, tipo, fecha, pagina, consulta) => {
-    return apiClient(token).get(`/cortes/${corteId}/productos/${productoId}/movimientos`, {
+    return api.get(`/cortes/${corteId}/productos/${productoId}/movimientos`, {
         params: {
             pagina,
             ...(consulta && { consulta }),

@@ -1,7 +1,7 @@
-import { apiClient } from '../../../utils/authUtils';
+import {api}from '../../../utils/authUtils';
 
 const obtenerProductos = (token ,tipo, almacenId,pagina = 1, consulta, categoriaId) => {
-    const request = apiClient(token).get(`/${tipo}/${almacenId}/almacen`, {
+    const request = api.get(`/${tipo}/${almacenId}/almacen`, {
         params: {
             pagina,
             categoriaId,
@@ -16,7 +16,7 @@ const obtenerProductos = (token ,tipo, almacenId,pagina = 1, consulta, categoria
 } 
 
 const crearProducto = (token, data, tipo) => {
-    const request = apiClient(token).post(`/${tipo}`, data);
+    const request = api.post(`/${tipo}`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -25,7 +25,7 @@ const crearProducto = (token, data, tipo) => {
 }
 
 const obtenerProducto = (token, productoId) => {
-    return apiClient(token).get(`/productos/${productoId}`)
+    return api.get(`/productos/${productoId}`)
         .then(response => response.data)
         .catch(err => {
             throw err;
@@ -33,7 +33,7 @@ const obtenerProducto = (token, productoId) => {
 }
 
 const obtenerStockDisponible = (token, productoId) => {
-    return apiClient(token).get(`/productos/${productoId}/stock_disponible`)
+    return api.get(`/productos/${productoId}/stock_disponible`)
         .then(response => response.data)
         .catch(err => {
             throw err;
@@ -41,7 +41,7 @@ const obtenerStockDisponible = (token, productoId) => {
 }
 
 const editarProducto = (token, tipo, productoId, data) => {
-    const request = apiClient(token).put(`/${tipo}/${productoId}`, data);
+    const request = api.put(`/${tipo}/${productoId}`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -50,7 +50,7 @@ const editarProducto = (token, tipo, productoId, data) => {
 }
 
 const eliminarProducto = (token, tipo, productoId) => {
-    const request = apiClient(token).delete(`/${tipo}/${productoId}`);
+    const request = api.delete(`/${tipo}/${productoId}`);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -62,7 +62,7 @@ const subirAvatar = (token, tipo, productoId, archivo) => {
     const formData = new FormData();
     formData.append("avatar", archivo);
 
-    return apiClient(token).put(`/${tipo}/${productoId}/avatar`, formData)
+    return api.put(`/${tipo}/${productoId}/avatar`, formData)
     .then(response => response.data)
         .catch(err => {
             throw err;
@@ -70,7 +70,7 @@ const subirAvatar = (token, tipo, productoId, archivo) => {
 };
 
 const eliminarAvatar = (token, tipo, productoId) => {
-    return apiClient(token).delete(`/${tipo}/${productoId}/avatar`)
+    return api.delete(`/${tipo}/${productoId}/avatar`)
         .then(response => response.data)
         .catch(err => {
             throw err;

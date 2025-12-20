@@ -1,7 +1,7 @@
-import { apiClient } from '../../utils/authUtils'
+import {api}from '../../utils/authUtils'
 
 const verificarEmail = (token, data) => {
-    const request = apiClient(token).post(`/verificar-email`, data)
+    const request = api.post(`/verificar-email`, data)
     return request
     .then(response => response.data)
     .catch(err => {

@@ -1,7 +1,7 @@
-import { apiClient } from "../../../utils/authUtils";
+import {api}from "../../../utils/authUtils";
 
 const actualizarPerfil = (token, data) => {
-    const request = apiClient(token).put(`/perfiles`, data)
+    const request = api.put(`/perfiles`, data)
     return request
         .then(response => response.data)
         .catch(err => {
@@ -13,7 +13,7 @@ const subirAvatar = (token, archivo) => {
     const formData = new FormData();
     formData.append("avatar", archivo);
 
-    return apiClient(token).put(`/perfiles/avatar`, formData, {
+    return api.put(`/perfiles/avatar`, formData, {
         headers: {
             "Content-Type": "multipart/form-data"
         }
@@ -25,7 +25,7 @@ const subirAvatar = (token, archivo) => {
 };
 
 const obtenerPerfil = (token, perfilId) => {
-    const request = apiClient(token).get(`/perfiles/${perfilId}`)
+    const request = api.get(`/perfiles/${perfilId}`)
     return request
         .then(response => response.data)
         .catch(err => {
@@ -34,7 +34,7 @@ const obtenerPerfil = (token, perfilId) => {
 }
 
 const cambiarContrasena = (token, data) => {
-    const request = apiClient(token).put(`/perfiles/password`, data);
+    const request = api.put(`/perfiles/password`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -43,7 +43,7 @@ const cambiarContrasena = (token, data) => {
 }
 
 const eliminarAvatar = (token) => {
-    return apiClient(token).delete(`/perfiles/avatar`)
+    return api.delete(`/perfiles/avatar`)
         .then(response => response.data)
         .catch(err => {
             throw err;

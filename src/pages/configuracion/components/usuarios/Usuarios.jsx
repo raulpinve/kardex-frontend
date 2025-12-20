@@ -13,9 +13,21 @@ import Card from "../../../../shared/components/Card";
 import CardTitulo from "../../../../shared/components/CardTitulo";
 import useDebounce from "../../../../shared/hooks/useDebounce";
 import { useNavigate } from "react-router-dom";
-import { host } from "../../../../utils/config";
 import imageDefault from "../../../../assets/images/image-default.png";
 import ModalAbrirImagenPerfil from "../../../../shared/components/ModalAbrirImagenPerfil";
+import Table from "@/shared/components/Table";
+import TableThead from "@/shared/components/TableThead";
+import TableTr from "@/shared/components/TableTr";
+import TableTh from "@/shared/components/TableTh";
+import TableTbody from "@/shared/components/TableTbody";
+import TableTd from "@/shared/components/TableTd";
+
+const PARSEAR_ROLES = {
+    "superadmin": "Superadministrador",
+    "admin": "Administrador",
+    "viewer": "Lector", 
+    "editor": "Editor"
+}
 
 const Usuarios = () => {
     const [modalActivo, setModalActivo] = useState(null);
@@ -26,15 +38,8 @@ const Usuarios = () => {
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [consulta, setConsulta] = useState("");
-    const token = useSelector(state => state.auth.token);
-    const navigate = useNavigate();
-
-    const ROLES = {
-        "admin": "Administrador",
-        "viewer": "Lector", 
-        "editor": "Editor"
-    }
     const debouncedConsulta = useDebounce(consulta, 500);
+    const navigate = useNavigate();
 
     // Obtener usuarios
     useEffect(() => {
@@ -43,7 +48,7 @@ const Usuarios = () => {
             setError(null); 
 
             try {
-                const respuesta = await obtenerUsuarios(token, paginaActual, debouncedConsulta)
+                const respuesta = await obtenerUsuarios(paginaActual, debouncedConsulta)
                 setUsuarios(respuesta.data)
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
@@ -54,12 +59,12 @@ const Usuarios = () => {
             }
         }
         fetchUsuarios();
-    }, [debouncedConsulta, token, paginaActual])
+    }, [debouncedConsulta, paginaActual])
 
     const redireccionarUsuario = (usuarioId) => {
         navigate(`/perfil/${usuarioId}`)
     }
-
+    
     return (
         <>
             <Card>
@@ -91,119 +96,106 @@ const Usuarios = () => {
                     </div>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <table className="min-w-max w-full mt-3">
-                        <thead className='sticky top-0 bg-white dark:bg-gray-800 border-gray-100 border-y text-sm dark:border-gray-800'>
-                            <tr className="text-left">
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Nombres</p>
-                                </th>
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">E-mail</p>
-                                </th>
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Username</p>
-                                </th>
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Rol</p>
-                                </th>
-                                <th className="py-3 px-4 w-[130px]">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                                </th>
-                            </tr>
-                        </thead>
-                        {loading ? <SkeletonTable rows={7} columns={5}/>: 
-                            <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
-                                {error ? <tr>
-                                    <td colSpan="5" className="py-3">
-                                        <p className="text-gray-700 dark:text-gray-400 text-center">{error}</p>
-                                    </td>
-                                </tr> : 
-                                <>
-                                    {usuarios.length === 0 ? 
-                                        <tr>
-                                            <td colSpan="6" className="py-3">
-                                                <p className="text-gray-700 dark:text-gray-400 text-center"> No hay usuarios por mostrar</p>
-                                            </td>
-                                        </tr>: 
-                                        <>
-                                            {usuarios.map(usuario => {
-                                                return <tr 
-                                                    key={usuario.id}
-                                                    className="cursor-pointer"
-                                                    onClick={() => redireccionarUsuario(usuario.id)}
+                <div className="overflow-x-aut pt-4">
+                    <Table>
+                        <TableThead>
+                            <TableTr>
+                                <TableTh>Nombres</TableTh>
+                                <TableTh>E-mail</TableTh>
+                                <TableTh>Username</TableTh>
+                                <TableTh>Rol</TableTh>
+                                <TableTh>Acciones</TableTh>
+                            </TableTr>
+                        </TableThead>
+                        {loading && <SkeletonTable rows={7} columns={5}/>}
+                        <TableTbody>
+                            {!loading && error && (
+                                <TableTr>
+                                    <TableTd colSpan={5}>{error}</TableTd>
+                                </TableTr>
+                            )}
+                            {!loading && !error && usuarios.length === 0 && (
+                                <TableTr>
+                                    <TableTd colSpan={5}>No hay usuarios por mostrar</TableTd>
+                                </TableTr>
+                            )}
+                            {!loading && !error && usuarios.length > 0 && (
+                                usuarios.map(usuario => {
+                                    return <tr 
+                                        key={usuario.id}
+                                        className="cursor-pointer"
+                                        onClick={() => redireccionarUsuario(usuario.id)}
+                                    >
+                                        <TableTd>
+                                            <div className="flex items-center gap-2">
+                                                <img 
+                                                    src={`${usuario.avatarThumbnail}`}
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src = imageDefault; 
+                                                    }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setUsuarioSeleccionado(usuario);
+                                                        setModalActivo("imagen-perfil");
+                                                    }}
+                                                    alt="Perfil" 
+                                                    className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
+                                                />
+                                                <p className="text-gray-700 dark:text-gray-400"> {usuario.primerNombre} {usuario.apellidos}</p>
+                                            </div>
+                                        </TableTd>
+                                        <td className="py-3 px-4">
+                                            <p className="text-gray-700 dark:text-gray-400"> {usuario.email} </p>
+                                        </td>
+                                        <td className="py-3 px-4">
+                                            <p className="text-gray-700 dark:text-gray-400"> {usuario.username} </p>
+                                        </td>
+                                        <td className="py-3 px-4">
+                                            <p className="text-gray-700 dark:text-gray-400"> {PARSEAR_ROLES[usuario.rol]} </p>
+                                        </td>
+                                        <td className="py-3 px-4">
+                                            <div className="text-gray-700 dark:text-gray-400 flex gap-2">
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title="Editar usuario"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setModalActivo("editar"); 
+                                                        setUsuarioSeleccionado(usuario);
+                                                    }}    
                                                 >
-                                                    <td className="py-3 px-4 flex items-center gap-3">
-                                                        <img 
-                                                            src={`${host}${usuario.avatarThumbnail}`}
-                                                            onError={(e) => {
-                                                                e.target.onerror = null;
-                                                                e.target.src = imageDefault; 
-                                                            }}
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                setUsuarioSeleccionado(usuario);
-                                                                setModalActivo("imagen-perfil");
-                                                            }}
-                                                            alt="Perfil" 
-                                                            className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
-                                                        />
-                                                        <p className="text-gray-700 dark:text-gray-400"> {usuario.primerNombre} {usuario.apellidos}</p>
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <p className="text-gray-700 dark:text-gray-400"> {usuario.email} </p>
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <p className="text-gray-700 dark:text-gray-400"> {usuario.username} </p>
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <p className="text-gray-700 dark:text-gray-400"> {ROLES[usuario.rol]} </p>
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <div className="text-gray-700 dark:text-gray-400 flex gap-2">
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Editar usuario"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    setModalActivo("editar"); 
-                                                                    setUsuarioSeleccionado(usuario);
-                                                                }}    
-                                                            >
-                                                                <LuPencil />
-                                                            </button>
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Editar privilegios"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    setUsuarioSeleccionado(usuario);
-                                                                    setModalActivo("privilegios"); 
-                                                                }}  
-                                                            >
-                                                                <LuLock  />
-                                                            </button>
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Eliminar usuario"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    setUsuarioSeleccionado(usuario);
-                                                                    setModalActivo("eliminar"); 
-                                                                }} 
-                                                            >
-                                                                <LuEraser />
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            })}
-                                        </>
-                                        }
-                                    </>}
-                            </tbody>
-                        }
-                    </table>
+                                                    <LuPencil />
+                                                </button>
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title="Editar privilegios"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setUsuarioSeleccionado(usuario);
+                                                        setModalActivo("privilegios"); 
+                                                    }}  
+                                                >
+                                                    <LuLock  />
+                                                </button>
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title="Eliminar usuario"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setUsuarioSeleccionado(usuario);
+                                                        setModalActivo("eliminar"); 
+                                                    }} 
+                                                >
+                                                    <LuEraser />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                })
+                            )}
+                        </TableTbody>
+                    </Table>
                 </div>
                 {!loading && (
                     <Pagination
@@ -229,7 +221,6 @@ const Usuarios = () => {
                     usuarioSeleccionado = {usuarioSeleccionado}
                 />
             )}
-
             {modalActivo === "privilegios" && usuarioSeleccionado && (
                 <ModalEditarPrivilegiosAlmacen 
                     isOpenModal = {true}
@@ -238,7 +229,6 @@ const Usuarios = () => {
                     setUsuarioSeleccionado = {setUsuarioSeleccionado}
                 />
             )}
-
             {modalActivo === "eliminar" && usuarioSeleccionado && (
                 <ModalEliminarUsuario 
                     isOpenModal = {true}
