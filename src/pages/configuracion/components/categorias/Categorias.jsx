@@ -10,7 +10,12 @@ import Button from "../../../../shared/components/Button";
 import ModalCrearCategoria from "./ModalCrearCategoria";
 import Card from "../../../../shared/components/Card";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import TableThead from "@/shared/components/TableThead";
+import TableTr from "@/shared/components/TableTr";
+import Table from "@/shared/components/Table";
+import TableTh from "@/shared/components/TableTh";
+import TableTbody from "@/shared/components/TableTbody";
+import TableTd from "@/shared/components/TableTd";
 
 const TIPO = {
     "dispositivo": "Dispositivo", 
@@ -18,7 +23,6 @@ const TIPO = {
 }
 
 const Categorias = () => {
-    const token = useSelector(state => state.auth.token);
     const [modalActivo, setModalActivo] = useState(null); 
     const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(null);
@@ -37,7 +41,7 @@ const Categorias = () => {
             setLoading(true);
             setError(null); 
             try {
-                const respuesta = await obtenerCategorias(token, paginaActual, tipo, debouncedConsulta);
+                const respuesta = await obtenerCategorias(paginaActual, tipo, debouncedConsulta);
                 setCategorias(respuesta.data);
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
@@ -48,7 +52,7 @@ const Categorias = () => {
             }
         }
         fetchCategorias();
-    }, [debouncedConsulta, tipo, paginaActual, token]);
+    }, [debouncedConsulta, tipo, paginaActual]);
 
     return (
         <>
@@ -94,84 +98,70 @@ const Categorias = () => {
                         </div>
                     </div>
                 </div>
-                {/* Cuerpo */}
-                <div className="overflow-x-auto">
-                    <table className="min-w-max w-full mt-3">
-                        <thead className='sticky top-0 bg-white dark:bg-gray-800 border-gray-100 border-y text-sm dark:border-gray-800'>
-                            <tr className="text-left">
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Nombre de la categoría</p>
-                                </th>
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Tipo</p>
-                                </th>
-                                <th className="py-3 px-4 w-[130px]">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                                </th>
-                            </tr>
-                        </thead>
-                        {loading ? <SkeletonTable rows={5} columns={3}/>: 
-                            <tbody className="divide-y divide-gray-100  text-sm dark:divide-gray-800">
-                                {error ? <tr>
-                                    <td colSpan="5" className="py-3 px-4">
-                                        <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
-                                    </td>
-                                </tr> : 
-                                <>
-                                    {categorias.length === 0 ? 
-                                        <tr>
-                                            <td colSpan="5" className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400 text-center"> No hay categorias por mostrar</p>
-                                            </td>
-                                        </tr>: 
-                                        <>
-                                            {categorias.map(categoria => {
-                                                return <tr key={categoria.id}>
-                                                    <td className="py-3 px-4">
-                                                        <p className="text-gray-700 dark:text-gray-400"> {categoria.nombre} </p>
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <p className="text-gray-700 dark:text-gray-400"> {TIPO[categoria.tipo]} </p>
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <div className="text-gray-700 dark:text-gray-400 flex gap-2">
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Editar categoria"
-                                                                onClick={() => {
-                                                                    setModalActivo("editar"); 
-                                                                    setCategoriaSeleccionada(categoria);
-                                                                }}    
-                                                            >
-                                                                <LuPencil />
-                                                            </button>
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title="Eliminar categoria"
-                                                                onClick={() => {
-                                                                    setCategoriaSeleccionada(categoria);
-                                                                    setModalActivo("eliminar"); 
-                                                                }} 
-                                                            >
-                                                                <LuEraser />
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            })}
-                                        </>}
-                                    </>}
-                            </tbody>
-                        }
-                    </table>
+                
+                <div className="mt-4">
+                    <Table>
+                        <TableThead>
+                            <TableTr>
+                                <TableTh>Nombre de la categoría</TableTh>
+                                <TableTh>Tipo</TableTh>
+                                <TableTh className="text-center">Acciones</TableTh>
+                            </TableTr>
+                        </TableThead>
+                        {loading && <SkeletonTable rows={7} columns={3} />}
+                        <TableTbody>
+                            {!loading && error && (
+                                <TableTr>
+                                    <TableTd colSpan={3}>{error}</TableTd>
+                                </TableTr>
+                            )}
+                            {!loading && !error && categorias.length === 0 && (
+                                <TableTr>
+                                    <TableTd colSpan={3}>No hay categorias por mostrar</TableTd>
+                                </TableTr>
+                            )}
+                            {!loading && !error && categorias.length > 0 && (
+                                categorias.map(categoria => {
+                                    return <TableTr key={categoria.id}>
+                                       <TableTd>{categoria.nombre} </TableTd>
+                                       <TableTd>{TIPO[categoria.tipo]}</TableTd>
+                                       <TableTd>
+                                            <div className="flex gap-2 items-center justify-center">
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title="Editar categoria"
+                                                    onClick={() => {
+                                                        setModalActivo("editar"); 
+                                                        setCategoriaSeleccionada(categoria);
+                                                    }}    
+                                                >
+                                                    <LuPencil />
+                                                </button>
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title="Eliminar categoria"
+                                                    onClick={() => {
+                                                        setCategoriaSeleccionada(categoria);
+                                                        setModalActivo("eliminar"); 
+                                                    }} 
+                                                >
+                                                    <LuEraser />
+                                                </button>
+                                            </div>
+                                       </TableTd>
+                                    </TableTr>
+                                })
+                            )}
+                        </TableTbody>
+                    </Table>
+                    {!loading && (
+                        <Pagination
+                            paginaActual={paginaActual}
+                            totalPaginas={totalPaginas}
+                            onPageChange={setPaginaActual}
+                        />
+                    )}
                 </div>
-                {!loading && (
-                    <Pagination
-                        paginaActual={paginaActual}
-                        totalPaginas={totalPaginas}
-                        onPageChange={setPaginaActual}
-                    />
-                )}
             </Card>
 
              {modalActivo === "crear" && (

@@ -12,17 +12,15 @@ const ModalEditarCategoria = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
     const { cerrarModal, setCategorias, categoriaSeleccionada} = props;
     const [messageError, setMessageError] = useState(false);
-    const token = useSelector(state => state.auth.token);
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async(values) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await editarCategoria(token, categoriaSeleccionada.id, values)
+            const result = await editarCategoria(categoriaSeleccionada.id, values)
             const data = result?.data
             if(data){
-                console.log(data)
                 setCategorias(prevCategorias =>
                     prevCategorias.map(categoria =>
                         categoria.id === data.id

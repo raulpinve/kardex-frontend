@@ -11,7 +11,6 @@ const ModalEliminarCategoria = (props) => {
     const [messageError, setMessageError] = useState();
     const [loading, setLoading] = useState();
     const [inputNombre, setInputNombre] = useState("");
-    const token = useSelector(state => state.auth.token);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +24,7 @@ const ModalEliminarCategoria = (props) => {
         setLoading(true);
 
         try {
-            await eliminarCategoria(token, categoriaSeleccionada.id);
+            await eliminarCategoria(categoriaSeleccionada.id);
             setCategorias(prevCategorias =>
                 prevCategorias.filter(categoria => categoria.id !== categoriaSeleccionada.id) 
             )
@@ -72,7 +71,7 @@ const ModalEliminarCategoria = (props) => {
                     />
                     <Button 
                         colorButton="danger"
-                        textButton="Eliminar almacén"
+                        textButton="Eliminar categoría"
                         loading={loading}
                         type="submit"
                     />

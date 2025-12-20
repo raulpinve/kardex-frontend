@@ -13,7 +13,6 @@ const ModalCrearCategoria = (props) => {
     const { cerrarModal, setCategorias} = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const token = useSelector(state => state.auth.token);
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ 
         mode: "onChange"
     })
@@ -22,7 +21,7 @@ const ModalCrearCategoria = (props) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await crearCategoria(token, values)
+            const result = await crearCategoria(values)
             const data = result?.data
             if(data){
                 setCategorias(prevCategorias => [data, ...prevCategorias]);

@@ -1,6 +1,6 @@
 import {api}from "../../../utils/authUtils";
 
-const obtenerCategorias = async (token, pagina=1, tipo, consulta) => {
+const obtenerCategorias = async (pagina=1, tipo, consulta) => {
     const respuesta = await api.get("/categorias", {
         params: {
             pagina,
@@ -11,7 +11,7 @@ const obtenerCategorias = async (token, pagina=1, tipo, consulta) => {
     return respuesta.data;
 };
 
-const crearCategoria = (token, data) => {
+const crearCategoria = (data) => {
     const request = api.post(`/categorias`, data);
     return request
         .then(response => response.data)
@@ -20,7 +20,7 @@ const crearCategoria = (token, data) => {
         })
 }
 
-const editarCategoria = (token, categoriaId, data) => {
+const editarCategoria = (categoriaId, data) => {
     const request = api.put(`/categorias/${categoriaId}`, data);
     return request
         .then(response => response.data)
@@ -29,7 +29,7 @@ const editarCategoria = (token, categoriaId, data) => {
         })
 }
 
-const eliminarCategoria = (token, almacenId) => {
+const eliminarCategoria = (almacenId) => {
     const request = api.delete(`/categorias/${almacenId}`);
     return request
         .then(response => response.data)
