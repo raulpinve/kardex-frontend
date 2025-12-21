@@ -36,7 +36,7 @@ const ConfiguracionPage = () => {
                 <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition cursor-pointer
+                    className={`px-4 py-2 font-medium rounded-lg transition cursor-pointer
                         ${
                         activeTab === tab
                             ? "bg-blue-600 dark:bg-gray-700 text-white shadow"

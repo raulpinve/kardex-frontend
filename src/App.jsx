@@ -23,6 +23,9 @@ import InventarioProductoPagina from "./pages/inventarios/InventarioProductoPagi
 import InventarioLotesPagina from "./pages/inventarios/InventarioLotesPagina";
 import LotePagina from "./pages/productos/LotePagina";
 import Layout from "./shared/components/Layout";
+import SeleccionarAlmacenPage from "./shared/components/SeleccionarAlmacenPage";
+import RequireAlmacen from "./shared/components/RequireAlmacen";
+import { deleteAlmacen, setAlmacen } from "./store/almacenSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +44,14 @@ function App() {
         })
         .then((result) => {
           dispatch(login({ ...result.data.data, token }));
+
+          // ✅ Cargar almacén 
+          const almacenGuardado = localStorage.getItem("almacenSeleccionado");
+          if (almacenGuardado) {
+            dispatch(setAlmacen(JSON.parse(almacenGuardado)));
+          } else {
+            dispatch(deleteAlmacen());
+          }
         })
         .catch(() => {
           dispatch(logout());
@@ -80,20 +91,25 @@ function App() {
             </PrivateRoute>
           }
         >
-          <Route path="/" element={<Navigate to="/inventarios" replace />} />
-          <Route path="/inventarios/:periodo?" element={<InventariosPagina />}/>
-          <Route path="/inventarios/:periodo/:productoId" element={<InventarioProductoPagina/>}/>
-          <Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
-          <Route path="/configuracion" element={<ConfiguracionPage/>}/>
           <Route path="/editar-perfil" element={<PerfilEditarPagina/>}/>
           <Route path="/perfil/:perfilId" element={<PerfilPagina/>}/>
-          <Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
-          <Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
-          <Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>
-          <Route path="/dispositivos/:productoId" element={<ProductoPagina tipo="dispositivos"/>} />
-          <Route path="/medicamentos/lotes/:loteId" element={<LotePagina/>}/>
-          <Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
-          <Route path="/lotes/:loteId" element={< LotePagina/>}/>
+          <Route path="/configuracion" element={<ConfiguracionPage/>}/>
+          <Route path="/" element={<Navigate to="/inventarios" replace />} />
+
+          {/* Rutas que requieren de empresa */}
+          <Route path={`/seleccionar-almacen`} element={<SeleccionarAlmacenPage />}/>
+          <Route element={<RequireAlmacen />}>
+            <Route path="/inventarios/:periodo?" element={<InventariosPagina />}/>
+            <Route path="/inventarios/:periodo/:productoId" element={<InventarioProductoPagina/>}/>
+            <Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
+            <Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
+            <Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
+            <Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>
+            <Route path="/dispositivos/:productoId" element={<ProductoPagina tipo="dispositivos"/>} />
+            <Route path="/medicamentos/lotes/:loteId" element={<LotePagina/>}/>
+            <Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
+            <Route path="/lotes/:loteId" element={< LotePagina/>}/>
+          </Route>
         </Route>
         
         <Route path="/" element={<Navigate to="/inventarios" replace />} />
