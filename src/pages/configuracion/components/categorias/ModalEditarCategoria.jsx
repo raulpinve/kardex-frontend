@@ -5,7 +5,6 @@ import Modal from "../../../../shared/components/Modal";
 import Button from "../../../../shared/components/Button";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const ModalEditarCategoria = (props) => {

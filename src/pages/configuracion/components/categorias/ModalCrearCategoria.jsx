@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Modal from "../../../../shared/components/Modal";
 import Button from "../../../../shared/components/Button";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";

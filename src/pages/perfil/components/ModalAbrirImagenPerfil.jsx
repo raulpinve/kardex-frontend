@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Modal from '../../../shared/components/Modal';
-import { host } from '../../../utils/config';
 import imageDefault from "../../../assets/images/image-default.png";
 import Loader from '../../../shared/components/Loader';
 
@@ -21,7 +20,7 @@ const ModalAbrirImagenPerfil = (props) => {
             <div>
                 {isLoading && <Loader />} {/* Mostrar el loader mientras la imagen carga */}
                 <img 
-                    src={`${host}${usuario.avatar}`}
+                    src={`${usuario.avatar}`}
                     onLoad={handleImageLoad} 
                     className='w-full'
                     onError={(e) => {

@@ -3,7 +3,6 @@ import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { eliminarAvatar, subirAvatar } from "../services/perfilService";
 import { actualizarAvatar } from "../../../store/authSlice";
-import { host } from "../../../utils/config";
 import { toast } from "sonner";
 import { LuCamera, LuCloudUpload, LuRefreshCcw, LuTrash2 } from "react-icons/lu";
 
@@ -11,7 +10,6 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
     const [subiendoAvatar, setSubiendoAvatar] = useState(false);
     const fileInputRef = useRef(null);
     const menuRef = useRef(null); 
-    const [tieneImagen, setTieneImagen] = useState(false);
     const dispatch = useDispatch();
     const token = useSelector(state => state.auth.token);
     const [mostrarMenu, setMostrarMenu] = useState(false);
@@ -31,7 +29,11 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
 
             await eliminarAvatar(token);
             toast.success("Avatar eliminado exitosamente.");
-            setTieneImagen(false);
+
+            dispatch(actualizarAvatar({
+                avatarThumbnail: null, 
+                avatar: null
+            }));
         } catch (error) {
             toast.error(error?.response?.data?.message || "No se pudo eliminar el avatar")            
         } finally {
@@ -81,7 +83,7 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
         };
     }, [mostrarMenu]);
 
-    const avatarUrl = `${host}${usuario.avatarThumbnail}&v=${Date.now()}`;
+    const avatarUrl = `${usuario.avatarThumbnail}&v=${Date.now()}`;
 
     return (
         <div className="relative group w-20 h-20">
@@ -121,7 +123,7 @@ const SubirImagenPerfil = ({usuario, setModalActivo}) => {
                 >
                     <button
                         onClick={handleOpcionCambiar}
-                        className="flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 w-full cursor-pointer"
+                        className="flex items-center px-3 py-2 text-sm hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 w-full cursor-pointer"
                     >
                         {usuario?.avatarThumbnail ?  <>
                             <LuRefreshCcw className="mr-2" /> Cambiar avatar

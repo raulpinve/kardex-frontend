@@ -3,7 +3,6 @@ import Modal from '../../../../shared/components/Modal';
 import MessageError from '../../../../shared/components/MessageError';
 import Button from '../../../../shared/components/Button';
 import { toast } from 'sonner';
-import { useSelector } from 'react-redux';
 import { eliminarCategoria } from '../../services/categoriaService';
 
 const ModalEliminarCategoria = (props) => {
