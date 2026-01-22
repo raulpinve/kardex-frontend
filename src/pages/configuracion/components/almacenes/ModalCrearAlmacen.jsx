@@ -4,10 +4,9 @@ import { crearAlmacen } from "../../services/almacenService";
 import Button from "../../../../shared/components/Button";
 import Modal from "../../../../shared/components/Modal";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { setAlmacen } from "@/store/almacenSlice";
 
 const ModalCrearAlmacen = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({  mode: "onChange" });
@@ -25,7 +24,6 @@ const ModalCrearAlmacen = (props) => {
             setAlmacenes(prevAlmacenes => [data, ...prevAlmacenes]);
             cerrarModal();
             setValue("nombre", "");
-            dispatch(setAlmacen(data));
             toast.success('Almacén creado exitosamente.');
         } catch (error) {
             handleErrors(error, setError, setMessageError);

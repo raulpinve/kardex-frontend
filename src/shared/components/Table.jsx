@@ -1,6 +1,6 @@
 const Table = ({children, width = "min-w-[900px]"}) => {
     return (
-        <div className='overflow-x-auto'>
+        <div className='overflow-x-auto text-sm'>
             <table className={`${width} w-full `}>
                 {children}
             </table>

@@ -5,12 +5,13 @@ import React, { useEffect, useState } from 'react';
 import { LuLogOut } from 'react-icons/lu';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Button from './Button';
 
 const SeleccionarAlmacenPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const usuario = useSelector(state => state?.usuario?.usuario);
+    const usuario = useSelector(state => state?.auth?.usuario);
     const [almacenes, setAlmacenes] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -38,7 +39,7 @@ const SeleccionarAlmacenPage = () => {
     };
 
     return (
-        <div className="grid gap-4  mx-auto w-[650px]">
+        <div className="grid gap-4  mx-auto w-[650px] dark:text-gray-300">
             <h2 className='font-semibold text-2xl'>Seleccionar almacén: </h2>
             {loading && (
                 [...Array(5)].map((_, i) => (
@@ -52,7 +53,7 @@ const SeleccionarAlmacenPage = () => {
             {!loading && (
                 almacenes.length === 0 ? (
                     <div className="">
-                        {usuario?.rol === 'administrador' ? (
+                        {usuario?.rol === 'superadmin' ? (
                             <>
                                 <p className="mb-4">
                                     No tienes almacenes creados. Crea uno para comenzar.

@@ -9,7 +9,6 @@ import { obtenerProductos } from './services/productoServices';
 import CardTitulo from "../../shared/components/CardTitulo";
 import imageDefault from "../../assets/images/image-default.png";
 import useDebounce from '../../shared/hooks/useDebounce';
-import Layout from '../../shared/components/Layout';
 import Button from "../../shared/components/Button";
 import Card from "../../shared/components/Card";
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +17,12 @@ import { useSelector } from 'react-redux';
 import { host } from '../../utils/config';
 import { obtenerTodasCategorias } from "./services/categoriaServices";
 import ModalMostrarCodigoBarras from "./components/productos/ModalMostrarCodigoBarras";
+import Table from "@/shared/components/Table";
+import TableThead from "@/shared/components/TableThead";
+import TableTr from "@/shared/components/TableTr";
+import TableTh from "@/shared/components/TableTh";
+import TableTbody from "@/shared/components/TableTbody";
+import TableTd from "@/shared/components/TableTd";
 
 const ProductosPagina = ({ tipo }) => {
     const almacen = useSelector(state => state.almacen.almacen);
@@ -80,9 +85,9 @@ const ProductosPagina = ({ tipo }) => {
         <div className="mt-4">
             <Card>
                 {/* Header */}
-                <div className="flex justify-between items-center">
+                <div className="lg:flex lg:justify-between lg:items-center">
                     <CardTitulo><span className="capitalize">{tipo}</span></CardTitulo>
-                    <div className="flex gap-1 items-center justify-between">
+                    <div className="lg:flex lg:gap-1 lg:items-center lg:justify-between">
                         <Button
                             type="button"
                             colorButton="primary"
@@ -108,7 +113,7 @@ const ProductosPagina = ({ tipo }) => {
                                 autoFocus
                             />
                         </div>
-                        <div className="relative">
+                        <div className="relative hidden lg:block">
                             <select
                                 className={`select-form max-w-[210px]`}
                                 value={categoriaSeleccionada}
@@ -123,182 +128,133 @@ const ProductosPagina = ({ tipo }) => {
                         </div>
                     </div>
                 </div>
-                <div className="overflow-x-auto">
-                    <table className="min-w-max 2xl:min-w-full w-full table-auto mt-3">
-                        <thead className='sticky top-0 bg-white dark:bg-gray-800'>
-                            <tr className="border-gray-100 border-y  text-sm dark:border-gray-800 text-left">
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">
-                                        { tipo === "medicamentos" ? "Principio activo": "Nombre"}
-                                    </p>
-                                </th>
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">
-                                        Categoría
-                                    </p>
-                                </th>
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Cód. barras</p>
-                                </th>
+                <div className="mt-6">
+                    <Table>
+                        <TableThead>
+                            <TableTr>
+                                <TableTh>{ tipo === "medicamentos" ? "Principio activo": "Nombre" }</TableTh>
+                                <TableTh>Categoría</TableTh>
+                                <TableTh>Cód. barras</TableTh>
                                 {tipo === "medicamentos" ? (<>
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Forma farmacéutica</p>
-                                    </th>
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Concentración</p>
-                                    </th>
-                                   
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Presentación</p>
-                                    </th>
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Unidad médica</p>
-                                    </th>
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Stock requerido</p>
-                                    </th>
+                                    <TableTh>Forma farmacéutica</TableTh>
+                                    <TableTh>Concentración</TableTh>
+                                    <TableTh>Presentación</TableTh>
+                                    <TableTh>Unidad médica</TableTh>
+                                    <TableTh>Stock requerido</TableTh>
                                 </>):(<>
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Serie</p>
-                                    </th>
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Presentación comercial</p>
-                                    </th>
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Riesgo</p>
-                                    </th>
-                                    <th className="py-3 px-4">
-                                        <p className="font-medium text-gray-700 dark:text-gray-400">Stock requerido</p>
-                                    </th>
+                                    <TableTh>Serie</TableTh>
+                                    <TableTh>Presentación comercial</TableTh>
+                                    <TableTh>Riesgo</TableTh>
+                                    <TableTh>Stock requerido</TableTh>
                                 </>)}
-                                <th className="py-3 px-4">
-                                    <p className="font-medium text-gray-700 dark:text-gray-400">Acciones</p>
-                                </th>
-                            </tr>
-                        </thead>
+                                <TableTh>Acciones</TableTh>
+                            </TableTr>
+                        </TableThead>
 
-                        {loading ? <SkeletonTable rows={7} columns={tipo === "medicamentos" ? 8 : 7}/>: 
-                            <tbody className="divide-y divide-gray-100 text-sm dark:divide-gray-800">
-                                {error ? <tr>
-                                    <td colSpan={tipo === "medicamentos" ? 8 : 7} className="py-3">
-                                        <p className="text-gray-700 dark:text-gray-400 text-center"> {error}</p>
-                                    </td>
-                                </tr> : 
-                                <>
-                                    {productos.length === 0 ? 
-                                        <tr>
-                                            <td colSpan={tipo === "medicamentos" ? 8 : 7}  className="py-3">
-                                                <p className="text-gray-700 dark:text-gray-400 text-center"> No hay {tipo} por mostrar</p>
-                                            </td>
-                                        </tr>: 
-                                        <>
-                                            {productos.map(producto => {
-                                                return <tr 
-                                                    key={producto.id}
-                                                    onClick={() => irAProducto(producto.id)}
-                                                    className="cursor-pointer"
+                        {/* Loading */}
+                        {loading && (
+                            <SkeletonTable rows={7} columns={tipo === "medicamentos" ? 9 : 8 } />
+                        )}
+                        <TableTbody>
+                            {/* Mostrar error */}
+                            {!loading && error && (
+                                <tr>
+                                    <TableTd colSpan={tipo === "medicamentos" ? 9 : 8}>{error}</TableTd>
+                                </tr>
+                            )}
+                            {!loading && !error && productos.length === 0 && (
+                                <tr>
+                                    <TableTd colSpan={tipo === "medicamentos" ? 9 : 8}> No hay {tipo} por mostrar</TableTd>
+                                </tr>
+                            )}
+                            {!loading && !error && productos.length > 0 && (
+                                productos.map(producto => {
+                                    return <tr 
+                                        key={producto.id}
+                                        onClick={() => irAProducto(producto.id)}
+                                        className="cursor-pointer"
+                                    >   
+                                        <TableTd>
+                                            <div className="w-full flex items-center gap-3">
+                                                <img 
+                                                    src={`${host}${producto.avatarThumbnail}`}
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src = imageDefault; 
+                                                    }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setModalActivo("imagen-perfil");
+                                                        setProductoSeleccionado(producto);
+                                                    }}
+                                                    alt="Perfil" 
+                                                    className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
+                                                />
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
+                                            </div>
+                                        </TableTd>
+                                        <TableTd>{producto?.categoriaNombre ? producto?.categoriaNombre : "N/A"}</TableTd>
+                                        <TableTd>
+                                            <p className="text-gray-700 dark:text-gray-400"> 
+                                                { producto?.codigoBarra }
+                                                <button 
+                                                    className="cursor-pointer ml-2 p-1 rounded-[2px] bg-gray-700 text-white"
+                                                    title={`Mostrar código de barras`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); 
+                                                        setModalActivo("codigo-barra");
+                                                        setProductoSeleccionado(producto);
+                                                    }}    
                                                 >
-                                                    <td className="py-3 px-4">
-                                                        <div className="w-full flex items-center gap-3">
-                                                            <img 
-                                                                src={`${host}${producto.avatarThumbnail}`}
-                                                                onError={(e) => {
-                                                                    e.target.onerror = null;
-                                                                    e.target.src = imageDefault; 
-                                                                }}
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    setModalActivo("imagen-perfil");
-                                                                    setProductoSeleccionado(producto);
-                                                                }}
-                                                                alt="Perfil" 
-                                                                className="w-8 h-8 block object-cover rounded-full select-none cursor-pointer"  
-                                                            />
-                                                            <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <p className="text-gray-700 dark:text-gray-400"> {producto?.categoriaNombre ? producto?.categoriaNombre : "N/A"} </p>
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <p className="text-gray-700 dark:text-gray-400"> 
-                                                            { producto?.codigoBarra }
-                                                            <button 
-                                                                className="cursor-pointer ml-2 p-1 rounded-[2px] bg-gray-700 text-white"
-                                                                title={`Mostrar código de barras`}
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation(); 
-                                                                    setModalActivo("codigo-barra");
-                                                                    setProductoSeleccionado(producto);
-                                                                }}    
-                                                            >
-                                                                <LuBarcode />
-                                                            </button>
-                                                        </p>
-                                                    </td>
-                                                    {tipo === "medicamentos" ? (<>
-                                                        <td className="py-3 px-4">
-                                                            <p className="text-gray-700 dark:text-gray-400"> {producto.formaFarmaceutica} </p>
-                                                        </td>
-                                                        <td className="py-3 px-4">
-                                                            <p className="text-gray-700 dark:text-gray-400"> {producto.concentracion} </p>
-                                                        </td>
-                                                        <td className="py-3 px-4">
-                                                            <p className="text-gray-700 dark:text-gray-400"> {producto.presentacionComercial} </p>
-                                                        </td>
-                                                        <td className="py-3 px-4">
-                                                            <p className="text-gray-700 dark:text-gray-400"> {producto.unidadMedida} </p>
-                                                        </td>
-                                                        <td className="py-3 px-4">
-                                                            <p className="text-gray-700 dark:text-gray-400"> {producto.stockRequerido} </p>
-                                                        </td>
-                                                    </>):(<>
-                                                        <td className="py-3 px-4">
-                                                            <p className="text-gray-700 dark:text-gray-400"> {producto.serie} </p>
-                                                        </td>
-                                                        <td className="py-3 px-4">
-                                                            <p className="text-gray-700 dark:text-gray-400"> {producto.presentacionComercial} </p>
-                                                        </td>
-                                                        <td className="py-3 px-4">
-                                                            <p className="text-gray-700 dark:text-gray-400"> {producto.riesgo} </p>
-                                                        </td>
-                                                        <td className="py-3 px-4">
-                                                            <p className="text-gray-700 dark:text-gray-400"> {producto.stockRequerido} </p>
-                                                        </td>
-                                                    </>)}
-                                                    <td className="py-3 px-4">
-                                                        <div className="text-gray-700 dark:text-gray-400 flex gap-2">
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title={`Editar ${tipo === "medicamentos" ? "medicamento": "dispositivo"}`}
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation(); 
-                                                                    setModalActivo("editar"); 
-                                                                    setProductoSeleccionado(producto);
-                                                                }}    
-                                                            >
-                                                                <LuPencil />
-                                                            </button>
-                                                            <button 
-                                                                className="cursor-pointer p-1"
-                                                                title={`Eliminar ${tipo === "medicamentos" ? "medicamento": "dispositivo"}`}
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation(); 
-                                                                    setModalActivo("eliminar"); 
-                                                                    setProductoSeleccionado(producto);
-                                                                }} 
-                                                            >
-                                                                <LuEraser />
-                                                            </button> 
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            })}
-                                        </>
-                                        }
-                                    </>}
-                            </tbody>}
-                    </table>
+                                                    <LuBarcode />
+                                                </button>
+                                            </p>
+                                        </TableTd>
+                                        
+                                        {tipo === "medicamentos" ? (<>
+                                            <TableTd>{producto.formaFarmaceutica}</TableTd>
+                                            <TableTd> {producto.concentracion} </TableTd>
+                                            <TableTd>{producto.presentacionComercial} </TableTd>
+                                            <TableTd>{producto.unidadMedida} </TableTd>
+                                            <TableTd>{producto.stockRequerido}</TableTd>
+                                        </>):(<>
+                                            <TableTd>{producto.serie}</TableTd>
+                                            <TableTd>{producto.presentacionComercial}</TableTd>
+                                            <TableTd>{producto.riesgo}</TableTd>
+                                            <TableTd>{producto.stockRequerido}</TableTd>
+                                        </>)}
+                                        <TableTd>
+                                            <div className="flex gap-1">
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title={`Editar ${tipo === "medicamentos" ? "medicamento": "dispositivo"}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); 
+                                                        setModalActivo("editar"); 
+                                                        setProductoSeleccionado(producto);
+                                                    }}    
+                                                >
+                                                    <LuPencil />
+                                                </button>
+                                                <button 
+                                                    className="cursor-pointer p-1"
+                                                    title={`Eliminar ${tipo === "medicamentos" ? "medicamento": "dispositivo"}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); 
+                                                        setModalActivo("eliminar"); 
+                                                        setProductoSeleccionado(producto);
+                                                    }} 
+                                                >
+                                                    <LuEraser />
+                                                </button> 
+                                            </div>
+                                        </TableTd>
+                                    </tr>
+                                })
+                            )}
+                          
+                        </TableTbody>
+                    </Table>
                 </div>
                 <Pagination
                     paginaActual={paginaActual}

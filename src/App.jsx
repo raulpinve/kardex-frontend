@@ -37,7 +37,7 @@ function App() {
 
     if (token) {
       axios
-        .get(`${host}/validateToken`, {
+        .get(`${host}/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

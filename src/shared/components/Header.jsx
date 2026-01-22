@@ -61,13 +61,13 @@ const Header = () => {
             </button>
 
             {/* Bell */}
-            {almacen?.nombre && !isExcluded && (
+            { /* almacen?.nombre && !isExcluded && (
               <NotificationDropdown />
-            )}
+            ) */}
 
-            {almacen?.nombre && !isExcluded && (
+            { /* almacen?.nombre && !isExcluded && (
               <AlertasVencimiento/>
-            )}
+            ) */ }
             {/* Profile */}
             <DropdownProfile />
           </div>

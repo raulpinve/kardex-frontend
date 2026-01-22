@@ -96,7 +96,7 @@ const SeleccionarAlmacen = () => {
                         {almacenes.length === 0 ? (
                             <div className="text-sm">
                                 {usuario.rol === "superadmin" ? (<>
-                                    <p className="mb-4">No tienes almacenes creados. Crea uno para comenzar.</p>
+                                    <p className="mb-4 ">No tienes almacenes creados. Crea uno para comenzar.</p>
                                     <button 
                                         onClick={() => {
                                             navigate('/configuracion'); // Ajustá esta ruta si es distinta
@@ -107,7 +107,7 @@ const SeleccionarAlmacen = () => {
                                         Crear almacén
                                     </button>
                                 </>) : (<>
-                                    <p className="mb-4">No tienes acceso a ningún almacén. Pídele a tu administrador que cree uno nuevo o que te otorgue permisos para acceder a uno existente.</p>
+                                    <p className="mb-4 dark:text-gray-300">No tienes acceso a ningún almacén. Pídele a tu administrador que cree uno nuevo o que te otorgue permisos para acceder a uno existente.</p>
                                     <button 
                                         onClick={() => {
                                             dispatch(logout())
@@ -122,7 +122,7 @@ const SeleccionarAlmacen = () => {
                         ) : (
                             <div className=''>
                                 <p className='text-sm'>Por favor selecciona un almacén para continuar: </p>
-                                <ul className="space-y-2 dark:text-gray-300 mt-3 divide-y py-1 divide-gray-200">
+                                <ul className="space-y-2  mt-3 divide-y py-1 divide-gray-200">
                                     {almacenes.map(almacen => (
                                         <li 
                                             key={almacen.id} 
