@@ -7,11 +7,11 @@ import MessageError from "@/shared/components/MessageError";
 import { useNavigate } from "react-router-dom";
 import { eliminarCorte } from "../../services/cortesServices";
 
-const ModalEliminarCorte = ({ cerrarModal, corteId }) => {
-    const token = useSelector(state => state.auth.token);
+const ModalEliminarCorte = (props) => {
     const [inputNombre, setInputNombre] = useState("");
     const [messageError, setMessageError] = useState("");
     const [loading, setLoading] = useState(false);
+    const { cerrarModal, corteSeleccionado, setCortes } = props;
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -28,9 +28,12 @@ const ModalEliminarCorte = ({ cerrarModal, corteId }) => {
         setLoading(true);
 
         try {
-            await eliminarCorte(token, corteId);
+            await eliminarCorte(corteSeleccionado.id);
             toast.success("Corte eliminado exitosamente.");
-            navigate(`/inventarios`);
+            
+            setCortes(prevCortes =>
+                prevCortes.filter(corte => corte.id !== corteSeleccionado.id)
+            );
             cerrarModal();
         } catch (error){
             setMessageError(error?.response?.data?.message || "Ha ocurrido un error al intentar cerrar el corte. Por favor, inténtalo de nuevo.")
@@ -49,7 +52,7 @@ const ModalEliminarCorte = ({ cerrarModal, corteId }) => {
         >
             <form onSubmit={handleSubmit}>
                 <p className="mb-2">
-                    Para confirmar que deseas eliminar el corte, escribe el texto <b>eliminar corte</b> en el campo a continuación:
+                    Para confirmar que deseas eliminar el corte, escribe el texto "<b>eliminar corte</b>" en el campo a continuación:
                 </p>
                 <input 
                     type="text" 

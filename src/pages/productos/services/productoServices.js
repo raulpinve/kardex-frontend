@@ -24,16 +24,16 @@ const crearProducto = (token, data, tipo) => {
         })
 }
 
-const obtenerProducto = (token, productoId) => {
-    return api.get(`/productos/${productoId}`)
+const obtenerProducto = (tipo, productoId) => {
+    return api.get(`/${tipo}/${productoId}`)
         .then(response => response.data)
         .catch(err => {
             throw err;
         });
 }
 
-const obtenerStockDisponible = (token, productoId) => {
-    return api.get(`/productos/${productoId}/stock_disponible`)
+const obtenerStockDisponible = (tipo, productoId) => {
+    return api.get(`/${tipo}/${productoId}/stock_disponible`)
         .then(response => response.data)
         .catch(err => {
             throw err;

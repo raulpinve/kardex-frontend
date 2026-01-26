@@ -102,7 +102,7 @@ const ProductosPagina = ({ tipo }) => {
                             <input
                                 type="text"
                                 placeholder={`Buscar ${tipo} por nombre o código...`}
-                                className="input-form pl-10 dark:bg-gray-900 w-full"
+                                className="input-form pl-10 dark:bg-gray-900 w-full dark:text-white"
                                 value={consulta}
                                 onChange={(e) => setConsulta(e.currentTarget.value)}
                                 onKeyDown={(e) => {
@@ -124,7 +124,7 @@ const ProductosPagina = ({ tipo }) => {
                                     <option key={cat.id} value={cat.id}>{cat.nombre}</option>
                                 ))}
                             </select>
-                            <LuChevronDown className="absolute top-[16px] right-2" />
+                            <LuChevronDown className="absolute top-[15px] right-2.5 dark:text-white" />
                         </div>
                     </div>
                 </div>
@@ -140,13 +140,12 @@ const ProductosPagina = ({ tipo }) => {
                                     <TableTh>Concentración</TableTh>
                                     <TableTh>Presentación</TableTh>
                                     <TableTh>Unidad médica</TableTh>
-                                    <TableTh>Stock requerido</TableTh>
                                 </>):(<>
-                                    <TableTh>Serie</TableTh>
+                                    {/* <TableTh>Serie</TableTh>
                                     <TableTh>Presentación comercial</TableTh>
-                                    <TableTh>Riesgo</TableTh>
-                                    <TableTh>Stock requerido</TableTh>
+                                    <TableTh>Riesgo</TableTh> */}
                                 </>)}
+                                <TableTh>Stock requerido</TableTh>
                                 <TableTh>Acciones</TableTh>
                             </TableTr>
                         </TableThead>
@@ -218,11 +217,12 @@ const ProductosPagina = ({ tipo }) => {
                                             <TableTd>{producto.unidadMedida} </TableTd>
                                             <TableTd>{producto.stockRequerido}</TableTd>
                                         </>):(<>
-                                            <TableTd>{producto.serie}</TableTd>
+                                            {/* <TableTd>{producto.serie}</TableTd>
                                             <TableTd>{producto.presentacionComercial}</TableTd>
-                                            <TableTd>{producto.riesgo}</TableTd>
-                                            <TableTd>{producto.stockRequerido}</TableTd>
+                                            <TableTd>{producto.riesgo}</TableTd> */}
                                         </>)}
+                                            <TableTd>{producto.stockRequerido}</TableTd>
+
                                         <TableTd>
                                             <div className="flex gap-1">
                                                 <button 
@@ -252,7 +252,7 @@ const ProductosPagina = ({ tipo }) => {
                                     </tr>
                                 })
                             )}
-                          
+                            
                         </TableTbody>
                     </Table>
                 </div>

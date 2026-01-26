@@ -39,7 +39,7 @@ const SeleccionarAlmacenPage = () => {
     };
 
     return (
-        <div className="grid gap-4  mx-auto w-[650px] dark:text-gray-300">
+        <div className="grid gap-4 mt-10 mx-auto w-[650px] dark:text-gray-300">
             <h2 className='font-semibold text-2xl'>Seleccionar almacén: </h2>
             {loading && (
                 [...Array(5)].map((_, i) => (

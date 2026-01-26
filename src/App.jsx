@@ -26,6 +26,7 @@ import Layout from "./shared/components/Layout";
 import SeleccionarAlmacenPage from "./shared/components/SeleccionarAlmacenPage";
 import RequireAlmacen from "./shared/components/RequireAlmacen";
 import { deleteAlmacen, setAlmacen } from "./store/almacenSlice";
+import CortesPagina from "./pages/inventarios/CortesPagina";
 
 function App() {
   const dispatch = useDispatch();
@@ -82,44 +83,43 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rutas protegidas con Layout persistente  */}
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <Layout />
-            </PrivateRoute>
-          }
-        >
-          <Route path="/editar-perfil" element={<PerfilEditarPagina/>}/>
-          <Route path="/perfil/:perfilId" element={<PerfilPagina/>}/>
-          <Route path="/configuracion" element={<ConfiguracionPage/>}/>
-          <Route path="/" element={<Navigate to="/inventarios" replace />} />
-
-          {/* Rutas que requieren de empresa */}
-          <Route path={`/seleccionar-almacen`} element={<SeleccionarAlmacenPage />}/>
-          <Route element={<RequireAlmacen />}>
-            <Route path="/inventarios/:periodo?" element={<InventariosPagina />}/>
-            <Route path="/inventarios/:periodo/:productoId" element={<InventarioProductoPagina/>}/>
-            <Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
-            <Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
-            <Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
-            <Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>
-            <Route path="/dispositivos/:productoId" element={<ProductoPagina tipo="dispositivos"/>} />
-            <Route path="/medicamentos/lotes/:loteId" element={<LotePagina/>}/>
-            <Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
-            <Route path="/lotes/:loteId" element={< LotePagina/>}/>
-          </Route>
-        </Route>
         
-        <Route path="/" element={<Navigate to="/inventarios" replace />} />
-        <Route path="/:token/verificar-email" element={<VerificarEmailPage />} />
-        <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
-        <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/login" element={<LoginPage />} />
-      </Routes>
+        {/* Rutas protegidas con Layout persistente  */}
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Layout />
+              </PrivateRoute>
+            }
+          >
+            <Route path="/editar-perfil" element={<PerfilEditarPagina/>}/>
+            <Route path="/perfil/:perfilId" element={<PerfilPagina/>}/>
+            <Route path="/configuracion" element={<ConfiguracionPage/>}/>
+            <Route path="/" element={<Navigate to="/inventarios" replace />} />
 
+            {/* Rutas que requieren de empresa */}
+            <Route path={`/seleccionar-almacen`} element={<SeleccionarAlmacenPage />}/>
+            <Route element={<RequireAlmacen />}>
+              <Route path="/inventarios" element={<CortesPagina />}/>
+              <Route path="/inventarios/:corteId" element={<InventariosPagina/>}/>
+              <Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
+              <Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
+              <Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
+              <Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>
+              <Route path="/dispositivos/:productoId" element={<ProductoPagina tipo="dispositivos"/>} />
+              <Route path="/medicamentos/lotes/:loteId" element={<LotePagina/>}/>
+              <Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
+              <Route path="/lotes/:loteId" element={< LotePagina/>}/>
+            </Route>
+          </Route>
+          <Route path="/" element={<Navigate to="/inventarios" replace />} />
+          <Route path="/:token/verificar-email" element={<VerificarEmailPage />} />
+          <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
+          <Route path="/solicitar-restablecer-contrasena" element={<SolicitarRestablecerContrasena />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+      </Routes>
       <Toaster richColors theme={isDark ? "dark" : "light"}/>
     </BrowserRouter>
   )

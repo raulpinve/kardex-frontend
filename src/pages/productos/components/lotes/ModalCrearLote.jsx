@@ -25,7 +25,7 @@ const ModalCrearLote = (props) => {
                 ...values, 
                 productoId: productoId
             })
-            const data = result?.data
+            const data = { ...result?.data, stockDisponible: 0}
             if(data){
                 setLotes(prevLotes => [data, ...prevLotes]);
                 cerrarModal();

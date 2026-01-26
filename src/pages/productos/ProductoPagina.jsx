@@ -11,6 +11,7 @@ import Movimientos from "./components/producto/Movimientos";
 import Barcode from "react-barcode";
 import { LuBarcode } from "react-icons/lu";
 import ModalMostrarCodigoBarras from "./components/productos/ModalMostrarCodigoBarras";
+import ComportamientoStock from "./components/producto/ComportamientoStock";
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();
@@ -24,7 +25,7 @@ const ProductoPagina = ({ tipo }) => {
         const fecthProducto = async () => {
             try {
                 setLoading(true);
-                const res = await obtenerProducto(token, productoId);
+                const res = await obtenerProducto(tipo, productoId);
                 setProducto(res.data);
             } catch (error) {
                 console.error(error);
@@ -36,7 +37,6 @@ const ProductoPagina = ({ tipo }) => {
         fecthProducto()
     }, [productoId, token])
 
-    
     return (<>
         <div className="mt-4">
             {/* Encabezado */}
@@ -56,7 +56,7 @@ const ProductoPagina = ({ tipo }) => {
                         <SubirImagenProducto 
                             producto={producto}
                             setProducto={setProducto}
-                            tipo = {producto?.tipo + "s"}
+                            tipo = {tipo}
                         />
                         <div>
                             <span> {producto?.nombre?.charAt(0).toUpperCase() + producto?.nombre?.slice(1)}</span>
@@ -95,105 +95,90 @@ const ProductoPagina = ({ tipo }) => {
                     </div>)}
 
                     {!loading && producto && (<>
-                        <div className={`grid rounded-2xl border border-gray-200 bg-white mt-3 dark:border-gray-800 dark:bg-white/[0.01] ${
+                        <div className={`grid rounded-2xl border border-gray-200 bg-white mt-5 dark:border-gray-800 dark:bg-white/[0.01] ${
                             producto?.tipo === 'dispositivo' ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4' : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-5'
                         }`}>
-                            {/* Forma farmacéutica (solo si NO es dispositivo) */}
-                            {producto?.formaFarmaceutica && producto?.tipo !== 'dispositivo' && (
+                            {/* Categoría */}
+                            <div className="border-b border-gray-200 px-6 py-5 md:border-r xl:border-b-0 dark:border-gray-800">
+                                <span className="text-sm text-gray-500 dark:text-gray-400">Categoria</span>
+                                <div className="mt-2 flex items-end gap-3">
+                                    <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                        {producto?.categoriaNombre ?? "---"}
+                                    </h4>
+                                </div>
+                            </div>
+
+                            {/* Presentación comercial */}
+                            <div className="border-b border-gray-200 px-6 py-5 md:border-r xl:border-b-0 dark:border-gray-800">
+                                <span className="text-sm text-gray-500 dark:text-gray-400">Presentación comercial</span>
+                                <div className="mt-2 flex items-end gap-3">
+                                    <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                        {producto.presentacionComercial ?? "---"}
+                                    </h4>
+                                </div>
+                            </div>
+
+                            {producto?.tipo === "medicamento" && (<>
                                 <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
                                     <span className="text-sm text-gray-500 dark:text-gray-400">Forma farmacéutica</span>
                                     <div className="mt-2 flex items-end gap-3">
                                         <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            {producto.formaFarmaceutica}
+                                            {producto.formaFarmaceutica ?? "---"}
                                         </h4>
                                     </div>
                                 </div>
-                            )}
-
-                            {/* Categoría */}
-                            {/* {producto?.categoriaNombre && ( */}
-                                <div className="border-b border-gray-200 px-6 py-5 md:border-r xl:border-b-0 dark:border-gray-800">
-                                    <span className="text-sm text-gray-500 dark:text-gray-400">Categoria</span>
-                                    <div className="mt-2 flex items-end gap-3">
-                                        <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            {producto?.categoriaNombre ? producto.categoriaNombre : "N/A"}
-                                        </h4>
-                                    </div>
-                                </div>
-                            {/* )} */}
-
-                            {/* Presentación comercial */}
-                            {producto?.presentacionComercial && (
-                                <div className="border-b border-gray-200 px-6 py-5 md:border-r xl:border-b-0 dark:border-gray-800">
-                                    <span className="text-sm text-gray-500 dark:text-gray-400">Presentación comercial</span>
-                                    <div className="mt-2 flex items-end gap-3">
-                                        <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            {producto.presentacionComercial}
-                                        </h4>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Concentración (solo si NO es dispositivo) */}
-                            {producto?.concentracion && producto?.tipo !== 'dispositivo' && (
                                 <div className="border-b border-gray-200 px-6 py-5 sm:border-r sm:border-b-0 dark:border-gray-800">
                                     <span className="text-sm text-gray-500 dark:text-gray-400">Concentración</span>
                                     <div className="mt-2 flex items-end gap-3">
                                         <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            {producto.concentracion}
+                                            {producto.concentracion ?? "---"}
                                         </h4>
                                     </div>
                                 </div>
-                            )}
-
-                            {/* Unidad medida (solo si NO es dispositivo) */}
-                            {producto?.unidadMedida && producto?.tipo !== 'dispositivo' && (
                                 <div className="px-6 py-5">
                                     <span className="text-sm text-gray-500 dark:text-gray-400">Unidad medida</span>
                                     <div className="mt-2 flex items-end gap-3">
                                         <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            {producto.unidadMedida}
+                                            {producto.unidadMedida ?? "---" }
                                         </h4>
                                     </div>
                                 </div>
-                            )}
+                            </>)}
 
                             {/* Serie (solo si es dispositivo) */}
-                            {producto?.serie && producto?.tipo === 'dispositivo' && (
+                            {producto?.tipo === "dispositivo" && (<>
                                 <div className="border-b border-gray-200 px-6 py-5 md:border-r dark:border-gray-800">
                                     <span className="text-sm text-gray-500 dark:text-gray-400">Serie</span>
                                     <div className="mt-2 flex items-end gap-3">
                                         <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            {producto.serie}
+                                            {producto.serie ?? "---" }
                                         </h4>
                                     </div>
                                 </div>
-                            )}
-
-                            {/* Riesgo (solo si es dispositivo) */}
-                            {producto?.riesgo && producto?.tipo === 'dispositivo' && (
                                 <div className="border-b border-gray-200 px-6 py-5 dark:border-gray-800">
                                     <span className="text-sm text-gray-500 dark:text-gray-400">Riesgo</span>
                                     <div className="mt-2 flex items-end gap-3">
                                         <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            {producto.riesgo}
+                                            {producto.riesgo ?? "---"}
                                         </h4>
                                     </div>
                                 </div>
-                            )}
+                            </>)}
                         </div>
                     </>)}
                 </div>
             </div>
         </div>
+
         <div className="mt-4">
-            <TarjetasStockProducto productoId={productoId}/>
+            <TarjetasStockProducto tipo={tipo} productoId={productoId}/>
         </div>
+
         <div className="grid gap-6 mt-6">
-            <GraficaComportamientoStock />
+            <ComportamientoStock />
             <Lotes tipo={tipo} productoId={productoId} />
             <Movimientos productoId={productoId} tipoMovimiento="producto"/>
-        </div>
+        </div> 
 
         {modalActivo === "codigo-barra" && (
             <ModalMostrarCodigoBarras 

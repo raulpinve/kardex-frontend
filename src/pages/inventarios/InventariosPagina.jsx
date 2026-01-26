@@ -11,7 +11,7 @@ import TituloInventarios from "./components/TituloInventarios";
 
 const InventariosPagina = () => {
     const navigate = useNavigate();
-    const {periodo} = useParams();
+    const {corteId} = useParams();
     const almacenId = useSelector(state => state.almacen.almacen?.id);
     const token = useSelector(state => state.auth.token);
     const [corte, setCorte]= useState(null);
@@ -19,6 +19,12 @@ const InventariosPagina = () => {
     const [ modalActivo, setModalActivo ] = useState("");
     const [ loading, setLoading ] = useState(false);
 
+    // Obtener el listado de cortes, en caso de que no se pasa ninguno
+    useEffect(() => {
+        console.log(corteId);
+    }, [corteId])
+
+    /*
     useEffect(() => {
         const cargarCorte = async () => {
             setLoading(true);
@@ -48,6 +54,7 @@ const InventariosPagina = () => {
 
         cargarCorte();
     }, [periodo,  almacenId, navigate, token]);
+    */
 
     return (
         <>

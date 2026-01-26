@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Modal from "../../../../shared/components/Modal";
 import Button from "../../../../shared/components/Button";
-import { useForm } from "react-hook-form";
 import { crearUsuario } from "../../services/usuarioService";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
-import { toast } from "sonner";
 import { LuChevronDown, LuEye, LuEyeOff } from "react-icons/lu";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const ModalCrearUsuario = (props) => {
     const {cerrarModal, setUsuarios} = props;
@@ -41,6 +41,7 @@ const ModalCrearUsuario = (props) => {
     useEffect(() => {
         setValue("rol", "");
     }, [setValue])
+    
     return (
         <Modal
             isOpenModal={true}

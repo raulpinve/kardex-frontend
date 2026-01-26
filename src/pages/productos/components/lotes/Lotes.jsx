@@ -34,7 +34,7 @@ const Lotes = ({ productoId, tipo }) => {
             setLoading(true);
             setError(null); 
             try {
-                const respuesta = await obtenerLotes(token, tipo, productoId, paginaActual, debouncedConsulta);
+                const respuesta = await obtenerLotes(productoId, paginaActual, debouncedConsulta);
                 setLotes(respuesta.data);
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);

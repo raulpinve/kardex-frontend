@@ -36,7 +36,7 @@ const Pagination = ({ paginaActual, totalPaginas, onPageChange, className }) => 
 
     return paginas;
   };
-    if(totalPaginas < 2) return;
+    // if(totalPaginas < 2) return;
 
   
   return (

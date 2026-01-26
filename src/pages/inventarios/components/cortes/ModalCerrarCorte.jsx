@@ -7,32 +7,32 @@ import MessageError from "@/shared/components/MessageError";
 import { cerrarCorte } from "../../services/cortesServices";
 import { useNavigate } from "react-router-dom";
 import { handleErrorsBasic } from "@/utils/handleErrors";
+import { useForm } from "react-hook-form";
 
-const ModalCerrarCorte = ({ cerrarModal, corteId }) => {
-    const token = useSelector(state => state.auth.token);
-    const [inputNombre, setInputNombre] = useState("");
+const ModalCerrarCorte = ({ cerrarModal, corteSeleccionado, setCortes }) => {
+    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
     const [messageError, setMessageError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const textoIngresado = inputNombre.trim();
-
-        if (textoIngresado !== "cerrar corte") {
-            setMessageError("El texto ingresado no coincide con \"cerrar corte\".");
-            return;
-        }
-        setMessageError("");
-        setLoading(true);
-
+    const onSubmit = async (values) => {
         try {
-            await cerrarCorte(token, corteId);
-            toast.success("Corte cerrado exitosamente.");
-            navigate(`/inventarios`);
+            setLoading(true);
+            setMessageError(false);
+
+            await cerrarCorte(corteSeleccionado.id, values);
+
+            setCortes(prevCortes =>
+                prevCortes.map(corte =>
+                    corte.id === corteSeleccionado.id
+                    ? { ...corte, fechaFin: values.fechaFin, nombre: values.nombre, cerrado: true }
+                    : corte
+                )
+            );
+            toast.success("Corte cerrado con éxito");
             cerrarModal();
-        } catch (error){
+        } catch (error) {
+            console.log(error)
             handleErrorsBasic(error, setMessageError);
         } finally {
             setLoading(false);
@@ -47,20 +47,53 @@ const ModalCerrarCorte = ({ cerrarModal, corteId }) => {
             description="Esta acción cerrará permanentemente el corte."
             size="md"
         >
-            <form onSubmit={handleSubmit}>
-                <p className="mb-2">
-                    Para confirmar que deseas cerrar el corte, escribe el texto <b>cerrar corte</b> en el campo a continuación:
-                </p>
-                <input 
-                    type="text" 
-                    className="input-form" 
-                    value={inputNombre}
-                    onChange={(e) => setInputNombre(e.target.value)}    
-                />
-                {messageError && (
-                    <MessageError>{messageError}</MessageError>
-                )}
-            
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+
+                {/* Nombre el período */}
+                <div>
+                    <label htmlFor="nombre" className="label-form">
+                        Nombre del período <span className="input-required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        className={`${errors.nombre ? "input-form-error" : ""} input-form`}
+                        placeholder="Ej: 01 de enero de 2026 - 31 de enero de 2026"
+                        {...register("nombre", {
+                                required: "El nombre del período es obligatorio",
+                                minLength: {
+                                value: 2,
+                                message: "El nombre debe tener mínimo 2 caracteres"
+                            },
+                                maxLength: {
+                                value: 100,
+                                message: "El nombre no puede tener más de 100 caracteres"
+                            }
+                        })}
+                    />
+                    {errors.nombre && (<p className="input-message-error">{errors.nombre.message}</p>)} 
+                </div>
+
+                {/* Fecha final del corte */}
+                <div className="relative">
+                    <label htmlFor="fechaFin" className="label-form">
+                        Fecha final del corte <span className="input-required">*</span>
+                    </label>
+                    <input 
+                        type="date" 
+                        className={`${errors.fechaFin ? "input-form-error" : ""} input-form`}
+                        {...register("fechaFin", {
+                            required: "La fecha es obligatoria",
+                        })}
+                    />
+                    {errors.fechaFin && (<p className="input-message-error">{errors.fechaFin.message}</p>)} 
+                </div>
+
+                {messageError && 
+                    <MessageError>
+                        {messageError}
+                    </MessageError>
+                }
+
                 <div className="mt-4 flex justify-end gap-2">
                     <Button 
                         colorButton="secondary"

@@ -1,6 +1,6 @@
 import {api}from "../../../utils/authUtils";
 
-const obtenerCortes = (token, almacenId, pagina = 1, consulta) => {
+const obtenerCortes = (almacenId, pagina = 1, consulta) => {
     const request = api.get(`/cortes/${almacenId}/almacen`, {
         params: {
             pagina,
@@ -14,7 +14,7 @@ const obtenerCortes = (token, almacenId, pagina = 1, consulta) => {
         })
 } 
 
-const crearCorte = (token, data) => {
+const crearCorte = ( data) => {
     const request = api.post(`/cortes`, data);
     return request
         .then(response => response.data)
@@ -41,8 +41,8 @@ const obtenerCorte = (token, corteId) => {
         })
 }
 
-const cerrarCorte = (token, corteId) => {
-    const request = api.put(`/cortes/${corteId}/cerrar`);
+const cerrarCorte = (corteId, data) => {
+    const request = api.put(`/cortes/${corteId}/cerrar`, data);
     return request
         .then(response => response.data)
         .catch(err => {
@@ -71,7 +71,7 @@ const obtenerCorteLotes = (token, corteId, productoId, pagina, consulta) => {
     });
 }
 
-const eliminarCorte = (token, corteId) => {
+const eliminarCorte = (corteId) => {
     const request = api.delete(`/cortes/${corteId}`);
     return request
         .then(response => response.data)

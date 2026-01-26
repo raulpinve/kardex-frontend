@@ -50,7 +50,7 @@ const ModalEliminarProducto = (props) => {
         >
             <form onSubmit={handleSubmit}>
                 <p className="mb-2">
-                    Para confirmar la eliminación, escribe {tipo === "medicamentos"? "el principio activo del medicamento": "el nombre del dispositivo"} <b>{productoSeleccionado?.nombre}</b> en el campo a continuación:
+                    Para confirmar la eliminación, escribe {tipo === "medicamentos"? "el principio activo del medicamento": "el nombre del dispositivo"} "<b>{productoSeleccionado?.nombre}</b>" en el campo a continuación:
                 </p>
                 <input 
                     type="text" 

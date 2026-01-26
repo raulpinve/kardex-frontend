@@ -1,9 +1,9 @@
 import {api}from "../../utils/authUtils";
 
-const obtenerInformacionHistorial = (token,tipo, id, fechasFormateadas) => {
+const obtenerInformacionHistorial = (tipo, id, fechasFormateadas) => {
     const [fecha_inicio, fecha_fin] = fechasFormateadas || [];
 
-    const request = api.get(`/cortes/${id}/${tipo}/evolucion`, {
+    const request = api.get(`/${tipo}/${id}/evolucion`, {
         params: {
             ...(fecha_inicio && { fecha_inicio }),
             ...(fecha_fin && { fecha_fin })
@@ -15,7 +15,8 @@ const obtenerInformacionHistorial = (token,tipo, id, fechasFormateadas) => {
             throw err
         })
 }
-const obtenerEvolucionProducto = (token, tipo, id) => {
+const obtenerEvolucionProducto = (tipo, id) => {
+    console.log(tipo)
     const request = api.get(`/cortes/${id}/${tipo}/cortes`)
         return request
         .then(response => response.data)
@@ -24,7 +25,7 @@ const obtenerEvolucionProducto = (token, tipo, id) => {
         })
 }
 
-const obtenerEvolucionProductoCorte = (token, tipo, id, corteId) => {
+const obtenerEvolucionProductoCorte = (tipo, id, corteId) => {
     const request = api.get(`/cortes/${corteId}/${tipo}/${id}/evolucion`)
         return request
         .then(response => response.data)

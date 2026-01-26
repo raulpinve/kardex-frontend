@@ -1,7 +1,7 @@
 import {api}from "../../../utils/authUtils";
 
-const obtenerLotes = (token, tipo, medicamentoId, pagina = 1, consulta) => {
-    const request = api.get(`/lotes/${medicamentoId}/${tipo === "medicamentos" ? "medicamento": "dispositivo"}`, {
+const obtenerLotes = (productoId, pagina = 1, consulta) => {
+    const request = api.get(`/lotes/producto/${productoId}`, {
         params: {
             pagina,
             ...(consulta && { consulta })

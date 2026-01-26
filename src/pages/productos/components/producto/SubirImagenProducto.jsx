@@ -37,6 +37,8 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
                 avatar: null,
                 avatarThumbnail: null
             }));
+            setImageThumbnailSrc(imageDefault)
+            setImageSrc(imageDefault)
             toast.success("Avatar eliminado exitosamente.");
         } catch (error) {
             toast.error(error?.response?.data?.message || "No se pudo eliminar el avatar")            
@@ -78,6 +80,7 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
                     avatarThumbnail: respuesta.data.avatarThumbnail
                 }));
             }
+            toast.success("La imagen de perfil ha sido cambiada con éxito.");
         } catch (error){
             const fieldErrors = error?.response?.data?.error?.fieldErrors;
             const message = Array.isArray(fieldErrors) && fieldErrors.length > 0
@@ -88,9 +91,10 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
             setSubiendoAvatar(false);
         }
     };
+
     useEffect(() => {
-        setImageThumbnailSrc(producto?.avatarThumbnail ? `${host}${producto?.avatarThumbnail}`: imageDefault)
-        setImageSrc(producto?.avatar ? `${host}${producto?.avatar}`: imageDefault)
+        setImageSrc(producto?.avatar)
+        setImageThumbnailSrc(producto?.avatarThumbnail)
     }, [producto?.avatar, producto?.avatarThumbnail])
 
     return (
@@ -129,6 +133,7 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
                     )}
                 </div>
             )}
+
             <img 
                 src={imageThumbnailSrc}
                 onClick={() => {
@@ -153,7 +158,7 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
             {modalActivo === "imagen-perfil" && (
                 <ModalAbrirImagenPerfil 
                     cerrarModal={() => setModalActivo(null)}
-                    urlImage={producto.avatar}
+                    urlImage={imageSrc}
                     tipo={tipo === "medicamentos" ? "medicamento": "dispositivo"}
                 />
             )} 

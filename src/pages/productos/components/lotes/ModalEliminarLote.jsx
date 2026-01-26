@@ -49,7 +49,7 @@ const ModalEliminarLote = (props) => {
         >
             <form onSubmit={handleSubmit}>
                 <p className="mb-2">
-                    Para confirmar la eliminación, escribe el número del lote <b>{loteSeleccionado?.numeroLote}</b> en el campo a continuación:
+                    Para confirmar la eliminación, escribe el número del lote "<b>{loteSeleccionado?.numeroLote}</b>" en el campo a continuación:
                 </p>
                 <input 
                     type="text" 

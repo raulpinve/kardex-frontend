@@ -52,16 +52,6 @@ const ModalCrearProducto = (props) => {
 
     }, [tipo])
 
-    useEffect(() => {
-        setValue("nombre", "Glicerina")
-        setValue("formaFarmaceutica", "Forma farmaceutica")
-        setValue("codigoBarra", "444444")
-        setValue("concentracion", "25mg")
-        setValue("presentacionComercial", "Frasco")
-        setValue("unidadMedida", "ml")
-        setValue("stockRequerido", 25)
-    }, [])
-
     return (
         <Modal
             isOpenModal={true}

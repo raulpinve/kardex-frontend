@@ -130,7 +130,8 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId, refreshStock}) 
             setLoading(true);
             setMessageError(null);
             try {
-                const respuesta = await obtenerInformacionHistorial(token, tipo, id, fechasFormateadas);
+
+                const respuesta = await obtenerInformacionHistorial(tipo, id, fechasFormateadas);
                 const datosRespuestas = respuesta?.data?.datos || [];
 
                 setDatos(datosRespuestas);
@@ -288,7 +289,6 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId, refreshStock}) 
                     {fechasFormateadas.length > 0 && (
                         <p className="text-sm text-gray-400 dark:text-gray-200">Evolución desde {formatearRangoFechas(fechasFormateadas)}</p>
                     )}
-
                 </div>
                 <div className="flex items-center mt-3 gap-1">
                     {mostrarBotones && (<>                        
@@ -333,6 +333,7 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId, refreshStock}) 
                     </>)}
                 </div>
             </div>
+            
             {loading && (<div className={`h-[400px] w-full mt-5 flex items-center  justify-center`}>
                 <Loader /> 
             </div>)}
@@ -341,6 +342,7 @@ const GraficaComportamientoStock = ({tipo = "producto", corteId, refreshStock}) 
                 <p className="text-sm text-gray-400 dark:text-gray-200">{messageError}</p>
             </div>
             )}
+
             {!loading && !messageError && datos.length === 0 && (
                 <div className={`h-[400px] w-full mt-5 flex items-center  justify-center`}>
                     <p className="text-sm text-gray-400 dark:text-gray-200">

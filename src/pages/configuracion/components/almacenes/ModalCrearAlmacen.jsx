@@ -4,7 +4,6 @@ import { crearAlmacen } from "../../services/almacenService";
 import Button from "../../../../shared/components/Button";
 import Modal from "../../../../shared/components/Modal";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -13,7 +12,6 @@ const ModalCrearAlmacen = (props) => {
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
     const {cerrarModal, setAlmacenes} = props;
-    const dispatch = useDispatch();
 
     const onSubmit = async(values) => {
         setMessageError(false)
