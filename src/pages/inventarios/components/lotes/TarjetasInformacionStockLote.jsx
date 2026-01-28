@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import CardStockInformation from "@/shared/components/CardStockInformation";
 import { obtenerResumenLoteCorte } from "../../services/lotesServices";
+import { formatCantidad } from "@/utils/utilities";
 
-const TarjetasInformacionStockLote = ({corteId, loteId, refreshStock}) => {
+const TarjetasInformacionStockLote = ({corteId, loteId, refreshKey}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
     const [stock, setStock] = useState();
@@ -28,7 +29,7 @@ const TarjetasInformacionStockLote = ({corteId, loteId, refreshStock}) => {
             setError(null)
             setLoading(null)
         }
-    }, [corteId, loteId, refreshStock])
+    }, [corteId, loteId, refreshKey])
     
     if(error) return
     return (
@@ -37,7 +38,7 @@ const TarjetasInformacionStockLote = ({corteId, loteId, refreshStock}) => {
                 {/* Stock inicial */}
                 <CardStockInformation 
                     titulo={`Stock inicial`}
-                    value={stock?.stockInicial}
+                    value={formatCantidad(stock?.stockInicial)}
                     tipo="stockInicial"
                     loading={loading}
                 />
@@ -46,7 +47,7 @@ const TarjetasInformacionStockLote = ({corteId, loteId, refreshStock}) => {
                 <CardStockInformation 
                     titulo={`Ingresos`}
                     tipo="ingresos"
-                    value={stock?.ingresos}
+                    value={formatCantidad(stock?.ingresos)}
                     loading={loading}
                 />
 
@@ -54,7 +55,7 @@ const TarjetasInformacionStockLote = ({corteId, loteId, refreshStock}) => {
                 <CardStockInformation 
                     titulo={`Salidas`}
                     tipo="salidas"
-                    value={stock?.salidas}
+                    value={formatCantidad(stock?.salidas)}
                     loading={loading}
                 />
                 
@@ -62,7 +63,7 @@ const TarjetasInformacionStockLote = ({corteId, loteId, refreshStock}) => {
                 <CardStockInformation 
                     titulo={`Stock final`}
                     tipo="stockFinal"
-                    value={stock?.stockFinal}
+                    value={formatCantidad(stock?.stockFinal)}
                     loading={loading}
                 />
 

@@ -150,3 +150,7 @@ input[type="month"]::-webkit-calendar-picker-indicator, input[type="date"]::-web
   filter: invert(95%) sepia(8%) saturate(316%) hue-rotate(180deg) brightness(108%) contrast(85%);
 }
 
+.recharts-wrapper:focus,
+.recharts-wrapper *:focus {
+  outline: none;
+}

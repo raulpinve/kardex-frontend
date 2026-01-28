@@ -11,7 +11,7 @@ import { editarMovimiento } from '../../services/movimientosServices';
 
 const ModalEditarMovimientos = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" });
-    const { cerrarModal, setMovimientos, movimientoSeleccionado} = props;
+    const { cerrarModal, setMovimientos, movimientoSeleccionado, onCambioMovimientos} = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -26,6 +26,7 @@ const ModalEditarMovimientos = (props) => {
                     return movimiento.id === movimientoSeleccionado.id ? { ...movimientoSeleccionado, ...res.data } : movimiento
                 })
             );
+            onCambioMovimientos();
             cerrarModal();
             setValue("tipo", "");
             setValue("cantidad", "");

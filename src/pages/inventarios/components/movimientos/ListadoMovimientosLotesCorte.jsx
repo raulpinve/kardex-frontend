@@ -19,7 +19,8 @@ import Pagination from '@/shared/components/Pagination';
 import ModalEditarMovimientos from './ModalEditarMovimientos';
 import ModalEliminarMovimientos from './ModalEliminarMovimientos';
 
-const ListadoMovimientosLotesCorte = () => {
+const ListadoMovimientosLotesCorte = (props) => {
+    const {onCambioMovimientos} = props;
     const [movimientos, setMovimientos] = useState([]);
     const [modalActivo, setModalActivo] = useState();
     const [loading, setLoading] = useState();
@@ -178,6 +179,7 @@ const ListadoMovimientosLotesCorte = () => {
                 <ModalCrearMovimientos 
                     setMovimientos = {setMovimientos}
                     cerrarModal = {() => setModalActivo(null)}
+                    onCambioMovimientos= {onCambioMovimientos}
                 />
             )}
 
@@ -186,6 +188,7 @@ const ListadoMovimientosLotesCorte = () => {
                     setMovimientos = {setMovimientos}
                     movimientoSeleccionado = {movimientoSeleccionado}
                     cerrarModal = {() => setModalActivo(null)}
+                    onCambioMovimientos= {onCambioMovimientos}
                 />
             )}
 
@@ -194,6 +197,7 @@ const ListadoMovimientosLotesCorte = () => {
                     setMovimientos = {setMovimientos}
                     movimientoSeleccionado = {movimientoSeleccionado}
                     cerrarModal = {() => setModalActivo(null)}
+                    onCambioMovimientos= {onCambioMovimientos}
                 />
             )}
         </Card>

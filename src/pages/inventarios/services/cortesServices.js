@@ -50,3 +50,12 @@ export const eliminarCorte = (corteId) => {
             throw err
         })
 }
+
+export const obtenerEvolucionLoteCorte = (corteId, loteId) => {
+    const request = api.get(`/cortes/${corteId}/lotes/${loteId}/evolucion`);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}

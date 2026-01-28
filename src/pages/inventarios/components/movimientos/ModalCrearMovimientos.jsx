@@ -13,7 +13,7 @@ const ModalCrearMovimientos = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" });
     const [ messageError, setMessageError ] = useState();
     const [ loading, setLoading ] = useState(false);
-    const { cerrarModal, setMovimientos } = props;
+    const { cerrarModal, setMovimientos, onCambioMovimientos } = props;
     const { loteId } = useParams();
 
      const onSubmit = async(values) => {
@@ -33,6 +33,7 @@ const ModalCrearMovimientos = (props) => {
                 setValue("fecha", "");
                 setValue("descripcion", "");
             }
+            onCambioMovimientos()
             toast.success("Movimiento creado exitosamente.");
         } catch (error) {
             console.log(error)

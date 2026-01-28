@@ -113,6 +113,14 @@ function tiempoRelativoCreativo(fechaISO) {
     if (diffAnio === 1) return "Hace un año";
     return `Hace ${diffAnio} años`;
 }
+const formatCantidad = (valor) => {
+  if (valor === null || valor === undefined) return "0";
+
+  return new Intl.NumberFormat("es-CO", {
+    maximumFractionDigits: 0,
+  }).format(valor);
+};
+
 
 export {
     formatDateLetters,
@@ -122,5 +130,6 @@ export {
     analizarStock,
     formatFechaCorte,
     formatDateCorte,
-    tiempoRelativoCreativo
+    tiempoRelativoCreativo,
+    formatCantidad
 }

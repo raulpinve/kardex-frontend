@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { eliminarMovimiento } from '../../services/movimientosServices';
 
 const ModalEliminarMovimientos = (props) => {
-    const {cerrarModal, movimientoSeleccionado, setMovimientos} = props;
+    const {cerrarModal, movimientoSeleccionado, setMovimientos, onCambioMovimientos} = props;
     const [messageError, setMessageError] = useState();
     const [loading, setLoading] = useState();
     const [textoEscrito, setTextoEscrito] = useState("");
@@ -27,6 +27,7 @@ const ModalEliminarMovimientos = (props) => {
             setMovimientos(prevMovimientos =>
                 prevMovimientos.filter(movimiento => movimiento.id !== movimientoSeleccionado.id) 
             )
+            onCambioMovimientos();
             toast.success("Movimiento eliminado exitosamente");
             cerrarModal();
         } catch {

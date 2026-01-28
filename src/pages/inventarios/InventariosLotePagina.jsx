@@ -11,16 +11,16 @@ import SubirImagenProducto from '../productos/components/producto/SubirImagenPro
 import { LuBarcode, LuChevronRight } from 'react-icons/lu';
 import ModalMostrarCodigoBarras from '../productos/components/productos/ModalMostrarCodigoBarras';
 import ListadoMovimientosLotesCorte from './components/movimientos/ListadoMovimientosLotesCorte';
-import GraficaLotes from './components/lotes/GraficaLotes';
+import GraficaLotesCorte from './components/lotes/GraficaLotesCorte';
 
 const InventariosLotePagina = () => {
-    const [mensajeError, setMensajeError] = useState();
     const [modalActivo, setModalActivo] = useState();
     const [loading, setLoading] = useState(true);
     const [ corte, setCorte ] = useState();
     const {corteId, loteId} = useParams();
     const [lote, setLote] = useState();
     const [error, setError] = useState();
+    const [refreshKey, setRefreshKey] = useState(0);
 
     // Obtener información del producto en el corte
     useEffect(() => {
@@ -46,6 +46,10 @@ const InventariosLotePagina = () => {
         fetchData();
     }, [corteId, loteId]);
 
+    const recargarTodo = () => {
+        setRefreshKey(k => k + 1);
+    }
+
     if(error){
         return <ErrorPage {...error} />
     }
@@ -53,12 +57,6 @@ const InventariosLotePagina = () => {
     return (<>
         {loading && (<Spinner />)}
         
-        {!loading && mensajeError && (
-            <p className="rounded mt-4 text-center text-gray-600 dark:text-gray-200">
-                {mensajeError}
-            </p>
-        )}
-
         {!loading && corte && (
             <div className="gap-2 mt-3">
                 <h1 className="text-2xl text-gray-800 dark:text-gray-200 font-semibold">Kardex</h1>
@@ -92,12 +90,11 @@ const InventariosLotePagina = () => {
             <h1 className="text-2xl text-gray-800 dark:text-gray-200 font-semibold">{lote?.numeroLote}</h1>
         </div>)}
       
-        {!mensajeError && !loading && corte && (<div className='mt-8'>
-            <TarjetasInformacionStockLote corteId={corteId} loteId={loteId} /> 
+        {!loading && corte && (<div className='mt-8'>
+            <TarjetasInformacionStockLote refreshKey={refreshKey} corteId={corteId} loteId={loteId} /> 
             <div className="mt-4 grid gap-4">
-                {/* <GraficaComportamientoStock tipo={`lote`} corteId={corte?.id} refreshStock={refreshStock}/> */}
-                <GraficaLotes />
-                <ListadoMovimientosLotesCorte corteId={corteId} loteId={loteId} />
+                <GraficaLotesCorte refreshKey={refreshKey} />
+                <ListadoMovimientosLotesCorte onCambioMovimientos={recargarTodo} />
             </div>
         </div>)}
 
