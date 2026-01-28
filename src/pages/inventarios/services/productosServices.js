@@ -1,7 +1,7 @@
 import {api}from "../../../utils/authUtils";
 
-const obtenerProductosCorte = (token, corteId, tipo, pagina = 1, consulta, categoriaId) => {
-    const request = api.get(`/cortes/${corteId}/${tipo}`, {
+export const obtenerProductosCorte = (corteId, tipo, pagina = 1, consulta, categoriaId) => {
+    const request = api.get(`/cortes/${corteId}/${tipo}/productos`, {
         params: {
             pagina,
             categoriaId,
@@ -15,24 +15,18 @@ const obtenerProductosCorte = (token, corteId, tipo, pagina = 1, consulta, categ
         })
 }
 
-const obtenerProductoCorte = (token, corteId, productoId) => {
+export const obtenerProducto = (tipo, productoId) => {
+    return api.get(`/${tipo}/${productoId}`)
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+}
+
+export const obtenerResumenProductoCorte = (corteId, productoId) => {
     return api.get(`/cortes/${corteId}/${productoId}/producto`)
         .then(response => response.data)
         .catch(err => {
             throw err;
         });
-}
-
-const obtenerProducto = (token, productoId) => {
-    return api.get(`/productos/${productoId}`)
-        .then(response => response.data)
-        .catch(err => {
-            throw err;
-        });
-}
-
-export {
-    obtenerProductoCorte, 
-    obtenerProductosCorte,
-    obtenerProducto
 }

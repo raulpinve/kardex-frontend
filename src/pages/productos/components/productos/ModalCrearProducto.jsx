@@ -5,7 +5,6 @@ import Button from "../../../../shared/components/Button";
 import Modal from "../../../../shared/components/Modal";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LuChevronDown } from "react-icons/lu";
 import { obtenerTodasCategorias } from "../../services/categoriaServices";
@@ -16,13 +15,12 @@ const ModalCrearProducto = (props) => {
     const [messageError, setMessageError] = useState(false);
     const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(false);
-    const token = useSelector(state => state.auth.token);
 
     const onSubmit = async(values) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await crearProducto(token, {
+            const result = await crearProducto({
                 ...values,
                 almacenId
             }, tipo)
@@ -42,7 +40,7 @@ const ModalCrearProducto = (props) => {
     useEffect(() => {
         const fecthCategorias = async() => {
             try {
-                const result = await obtenerTodasCategorias(token, tipo === "medicamentos" ? "medicamento": "dispositivo");
+                const result = await obtenerTodasCategorias(tipo === "medicamentos" ? "medicamento": "dispositivo");
                 setCategorias(result.data)
             } catch (error) {
                 console.error(error);

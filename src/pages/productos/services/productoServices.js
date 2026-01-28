@@ -1,6 +1,6 @@
 import {api}from '../../../utils/authUtils';
 
-const obtenerProductos = (token ,tipo, almacenId,pagina = 1, consulta, categoriaId) => {
+const obtenerProductos = (tipo, almacenId,pagina = 1, consulta, categoriaId) => {
     const request = api.get(`/${tipo}/${almacenId}/almacen`, {
         params: {
             pagina,
@@ -15,7 +15,7 @@ const obtenerProductos = (token ,tipo, almacenId,pagina = 1, consulta, categoria
         })
 } 
 
-const crearProducto = (token, data, tipo) => {
+const crearProducto = ( data, tipo) => {
     const request = api.post(`/${tipo}`, data);
     return request
         .then(response => response.data)

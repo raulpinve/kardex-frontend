@@ -16,7 +16,6 @@ const obtenerInformacionHistorial = (tipo, id, fechasFormateadas) => {
         })
 }
 const obtenerEvolucionProducto = (tipo, id) => {
-    console.log(tipo)
     const request = api.get(`/cortes/${id}/${tipo}/cortes`)
         return request
         .then(response => response.data)

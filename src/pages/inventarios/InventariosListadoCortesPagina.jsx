@@ -13,19 +13,20 @@ import { LuEraser, LuLock, LuLockOpen, LuPencil } from 'react-icons/lu';
 import { obtenerCortes } from './services/cortesServices';
 import { useSelector } from 'react-redux';
 import ModalCrearCorte from './components/cortes/ModalCrearCorte';
-import { dateColombiaFormat, formatDateCorte } from '@/utils/utilities';
+import { dateColombiaFormat } from '@/utils/utilities';
 import ModalCerrarCorte from './components/cortes/ModalCerrarCorte';
 import ModalEliminarCorte from './components/cortes/ModalEliminarCorte';
 import Pagination from '@/shared/components/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { handleErrorsBasic } from '@/utils/handleErrors';
+import SkeletonTable from '@/shared/components/SkeletonTable';
 
-const CortesPagina = () => {
+const InventariosListadoCortesPagina = () => {
     const [cortes, setCortes] = useState([]);
     const { id: almacenId } = useSelector(state => state?.almacen?.almacen);
     const [paginaActual, setPaginaActual] = useState(1);
     const [corteSeleccionado, setCorteSeleccionado] = useState(null);
     const [totalPaginas, setTotalPaginas] = useState(1);
-    const [consulta, setConsulta] = useState("");
     const [loading, setLoading] = useState(null);
     const [error, setError] = useState(null);
     const [modalActivo, setModalActivo] = useState();
@@ -34,14 +35,23 @@ const CortesPagina = () => {
     // Obtener todos los cortes
     useEffect(() => {
         const fetchCortes = async () => {
-            const resCortes = await obtenerCortes(almacenId, paginaActual, consulta);
-            setCortes(resCortes.data)
+            try {
+                setLoading(true);
+                const resCortes = await obtenerCortes(almacenId, paginaActual);
+                setCortes(resCortes.data)
+                setPaginaActual(resCortes.paginacion.paginaActual)
+                setTotalPaginas(resCortes.paginacion.totalPaginas)
+            } catch (error) {
+                handleErrorsBasic(error, setError)                
+            } finally {
+                setLoading(false)
+            }
         }
         fetchCortes();
-    }, [almacenId, paginaActual, consulta])
+    }, [almacenId, paginaActual])
 
     const redireccionarInventariosCorte = (corteId) => {
-        navigate(`/inventarios/${corteId}`)
+        navigate(`/inventarios/${corteId}/productos`)
     }
 
     return (
@@ -69,6 +79,10 @@ const CortesPagina = () => {
                             <TableTh className='text-center'>Acciones</TableTh>
                         </TableTr>
                     </TableThead>
+                    {/* Loading */}
+                    {loading && !error && cortes.length === 0 && (
+                        <SkeletonTable rows={7} columns={5}/>
+                    )}
                     <TableTbody>
                         {!loading && error && (
                             <TableTr>
@@ -165,4 +179,4 @@ const CortesPagina = () => {
     );
 };
 
-export default CortesPagina;
+export default InventariosListadoCortesPagina;

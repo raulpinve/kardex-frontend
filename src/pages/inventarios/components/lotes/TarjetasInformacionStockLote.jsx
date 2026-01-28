@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import CardStockInformation from "@/shared/components/CardStockInformation";
-import { obtenerLoteCorte } from "../../services/loteServices";
+import { obtenerResumenLoteCorte } from "../../services/lotesServices";
 
-const TarjetasInformacionStock = ({corteId, loteId, refreshStock}) => {
+const TarjetasInformacionStockLote = ({corteId, loteId, refreshStock}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
     const [stock, setStock] = useState();
-    const token = useSelector(state => state.auth.token);
 
     // Obtener información del producto en el corte
     useEffect(() => {
         const fetchProductoCorte = async () => {
             setLoading(true)
             try {
-                const res = await obtenerLoteCorte(token, corteId, loteId);
+                const res = await obtenerResumenLoteCorte(corteId, loteId);
                 setStock(res.data);
             } catch (error) {
                 setError(error.response.data.message || "Ha ocurrido un error interno al intentar obtener la información del stock.")
@@ -30,7 +28,7 @@ const TarjetasInformacionStock = ({corteId, loteId, refreshStock}) => {
             setError(null)
             setLoading(null)
         }
-    }, [corteId, token, loteId, refreshStock])
+    }, [corteId, loteId, refreshStock])
     
     if(error) return
     return (
@@ -73,4 +71,4 @@ const TarjetasInformacionStock = ({corteId, loteId, refreshStock}) => {
     );
 };
 
-export default TarjetasInformacionStock;
+export default TarjetasInformacionStockLote;

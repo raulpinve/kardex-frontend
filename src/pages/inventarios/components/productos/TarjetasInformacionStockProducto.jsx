@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { obtenerProductoCorte } from "../../services/productoServices";
-import { useSelector } from "react-redux";
 import CardStockInformation from "@/shared/components/CardStockInformation";
+import { obtenerResumenProductoCorte } from "../../services/productosServices";
 
 const TarjetasInformacionStockProducto = ({corteId, productoId, refreshStock}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
     const [stock, setStock] = useState();
-    const token = useSelector(state => state.auth.token);
 
     // Obtener información del producto en el corte
     useEffect(() => {
         const fetchProductoCorte = async () => {
             setLoading(true)
             try {
-                const res = await obtenerProductoCorte(token, corteId, productoId);
+                const res = await obtenerResumenProductoCorte(corteId, productoId);
                 setStock(res.data);
             } catch (error) {
                 setError(error.response.data.message || "Ha ocurrido un error interno al intentar obtener la información del stock.")
@@ -30,8 +28,10 @@ const TarjetasInformacionStockProducto = ({corteId, productoId, refreshStock}) =
             setError(null)
             setLoading(null)
         }
-    }, [corteId, token, productoId, refreshStock])
+    }, [corteId, productoId, refreshStock])
+
     if(error) return
+
     return (
         <>
             <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -66,7 +66,6 @@ const TarjetasInformacionStockProducto = ({corteId, productoId, refreshStock}) =
                     value={stock?.stockFinal}
                     loading={loading}
                 />
-
             </div>
         </>
     );

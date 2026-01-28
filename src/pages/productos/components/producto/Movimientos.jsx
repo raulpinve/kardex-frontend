@@ -1,4 +1,4 @@
-import { obtenerMovimientosProducto } from '../../services/movimientoServices';
+import { obtenerMovimientosProducto } from '../../services/movimientoServices1';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import Pagination from '../../../../shared/components/Pagination';
 import CardTitulo from '../../../../shared/components/CardTitulo';

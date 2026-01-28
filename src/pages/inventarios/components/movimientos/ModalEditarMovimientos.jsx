@@ -6,15 +6,13 @@ import { handleErrors } from '../../../../utils/handleErrors';
 import { LuChevronDown } from 'react-icons/lu';
 import Button from '../../../../shared/components/Button';
 import { formatDate } from '../../../../utils/utilities';
-import { editarMovimiento } from '../../services/movimientoServices';
-import { useSelector } from 'react-redux';
 import MessageError from '../../../../shared/components/MessageError';
+import { editarMovimiento } from '../../services/movimientosServices';
 
-const ModalEditarMovimiento = (props) => {
-    const { cerrarModal, setMovimientos, movimientoSeleccionado} = props;
+const ModalEditarMovimientos = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" });
+    const { cerrarModal, setMovimientos, movimientoSeleccionado} = props;
     const [messageError, setMessageError] = useState(false);
-    const token = useSelector(state => state.auth.token);
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async(values) => {
@@ -22,7 +20,7 @@ const ModalEditarMovimiento = (props) => {
         setLoading(true);
         
         try {
-            const res = await editarMovimiento(token, movimientoSeleccionado.id, values)
+            const res = await editarMovimiento(movimientoSeleccionado.id, values)
             setMovimientos(prevMovimientos =>
                 prevMovimientos.map(movimiento => {
                     return movimiento.id === movimientoSeleccionado.id ? { ...movimientoSeleccionado, ...res.data } : movimiento
@@ -33,7 +31,7 @@ const ModalEditarMovimiento = (props) => {
             setValue("cantidad", "");
             setValue("fecha", "");
             setValue("descripcion", "");
-            toast.success("Lote editado exitosamente.");
+            toast.success("Movimiento editado exitosamente.");
         } catch (error) {
             handleErrors(error, setError, setMessageError);
         } finally{
@@ -125,7 +123,7 @@ const ModalEditarMovimiento = (props) => {
                     {/* Descripción */}
                     <div>
                         <label htmlFor="descripcion" className="label-form">
-                            Descripción <span className="input-required">*</span>
+                            Descripción 
                         </label>
                         <textarea 
                             className={`${errors.descripcion && errors.descripcion.message ? "input-form-error" : ""} input-form resize-none h-[70px]`}
@@ -160,4 +158,4 @@ const ModalEditarMovimiento = (props) => {
     );
 };
 
-export default ModalEditarMovimiento;
+export default ModalEditarMovimientos;

@@ -2,12 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LuCamera, LuCloudUpload, LuRefreshCcw, LuTrash2 } from "react-icons/lu";
-import { host } from "../../../../utils/config";
 import imageDefault from "../../../../assets/images/image-default.png";
 import ModalAbrirImagenPerfil from "../../../../shared/components/ModalAbrirImagenPerfil";
 import { eliminarAvatar, subirAvatar } from "../../services/productoServices";
 
-const SubirImagenProducto = ({producto, tipo, setProducto}) => {
+const SubirImagenProducto = ({producto, tipo, setProducto, allowChangeImagen = true}) => {
     const [imageThumbnailSrc, setImageThumbnailSrc] = useState(imageDefault);
     const [imageSrc, setImageSrc] = useState(imageDefault);
     const [modalActivo, setModalActivo] = useState(false);
@@ -99,15 +98,17 @@ const SubirImagenProducto = ({producto, tipo, setProducto}) => {
 
     return (
         <div className="relative group w-12 h-12 my-1 group">
-            <button 
-                className="opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 duration-200  absolute p-[6px] -bottom-1 -right-1 text-xs bg-blue-700 dark:bg-gray-700 text-white rounded-full cursor-pointer transition"
-                onClick={toggleMenu}
-            >
-                <LuCamera />
-            </button>
+            <div className={allowChangeImagen == false ? "hidden": ""}>
+                <button 
+                    className="opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 duration-200  absolute p-[6px] -bottom-1 -right-1 text-xs bg-blue-700 dark:bg-gray-700 text-white rounded-full cursor-pointer transition"
+                    onClick={toggleMenu}
+                >
+                    <LuCamera />
+                </button>
+            </div>
 
             {/* Dropdown para editar y/o eliminar avatar */}
-            {mostrarMenu && (
+            {mostrarMenu && allowChangeImagen && (
                 <div 
                     ref={menuRef}
                     className="absolute top-[100%] left-0 z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg w-[150px]"

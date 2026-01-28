@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { obtenerTodasCategorias } from "../../services/categoriaServices";
-import { LuChevronDown } from "react-icons/lu";
 
 const ModalEditarProducto = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue, reset} = useForm({  mode: "onChange" })

@@ -16,17 +16,20 @@ import { Toaster } from 'sonner';
 import PerfilEditarPagina from "./pages/perfil/PerfilEditarPagina";
 import PerfilPagina from "./pages/perfil/PerfilPagina";
 import VerificarEmailPage from "./pages/auth/VerificarEmailPage";
-import InventariosPagina from "./pages/inventarios/InventariosPagina";
+// import InventariosPagina from "./pages/inventarios/InventariosPagina";
 import ProductosPagina from "./pages/productos/ProductosPagina";
 import ProductoPagina from "./pages/productos/ProductoPagina";
-import InventarioProductoPagina from "./pages/inventarios/InventarioProductoPagina";
-import InventarioLotesPagina from "./pages/inventarios/InventarioLotesPagina";
+// import InventarioProductoPagina from "./pages/inventarios/InventarioProductoPagina";
+// import InventarioLotesPagina from "./pages/inventarios/InventarioLotesPagina";
 import LotePagina from "./pages/productos/LotePagina";
 import Layout from "./shared/components/Layout";
 import SeleccionarAlmacenPage from "./shared/components/SeleccionarAlmacenPage";
 import RequireAlmacen from "./shared/components/RequireAlmacen";
 import { deleteAlmacen, setAlmacen } from "./store/almacenSlice";
-import CortesPagina from "./pages/inventarios/CortesPagina";
+import InventariosListadoCortesPagina from "./pages/inventarios/InventariosListadoCortesPagina";
+import InventariosListadoProductosPagina from "./pages/inventarios/InventariosListadoProductosPagina";
+import InventariosProductoPagina from "./pages/inventarios/InventariosProductoPagina";
+import InventariosLotePagina from "./pages/inventarios/InventariosLotePagina";
 
 function App() {
   const dispatch = useDispatch();
@@ -101,9 +104,10 @@ function App() {
             {/* Rutas que requieren de empresa */}
             <Route path={`/seleccionar-almacen`} element={<SeleccionarAlmacenPage />}/>
             <Route element={<RequireAlmacen />}>
-              <Route path="/inventarios" element={<CortesPagina />}/>
-              <Route path="/inventarios/:corteId" element={<InventariosPagina/>}/>
-              <Route path="/inventarios/:periodo/:loteId/lote" element={<InventarioLotesPagina/>}/>
+              <Route path="/inventarios" element={<InventariosListadoCortesPagina />}/>
+              <Route path="/inventarios/:corteId/productos" element={<InventariosListadoProductosPagina />}/>
+              <Route path="/inventarios/:tipo/:corteId/:productoId/producto" element={<InventariosProductoPagina />}/>
+              <Route path="/inventarios/:corteId/:loteId/lote" element={<InventariosLotePagina/>}/>
               <Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
               <Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
               <Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>

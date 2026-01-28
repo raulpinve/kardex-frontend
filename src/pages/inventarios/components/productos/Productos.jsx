@@ -2,19 +2,17 @@ import React, { useEffect, useState } from 'react';
 import Card from '../../../../shared/components/Card';
 import CardTitulo from '../../../../shared/components/CardTitulo';
 import Pagination from '../../../../shared/components/Pagination';
-import Button from '../../../../shared/components/Button';
 import { LuBarcode, LuChevronDown, LuCircleAlert, LuCircleCheck, LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
-import { useSelector } from 'react-redux';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { Tooltip } from 'react-tooltip';
 import { useNavigate, useParams } from 'react-router-dom';
-import { obtenerProductosCorte } from '../../services/productoServices';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import { host } from '../../../../utils/config';
 import imageDefault from "../../../../assets/images/image-default.png";
 import ModalAbrirImagenPerfil from '../../../../shared/components/ModalAbrirImagenPerfil';
 import { obtenerTodasCategorias } from '@/pages/productos/services/categoriaServices';
 import ModalMostrarCodigoBarras from '@/pages/productos/components/productos/ModalMostrarCodigoBarras';
+import { obtenerProductosCorte } from '../../services/productosServices';
 
 // Componente para mostrar el estado del stock
 const StockStatus = ({ stockRequerido, stockFinal }) => {
@@ -60,17 +58,14 @@ const Productos = ({ tipo, corteId }) => {
     const [paginaActual, setPaginaActual] = useState(1);
     const [modalActivo, setModalActivo] = useState("");
     const [totalPaginas, setTotalPaginas] = useState(1);
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("")
     const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [productos, setProductos] = useState([]);
-    const token = useSelector(state => state.auth.token);
     const [consulta, setConsulta] = useState("");
-    const {periodo} = useParams();
-    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
     const navigate = useNavigate();
-    
     const debouncedConsulta = useDebounce(consulta, 500);
     
     useEffect(() => {
@@ -79,7 +74,7 @@ const Productos = ({ tipo, corteId }) => {
             setLoading(true);
             try {
                 setError(null);
-                const res = await obtenerProductosCorte(token, corteId, tipo, paginaActual, debouncedConsulta, categoriaSeleccionada);
+                const res = await obtenerProductosCorte(corteId, tipo, paginaActual, debouncedConsulta, categoriaSeleccionada);
                 setProductos(res.data)
                 setPaginaActual(res.paginacion.paginaActual);
                 setTotalPaginas(res.paginacion.totalPaginas);
@@ -92,17 +87,17 @@ const Productos = ({ tipo, corteId }) => {
         if(corteId){
             fetchProductos();
         }
-    }, [token, corteId, tipo, paginaActual, debouncedConsulta, categoriaSeleccionada]);
+    }, [corteId, tipo, paginaActual, debouncedConsulta, categoriaSeleccionada]);
 
-    const redireccionarProductoCorte = (productoId) => {
-        navigate(`/inventarios/${periodo}/${productoId}`)
+    const redireccionarProductoCorte = (tipo, corteId, productoId) => {
+        navigate(`/inventarios/${tipo}/${corteId}/${productoId}/producto`)
     }
 
     // Obtener categorias
     useEffect(() => {
         const fecthCategorias = async() => {
             try {
-                const result = await obtenerTodasCategorias(token, tipo === "medicamentos" ? "medicamento": "dispositivo");
+                const result = await obtenerTodasCategorias(tipo === "medicamentos" ? "medicamento": "dispositivo");
                 setCategorias(result.data)
             } catch (error) {
                 console.error(error);
@@ -123,7 +118,7 @@ const Productos = ({ tipo, corteId }) => {
                         <input
                             type="text"
                             placeholder={`Buscar ${tipo} por nombre o código...`}
-                            className="input-form pl-10 dark:bg-gray-900 w-full"
+                            className="input-form pl-10 dark:bg-gray-900 dark:text-white w-full"
                             value={consulta}
                             onChange={(e) => setConsulta(e.currentTarget.value)}
                             onKeyDown={(e) => {
@@ -138,7 +133,7 @@ const Productos = ({ tipo, corteId }) => {
                     {/* 🧾 Selector de categoría */}
                     <div className="relative">
                         <select
-                            className="select-form"
+                            className="select-form text-gray-600 dark:text-gray-500"
                             value={categoriaSeleccionada}
                             onChange={(e) => setCategoriaSeleccionada(e.currentTarget.value)}
                         >
@@ -149,7 +144,7 @@ const Productos = ({ tipo, corteId }) => {
                                 </option>
                             ))}
                         </select>
-                        <LuChevronDown className="absolute top-[16px] right-2" />
+                        <LuChevronDown className="absolute top-[16px] right-2 dark:text-gray-200" />
                     </div>
                 </div>
             </div>
@@ -223,7 +218,7 @@ const Productos = ({ tipo, corteId }) => {
                                 {productos.map(producto => {
                                     return <tr 
                                         key={producto.productoId}
-                                        onClick={() => redireccionarProductoCorte(producto.productoId)}
+                                        onClick={() => redireccionarProductoCorte(tipo, corteId, producto.productoId)}
                                         className="cursor-pointer"
                                     >
                                         <td className="py-3 px-4">
@@ -258,31 +253,31 @@ const Productos = ({ tipo, corteId }) => {
                                             </button>
                                         </td>
                                         <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {producto?.categoriaNombre ? producto.categoriaNombre : "N/A"} </p>
+                                            <p className="text-gray-700 dark:text-gray-400"> {producto?.categoriaNombre ?? "---"} </p>
                                         </td>
                                         {tipo === "medicamentos" ? (<>
                                             <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400"> {producto.formaFarmaceutica} </p>
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.formaFarmaceutica ?? "---" } </p>
                                             </td>
                                             <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400"> {producto.concentracion} </p>
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.concentracion ?? "---"} </p>
                                             </td>
                                             <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400"> {producto.presentacionComercial} </p>
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.presentacionComercial ?? "---"} </p>
                                             </td>
                                             <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400"> {producto.unidadMedida} </p>
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.unidadMedida ?? "---"} </p>
                                             </td>
                                         
                                         </>):(<>
                                             <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400"> {producto.serie} </p>
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.serie ?? "---"} </p>
                                             </td>
                                             <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400"> {producto.presentacionComercial} </p>
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.presentacionComercial ?? "---"} </p>
                                             </td>
                                             <td className="py-3 px-4">
-                                                <p className="text-gray-700 dark:text-gray-400"> {producto.riesgo} </p>
+                                                <p className="text-gray-700 dark:text-gray-400"> {producto.riesgo ?? "---"} </p>
                                             </td>
                                         </>)}
                                     </tr>

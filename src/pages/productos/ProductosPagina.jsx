@@ -47,7 +47,7 @@ const ProductosPagina = ({ tipo }) => {
             setError(null); 
             
             try {
-                const respuesta = await obtenerProductos(token, tipo, almacen.id, paginaActual, debouncedConsulta, categoriaSeleccionada)
+                const respuesta = await obtenerProductos(tipo, almacen.id, paginaActual, debouncedConsulta, categoriaSeleccionada)
                 setProductos(respuesta.data)
                 setPaginaActual(respuesta.paginacion.paginaActual);
                 setTotalPaginas(respuesta.paginacion.totalPaginas);
@@ -60,13 +60,13 @@ const ProductosPagina = ({ tipo }) => {
         if(almacen){
             fetchUsuarios();
         }
-    }, [debouncedConsulta, almacen, token, paginaActual, tipo, categoriaSeleccionada]);
+    }, [debouncedConsulta, almacen, paginaActual, tipo, categoriaSeleccionada]);
 
     // Obtener categorias
     useEffect(() => {
         const fecthCategorias = async() => {
             try {
-                const result = await obtenerTodasCategorias(token, tipo === "medicamentos" ? "medicamento": "dispositivo");
+                const result = await obtenerTodasCategorias(tipo === "medicamentos" ? "medicamento": "dispositivo");
                 setCategorias(result.data)
             } catch (error) {
                 console.error(error);
@@ -136,10 +136,10 @@ const ProductosPagina = ({ tipo }) => {
                                 <TableTh>Categoría</TableTh>
                                 <TableTh>Cód. barras</TableTh>
                                 {tipo === "medicamentos" ? (<>
-                                    <TableTh>Forma farmacéutica</TableTh>
+                                    {/* <TableTh>Forma farmacéutica</TableTh>
                                     <TableTh>Concentración</TableTh>
                                     <TableTh>Presentación</TableTh>
-                                    <TableTh>Unidad médica</TableTh>
+                                    <TableTh>Unidad médica</TableTh> */}
                                 </>):(<>
                                     {/* <TableTh>Serie</TableTh>
                                     <TableTh>Presentación comercial</TableTh>
@@ -211,18 +211,16 @@ const ProductosPagina = ({ tipo }) => {
                                         </TableTd>
                                         
                                         {tipo === "medicamentos" ? (<>
-                                            <TableTd>{producto.formaFarmaceutica}</TableTd>
+                                            {/* <TableTd>{producto.formaFarmaceutica}</TableTd>
                                             <TableTd> {producto.concentracion} </TableTd>
                                             <TableTd>{producto.presentacionComercial} </TableTd>
-                                            <TableTd>{producto.unidadMedida} </TableTd>
-                                            <TableTd>{producto.stockRequerido}</TableTd>
+                                            <TableTd>{producto.unidadMedida} </TableTd> */}
                                         </>):(<>
                                             {/* <TableTd>{producto.serie}</TableTd>
                                             <TableTd>{producto.presentacionComercial}</TableTd>
                                             <TableTd>{producto.riesgo}</TableTd> */}
                                         </>)}
-                                            <TableTd>{producto.stockRequerido}</TableTd>
-
+                                        <TableTd>{producto.stockRequerido}</TableTd>
                                         <TableTd>
                                             <div className="flex gap-1">
                                                 <button 

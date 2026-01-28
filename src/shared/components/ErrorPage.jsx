@@ -22,7 +22,7 @@ export default function ErrorPage({ code = 404, message = "Página no encontrada
             <img src="/src/assets/images/error/404.svg" alt="404" className="dark:hidden" />
             <img src="/src/assets/images/error/404-dark.svg" alt="404" className="hidden dark:block" />
           </>) :(
-            <p className="text-2xl xl:text-9xl mb-8 font-bold text-blue-600 dark:text-white/90 ">403</p>
+            <p className="text-2xl xl:text-9xl mb-8 font-bold text-blue-600 dark:text-white/90 ">{code}</p>
           )}
 
           <p className="mb-6 mt-10 text-base text-gray-700 dark:text-gray-400 sm:text-lg">

@@ -1,4 +1,3 @@
-import GraficaComportamientoStock from "../../shared/components/GraficaComportamientoStock";
 import TarjetasStockProducto from "./components/producto/TarjetasStockProducto";
 import SubirImagenProducto from "./components/producto/SubirImagenProducto";
 import SkeletonElement from "@/shared/components/SkeletonElement";
@@ -8,7 +7,6 @@ import { useParams } from "react-router-dom";
 import Lotes from "./components/lotes/Lotes";
 import { useSelector } from "react-redux";
 import Movimientos from "./components/producto/Movimientos";
-import Barcode from "react-barcode";
 import { LuBarcode } from "react-icons/lu";
 import ModalMostrarCodigoBarras from "./components/productos/ModalMostrarCodigoBarras";
 import ComportamientoStock from "./components/producto/ComportamientoStock";
@@ -39,6 +37,7 @@ const ProductoPagina = ({ tipo }) => {
 
     return (<>
         <div className="mt-4">
+
             {/* Encabezado */}
             <div className="">
                 {loading && !producto && (<>
@@ -50,6 +49,7 @@ const ProductoPagina = ({ tipo }) => {
                         </div>
                     </h1>
                 </>)}
+
                 {!loading && producto && (<div className="flex items-center gap-4">
                     {/* Titulo */}
                     <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-200 flex gap-4 items-center">
@@ -75,24 +75,26 @@ const ProductoPagina = ({ tipo }) => {
                 </div>)}
 
                 <div>
-                    {loading && !producto && (<div className="grid rounded-2xl border border-gray-200 bg-white mt-3 dark:border-gray-800 dark:bg-white/[0.01] grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
-                        <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800 grid gap-2">
-                            <SkeletonElement className="w-[55%] h-[25px]"/>
-                            <SkeletonElement className="w-[75%] h-[25px]"/>
+                    {loading && !producto && (
+                        <div className="grid rounded-2xl border border-gray-200 bg-white mt-3 dark:border-gray-800 dark:bg-white/[0.01] grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+                            <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800 grid gap-2">
+                                <SkeletonElement className="w-[55%] h-[25px]"/>
+                                <SkeletonElement className="w-[75%] h-[25px]"/>
+                            </div>
+                            <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800 grid gap-2">
+                                <SkeletonElement className="w-[55%] h-[25px]"/>
+                                <SkeletonElement className="w-[75%] h-[25px]"/>
+                            </div>
+                            <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800 grid gap-2">
+                                <SkeletonElement className="w-[55%] h-[25px]"/>
+                                <SkeletonElement className="w-[75%] h-[25px]"/>
+                            </div>
+                            <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800 grid gap-2">
+                                <SkeletonElement className="w-[55%] h-[25px]"/>
+                                <SkeletonElement className="w-[75%] h-[25px]"/>
+                            </div>
                         </div>
-                        <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800 grid gap-2">
-                            <SkeletonElement className="w-[55%] h-[25px]"/>
-                            <SkeletonElement className="w-[75%] h-[25px]"/>
-                        </div>
-                        <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800 grid gap-2">
-                            <SkeletonElement className="w-[55%] h-[25px]"/>
-                            <SkeletonElement className="w-[75%] h-[25px]"/>
-                        </div>
-                        <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800 grid gap-2">
-                            <SkeletonElement className="w-[55%] h-[25px]"/>
-                            <SkeletonElement className="w-[75%] h-[25px]"/>
-                        </div>
-                    </div>)}
+                    )}
 
                     {!loading && producto && (<>
                         <div className={`grid rounded-2xl border border-gray-200 bg-white mt-5 dark:border-gray-800 dark:bg-white/[0.01] ${
