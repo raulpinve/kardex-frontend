@@ -1,5 +1,5 @@
 import React from 'react';
-import { LuBox, LuSettings, LuSyringe } from "react-icons/lu";
+import { LuBox, LuListChecks, LuSettings, LuSyringe } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { LuPill } from "react-icons/lu";
 import { NavLink } from 'react-router-dom';
@@ -39,18 +39,6 @@ const Sidebar = () => {
                     Menú
                 </h3>
                 
-                {/* Dashboard */}
-                <NavLink 
-                    to="/inventarios"
-                    onClick={handleSidebarLinkClick}
-                    className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
-                >
-                    <LuBox className="text-xl min-w-[24px]" />
-                    <span className={`transition-all duration-200 ${sidebarOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden"}`}>
-                        Inventarios
-                    </span>
-                </NavLink>
-                
                 {/* Medicamentos */}
                 <NavLink 
                     to="/medicamentos"
@@ -72,6 +60,18 @@ const Sidebar = () => {
                     <LuSyringe className="text-xl min-w-[24px]" />
                     <span className={`transition-all duration-200 ${sidebarOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden"}`}>
                         Dispositivos
+                    </span>
+                </NavLink>
+
+                {/* Cortes */}
+                <NavLink 
+                    to="/cortes"
+                    onClick={handleSidebarLinkClick}
+                    className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
+                >
+                    <LuListChecks className="text-xl min-w-[24px]" />
+                    <span className={`transition-all duration-200 ${sidebarOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden"}`}>
+                        Cortes
                     </span>
                 </NavLink>
 

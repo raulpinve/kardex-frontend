@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { handleErrorsBasic } from '@/utils/handleErrors';
 import SkeletonTable from '@/shared/components/SkeletonTable';
 
-const InventariosListadoCortesPagina = () => {
+const ListadoCortesPagina = () => {
     const [cortes, setCortes] = useState([]);
     const { id: almacenId } = useSelector(state => state?.almacen?.almacen);
     const [paginaActual, setPaginaActual] = useState(1);
@@ -51,7 +51,7 @@ const InventariosListadoCortesPagina = () => {
     }, [almacenId, paginaActual])
 
     const redireccionarInventariosCorte = (corteId) => {
-        navigate(`/inventarios/${corteId}/productos`)
+        navigate(`/cortes/${corteId}/productos`)
     }
 
     return (
@@ -179,4 +179,4 @@ const InventariosListadoCortesPagina = () => {
     );
 };
 
-export default InventariosListadoCortesPagina;
+export default ListadoCortesPagina;

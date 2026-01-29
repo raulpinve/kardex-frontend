@@ -59,3 +59,12 @@ export const obtenerEvolucionLoteCorte = (corteId, loteId) => {
             throw err
         })
 }
+
+export const obtenerEvolucionProductoCorte = (corteId, loteId) => {
+    const request = api.get(`/cortes/${corteId}/productos/${loteId}/evolucion`);
+    return request
+        .then(response => response.data)
+        .catch(err => {
+            throw err
+        })
+}

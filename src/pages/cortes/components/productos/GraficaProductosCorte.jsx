@@ -2,13 +2,14 @@ import Card from '@/shared/components/Card';
 import CardTitulo from '@/shared/components/CardTitulo';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { obtenerEvolucionLoteCorte } from '../../services/cortesServices';
+import { obtenerEvolucionProductoCorte } from '../../services/cortesServices';
 import { handleErrorsBasic } from '@/utils/handleErrors';
 import GraficaStock from '@/shared/components/GraficaStock';
 import { dateColombiaFormat } from '@/utils/utilities';
+import { LuLoaderCircle } from 'react-icons/lu';
 
-const GraficaLotesCorte = ({refreshKey}) => {
-    const {corteId, loteId} = useParams();
+const GraficaProductosCorte = () => {
+    const {corteId, productoId} = useParams();
     const [messageError, setMessageError] = useState();
     const [loading, setLoading] = useState();
     const [stock, setStock] = useState([]);
@@ -18,7 +19,7 @@ const GraficaLotesCorte = ({refreshKey}) => {
         const fetchEvolucionLote = async () => {
             setLoading(true);
             try {
-                const res = await obtenerEvolucionLoteCorte(corteId , loteId);
+                const res = await obtenerEvolucionProductoCorte(corteId , productoId);
                 setStock(res.data);
             } catch (error) {
                 handleErrorsBasic(error, setMessageError)
@@ -26,8 +27,8 @@ const GraficaLotesCorte = ({refreshKey}) => {
                 setLoading(false);
             }
         }
-        if(corteId, loteId) fetchEvolucionLote()
-    }, [refreshKey, corteId, loteId])
+        if(corteId, productoId) fetchEvolucionLote()
+    }, [ corteId, productoId])
 
     if(messageError){
         return 
@@ -35,7 +36,10 @@ const GraficaLotesCorte = ({refreshKey}) => {
 
     return (
         <Card>
-            <CardTitulo>Evolución de stock del lote en el corte</CardTitulo>
+            <CardTitulo>Evolución de stock del produto en el corte</CardTitulo>
+            {loading && !stock && (<>
+                <LuLoaderCircle />
+            </>)}
 
             {/* Información general */}
             <div className="dark:text-gray-200 text-sm mt-2">
@@ -56,4 +60,4 @@ const GraficaLotesCorte = ({refreshKey}) => {
     );
 };
 
-export default GraficaLotesCorte;
+export default GraficaProductosCorte;

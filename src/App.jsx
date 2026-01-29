@@ -26,10 +26,10 @@ import Layout from "./shared/components/Layout";
 import SeleccionarAlmacenPage from "./shared/components/SeleccionarAlmacenPage";
 import RequireAlmacen from "./shared/components/RequireAlmacen";
 import { deleteAlmacen, setAlmacen } from "./store/almacenSlice";
-import InventariosListadoCortesPagina from "./pages/inventarios/InventariosListadoCortesPagina";
-import InventariosListadoProductosPagina from "./pages/inventarios/InventariosListadoProductosPagina";
-import InventariosProductoPagina from "./pages/inventarios/InventariosProductoPagina";
-import InventariosLotePagina from "./pages/inventarios/InventariosLotePagina";
+import ListadoCortesPagina from "./pages/cortes/ListadoCortesPagina";
+import CortesProductosPagina from "./pages/cortes/InventariosListadoProductosPagina";
+import CortesProductoPagina from "./pages/cortes/CortesProductoPagina";
+import CortesLotePagina from "./pages/cortes/InventariosLotePagina";
 
 function App() {
   const dispatch = useDispatch();
@@ -104,10 +104,8 @@ function App() {
             {/* Rutas que requieren de empresa */}
             <Route path={`/seleccionar-almacen`} element={<SeleccionarAlmacenPage />}/>
             <Route element={<RequireAlmacen />}>
-              <Route path="/inventarios" element={<InventariosListadoCortesPagina />}/>
-              <Route path="/inventarios/:corteId/productos" element={<InventariosListadoProductosPagina />}/>
-              <Route path="/inventarios/:tipo/:corteId/:productoId/producto" element={<InventariosProductoPagina />}/>
-              <Route path="/inventarios/:corteId/:loteId/lote" element={<InventariosLotePagina/>}/>
+  
+
               <Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
               <Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
               <Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>
@@ -115,6 +113,12 @@ function App() {
               <Route path="/medicamentos/lotes/:loteId" element={<LotePagina/>}/>
               <Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
               <Route path="/lotes/:loteId" element={< LotePagina/>}/>
+
+              {/* Routes */}
+              <Route path="/cortes" element={<ListadoCortesPagina />}/>
+              <Route path="/cortes/:corteId/productos" element={<CortesProductosPagina />}/>
+              <Route path="/cortes/:tipo/:corteId/:productoId/producto" element={<CortesProductoPagina />}/>
+              <Route path="/cortes/:corteId/:loteId/lote" element={<CortesLotePagina />}/>
             </Route>
           </Route>
           <Route path="/" element={<Navigate to="/inventarios" replace />} />

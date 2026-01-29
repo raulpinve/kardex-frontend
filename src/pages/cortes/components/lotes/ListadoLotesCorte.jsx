@@ -6,7 +6,7 @@ import Pagination from '../../../../shared/components/Pagination';
 import { useNavigate, useParams } from 'react-router-dom';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import useDebounce from '../../../../shared/hooks/useDebounce';
-import { dateColombiaFormat, obtenerEstadoVencimiento } from '@/utils/utilities';
+import { dateColombiaFormat, formatCantidad, obtenerEstadoVencimiento } from '@/utils/utilities';
 import TableThead from '@/shared/components/TableThead';
 import TableTh from '@/shared/components/TableTh';
 import Table from '@/shared/components/Table';
@@ -48,7 +48,7 @@ const ListadoLotesCorte = ({ corteId }) => {
 	}, [corteId, productoId, debouncedConsulta, consulta, paginaActual]);
 
 	const redireccionar = (loteId) => {
-		navigate(`/inventarios/${corteId}/${loteId}/lote`);
+		navigate(`/cortes/${corteId}/${loteId}/lote`);
 	};
 
 	return (
@@ -118,10 +118,10 @@ const ListadoLotesCorte = ({ corteId }) => {
 											</p>
 										</div>
 									</TableTd>
-									<TableTd>{lote.stockInicial ?? "---"}</TableTd>
-									<TableTd>{lote.ingresos ?? "---"}</TableTd>
-									<TableTd>{lote.salidas ?? "---"}</TableTd>
-									<TableTd>{lote.stockFinal ?? "---"}</TableTd>
+									<TableTd>{formatCantidad(lote.stockInicial)}</TableTd>
+									<TableTd>{formatCantidad(lote.ingresos)}</TableTd>
+									<TableTd>{formatCantidad(lote.salidas)}</TableTd>
+									<TableTd>{formatCantidad(lote.stockFinal)}</TableTd>
 								</TableTr>
 							)
 						})}

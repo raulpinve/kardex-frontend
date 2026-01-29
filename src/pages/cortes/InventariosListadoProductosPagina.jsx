@@ -5,7 +5,7 @@ import Spinner from "../../shared/components/Spinner";
 import React, { useEffect, useState } from "react";
 import ErrorPage from "@/shared/components/ErrorPage";
 
-const InventariosListadoProductosPagina = () => {
+const CortesProductosPagina = () => {
     const {corteId} = useParams();
     const [corte, setCorte]= useState(null);
     const [ error, setError ] = useState(null);
@@ -40,7 +40,7 @@ const InventariosListadoProductosPagina = () => {
         <>
             {/* Titulo de la página */}
             <div className="gap-2 mt-3">
-                <h1 className="text-2xl text-gray-800 dark:text-gray-200 font-semibold">Kardex</h1>
+                <h1 className="text-2xl text-gray-800 dark:text-gray-200 font-semibold">Cortes</h1>
                 <p className="dark:text-gray-500 text-gray-700">{corte?.nombre}</p>
             </div>
 
@@ -54,4 +54,4 @@ const InventariosListadoProductosPagina = () => {
     );
 };
 
-export default InventariosListadoProductosPagina;
+export default CortesProductosPagina;

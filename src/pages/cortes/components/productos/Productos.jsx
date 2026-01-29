@@ -5,7 +5,7 @@ import Pagination from '../../../../shared/components/Pagination';
 import { LuBarcode, LuChevronDown, LuCircleAlert, LuCircleCheck, LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { Tooltip } from 'react-tooltip';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import { host } from '../../../../utils/config';
 import imageDefault from "../../../../assets/images/image-default.png";
@@ -13,46 +13,6 @@ import ModalAbrirImagenPerfil from '../../../../shared/components/ModalAbrirImag
 import { obtenerTodasCategorias } from '@/pages/productos/services/categoriaServices';
 import ModalMostrarCodigoBarras from '@/pages/productos/components/productos/ModalMostrarCodigoBarras';
 import { obtenerProductosCorte } from '../../services/productosServices';
-
-// Componente para mostrar el estado del stock
-const StockStatus = ({ stockRequerido, stockFinal }) => {
-    const cantidadApedir = stockFinal- stockRequerido;
-  
-    // Función que genera el estilo y el mensaje según el estado
-    const renderStockStatus = () => {
-        if (cantidadApedir < 0) {
-            return {
-                text: `${-cantidadApedir} unidades por debajo del nivel requerido`,
-                bgColor: 'bg-red-200 dark:bg-gray-900',
-                textColor: 'text-red-600',
-                icon: <LuCircleAlert className="inline-block relative -top-[2px] ml-1" />,
-                cantidad: -cantidadApedir
-            };
-        }
-    
-        return {
-            text: `${cantidadApedir === 0 ? "Stock justo al nivel requerido." : `${cantidadApedir} unidades por encima del nivel requerido`}`,
-            bgColor: 'bg-green-200 dark:bg-gray-900',
-            textColor: 'text-green-800',
-            icon: <LuCircleCheck className="inline-block relative -top-[2px] ml-1" />,
-            cantidad: cantidadApedir
-        };
-    }
-  
-    const { text, bgColor, textColor, icon, cantidad } = renderStockStatus();
-  
-    return (
-      <span
-        className={`inline-block dark:text-gray-400 ${bgColor} ${textColor} py-2 px-3 text-xs rounded-2xl`}
-        data-tooltip-id="guardar"
-        data-tooltip-content={text}
-        aria-label={text}
-      >
-        <span className="inline-block">{cantidad}</span>
-        {icon}
-      </span>
-    );
-};
 
 const Productos = ({ tipo, corteId }) => {
     const [paginaActual, setPaginaActual] = useState(1);
@@ -90,7 +50,7 @@ const Productos = ({ tipo, corteId }) => {
     }, [corteId, tipo, paginaActual, debouncedConsulta, categoriaSeleccionada]);
 
     const redireccionarProductoCorte = (tipo, corteId, productoId) => {
-        navigate(`/inventarios/${tipo}/${corteId}/${productoId}/producto`)
+        navigate(`/cortes/${tipo}/${corteId}/${productoId}/producto`)
     }
 
     // Obtener categorias

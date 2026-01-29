@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CardStockInformation from "@/shared/components/CardStockInformation";
 import { obtenerStockDisponible } from "../../services/productoServices";
+import { formatCantidad } from "@/utils/utilities";
 
 const TarjetasStockProducto = ({ tipo, productoId }) => {
     const [loading, setLoading] = useState(true);
@@ -38,7 +39,7 @@ const TarjetasStockProducto = ({ tipo, productoId }) => {
                 {/* Stock requerido */}
                 <CardStockInformation 
                     titulo={`Stock requerido`}
-                    value={producto?.stockRequerido}
+                    value={formatCantidad(producto?.stockRequerido)}
                     tipo="stockRequerido"
                     loading={loading}
                 />
@@ -47,7 +48,7 @@ const TarjetasStockProducto = ({ tipo, productoId }) => {
                 <CardStockInformation 
                     titulo={`Stock disponible`}
                     tipo="stockFinal"
-                    value={producto?.stockDisponible}
+                    value={formatCantidad(producto?.stockDisponible)}
                     loading={loading}
                 />
 
@@ -55,7 +56,7 @@ const TarjetasStockProducto = ({ tipo, productoId }) => {
                 <CardStockInformation 
                     titulo={`Cantidad a pedir`}
                     tipo="cantidadPedir"
-                    value={producto?.stockStatus}
+                    value={formatCantidad(producto?.stockStatus)}
                     loading={loading}
                 />
             </div>

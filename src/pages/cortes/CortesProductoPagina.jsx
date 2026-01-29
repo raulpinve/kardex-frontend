@@ -6,12 +6,13 @@ import SkeletonElement from '@/shared/components/SkeletonElement';
 import SubirImagenProducto from '../productos/components/producto/SubirImagenProducto';
 import ModalMostrarCodigoBarras from '../productos/components/productos/ModalMostrarCodigoBarras';
 import { LuBarcode } from 'react-icons/lu';
-// import LotesCorte from './components/productos/LotesCorte';
 import { obtenerCorte } from './services/cortesServices';
 import { obtenerProducto } from './services/productosServices';
 import ListadoLotesCorte from './components/lotes/ListadoLotesCorte';
+import ListadoMovimientosProductosCorte from './components/movimientos/ListadoMovimientosProductosCorte';
+import GraficaProductosCorte from './components/productos/GraficaProductosCorte';
 
-const InventariosProductoPagina = () => {
+const CortesProductoPagina = () => {
     const [mensajeError, setMensajeError] = useState();
     const [loading, setLoading] = useState(true);
     const [producto, setProducto] = useState();
@@ -54,7 +55,7 @@ const InventariosProductoPagina = () => {
                 <div className=''>
                     {!loading && corte && (
                         <div className="gap-2 ">
-                            <h1 className="text-2xl text-gray-800 dark:text-gray-200 font-semibold">Kardex</h1>
+                            <h1 className="text-2xl text-gray-800 dark:text-gray-200 font-semibold">Cortes</h1>
                             <p className="dark:text-gray-500 text-gray-700">{corte?.nombre}</p>
                         </div>
                     )}
@@ -103,9 +104,9 @@ const InventariosProductoPagina = () => {
             {!mensajeError && !loading && (<>
                 <TarjetasInformacionStockProducto  corteId={corteId} productoId={productoId}/> 
                 <div className="mt-4 grid gap-4">
-                    {/* <GraficaComportamientoStock corteId={corteId} /> */}
                     <ListadoLotesCorte corteId={corteId} />
-                    {/* <Movimientos corteId={corteId} productoId={productoId} /> */}
+                    <GraficaProductosCorte />
+                    <ListadoMovimientosProductosCorte />
                 </div>
             </>)}
 
@@ -119,4 +120,4 @@ const InventariosProductoPagina = () => {
     );
 };
 
-export default InventariosProductoPagina;
+export default CortesProductoPagina;

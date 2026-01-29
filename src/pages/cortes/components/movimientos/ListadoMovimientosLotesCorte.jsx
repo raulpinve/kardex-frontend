@@ -14,7 +14,7 @@ import ModalCrearMovimientos from './ModalCrearMovimientos';
 import { useParams } from 'react-router-dom';
 import { obtenerMovimientosLotesCorte } from '../../services/movimientosServices';
 import useDebounce from '@/shared/hooks/useDebounce';
-import { formatFechaCorte } from '@/utils/utilities';
+import { formatCantidad, formatFechaCorte } from '@/utils/utilities';
 import Pagination from '@/shared/components/Pagination';
 import ModalEditarMovimientos from './ModalEditarMovimientos';
 import ModalEliminarMovimientos from './ModalEliminarMovimientos';
@@ -62,14 +62,6 @@ const ListadoMovimientosLotesCorte = (props) => {
             <div className="flex justify-between items-center">
                 <CardTitulo>Movimientos</CardTitulo>
                 <div className="flex gap-1 items-center justify-between">
-                    <Button
-                        type="button"
-                        colorButton="primary"
-                        onClick={() => setModalActivo("crear-movimiento")}
-                    >   
-                        Crear 
-                    </Button>
-
                     {/* Buscar en movimientos */}
                     <div className="relative hidden">
                         <LuSearch className="absolute left-3.5 top-3 text-gray-600 text-lg dark:text-gray-800" />
@@ -135,7 +127,7 @@ const ListadoMovimientosLotesCorte = (props) => {
                             <TableTr key={movimiento.id}>
                                 <TableTd>{ formatFechaCorte(movimiento.fecha) }</TableTd>
                                 <TableTd className='capitalize'>{ movimiento.tipo }</TableTd>
-                                <TableTd>{ movimiento.cantidad }</TableTd>
+                                <TableTd>{ formatCantidad(movimiento.cantidad) }</TableTd>
                                 <TableTd>{ movimiento.descripcion || "---" }</TableTd>
                                 <TableTd>
                                     <div className="flex gap-2">

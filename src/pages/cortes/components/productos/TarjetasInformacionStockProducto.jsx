@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import CardStockInformation from "@/shared/components/CardStockInformation";
 import { obtenerResumenProductoCorte } from "../../services/productosServices";
+import { formatCantidad } from "@/utils/utilities";
 
-const TarjetasInformacionStockProducto = ({corteId, productoId, refreshStock}) => {
+const TarjetasInformacionStockProducto = ({corteId, productoId}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
     const [stock, setStock] = useState();
@@ -28,7 +29,7 @@ const TarjetasInformacionStockProducto = ({corteId, productoId, refreshStock}) =
             setError(null)
             setLoading(null)
         }
-    }, [corteId, productoId, refreshStock])
+    }, [corteId, productoId])
 
     if(error) return
 
@@ -38,7 +39,7 @@ const TarjetasInformacionStockProducto = ({corteId, productoId, refreshStock}) =
                 {/* Stock inicial */}
                 <CardStockInformation 
                     titulo={`Stock inicial`}
-                    value={stock?.stockInicial}
+                    value={formatCantidad(stock?.stockInicial)}
                     tipo="stockInicial"
                     loading={loading}
                 />
@@ -47,7 +48,7 @@ const TarjetasInformacionStockProducto = ({corteId, productoId, refreshStock}) =
                 <CardStockInformation 
                     titulo={`Ingresos`}
                     tipo="ingresos"
-                    value={stock?.ingresos}
+                    value={formatCantidad(stock?.ingresos)}
                     loading={loading}
                 />
 
@@ -55,7 +56,7 @@ const TarjetasInformacionStockProducto = ({corteId, productoId, refreshStock}) =
                 <CardStockInformation 
                     titulo={`Salidas`}
                     tipo="salidas"
-                    value={stock?.salidas}
+                    value={formatCantidad(stock?.salidas)}
                     loading={loading}
                 />
                 
@@ -63,7 +64,7 @@ const TarjetasInformacionStockProducto = ({corteId, productoId, refreshStock}) =
                 <CardStockInformation 
                     titulo={`Stock final`}
                     tipo="stockFinal"
-                    value={stock?.stockFinal}
+                    value={formatCantidad(stock?.stockFinal)}
                     loading={loading}
                 />
             </div>

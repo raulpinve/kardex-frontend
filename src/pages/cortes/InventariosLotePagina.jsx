@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Spinner from '@/shared/components/Spinner';
-// import GraficaComportamientoStock from '@/shared/components/GraficaComportamientoStock';
-// import Movimientos from './components/lotes/Movimientos';
 import TarjetasInformacionStockLote from './components/lotes/TarjetasInformacionStockLote';
 import { obtenerCorte } from './services/cortesServices';
 import { obtenerLote } from './services/lotesServices';
@@ -13,7 +11,7 @@ import ModalMostrarCodigoBarras from '../productos/components/productos/ModalMos
 import ListadoMovimientosLotesCorte from './components/movimientos/ListadoMovimientosLotesCorte';
 import GraficaLotesCorte from './components/lotes/GraficaLotesCorte';
 
-const InventariosLotePagina = () => {
+const CortesLotePagina = () => {
     const [modalActivo, setModalActivo] = useState();
     const [loading, setLoading] = useState(true);
     const [ corte, setCorte ] = useState();
@@ -59,7 +57,7 @@ const InventariosLotePagina = () => {
         
         {!loading && corte && (
             <div className="gap-2 mt-3">
-                <h1 className="text-2xl text-gray-800 dark:text-gray-200 font-semibold">Kardex</h1>
+                <h1 className="text-2xl text-gray-800 dark:text-gray-200 font-semibold">Cortes</h1>
                 <p className="dark:text-gray-500 text-gray-700">{corte?.nombre}</p>
             </div>
         )}
@@ -107,4 +105,4 @@ const InventariosLotePagina = () => {
     </>);
 };
 
-export default InventariosLotePagina;
+export default CortesLotePagina;

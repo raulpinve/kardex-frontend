@@ -10,6 +10,7 @@ import Movimientos from "./components/producto/Movimientos";
 import { LuBarcode } from "react-icons/lu";
 import ModalMostrarCodigoBarras from "./components/productos/ModalMostrarCodigoBarras";
 import ComportamientoStock from "./components/producto/ComportamientoStock";
+import ListadoLotesProducto from "./components/lotes/ListadoLotesProducto";
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();
@@ -177,8 +178,9 @@ const ProductoPagina = ({ tipo }) => {
         </div>
 
         <div className="grid gap-6 mt-6">
-            <ComportamientoStock />
-            <Lotes tipo={tipo} productoId={productoId} />
+            {/* <ComportamientoStock /> */}
+            {/* <Lotes tipo={tipo} productoId={productoId} /> */}
+            <ListadoLotesProducto />
             <Movimientos productoId={productoId} tipoMovimiento="producto"/>
         </div> 
 
