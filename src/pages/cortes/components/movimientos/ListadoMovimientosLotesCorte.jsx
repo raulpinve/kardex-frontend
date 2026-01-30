@@ -1,4 +1,3 @@
-import Button from '@/shared/components/Button';
 import Card from '@/shared/components/Card';
 import CardTitulo from '@/shared/components/CardTitulo';
 import SkeletonTable from '@/shared/components/SkeletonTable';
@@ -9,24 +8,18 @@ import TableTh from '@/shared/components/TableTh';
 import TableThead from '@/shared/components/TableThead';
 import TableTr from '@/shared/components/TableTr';
 import React, { useEffect, useState } from 'react';
-import { LuCalendar, LuEraser, LuPencil, LuSearch } from 'react-icons/lu';
-import ModalCrearMovimientos from './ModalCrearMovimientos';
+import { LuSearch } from 'react-icons/lu';
 import { useParams } from 'react-router-dom';
 import { obtenerMovimientosLotesCorte } from '../../services/movimientosServices';
 import useDebounce from '@/shared/hooks/useDebounce';
 import { formatCantidad, formatFechaCorte } from '@/utils/utilities';
 import Pagination from '@/shared/components/Pagination';
-import ModalEditarMovimientos from './ModalEditarMovimientos';
-import ModalEliminarMovimientos from './ModalEliminarMovimientos';
 
-const ListadoMovimientosLotesCorte = (props) => {
-    const {onCambioMovimientos} = props;
+const ListadoMovimientosLotesCorte = () => {
     const [movimientos, setMovimientos] = useState([]);
-    const [modalActivo, setModalActivo] = useState();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
     const {loteId, corteId} = useParams();
-    const [movimientoSeleccionado, setMovimientoSeleccionado] = useState();
     const [paginaActual, setPaginaActual] = useState();
     const [totalPaginas, setTotalPaginas] = useState();
     const [consulta, setConsulta] = useState("");
@@ -108,7 +101,6 @@ const ListadoMovimientosLotesCorte = (props) => {
                             <TableTh>Tipo</TableTh>
                             <TableTh>Cantidad</TableTh>
                             <TableTh>Descripción</TableTh>
-                            <TableTh>Acciones</TableTh>
                         </TableTr>
                     </TableThead>
                     {loading && <SkeletonTable rows={7} columns={5} />}
@@ -129,36 +121,11 @@ const ListadoMovimientosLotesCorte = (props) => {
                                 <TableTd className='capitalize'>{ movimiento.tipo }</TableTd>
                                 <TableTd>{ formatCantidad(movimiento.cantidad) }</TableTd>
                                 <TableTd>{ movimiento.descripcion || "---" }</TableTd>
-                                <TableTd>
-                                    <div className="flex gap-2">
-                                        <button 
-                                            className="cursor-pointer p-1"
-                                            title="Editar movimiento"
-                                            onClick={e => {
-                                                e.stopPropagation();
-                                                setModalActivo("editar-movimiento"); 
-                                                setMovimientoSeleccionado(movimiento);
-                                            }}
-                                        >
-                                            <LuPencil />
-                                        </button>
-                                        <button 
-                                            className="cursor-pointer p-1"
-                                            title="Eliminar movimiento"
-                                            onClick={e => {
-                                                e.stopPropagation();
-                                                setModalActivo("eliminar-movimiento");
-                                                setMovimientoSeleccionado(movimiento);
-                                            }}
-                                        >
-                                            <LuEraser />
-                                        </button> 
-                                    </div>
-                                </TableTd>
                             </TableTr>
                         ))}
                     </TableTbody>
                 </Table>
+
                 {/* Paginación */}
                 <Pagination
                     paginaActual={paginaActual}
@@ -166,32 +133,6 @@ const ListadoMovimientosLotesCorte = (props) => {
                     onPageChange={setPaginaActual}
                 />
             </div>
-
-            {modalActivo === "crear-movimiento" && (
-                <ModalCrearMovimientos 
-                    setMovimientos = {setMovimientos}
-                    cerrarModal = {() => setModalActivo(null)}
-                    onCambioMovimientos= {onCambioMovimientos}
-                />
-            )}
-
-            {modalActivo === "editar-movimiento" && (
-                <ModalEditarMovimientos 
-                    setMovimientos = {setMovimientos}
-                    movimientoSeleccionado = {movimientoSeleccionado}
-                    cerrarModal = {() => setModalActivo(null)}
-                    onCambioMovimientos= {onCambioMovimientos}
-                />
-            )}
-
-            {modalActivo === "eliminar-movimiento" && (
-                <ModalEliminarMovimientos
-                    setMovimientos = {setMovimientos}
-                    movimientoSeleccionado = {movimientoSeleccionado}
-                    cerrarModal = {() => setModalActivo(null)}
-                    onCambioMovimientos= {onCambioMovimientos}
-                />
-            )}
         </Card>
     );
 };

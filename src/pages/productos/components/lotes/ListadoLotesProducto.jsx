@@ -1,35 +1,38 @@
 import useDebounce from '@/shared/hooks/useDebounce';
 import React, { useEffect, useState } from 'react';
-import { obtenerLotes } from '../../services/loteServices';
 import TableThead from '@/shared/components/TableThead';
 import TableTr from '@/shared/components/TableTr';
 import TableTh from '@/shared/components/TableTh';
 import Table from '@/shared/components/Table';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import Card from '@/shared/components/Card';
 import CardTitulo from '@/shared/components/CardTitulo';
 import Button from '@/shared/components/Button';
-import { LuEraser, LuPencil, LuRefreshCcw, LuSearch } from 'react-icons/lu';
+import { LuEraser, LuMinus, LuPencil, LuPlus, LuSearch } from 'react-icons/lu';
 import SkeletonTable from '@/shared/components/SkeletonTable';
 import TableTbody from '@/shared/components/TableTbody';
 import TableTd from '@/shared/components/TableTd';
 import { dateColombiaFormat, formatCantidad, obtenerEstadoVencimiento } from '@/utils/utilities';
+import ModalCrearLote from './ModalCrearLote';
+import ModalEditarLote from './ModalEditarLote';
+import ModalEliminarLote from './ModalEliminarLote';
+import Pagination from '@/shared/components/Pagination';
+import ModalCrearMovimientos from './CrearMovimiento';
+import { useNavigate, useParams } from 'react-router-dom';
+import { obtenerLotes } from '../../services/loteServices';
 
-const ListadoLotesProducto = ({ tipo }) => {
+const ListadoLotesProducto = ({ tipoProducto }) => {
+    const [tipoMovimientoSeleccionado, setTipoMovimientoSeleccionado] = useState();
+    const [loteSeleccionado, setLoteSeleccionado] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [lotes, setLotes] = useState([]);
-    const [loteSeleccionado, setLoteSeleccionado] = useState(null);
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [modalActivo, setModalActivo] = useState(); 
-    const {productoId} = useParams();
-    const token = useSelector(state => state.auth.token);
     const [consulta, setConsulta] = useState("");
-    const navigate = useNavigate();
-
     const debouncedConsulta = useDebounce(consulta, 500);
+    const navigate = useNavigate();
+    const {productoId} = useParams();
 
     // Obtener lotes
     useEffect(() => {
@@ -48,10 +51,10 @@ const ListadoLotesProducto = ({ tipo }) => {
             }
         }
         fetchCategorias();
-    }, [debouncedConsulta, paginaActual, token, productoId, tipo]);
-    
-    const irALote = (loteId) => {
-        navigate(`/${tipo}/lotes/${loteId}`)
+    }, [debouncedConsulta, paginaActual, productoId, tipoProducto]);
+
+    const irLote = (loteId) =>{
+        navigate(`/${tipoProducto}/lotes/${loteId}`)
     }
 
     return (
@@ -64,7 +67,7 @@ const ListadoLotesProducto = ({ tipo }) => {
                         type="button"
                         colorButton="primary"
                         onClick={() => {
-                            setModalActivo("crear")
+                            setModalActivo("crear-lote")
                         }}
                     >   
                         Crear  
@@ -81,16 +84,6 @@ const ListadoLotesProducto = ({ tipo }) => {
                             }}
                         />
                     </div>
-                    <Button
-                        type="button"
-                        colorButton="secondary"
-                        className="hidden md:block"
-                        onClick={() => {
-                            setPaginaActual(1)
-                        }}
-                    >
-                        <LuRefreshCcw />
-                    </Button>
                 </div>
             </div>
 
@@ -102,13 +95,11 @@ const ListadoLotesProducto = ({ tipo }) => {
                             <TableTh>Número de lote</TableTh>
                             <TableTh>Registro sanitario</TableTh>
                             <TableTh>Fecha de vencimiento</TableTh>
-                            <TableTh>Stock disponible</TableTh>
-                            <TableTh>Acciones</TableTh>
+                            <TableTh className='text-center'>Stock disponible</TableTh>
+                            <TableTh className='text-center'>Acciones</TableTh>
                         </TableTr>
                     </TableThead>
-
                     {loading && <SkeletonTable rows={7} columns={5}/>}
-
                     <TableTbody>
                         {/* Display error */}
                         {!loading && error && (<TableTr>
@@ -125,57 +116,118 @@ const ListadoLotesProducto = ({ tipo }) => {
                                 const { estado, color } = obtenerEstadoVencimiento(lote.fechaVencimiento);
 
                                 return (<TableTr
-                                        key={lote.id}
-                                        className={`cursor-pointer text-sm`}
-                                        onClick={() => irALote(lote.id)}
-                                    >
-                                        <TableTd>{lote.numeroLote}</TableTd>
-                                        <TableTd>{lote.registroSanitario}</TableTd>
-                                        <TableTd>
-                                            <div className="py-3 px-4 lg:flex lg:gap-2 items-center">
-                                                <p>{dateColombiaFormat(lote.fechaVencimiento)}</p>
-                                                <p className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${color}`}>
-                                                    {estado}
-                                                </p>
-                                            </div>
-                                        </TableTd>
-                                        <TableTd>
-                                            {formatCantidad(lote.stockDisponible)}
-                                        </TableTd>
-                                        <TableTd>
-                                            <div className="text-gray-700 dark:text-gray-400 flex gap-2">
+                                    key={lote.id}
+                                    className={`cursor-pointer text-sm `}
+                                    onClick={() => {
+                                        irLote(lote.id)
+                                    }}
+                                >
+                                    <TableTd>{lote.numeroLote}</TableTd>
+                                    <TableTd>{lote.registroSanitario}</TableTd>
+                                    <TableTd>
+                                        <div className="py-3 px-4 lg:flex lg:gap-2 items-center">
+                                            <p>{dateColombiaFormat(lote.fechaVencimiento)}</p>
+                                            <p className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${color}`}>
+                                                {estado}
+                                            </p>
+                                        </div>
+                                    </TableTd>
+                                    <TableTd className='text-center'>
+                                        {formatCantidad(lote.stockDisponible)}
+                                    </TableTd>
+                                    <TableTd>
+                                        <div className="text-gray-700 dark:text-gray-400 flex gap-1 justify-center ">
+                                            <div className='flex items-center gap-2'>
                                                 <button
-                                                    className="cursor-pointer p-1"
-                                                    title="Editar lote"
+                                                    className="cursor-pointer px-2 py-1 bg-green-600 text-white rounded-lg text-xs flex items-center gap-1"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        setModalActivo("editar");
+                                                        setModalActivo("crear-movimiento");
+                                                        setTipoMovimientoSeleccionado("entrada");
                                                         setLoteSeleccionado(lote);
                                                     }}
                                                 >
-                                                    <LuPencil />
+                                                    <LuPlus /> Ingreso
                                                 </button>
                                                 <button
-                                                    className="cursor-pointer p-1"
-                                                    title="Eliminar lote"
+                                                    className="cursor-pointer px-2 py-1 bg-red-600 text-white rounded-lg text-xs flex items-center gap-1"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
+                                                        setModalActivo("crear-movimiento");
+                                                        setTipoMovimientoSeleccionado("salida");
                                                         setLoteSeleccionado(lote);
-                                                        setModalActivo("eliminar");
                                                     }}
                                                 >
-                                                    <LuEraser />
+                                                    <LuMinus /> Salida
                                                 </button>
                                             </div>
-                                        </TableTd>
-                                    </TableTr>)
+                                            <button
+                                                className="cursor-pointer p-1"
+                                                title="Editar lote"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setModalActivo("editar-lote");
+                                                    setLoteSeleccionado(lote);
+                                                }}
+                                            >
+                                                <LuPencil />
+                                            </button>
+                                            <button
+                                                className="cursor-pointer p-1"
+                                                title="Eliminar lote"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setLoteSeleccionado(lote);
+                                                    setModalActivo("eliminar-lote");
+                                                }}
+                                            >
+                                                <LuEraser />
+                                            </button>
+                                        </div>
+                                    </TableTd>
+                                </TableTr>)
                             })
                         )}
-                        
                     </TableTbody>
                 </Table>
-
+                <Pagination
+                    paginaActual={paginaActual}
+                    totalPaginas={totalPaginas}
+                    onPageChange={setPaginaActual}
+                />
             </div>
+
+            {modalActivo === "crear-lote" && (
+                <ModalCrearLote 
+                    setLotes = {setLotes}
+                    cerrarModal = {() => setModalActivo(null)}
+                />
+            )}
+
+            {modalActivo === "editar-lote" && (
+                <ModalEditarLote 
+                    setLotes = {setLotes}
+                    cerrarModal = {() => setModalActivo(null)}
+                    loteSeleccionado = {loteSeleccionado}
+                />
+            )}
+
+            {modalActivo === "eliminar-lote" && (
+                <ModalEliminarLote 
+                    setLotes = {setLotes}
+                    cerrarModal = {() => setModalActivo(null)}
+                    loteSeleccionado = {loteSeleccionado}
+                />
+            )}
+
+            {modalActivo === "crear-movimiento" && (
+                <ModalCrearMovimientos 
+                    loteSeleccionado = {loteSeleccionado}
+                    tipoMovimiento = {tipoMovimientoSeleccionado}
+                    cerrarModal = {() => setModalActivo(null)}
+                    setLotes = {setLotes}
+                />
+            )}
         </Card>
     );
 };

@@ -6,16 +6,15 @@ import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
-import { crearLote } from "../../services/loteServices";
+import { useParams } from "react-router-dom";
 
 const ModalCrearLote = (props) => {
-    const { cerrarModal, setLotes, productoId} = props;
-    const [messageError, setMessageError] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange"})
     const token = useSelector(state => state.auth.token);
-    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ 
-        mode: "onChange"
-    })
+    const [messageError, setMessageError] = useState(false);
+    const { cerrarModal, setLotes} = props;
+    const [loading, setLoading] = useState(false);
+    const {productoId}= useParams();
 
     const onSubmit = async(values) => {
         setMessageError(false)

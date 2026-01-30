@@ -1,40 +1,43 @@
 import Button from '@/shared/components/Button';
 import MessageError from '@/shared/components/MessageError';
 import Modal from '@/shared/components/Modal';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuChevronDown } from 'react-icons/lu';
-import { crearMovimiento } from '../../services/movimientosServices';
-import { useParams } from 'react-router-dom';
-import { toast } from 'sonner';
 import { handleErrors } from '@/utils/handleErrors';
+import { crearMovimiento } from '../../services/movimientoServices';
 
 const ModalCrearMovimientos = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" });
     const [ messageError, setMessageError ] = useState();
     const [ loading, setLoading ] = useState(false);
-    const { cerrarModal, setMovimientos, onCambioMovimientos } = props;
-    const { loteId } = useParams();
+    const { cerrarModal, setMovimientos, tipoMovimiento, loteSeleccionado, setLotes } = props;
 
      const onSubmit = async(values) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const respuesta = await crearMovimiento({
+            const res = await crearMovimiento({
                 ...values, 
-                loteId,
+                loteId: loteSeleccionado?.id,
             })
-            const data = respuesta.data;
-            if(data){
-                setMovimientos(prevMovimientos => [data, ...prevMovimientos]);
-                cerrarModal();
-                setValue("tipo", "");
-                setValue("cantidad", "");
-                setValue("fecha", "");
-                setValue("descripcion", "");
-            }
-            onCambioMovimientos()
-            toast.success("Movimiento creado exitosamente.");
+            cerrarModal();
+            setValue("tipo", "");
+            setValue("cantidad", "");
+            setValue("fecha", "");
+            setValue("descripcion", "");
+
+            setLotes(prevLotes =>
+                prevLotes.map(lote =>
+                    lote.id === loteSeleccionado?.id
+                    ? {
+                        ...lote,
+                        stockDisponible: res?.data?.nuevoStockLote
+                    }
+                    : lote
+                )
+            );
+
         } catch (error) {
             console.log(error)
             handleErrors(error, setError, setMessageError);
@@ -43,11 +46,15 @@ const ModalCrearMovimientos = (props) => {
         }
     }
 
+    useEffect(() => {
+        setValue("tipo", tipoMovimiento)
+    }, [tipoMovimiento, setValue])
+
     return (
         <Modal
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
-            title={"Crear movimiento"}
+            title={`Crear movimiento en ${loteSeleccionado?.numeroLote}`}
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -68,7 +75,7 @@ const ModalCrearMovimientos = (props) => {
                             id="tipo"
                         >
                             <option value="">Seleccionar tipo...</option>
-                            <option value="entrada">Entrada</option>
+                            <option value="entrada">Ingreso</option>
                             <option value="salida">Salida</option>
                         </select>
                         <LuChevronDown className="absolute right-3 top-[14px]" />
@@ -125,6 +132,7 @@ const ModalCrearMovimientos = (props) => {
                     ></textarea>
                     {errors?.descripcion?.message && (<p className="input-message-error">{errors.descripcion.message}</p>)} 
                 </div>
+
                 {messageError && 
                     <MessageError>
                         {messageError}

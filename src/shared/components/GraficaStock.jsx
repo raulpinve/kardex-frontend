@@ -63,7 +63,7 @@ const GraficaStock = ({ data = [] }) => {
           />
 
           {/* 🟡 STOCK INICIAL */}
-          {/* <Line
+          <Line
             type="monotone"
             dataKey="stockInicial"
             name="Stock inicial"
@@ -71,17 +71,17 @@ const GraficaStock = ({ data = [] }) => {
             strokeDasharray="5 5"
             strokeWidth={2}
             dot={false}
-          /> */}
+          />
 
           {/* 🔵 STOCK FINAL */}
-          {/* <Line
+          <Line
             type="monotone"
             dataKey="stockFinal"
             name="Stock final"
             stroke="#3b82f6"
             strokeWidth={3}
             dot={false}
-          /> */}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>

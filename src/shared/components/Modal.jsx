@@ -99,7 +99,7 @@ const Modal = (props) => {
                         </button>
                     )}
 
-                    <h4 className="text-2xl p-2 font-semibold text-gray-800 dark:text-white/90">
+                    <h4 className="text-2xl p-2 font-semibold text-gray-800 dark:text-white/90 break-all">
                         {title}
                     </h4>
                     {description && 

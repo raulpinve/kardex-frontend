@@ -27,9 +27,9 @@ import SeleccionarAlmacenPage from "./shared/components/SeleccionarAlmacenPage";
 import RequireAlmacen from "./shared/components/RequireAlmacen";
 import { deleteAlmacen, setAlmacen } from "./store/almacenSlice";
 import ListadoCortesPagina from "./pages/cortes/ListadoCortesPagina";
-import CortesProductosPagina from "./pages/cortes/InventariosListadoProductosPagina";
+import CortesProductosPagina from "./pages/cortes/CortesProductosPagina";
 import CortesProductoPagina from "./pages/cortes/CortesProductoPagina";
-import CortesLotePagina from "./pages/cortes/InventariosLotePagina";
+import CortesLotePagina from "./pages/cortes/CortesLotePagina";
 
 function App() {
   const dispatch = useDispatch();
@@ -99,12 +99,11 @@ function App() {
             <Route path="/editar-perfil" element={<PerfilEditarPagina/>}/>
             <Route path="/perfil/:perfilId" element={<PerfilPagina/>}/>
             <Route path="/configuracion" element={<ConfiguracionPage/>}/>
-            <Route path="/" element={<Navigate to="/inventarios" replace />} />
+            <Route path="/" element={<Navigate to="/medicamentos" replace />} />
 
             {/* Rutas que requieren de empresa */}
             <Route path={`/seleccionar-almacen`} element={<SeleccionarAlmacenPage />}/>
             <Route element={<RequireAlmacen />}>
-  
 
               <Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
               <Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
@@ -120,6 +119,7 @@ function App() {
               <Route path="/cortes/:tipo/:corteId/:productoId/producto" element={<CortesProductoPagina />}/>
               <Route path="/cortes/:corteId/:loteId/lote" element={<CortesLotePagina />}/>
             </Route>
+            
           </Route>
           <Route path="/" element={<Navigate to="/inventarios" replace />} />
           <Route path="/:token/verificar-email" element={<VerificarEmailPage />} />

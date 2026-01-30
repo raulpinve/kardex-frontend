@@ -13,7 +13,6 @@ export const obtenerListadoCorteLotes = (corteId, productoId, pagina, consulta) 
     });
 }
 
-
 export const obtenerLote = (loteId) => {
     return api.get(`/lotes/${loteId}`)
         .then(response => response.data)
@@ -21,7 +20,6 @@ export const obtenerLote = (loteId) => {
             throw err;
         });
 }
-
 
 export const obtenerResumenLoteCorte = ( corteId, loteId) => {
     return api.get(`/cortes/${corteId}/${loteId}/lote`)

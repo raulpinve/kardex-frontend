@@ -1,52 +1,82 @@
-import GraficaComportamientoStock from '../../shared/components/GraficaComportamientoStock';
 import SubirImagenProducto from './components/producto/SubirImagenProducto';
-import { formatDate, obtenerEstadoVencimiento } from '@/utils/utilities';
+import { formatCantidad, formatDate, obtenerEstadoVencimiento } from '@/utils/utilities';
 import SkeletonElement from '@/shared/components/SkeletonElement';
-import { obtenerProducto } from './services/productoServices';
-import { obtenerLote } from './services/loteServices';
 import { Link, useParams } from 'react-router-dom';
-import { LuChevronRight } from 'react-icons/lu';
+import { LuBarcode, LuChevronRight } from 'react-icons/lu';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import Movimientos from './components/lotes/Movimientos';
+import LotesMovimientos from './components/lotes/LotesMovimientos';
+import { obtenerLote } from './services/loteServices';
+import GraficaStockLotes from './components/lotes/GraficaStockLotes';
+import ModalMostrarCodigoBarras from './components/productos/ModalMostrarCodigoBarras';
 
-const LotePagina = () => {
+const LotePagina = ( )=> {
     const { loteId} = useParams();
-    const token = useSelector(state => state.auth.token);
     const [loading, setLoading] = useState(false);
     const [producto, setProducto] = useState();
     const [estado, setEstado] = useState();
     const [lote, setLote] = useState(null);
     const [color, setColor] = useState();
+    const [modalActivo, setModalActivo] = useState("");
+    const [refresh, setRefresh] = useState(0);
 
+    // Obtener la información del producto
     useEffect(() => {
-        const fetchLoteYProducto = async () => {
-            if (!loteId) return;
-            setLoading(true); // Inicia la carga
-
+        const fecthLote = async () => {
             try {
-                const resLote = await obtenerLote(token, loteId);
-                const resProducto = await obtenerProducto(token, resLote.data.productoId);
-                setLote(resLote.data);
-                setProducto(resProducto.data);
+                setLoading(true);
+                const res = await obtenerLote(loteId);
+                setLote(res.data);
             } catch (error) {
                 console.error(error);
             } finally {
-                setLoading(false); // Termina la carga
+                setLoading(false);
             }
-        };
-        fetchLoteYProducto();
-    }, [loteId, token]);
+        }
+        if(!loteId) return;
+        fecthLote()
+    }, [loteId, refresh])
 
     useEffect(() => {
-        if(lote){
-            const { estado, color } = obtenerEstadoVencimiento(lote?.fechaVencimiento);
-            setEstado(estado);
-            setColor(color);
-        }
+        if(!lote) return
+
+        const { estado, color } = obtenerEstadoVencimiento(lote?.fechaVencimiento);
+        setEstado(estado);
+        setColor(color);
     }, [lote])
 
+    const updateRefresh = () => {
+        setRefresh(prev => prev + 1)
+    }
+
     return (<>
+
+        {/* Título */}
+        {!loading && lote && (<div className='flex items-center gap-4 my-6'>
+            {/* Titulo */}
+            <h1 className="text-2xl font-semibold tracking-tight text-gray-700 dark:text-gray-200 flex gap-4 items-center">
+                <SubirImagenProducto 
+                    producto={lote.producto}
+                    allowChangeImagen = {false}
+                />
+                <div>
+                    <span> {lote.producto?.nombre?.charAt(0).toUpperCase() + lote.producto?.nombre?.slice(1)}</span>
+                    <p className="text-sm font-normal text-gray-600 capitalize -mt-[3px]">{lote.producto.tipo}</p>
+                </div>
+            </h1>
+            <button 
+                className="bg-gray-700 text-white p-2 rounded-[2px] cursor-pointer"
+                title={`Mostrar código de barras`}
+                onClick={() => {
+                    setModalActivo("codigo-barra");
+                }}
+            >
+                <LuBarcode />
+            </button>
+            <LuChevronRight className='dark:text-gray-200' />
+            <h1 className="text-2xl text-gray-800 dark:text-gray-200 font-semibold">{lote?.numeroLote}</h1>
+        </div>)}
+      
+
         {/* Encabezado */}
         <div className=''>
             {loading && !producto && (<>
@@ -100,62 +130,64 @@ const LotePagina = () => {
                     </div>
                 )}
                 {!loading && lote && (<>
+                
                     <div className="grid rounded-2xl border border-gray-200 bg-white sm:grid-cols-2 xl:grid-cols-4 dark:border-gray-800 dark:bg-white/[0.01] mt-3">
                         {/* Registro sanitario */}
-                        {lote?.registroSanitario && (
-                            <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
-                                <span className="text-sm text-gray-500 dark:text-gray-400">Registro sanitario</span>
-                                <div className="mt-2 flex items-end gap-3">
-                                    <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                        {lote?.registroSanitario}
-                                    </h4>
-                                </div>
+                        <div className="border-b border-gray-200 px-6 py-5 sm:border-r xl:border-b-0 dark:border-gray-800">
+                            <span className="text-sm text-gray-500 dark:text-gray-400">Registro sanitario</span>
+                            <div className="mt-2 flex items-end gap-3">
+                                <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                    {lote?.registroSanitario || "---"}
+                                </h4>
                             </div>
-                        )}
+                        </div>
+
                         {/* Fecha de vencimiento */}
-                        {lote?.fechaVencimiento && (
-                            <div className="border-b border-gray-200 px-6 py-5 xl:border-r xl:border-b-0 dark:border-gray-800">
-                                <span className="text-sm text-gray-500 dark:text-gray-400">Fecha de vencimiento</span>
-                                <div className="mt-2 flex items-end gap-3">
-                                    <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                        {formatDate(lote?.fechaVencimiento)}
-                                    </h4>
-                                </div>
+                        <div className="border-b border-gray-200 px-6 py-5 xl:border-r xl:border-b-0 dark:border-gray-800">
+                            <span className="text-sm text-gray-500 dark:text-gray-400">Fecha de vencimiento</span>
+                            <div className="mt-2 flex items-end gap-3">
+                                <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                    {formatDate(lote?.fechaVencimiento) || "---"}
+                                </h4>
                             </div>
-                        )}
+                        </div>
 
                         {/* Estado */}
-                        {estado && (
-                            <div className="border-b border-gray-200 px-6 py-5 sm:border-r sm:border-b-0 dark:border-gray-800">
-                                <div>
-                                    <span className="text-sm text-gray-500 dark:text-gray-400">Estado</span>
-                                    <div className="mt-2 flex items-end gap-3">
-                                        <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                            <p className={`inline-block rounded-full px-2 py-0.5 text-sm font-medium ${color} text-right`}>{estado}</p>
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {typeof lote?.stockDisponible === "number" && (
-                            <div className="px-6 py-5">
-                                <span className="text-sm text-gray-500 dark:text-gray-400">Stock disponible</span>
+                        <div className="border-b border-gray-200 px-6 py-5 sm:border-r sm:border-b-0 dark:border-gray-800">
+                            <div>
+                                <span className="text-sm text-gray-500 dark:text-gray-400">Estado</span>
                                 <div className="mt-2 flex items-end gap-3">
-                                <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
-                                    {lote.stockDisponible}
-                                </h4>
+                                    <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                        {estado && color ? (
+                                            <p className={`inline-block rounded-full px-2 py-0.5 text-sm font-medium ${color} text-right`}>{estado}</p>
+                                        ): "---" }
+                                    </h4>
                                 </div>
                             </div>
-                        )}
+                        </div>
+
+                        <div className="px-6 py-5">
+                            <span className="text-sm text-gray-500 dark:text-gray-400">Stock disponible</span>
+                            <div className="mt-2 flex items-end gap-3">
+                            <h4 className="text-title-xs sm:text-title-sm font-bold text-gray-800 dark:text-white/90">
+                                {formatCantidad(lote.stockDisponible) || "---"}
+                            </h4>
+                            </div>
+                        </div>
                     </div>
                 </>)}
             </div>
         </div>
         <div className="mt-4 grid gap-4">
-            <GraficaComportamientoStock tipo="lote"/>   
-            <Movimientos loteId={loteId} />
+            <GraficaStockLotes refresh={refresh} />
+            <LotesMovimientos loteId={loteId} updateRefresh = {updateRefresh}/>
         </div>
+        {modalActivo === "codigo-barra" && (
+            <ModalMostrarCodigoBarras 
+                cerrarModal={() => setModalActivo(null)}
+                productoSeleccionado = {lote?.producto}
+            />
+        )}
     </>);
 };
 

@@ -3,10 +3,10 @@ import Modal from '../../../../shared/components/Modal';
 import MessageError from '../../../../shared/components/MessageError';
 import Button from '../../../../shared/components/Button';
 import { toast } from 'sonner';
-import { eliminarMovimiento } from '../../services/movimientosServices';
+import { eliminarMovimiento } from '../../services/movimientoServices';
 
 const ModalEliminarMovimientos = (props) => {
-    const {cerrarModal, movimientoSeleccionado, setMovimientos, onCambioMovimientos} = props;
+    const {cerrarModal, movimientoSeleccionado, setMovimientos, updateRefresh} = props;
     const [messageError, setMessageError] = useState();
     const [loading, setLoading] = useState();
     const [textoEscrito, setTextoEscrito] = useState("");
@@ -27,8 +27,8 @@ const ModalEliminarMovimientos = (props) => {
             setMovimientos(prevMovimientos =>
                 prevMovimientos.filter(movimiento => movimiento.id !== movimientoSeleccionado.id) 
             )
-            onCambioMovimientos();
             toast.success("Movimiento eliminado exitosamente");
+            updateRefresh();
             cerrarModal();
         } catch {
             toast.error("Ocurrió un error al eliminar el movimiento.");

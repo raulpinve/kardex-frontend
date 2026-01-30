@@ -4,7 +4,6 @@ import MessageError from '../../../../shared/components/MessageError';
 import Button from '../../../../shared/components/Button';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
-import { eliminarLote } from '../../services/loteServices';
 import { handleErrorsBasic } from '@/utils/handleErrors';
 
 const ModalEliminarLote = (props) => {
@@ -16,10 +15,9 @@ const ModalEliminarLote = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const numeroLote = `${loteSeleccionado.numeroLote}`.trim();
 
-        if (inputNombre.trim() !== numeroLote) {
-            setMessageError("El número de lote ingresado no coincide con el número de lote que desea eliminar.");
+        if (inputNombre.trim() !== "eliminar lote") {
+            setMessageError("El texto ingresado no coincide con \"eliminar lote\"");
             return;
         }
         setMessageError("");
@@ -44,12 +42,11 @@ const ModalEliminarLote = (props) => {
           isOpenModal={true}
           setIsOpenModal={cerrarModal}
           title="Eliminar lote"
-          description="Esta acción eliminará permanentemente al lote de la plataforma."
           size="md"
         >
             <form onSubmit={handleSubmit}>
                 <p className="mb-2">
-                    Para confirmar la eliminación, escribe el número del lote "<b>{loteSeleccionado?.numeroLote}</b>" en el campo a continuación:
+                    Para confirmar la eliminación, escribe el texto "eliminar lote" en el campo a continuación:
                 </p>
                 <input 
                     type="text" 

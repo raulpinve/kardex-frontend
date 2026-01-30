@@ -7,11 +7,11 @@ import { LuChevronDown } from 'react-icons/lu';
 import Button from '../../../../shared/components/Button';
 import { formatDate } from '../../../../utils/utilities';
 import MessageError from '../../../../shared/components/MessageError';
-import { editarMovimiento } from '../../services/movimientosServices';
+import { editarMovimiento } from '../../services/movimientoServices';
 
 const ModalEditarMovimientos = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" });
-    const { cerrarModal, setMovimientos, movimientoSeleccionado, onCambioMovimientos} = props;
+    const { cerrarModal, setMovimientos, movimientoSeleccionado, updateRefresh} = props;
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -26,12 +26,12 @@ const ModalEditarMovimientos = (props) => {
                     return movimiento.id === movimientoSeleccionado.id ? { ...movimientoSeleccionado, ...res.data } : movimiento
                 })
             );
-            onCambioMovimientos();
             cerrarModal();
             setValue("tipo", "");
             setValue("cantidad", "");
             setValue("fecha", "");
             setValue("descripcion", "");
+            updateRefresh();
             toast.success("Movimiento editado exitosamente.");
         } catch (error) {
             handleErrors(error, setError, setMessageError);

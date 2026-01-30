@@ -42,7 +42,7 @@
     @apply text-red-600 text-sm  dark:font-medium dark:text-red-600/80
   }
   .select-form {
-    @apply h-11 w-full appearance-none rounded-lg border bg-transparent px-4 py-3 pr-11 
+    @apply h-11 w-full appearance-none rounded-lg border bg-transparent px-4 py-3  
       text-sm text-gray-800 placeholder:text-gray-400 
       focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-300/50 
       border-gray-300 

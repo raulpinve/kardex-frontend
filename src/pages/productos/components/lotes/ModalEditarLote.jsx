@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
-import { editarLote } from "../../services/loteServices";
 import { formatDate } from "../../../../utils/utilities";
 
 const ModalEditarLote = (props) => {

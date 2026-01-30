@@ -4,7 +4,6 @@ import SkeletonElement from "@/shared/components/SkeletonElement";
 import { obtenerProducto } from "./services/productoServices";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Lotes from "./components/lotes/Lotes";
 import { useSelector } from "react-redux";
 import Movimientos from "./components/producto/Movimientos";
 import { LuBarcode } from "react-icons/lu";
@@ -179,8 +178,7 @@ const ProductoPagina = ({ tipo }) => {
 
         <div className="grid gap-6 mt-6">
             {/* <ComportamientoStock /> */}
-            {/* <Lotes tipo={tipo} productoId={productoId} /> */}
-            <ListadoLotesProducto />
+            <ListadoLotesProducto tipoProducto={tipo} />
             <Movimientos productoId={productoId} tipoMovimiento="producto"/>
         </div> 
 
