@@ -12,13 +12,13 @@ import SkeletonTable from '@/shared/components/SkeletonTable';
 import TableTbody from '@/shared/components/TableTbody';
 import TableTd from '@/shared/components/TableTd';
 import { dateColombiaFormat, formatCantidad, obtenerEstadoVencimiento } from '@/utils/utilities';
-import ModalCrearLote from './ModalCrearLote';
-import ModalEditarLote from './ModalEditarLote';
-import ModalEliminarLote from './ModalEliminarLote';
 import Pagination from '@/shared/components/Pagination';
-import ModalCrearMovimientos from './CrearMovimiento';
 import { useNavigate, useParams } from 'react-router-dom';
 import { obtenerLotes } from '../../services/loteServices';
+import ModalCrearLote from '../lotes/ModalCrearLote';
+import ModalEditarLote from '../lotes/ModalEditarLote';
+import ModalEliminarLote from '../lotes/ModalEliminarLote';
+import ModalCrearMovimientos from '../lotes/CrearMovimiento';
 
 const ListadoLotesProducto = ({ tipoProducto }) => {
     const [tipoMovimientoSeleccionado, setTipoMovimientoSeleccionado] = useState();

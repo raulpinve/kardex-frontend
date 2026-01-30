@@ -9,14 +9,18 @@ export const crearMovimiento = (data) => {
         })
 }
 
-export const obtenerMovimientosProductos = (productoId) => {
-    const request = api.get(`/movimientos/${productoId}/producto`);
-    return request
-        .then(response => response.data)
-        .catch(err => {
-            throw err
-        })
-}
+export const obtenerMovimientosProductos = (productoId, tipo, fecha, pagina, consulta ) => {
+    return api
+    .get(`/movimientos/${productoId}/producto`, {
+        params: {
+            pagina,
+            tipo,
+            fecha,
+            ...(consulta && { consulta })
+        }
+    })
+    .then(res => res.data);
+};
 
 export const obtenerMovimientosLotes = (loteId, tipo, fecha, pagina, consulta ) => {
     return api

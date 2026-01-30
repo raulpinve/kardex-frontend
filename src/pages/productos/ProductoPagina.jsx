@@ -5,11 +5,10 @@ import { obtenerProducto } from "./services/productoServices";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Movimientos from "./components/producto/Movimientos";
+import ProductosMovimientos from "./components/producto/ProductosMovimientos";
 import { LuBarcode } from "react-icons/lu";
 import ModalMostrarCodigoBarras from "./components/productos/ModalMostrarCodigoBarras";
-import ComportamientoStock from "./components/producto/ComportamientoStock";
-import ListadoLotesProducto from "./components/lotes/ListadoLotesProducto";
+import ListadoLotesProducto from "./components/productos/ListadoLotesProducto";
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();
@@ -177,9 +176,8 @@ const ProductoPagina = ({ tipo }) => {
         </div>
 
         <div className="grid gap-6 mt-6">
-            {/* <ComportamientoStock /> */}
             <ListadoLotesProducto tipoProducto={tipo} />
-            <Movimientos productoId={productoId} tipoMovimiento="producto"/>
+            <ProductosMovimientos />
         </div> 
 
         {modalActivo === "codigo-barra" && (

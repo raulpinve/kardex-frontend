@@ -26,7 +26,6 @@ import TableTd from "@/shared/components/TableTd";
 
 const ProductosPagina = ({ tipo }) => {
     const almacen = useSelector(state => state.almacen.almacen);
-    const token = useSelector(state => state.auth.token);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(null);
@@ -135,16 +134,6 @@ const ProductosPagina = ({ tipo }) => {
                                 <TableTh>{ tipo === "medicamentos" ? "Principio activo": "Nombre" }</TableTh>
                                 <TableTh>Categoría</TableTh>
                                 <TableTh>Cód. barras</TableTh>
-                                {tipo === "medicamentos" ? (<>
-                                    {/* <TableTh>Forma farmacéutica</TableTh>
-                                    <TableTh>Concentración</TableTh>
-                                    <TableTh>Presentación</TableTh>
-                                    <TableTh>Unidad médica</TableTh> */}
-                                </>):(<>
-                                    {/* <TableTh>Serie</TableTh>
-                                    <TableTh>Presentación comercial</TableTh>
-                                    <TableTh>Riesgo</TableTh> */}
-                                </>)}
                                 <TableTh>Stock requerido</TableTh>
                                 <TableTh>Acciones</TableTh>
                             </TableTr>
@@ -209,17 +198,6 @@ const ProductosPagina = ({ tipo }) => {
                                                 </button>
                                             </p>
                                         </TableTd>
-                                        
-                                        {tipo === "medicamentos" ? (<>
-                                            {/* <TableTd>{producto.formaFarmaceutica}</TableTd>
-                                            <TableTd> {producto.concentracion} </TableTd>
-                                            <TableTd>{producto.presentacionComercial} </TableTd>
-                                            <TableTd>{producto.unidadMedida} </TableTd> */}
-                                        </>):(<>
-                                            {/* <TableTd>{producto.serie}</TableTd>
-                                            <TableTd>{producto.presentacionComercial}</TableTd>
-                                            <TableTd>{producto.riesgo}</TableTd> */}
-                                        </>)}
                                         <TableTd>{producto.stockRequerido}</TableTd>
                                         <TableTd>
                                             <div className="flex gap-1">
