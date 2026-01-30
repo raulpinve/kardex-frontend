@@ -9,7 +9,7 @@ import SubirImagenProducto from '../productos/components/producto/SubirImagenPro
 import { LuBarcode, LuChevronRight } from 'react-icons/lu';
 import ModalMostrarCodigoBarras from '../productos/components/productos/ModalMostrarCodigoBarras';
 import ListadoMovimientosLotesCorte from './components/movimientos/ListadoMovimientosLotesCorte';
-import GraficaLotesCorte from './components/lotes/GraficaLotesCorte';
+import GraficaStockLotesCorte from './components/lotes/GraficaStockLotesCorte';
 
 const CortesLotePagina = () => {
     const [modalActivo, setModalActivo] = useState();
@@ -91,7 +91,7 @@ const CortesLotePagina = () => {
         {!loading && corte && (<div className='mt-8'>
             <TarjetasInformacionStockLote refreshKey={refreshKey} corteId={corteId} loteId={loteId} /> 
             <div className="mt-4 grid gap-4">
-                <GraficaLotesCorte refreshKey={refreshKey} />
+                <GraficaStockLotesCorte refreshKey={refreshKey}/>
                 <ListadoMovimientosLotesCorte onCambioMovimientos={recargarTodo} />
             </div>
         </div>)}

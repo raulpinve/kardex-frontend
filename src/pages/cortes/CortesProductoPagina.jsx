@@ -10,7 +10,7 @@ import { obtenerCorte } from './services/cortesServices';
 import { obtenerProducto } from './services/productosServices';
 import ListadoLotesCorte from './components/lotes/ListadoLotesCorte';
 import ListadoMovimientosProductosCorte from './components/movimientos/ListadoMovimientosProductosCorte';
-import GraficaProductosCorte from './components/productos/GraficaProductosCorte';
+import GraficaStockProductosCorte from './components/productos/GraficaStockProductosCorte';
 
 const CortesProductoPagina = () => {
     const [mensajeError, setMensajeError] = useState();
@@ -105,7 +105,7 @@ const CortesProductoPagina = () => {
                 <TarjetasInformacionStockProducto  corteId={corteId} productoId={productoId}/> 
                 <div className="mt-4 grid gap-4">
                     <ListadoLotesCorte corteId={corteId} />
-                    <GraficaProductosCorte />
+                    <GraficaStockProductosCorte />
                     <ListadoMovimientosProductosCorte />
                 </div>
             </>)}
