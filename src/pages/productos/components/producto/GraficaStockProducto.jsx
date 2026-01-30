@@ -1,6 +1,5 @@
 import { LuCalendar, LuChartColumn, LuChartSpline, LuCloudDownload, LuRefreshCcw } from "react-icons/lu";
 import React, { useEffect, useMemo, useState } from "react";
-// import { formatDateCorte, formatFechaCorte } from "../../utils/utilities";
 import { handleErrorsBasic } from "@/utils/handleErrors";
 import { Spanish } from "flatpickr/dist/l10n/es";
 import ReactApexChart  from "react-apexcharts";
@@ -13,17 +12,17 @@ import { es } from "date-fns/locale/es";
 import { useDarkMode } from "@/shared/hooks/useDarkMode";
 import Card from "@/shared/components/Card";
 import CardTitulo from "@/shared/components/CardTitulo";
-import { dateColombiaFormat, formatCantidad, formatDateCorte, formatFechaCorte } from "@/utils/utilities";
-import { obtenerEvolucionLote } from "../../services/loteServices";
+import { dateColombiaFormat, formatCantidad} from "@/utils/utilities";
 import Loader from "@/shared/components/Loader";
+import { obtenerEvolucionProducto } from "../../services/productoServices";
 
-const GraficaStockLotes = ({ refresh }) => {
+const GraficaStockProducto = ({ refresh, tipoProducto }) => {
     const [mostrarBotones, setMostrarBotones] = useState(false);
     const [tipoGrafica, setTipoGrafica] = useState("bar");
     const [messageError, setMessageError] = useState(null);
     const [rangoFechas, setRangoFechas] = useState([]);
     const [loading, setLoading] = useState(false);
-    const {loteId} = useParams();
+    const {productoId} = useParams();
     const [series, setSeries] = useState();
     const [datos, setDatos] = useState([]);
     const { darkMode } = useDarkMode();
@@ -129,7 +128,7 @@ const GraficaStockLotes = ({ refresh }) => {
             setMessageError(null);
 
             try {
-                const respuesta = await obtenerEvolucionLote(loteId, fechasFormateadas);
+                const respuesta = await obtenerEvolucionProducto(productoId, tipoProducto, fechasFormateadas);
                 const datosRespuestas = respuesta?.data?.evolucion || [];
 
                 setDatos(datosRespuestas);
@@ -170,8 +169,8 @@ const GraficaStockLotes = ({ refresh }) => {
                 setLoading(false);
             }
         }
-        if(loteId) fecthEvolucion();
-    }, [fechasFormateadas, loteId, refresh])
+        if(productoId) fecthEvolucion();
+    }, [fechasFormateadas, productoId, refresh])
 
     return (
         <Card className={`relative`}>
@@ -312,4 +311,4 @@ const GraficaStockLotes = ({ refresh }) => {
     );
 }
 
-export default GraficaStockLotes;
+export default GraficaStockProducto;

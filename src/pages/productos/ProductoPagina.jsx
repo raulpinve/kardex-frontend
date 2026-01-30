@@ -9,6 +9,7 @@ import ProductosMovimientos from "./components/producto/ProductosMovimientos";
 import { LuBarcode } from "react-icons/lu";
 import ModalMostrarCodigoBarras from "./components/productos/ModalMostrarCodigoBarras";
 import ListadoLotesProducto from "./components/productos/ListadoLotesProducto";
+import GraficaStockProducto from "./components/producto/GraficaStockProducto";
 
 const ProductoPagina = ({ tipo }) => {
     const {productoId} = useParams();
@@ -16,6 +17,7 @@ const ProductoPagina = ({ tipo }) => {
     const [loading, setLoading] = useState(false);
     const token = useSelector(state => state.auth.token);
     const [modalActivo, setModalActivo] = useState("");
+    const [refresh, setRefresh] = useState(0);
 
     // Obtener la información del producto
     useEffect(() => {
@@ -33,6 +35,14 @@ const ProductoPagina = ({ tipo }) => {
         if(!productoId) return;
         fecthProducto()
     }, [productoId, token])
+
+    useEffect(() => {
+
+    }, [refresh])
+
+    const updateRefresh = () => {
+        setRefresh(prev => prev + 1);
+    }
 
     return (<>
         <div className="mt-4">
@@ -172,12 +182,13 @@ const ProductoPagina = ({ tipo }) => {
         </div>
 
         <div className="mt-4">
-            <TarjetasStockProducto tipo={tipo} productoId={productoId}/>
+            <TarjetasStockProducto tipo={tipo} productoId={productoId} refresh={refresh}/>
         </div>
 
         <div className="grid gap-6 mt-6">
-            <ListadoLotesProducto tipoProducto={tipo} />
-            <ProductosMovimientos />
+            <ListadoLotesProducto tipoProducto={tipo} updateRefresh = {updateRefresh} refresh={refresh}/>
+            <GraficaStockProducto tipoProducto={tipo} refresh={refresh}/>
+            <ProductosMovimientos updateRefresh = {updateRefresh} refresh={refresh}/>
         </div> 
 
         {modalActivo === "codigo-barra" && (

@@ -2,24 +2,23 @@ import React, { useEffect, useState } from "react";
 import Modal from "../../../../shared/components/Modal";
 import Button from "../../../../shared/components/Button";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
 import { formatDate } from "../../../../utils/utilities";
+import { editarLote } from "../../services/loteServices";
 
 const ModalEditarLote = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
     const { cerrarModal, setLotes, loteSeleccionado} = props;
     const [messageError, setMessageError] = useState(false);
-    const token = useSelector(state => state.auth.token);
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async(values) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await editarLote(token, loteSeleccionado.id, values)
+            const result = await editarLote(loteSeleccionado.id, values)
             const data = result?.data
             if(data){
                 setLotes(prevLotes =>

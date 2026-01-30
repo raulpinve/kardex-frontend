@@ -11,7 +11,7 @@ const ModalCrearMovimientos = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" });
     const [ messageError, setMessageError ] = useState();
     const [ loading, setLoading ] = useState(false);
-    const { cerrarModal, setMovimientos, tipoMovimiento, loteSeleccionado, setLotes } = props;
+    const { cerrarModal, setMovimientos, tipoMovimiento, loteSeleccionado, setLotes, updateRefresh } = props;
 
      const onSubmit = async(values) => {
         setMessageError(false)
@@ -37,6 +37,8 @@ const ModalCrearMovimientos = (props) => {
                     : lote
                 )
             );
+
+            updateRefresh();
 
         } catch (error) {
             console.log(error)

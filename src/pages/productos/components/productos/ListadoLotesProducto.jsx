@@ -20,7 +20,7 @@ import ModalEditarLote from '../lotes/ModalEditarLote';
 import ModalEliminarLote from '../lotes/ModalEliminarLote';
 import ModalCrearMovimientos from '../lotes/CrearMovimiento';
 
-const ListadoLotesProducto = ({ tipoProducto }) => {
+const ListadoLotesProducto = ({ tipoProducto, updateRefresh, refresh }) => {
     const [tipoMovimientoSeleccionado, setTipoMovimientoSeleccionado] = useState();
     const [loteSeleccionado, setLoteSeleccionado] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ const ListadoLotesProducto = ({ tipoProducto }) => {
             }
         }
         fetchCategorias();
-    }, [debouncedConsulta, paginaActual, productoId, tipoProducto]);
+    }, [debouncedConsulta, paginaActual, productoId, tipoProducto, refresh]);
 
     const irLote = (loteId) =>{
         navigate(`/${tipoProducto}/lotes/${loteId}`)
@@ -201,6 +201,7 @@ const ListadoLotesProducto = ({ tipoProducto }) => {
                 <ModalCrearLote 
                     setLotes = {setLotes}
                     cerrarModal = {() => setModalActivo(null)}
+                    updateRefresh={updateRefresh}
                 />
             )}
 
@@ -217,6 +218,7 @@ const ListadoLotesProducto = ({ tipoProducto }) => {
                     setLotes = {setLotes}
                     cerrarModal = {() => setModalActivo(null)}
                     loteSeleccionado = {loteSeleccionado}
+                    updateRefresh={updateRefresh}
                 />
             )}
 
@@ -226,6 +228,7 @@ const ListadoLotesProducto = ({ tipoProducto }) => {
                     tipoMovimiento = {tipoMovimientoSeleccionado}
                     cerrarModal = {() => setModalActivo(null)}
                     setLotes = {setLotes}
+                    updateRefresh={updateRefresh}
                 />
             )}
         </Card>

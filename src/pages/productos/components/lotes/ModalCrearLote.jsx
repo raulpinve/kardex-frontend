@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "../../../../shared/components/Modal";
 import Button from "../../../../shared/components/Button";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { handleErrors } from "../../../../utils/handleErrors";
 import MessageError from "../../../../shared/components/MessageError";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
+import { crearLote } from "../../services/loteServices";
 
 const ModalCrearLote = (props) => {
     const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange"})
-    const token = useSelector(state => state.auth.token);
     const [messageError, setMessageError] = useState(false);
-    const { cerrarModal, setLotes} = props;
+    const { cerrarModal, setLotes, updateRefresh} = props;
     const [loading, setLoading] = useState(false);
     const {productoId}= useParams();
 
@@ -20,7 +19,7 @@ const ModalCrearLote = (props) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await crearLote(token, {
+            const result = await crearLote({
                 ...values, 
                 productoId: productoId
             })
@@ -31,6 +30,7 @@ const ModalCrearLote = (props) => {
                 setValue("numeroLote", "");
                 setValue("registroSanitario", "");
                 setValue("fechaVencimiento", "");
+                updateRefresh()
             } 
             toast.success('Lote creado exitosamente.');
         } catch (error) {

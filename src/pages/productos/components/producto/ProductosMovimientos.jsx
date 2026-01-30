@@ -1,7 +1,7 @@
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import Pagination from '../../../../shared/components/Pagination';
 import CardTitulo from '../../../../shared/components/CardTitulo';
-import { formatFechaCorte } from '../../../../utils/utilities';
+import { formatCantidad, formatFechaCorte } from '../../../../utils/utilities';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { LuEraser, LuPencil, LuSearch } from 'react-icons/lu';
 import Card from '../../../../shared/components/Card';
@@ -19,7 +19,7 @@ import { obtenerMovimientosProductos } from '../../services/movimientoServices';
 import ModalEditarMovimientos from '../movimientos/ModalEditarMovimientos';
 import ModalEliminarMovimientos from '../movimientos/ModalEliminarMovimientos';
 
-const ProductosMovimientos = () => {
+const ProductosMovimientos = ({ refresh , updateRefresh}) => {
     const [movimientos, setMovimientos] = useState([]);
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
@@ -49,7 +49,7 @@ const ProductosMovimientos = () => {
             }
         };
         fetchMovimientos();
-    }, [ productoId, debouncedConsulta, paginaActual, tipo, fecha]);
+    }, [ productoId, debouncedConsulta, paginaActual, tipo, fecha, refresh]);
 
     return (
         <>  
@@ -127,7 +127,7 @@ const ProductosMovimientos = () => {
                                     <TableTd>{formatFechaCorte(movimiento.fecha)}</TableTd>
                                     <TableTd>{movimiento.numeroLote}</TableTd>
                                     <TableTd className='capitalize'>{movimiento.tipo}</TableTd>
-                                    <TableTd>{movimiento.cantidad}</TableTd>
+                                    <TableTd>{formatCantidad(movimiento.cantidad)}</TableTd>
                                     <TableTd>{movimiento.descripcion || "---"}</TableTd>
                                     <TableTd>
                                         <div className="flex items-center gap-2">
@@ -174,6 +174,7 @@ const ProductosMovimientos = () => {
                     setMovimientos = {setMovimientos}
                     movimientoSeleccionado = {movimientoSeleccionado}
                     cerrarModal = {() => setModalActivo(null)}
+                    updateRefresh = {updateRefresh}
                 />
             )}
 
@@ -182,6 +183,7 @@ const ProductosMovimientos = () => {
                     setMovimientos = {setMovimientos}
                     movimientoSeleccionado = {movimientoSeleccionado}
                     cerrarModal = {() => setModalActivo(null)}
+                    updateRefresh = {updateRefresh}
                 />
             )}
         </>

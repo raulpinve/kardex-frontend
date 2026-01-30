@@ -5,13 +5,13 @@ import Button from '../../../../shared/components/Button';
 import { toast } from 'sonner';
 import { useSelector } from 'react-redux';
 import { handleErrorsBasic } from '@/utils/handleErrors';
+import { eliminarLote } from '../../services/loteServices';
 
 const ModalEliminarLote = (props) => {
-    const {cerrarModal, loteSeleccionado, setLotes} = props;
+    const {cerrarModal, loteSeleccionado, setLotes, updateRefresh} = props;
     const [messageError, setMessageError] = useState();
     const [loading, setLoading] = useState();
     const [inputNombre, setInputNombre] = useState("");
-    const token = useSelector(state => state.auth.token);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,11 +24,12 @@ const ModalEliminarLote = (props) => {
         setLoading(true);
 
         try {
-            await eliminarLote(token, loteSeleccionado.id);
+            await eliminarLote(loteSeleccionado.id);
             setLotes(prevLotes =>
                 prevLotes.filter(lote => lote.id !== loteSeleccionado.id) 
             )
             toast.success("Lote eliminado exitosamente");
+            updateRefresh();
             cerrarModal();
         } catch (error){
             handleErrorsBasic(error, setMessageError)
@@ -46,7 +47,7 @@ const ModalEliminarLote = (props) => {
         >
             <form onSubmit={handleSubmit}>
                 <p className="mb-2">
-                    Para confirmar la eliminación, escribe el texto "eliminar lote" en el campo a continuación:
+                    Para confirmar la eliminación, escribe el texto "<b>eliminar lote</b>" en el campo a continuación:
                 </p>
                 <input 
                     type="text" 

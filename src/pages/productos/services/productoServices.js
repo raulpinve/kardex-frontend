@@ -32,6 +32,19 @@ const obtenerProducto = (tipo, productoId) => {
         });
 }
 
+export const obtenerEvolucionProducto = (productoId, tipoProducto, fechas) => {
+    const [fecha_inicio, fecha_fin] = fechas;
+
+    return api.get(`/${tipoProducto}/${productoId}/evolucion`, {
+        params: {
+            fecha_inicio,
+            fecha_fin
+        }
+    })
+    .then(res => res.data);
+};
+
+
 const obtenerStockDisponible = (tipo, productoId) => {
     return api.get(`/${tipo}/${productoId}/stock_disponible`)
         .then(response => response.data)

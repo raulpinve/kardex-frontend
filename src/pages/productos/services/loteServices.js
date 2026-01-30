@@ -8,6 +8,30 @@ export const obtenerLote = (loteId) => {
         });
 }
 
+export const crearLote = (data) => {
+    return api.post(`/lotes`, data)
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+}
+
+export const editarLote = (loteId, data) => {
+    return api.put(`/lotes/${loteId}`, data)
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+}
+
+export const eliminarLote = (loteId) => {
+    return api.delete(`/lotes/${loteId}`)
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+}
+
 export const obtenerLotes = (productoId, pagina = 1, consulta) => {
     const request = api.get(`/lotes/producto/${productoId}`, {
         params: {

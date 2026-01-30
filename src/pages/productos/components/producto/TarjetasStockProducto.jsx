@@ -4,7 +4,7 @@ import CardStockInformation from "@/shared/components/CardStockInformation";
 import { obtenerStockDisponible } from "../../services/productoServices";
 import { formatCantidad } from "@/utils/utilities";
 
-const TarjetasStockProducto = ({ tipo, productoId }) => {
+const TarjetasStockProducto = ({ tipo, productoId, refresh }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
     const [producto, setProducto] = useState();
@@ -30,7 +30,7 @@ const TarjetasStockProducto = ({ tipo, productoId }) => {
             setError(null)
             setLoading(null)
         }
-    }, [token, productoId])
+    }, [token, productoId, refresh, tipo])
 
     if(error) return;
     return (
