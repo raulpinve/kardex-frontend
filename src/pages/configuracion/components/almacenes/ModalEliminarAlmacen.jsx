@@ -16,12 +16,12 @@ const ModalEliminarAlmacen = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const nombreAlmacen = `${almacenSeleccionado.nombre}`.trim();
 
-        if (inputNombre.trim() !== nombreAlmacen) {
-            setMessageError("El nombre ingresado no coincide con el nombre del almacén que desea eliminar.");
+        if (inputNombre.trim() !== "eliminar almacén") {
+            setMessageError('El texto ingresado no coincide con "eliminar almacén".');
             return;
         }
+
         setMessageError("");
         setLoading(true);
 
@@ -45,13 +45,10 @@ const ModalEliminarAlmacen = (props) => {
           isOpenModal={true}
           setIsOpenModal={cerrarModal}
           title="Eliminar almacén"
-          description="Esta acción eliminará permanentemente al almacén de la plataforma."
           size="md"
         >
             <form onSubmit={handleSubmit}>
-                <p className="mb-2">
-                    Para confirmar la eliminación, escribe el nombre del almacén <b>{almacenSeleccionado?.nombre}</b> en el campo a continuación:
-                </p>
+                <p>Para confirmar la eliminación, escribe <strong>“eliminar almacén”</strong> en el campo a continuación.</p>
                 <input 
                     type="text" 
                     className="input-form" 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from '../../../../shared/components/Modal';
 import MessageError from '../../../../shared/components/MessageError';
 import Button from '../../../../shared/components/Button';
@@ -13,10 +13,9 @@ const ModalEliminarUsuario = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const nombreCompleto = `${usuarioSeleccionado.primerNombre} ${usuarioSeleccionado.apellidos}`.trim();
 
-        if (inputNombre.trim() !== nombreCompleto) {
-            setMessageError("El nombre ingresado no coincide con el usuario seleccionado.");
+        if (inputNombre.trim() !== "eliminar usuario") {
+            setMessageError('El texto ingresado no coincide con "eliminar usuario".');
             return;
         }
         setMessageError("");
@@ -35,19 +34,19 @@ const ModalEliminarUsuario = (props) => {
             setLoading(false);
         }
     };
+    useEffect(() => {
+        setMessageError(null)
+    }, [inputNombre])
 
     return (
         <Modal
           isOpenModal={true}
           setIsOpenModal={cerrarModal}
           title="Eliminar usuario"
-          description="Esta acción eliminará permanentemente al usuario de la plataforma."
           size="md"
         >
             <form onSubmit={handleSubmit}>
-                <p className="mb-2">
-                    Para confirmar la eliminación, escribe el nombre del usuario <b>{usuarioSeleccionado?.primerNombre} {usuarioSeleccionado?.apellidos}</b> en el campo a continuación:
-                </p>
+                <p>Para confirmar la eliminación, escribe <strong>“eliminar usuario”</strong> en el campo a continuación.</p>
                 <input 
                     type="text" 
                     className="input-form" 

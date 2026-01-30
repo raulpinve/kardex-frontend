@@ -121,9 +121,9 @@ const Usuarios = () => {
                             )}
                             {!loading && !error && usuarios.length > 0 && (
                                 usuarios.map(usuario => {
-                                    return <tr 
+                                    return <TableTr
                                         key={usuario.id}
-                                        className="cursor-pointer"
+                                        className={`cursor-pointer`}
                                         onClick={() => redireccionarUsuario(usuario.id)}
                                     >
                                         <TableTd>
@@ -145,16 +145,9 @@ const Usuarios = () => {
                                                 <p className="text-gray-700 dark:text-gray-400"> {usuario.primerNombre} {usuario.apellidos}</p>
                                             </div>
                                         </TableTd>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {usuario.email} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {usuario.username} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
-                                            <p className="text-gray-700 dark:text-gray-400"> {PARSEAR_ROLES[usuario.rol]} </p>
-                                        </td>
-                                        <td className="py-3 px-4">
+                                        <TableTd> {usuario.email} </TableTd>
+                                        <TableTd> {PARSEAR_ROLES[usuario.rol]} </TableTd>
+                                        <TableTd>
                                             <div className="text-gray-700 dark:text-gray-400 flex gap-2">
                                                 <button 
                                                     className="cursor-pointer p-1"
@@ -190,8 +183,8 @@ const Usuarios = () => {
                                                     <LuEraser />
                                                 </button>
                                             </div>
-                                        </td>
-                                    </tr>
+                                        </TableTd>
+                                    </TableTr>
                                 })
                             )}
                         </TableTbody>

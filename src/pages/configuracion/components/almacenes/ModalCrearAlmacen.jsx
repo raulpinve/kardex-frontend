@@ -33,7 +33,7 @@ const ModalCrearAlmacen = (props) => {
         <Modal
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
-            title="Crear Almacén"
+            title="Crear almacén"
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">

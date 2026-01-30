@@ -12,40 +12,38 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
     const {cerrarModal, usuarioSeleccionado, setUsuarioSeleccionado} = props;
     const [almacenes, setAlmacenes] = useState([]);
     const [almacenesSeleccionados, setAlmacenesSeleccionados] = useState([]);
-    const [loadingData, setLoadingData] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loadingFetch, setLoadingFetch] = useState(false);
+    const [loadingSave, setLoadingSave] = useState(false);
     const [messageError,setMessageError] = useState(null);
-    const [messageErrorCargarData, setMessageErrorCargarData] = useState(null);
 
     useEffect(() => {
-        const cargarDatos = async () => {
-            setLoadingData(true);
-            setMessageErrorCargarData(null);
+        const cargarAlmacenesPrivilegios = async () => {
+            setLoadingFetch(true);
             try {
                 const [resAlmacenes, resPrivilegios] = await Promise.all([
                     obtenerAlmacenes(),
-                    obtenerPrivilegiosUsuario(usuarioSeleccionado.id),
+                    obtenerPrivilegiosUsuario(usuarioSeleccionado.id + "f"),
                 ]);
         
                 setAlmacenes(resAlmacenes?.data || []);
                 setAlmacenesSeleccionados(resPrivilegios?.data || []);
             } catch {
                 toast.error("Ha ocurrido un error al momento de obtener los privilegios del usuario.");
-                cerrarModal();
                 setUsuarioSeleccionado(null);
+                cerrarModal();
             } finally {
-                setLoadingData(false);
+                setLoadingFetch(false);
             }
         };
       
         if (usuarioSeleccionado) {
-          cargarDatos();
+          cargarAlmacenesPrivilegios();
         }
-    }, [usuarioSeleccionado]);
+    }, [usuarioSeleccionado, cerrarModal, setUsuarioSeleccionado]);
 
     const guardarCambios = async() => {
-        setMessageError(false)
-        setLoading(true)
+        setMessageError(null)
+        setLoadingSave(true)
         try {
             await actualizarPrivilegiosUsuario(usuarioSeleccionado.id, {
                 almacenesIds: almacenesSeleccionados
@@ -55,7 +53,8 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
         } catch (error) {
             handleErrorsBasic(error, setMessageError);
         } finally{
-            setLoading(false)
+
+            setLoadingSave(false)
         }
     }
     
@@ -64,12 +63,11 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
             title="Editar privilegios"
-            description="Asigna al usuario los privilegios necesarios para acceder a los almacenes que elijas"
             size="md"
         >
             <form>
-                {almacenes.length === 0 && !loadingData && <p className='text-center text-sm'>No hay almacenes creados</p>}
-                {loadingData && (<>
+                {almacenes.length === 0 && !loadingFetch && <p className='text-center text-sm'>No hay almacenes creados</p>}
+                {loadingFetch && (<>
                     {[...Array(5)].map((_, i) => (
                         <div className='flex gap-2 mb-2' key={i}>
                             <div className="animate-pulse bg-slate-200 dark:bg-slate-700 rounded w-7 h-5"></div>
@@ -77,15 +75,12 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
                         </div>
                     ))}
                 </>)}
-                {!loadingData && messageErrorCargarData && <MessageError>
-                    {messageErrorCargarData}
-                </MessageError>}
-                {!loading && messageError && 
+                {!loadingSave && messageError && 
                     <MessageError>
                         {messageError}
                     </MessageError>
                 }
-                {!loadingData && almacenes.length > 0 && (<>
+                {!loadingFetch && almacenes.length > 0 && (<>
                     <h5 className="mb-4 text-lg font-medium text-gray-800 dark:text-white/90">
                         Almacenes
                     </h5>
@@ -125,7 +120,7 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
                         <Button 
                             colorButton={`primary`}
                             textButton={`Guardar cambios`}
-                            loading = {loading}
+                            loading={loadingSave || loadingFetch} disabled={loadingFetch}
                             type= "button"
                             onClick={guardarCambios}
                         />

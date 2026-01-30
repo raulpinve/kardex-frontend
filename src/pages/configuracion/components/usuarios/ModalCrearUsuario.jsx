@@ -47,7 +47,6 @@ const ModalCrearUsuario = (props) => {
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
             title="Crear Usuario"
-            description="Agrega un nuevo usuario con los permisos necesarios para acceder a la aplicación."
             size="lg"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -61,7 +60,7 @@ const ModalCrearUsuario = (props) => {
                             Primer nombre <span className="input-required">*</span>
                         </label>
                         <input 
-                            className={`${errors.primerNombre && errors.primerNombre.message ? "input-form-error" : ""} input-form`}
+                            className={`${errors.primerNombre ? "input-form-error" : ""} input-form`}
                             {...register("primerNombre", {
                                 required: {
                                     value: true,
@@ -78,7 +77,7 @@ const ModalCrearUsuario = (props) => {
                             })}
                             id="primerNombre"
                         />
-                        {errors.primerNombre && errors.primerNombre.message && (<p className="input-message-error">{errors.primerNombre.message}</p>)} 
+                        {errors.primerNombre && (<p className="input-message-error">{errors.primerNombre.message}</p>)} 
                     </div>
 
                     {/* Apellidos */}
@@ -88,7 +87,7 @@ const ModalCrearUsuario = (props) => {
                         </label>
                         <input 
                             type="text" 
-                            className={`${(errors.apellidos && errors.apellidos.message) ? "input-form-error": ""} input-form`}
+                            className={`${errors.apellidos ? "input-form-error": ""} input-form`}
                             {...register("apellidos", {
                                 required: {value: true, message:"Debe escribir los apellidos."}, 
                                 minLength: {value: 2, message: "Los apellidos deben tener al menos dos caracteres."},
@@ -97,7 +96,7 @@ const ModalCrearUsuario = (props) => {
                             id="apellidos"
                             placeholder="Ej: Pérez Martinez"
                         />
-                        {errors.apellidos && errors.apellidos.message && (<p className="input-message-error">{errors.apellidos.message}</p>)} 
+                        {errors.apellidos && (<p className="input-message-error">{errors.apellidos.message}</p>)} 
                     </div>
                     
                     {/* E-mail */}
@@ -118,7 +117,7 @@ const ModalCrearUsuario = (props) => {
                             id="email"
                             placeholder='pepitoperez@gmail.com'
                         />
-                        {errors.email && errors.email.message && (<p className="input-message-error">{errors.email.message}</p>)} 
+                        {errors.email && (<p className="input-message-error">{errors.email.message}</p>)} 
                     </div>
 
                     {/* Username */}

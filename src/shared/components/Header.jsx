@@ -65,9 +65,9 @@ const Header = () => {
               <NotificationDropdown />
             ) */}
 
-            { /* almacen?.nombre && !isExcluded && (
+            { almacen?.nombre && !isExcluded && (
               <AlertasVencimiento/>
-            ) */ }
+            ) }
             {/* Profile */}
             <DropdownProfile />
           </div>

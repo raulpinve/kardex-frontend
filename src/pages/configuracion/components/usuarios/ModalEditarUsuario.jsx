@@ -54,7 +54,6 @@ const ModalEditarUsuario = (props) => {
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
             title="Editar Usuario"
-            description="Edita un usuario con los permisos necesarios para acceder a la aplicación."
             size="lg"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">

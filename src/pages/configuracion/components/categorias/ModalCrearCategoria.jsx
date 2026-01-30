@@ -39,7 +39,7 @@ const ModalCrearCategoria = (props) => {
         <Modal
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
-            title="Crear Categoría"
+            title="Crear categoría"
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">

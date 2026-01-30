@@ -48,7 +48,7 @@ const ModalEditarCategoria = (props) => {
         <Modal
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
-            title="Editar Almacén"
+            title="Editar almacén"
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">

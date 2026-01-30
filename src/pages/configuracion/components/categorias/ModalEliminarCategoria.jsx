@@ -13,10 +13,9 @@ const ModalEliminarCategoria = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const nombreCategoria = `${categoriaSeleccionada.nombre}`.trim();
 
-        if (inputNombre.trim() !== nombreCategoria) {
-            setMessageError("El nombre ingresado no coincide con el nombre de la categoría que desea eliminar.");
+        if (inputNombre.trim() !== "eliminar categoría") {
+            setMessageError('El texto ingresado no coincide con "eliminar categoría".');
             return;
         }
         setMessageError("");
@@ -41,13 +40,10 @@ const ModalEliminarCategoria = (props) => {
           isOpenModal={true}
           setIsOpenModal={cerrarModal}
           title="Eliminar categoría"
-          description="Esta acción eliminará permanentemente a la categoría de la plataforma."
           size="md"
         >
             <form onSubmit={handleSubmit}>
-                <p className="mb-2">
-                    Para confirmar la eliminación, escribe el nombre de la categoría <b>{categoriaSeleccionada?.nombre}</b> en el campo a continuación:
-                </p>
+                <p>Para confirmar la eliminación, escribe <strong>“eliminar categoría”</strong> en el campo a continuación.</p>
                 <input 
                     type="text" 
                     className="input-form" 
