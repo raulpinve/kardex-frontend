@@ -61,6 +61,11 @@ const ModalEliminarLote = (props) => {
                         {messageError}
                     </MessageError>
                 )}
+                
+                <div className="mt-3 text-red-600 text-sm">
+                    <h2 className="font-semibold">Esta acción es irreversible.</h2>
+                    <p>Al eliminar este lote, se perderá permanentemente todo el historial y la información asociada. No podrás recuperar ni restaurar estos datos.</p>
+                </div>
             
                 <div className="mt-4 flex justify-end gap-2">
                     <Button 

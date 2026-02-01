@@ -200,7 +200,7 @@ const ProductosPagina = ({ tipo }) => {
                                                 </button>
                                             </p>
                                         </TableTd>
-                                        <TableTd className="text-center">{ formatCantidad(producto.stockDisponible)}</TableTd>
+                                        <TableTd className="text-center">{ formatCantidad(producto.stockDisponible) }</TableTd>
                                         <TableTd>
                                             <div className="flex justify-center gap-1">
                                                 <button 

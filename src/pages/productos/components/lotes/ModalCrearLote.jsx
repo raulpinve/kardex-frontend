@@ -16,24 +16,30 @@ const ModalCrearLote = (props) => {
     const {productoId}= useParams();
 
     const onSubmit = async(values) => {
+
         setMessageError(false)
         setLoading(true)
+
+        const data = { ...values };
+
+        if (data.stockInicial === "" || data.stockInicial == null) {
+            delete data.stockInicial;
+        }
+
         try {
             const result = await crearLote({
-                ...values, 
+                ...data, 
                 productoId: productoId
             })
-            const data = { ...result?.data, stockDisponible: 0}
-            if(data){
-                setLotes(prevLotes => [data, ...prevLotes]);
-                cerrarModal();
-                setValue("numeroLote", "");
-                setValue("registroSanitario", "");
-                setValue("fechaVencimiento", "");
-                updateRefresh()
-            } 
+            setLotes(prevLotes => [result.data, ...prevLotes]);
+            cerrarModal();
+            setValue("numeroLote", "");
+            setValue("registroSanitario", "");
+            setValue("fechaVencimiento", "");
+            updateRefresh()
             toast.success('Lote creado exitosamente.');
         } catch (error) {
+            console.log(error)
             handleErrors(error, setError, setMessageError);
         } finally{
             setLoading(false)
@@ -117,6 +123,22 @@ const ModalCrearLote = (props) => {
                         />
                         {errors.fechaVencimiento?.message && (
                             <p className="input-message-error">{errors.fechaVencimiento.message}</p>
+                        )}
+                    </div>
+
+                    {/* Stock inicial */}
+                    <div>
+                        <label htmlFor="stockInicial" className="label-form">
+                            Stock inicial
+                        </label>
+                        <input
+                            className={`${errors.stockInicial?.message ? "input-form-error" : ""} input-form`}
+                            type="number"
+                            id="stockInicial"
+                            {...register("stockInicial")}
+                        />
+                        {errors.stockInicial && (
+                            <p className="input-message-error">{errors.stockInicial.message}</p>
                         )}
                     </div>
                 </div>

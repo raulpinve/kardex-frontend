@@ -85,6 +85,12 @@ const ModalCerrarCorte = ({ cerrarModal, corteSeleccionado, setCortes }) => {
                     {errors.fechaFin && (<p className="input-message-error">{errors.fechaFin.message}</p>)} 
                 </div>
 
+                <div className="mt-3 text-red-600 text-sm">
+                    <h2 className="font-semibold">Esta acción es irreversible. No podrás editar ni revertir este cierre.</h2>
+                    <p>Al cerrar este corte, el período quedará bloqueado y no podrás realizar cambios en 
+                        los movimientos de inventario de este rango de fechas.</p>
+                </div>
+
                 {messageError && 
                     <MessageError>
                         {messageError}
