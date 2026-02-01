@@ -1,6 +1,6 @@
 import {api}from "../../../utils/authUtils";
 
-const actualizarPerfil = (token, data) => {
+const actualizarPerfil = (data) => {
     const request = api.put(`/perfiles`, data)
     return request
         .then(response => response.data)

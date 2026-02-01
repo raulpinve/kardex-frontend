@@ -4,14 +4,12 @@ import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
 import { marcarNotificacionesComoLeidas, obtenerNotificaciones, obtenerNotificacionesNoVistas } from "../services/notificacionesServices";
 import imageDefault from '../../assets/images/image-default.png';
-import { host } from "@/utils/config";
-import { Link, useNavigate } from "react-router-dom";
 import { tiempoRelativoCreativo } from "@/utils/utilities";
 import ReactMarkdown from 'react-markdown';
+import { Link } from "react-router-dom";
 
 const NotificationDrawer = () => {
     const almacenId = useSelector(state => state.almacen.almacen?.id);
-    const almacen = useSelector(state => state.almacen?.almacen);
     const token = useSelector(state => state.auth.token);
     const [notificacionesNoVistas, setNotificacionesNoVistas] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +18,6 @@ const NotificationDrawer = () => {
     const [paginaActual, setPaginaActual] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
 
     // Animación apertura/cierre
     useEffect(() => {
@@ -128,20 +125,20 @@ const NotificationDrawer = () => {
         return () => clearInterval(intervalId); // Limpieza al desmontar
     }, [token, almacenId]);
 
-   const redireccionarNotificacion = (recurso, recursoId) => {
-    const rutas = {
-        medicamento: "/medicamentos",
-        dispositivo: "/dispositivos",
-        lote: "/lotes",
-        corte: "/cortes"
-    };
+    const redireccionarNotificacion = (recurso, recursoId) => {
+        const rutas = {
+            medicamento: "/medicamentos",
+            dispositivo: "/dispositivos",
+            lote: "/lotes",
+            corte: "/cortes"
+        };
 
-    const baseUrl = rutas[recurso];
-    if (baseUrl && recursoId) {
-        return `${baseUrl}/${recursoId}`;
-    }
-    return null;
-};
+        const baseUrl = rutas[recurso];
+        if (baseUrl && recursoId) {
+            return `${baseUrl}/${recursoId}`;
+        }
+        return null;
+    };
 
     return (
         <>
@@ -178,7 +175,8 @@ const NotificationDrawer = () => {
                                 <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
                                     Notificaciones
                                 </h2>
-                                {almacen?.nombre && <span className="text-gray-600 text-sm relative -top-1">{almacen?.nombre}</span>}
+                                {/* {almacen?.nombre && <span className="text-gray-600 text-sm relative -top-1">{almacen?.nombre}</span>} 
+                                */}
                             </div>
                             <button
                                 onClick={closeDrawer}
@@ -198,9 +196,9 @@ const NotificationDrawer = () => {
 
                                     const contenido = (
                                         <>
-                                            <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0 min-w-[40px] min-h-[40px]">
+                                            <div className="relative w-8 h-8 rounded-full overflow-hidden flex-shrink-0 min-w-[36px] min-h-[36px]">
                                                 <img
-                                                    src={`${host}${notificacion.avatarThumbnail}`}
+                                                    src={`${notificacion.avatarThumbnail}`}
                                                     onError={(e) => {
                                                         e.target.onerror = null;
                                                         e.target.src = imageDefault;
@@ -209,7 +207,7 @@ const NotificationDrawer = () => {
                                                     className="w-full h-full object-cover"
                                                 />
                                             </div>
-                                            <div className="text-sm pl-4">
+                                            <div className="text-sm pl-1">
                                                 <div className="text-gray-700 dark:text-gray-300">
                                                     <span className="font-medium">{notificacion.user}</span>{" "}
                                                     <ReactMarkdown>{notificacion.mensaje}</ReactMarkdown>{" "}

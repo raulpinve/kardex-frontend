@@ -5,10 +5,7 @@ import { Spanish } from "flatpickr/dist/l10n/es";
 import ReactApexChart  from "react-apexcharts";
 import { useParams } from "react-router-dom";
 import "flatpickr/dist/themes/airbnb.css";
-import Flatpickr from "react-flatpickr";
 import ApexCharts from "apexcharts"; 
-import { format } from  'date-fns';
-import { es } from "date-fns/locale/es";
 import { useDarkMode } from "@/shared/hooks/useDarkMode";
 import Card from "@/shared/components/Card";
 import CardTitulo from "@/shared/components/CardTitulo";
@@ -18,7 +15,7 @@ import { obtenerEvolucionLoteCorte } from "../../services/cortesServices";
 
 const GraficaStockLotesCorte = () => {
     const [mostrarBotones, setMostrarBotones] = useState(false);
-    const [tipoGrafica, setTipoGrafica] = useState("bar");
+    const [tipoGrafica, setTipoGrafica] = useState("area");
     const [messageError, setMessageError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [series, setSeries] = useState();
@@ -138,7 +135,10 @@ const GraficaStockLotesCorte = () => {
                         })),
                     }
                 ]);
-                setMostrarBotones(true);
+                
+                if(datosRespuestas.length > 0) {
+                    setMostrarBotones(true);
+                }
             } catch (error) {
                 handleErrorsBasic(error, setMessageError)
             } finally {
@@ -146,7 +146,7 @@ const GraficaStockLotesCorte = () => {
             }
         }
         if(loteId) fecthEvolucion();
-    }, [loteId, scorteId])
+    }, [loteId, corteId])
 
     return (
         <Card className={`relative`}>

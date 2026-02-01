@@ -3,7 +3,6 @@ import Modal from '../../../../shared/components/Modal';
 import MessageError from '../../../../shared/components/MessageError';
 import Button from '../../../../shared/components/Button';
 import { toast } from 'sonner';
-import { useSelector } from 'react-redux';
 import { eliminarProducto } from '../../services/productoServices';
 
 const ModalEliminarProducto = (props) => {
@@ -11,22 +10,19 @@ const ModalEliminarProducto = (props) => {
     const [messageError, setMessageError] = useState();
     const [loading, setLoading] = useState();
     const [inputNombre, setInputNombre] = useState("");
-    const token = useSelector(state => state.auth.token);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const nombreMedicamento = `${productoSeleccionado.nombre}`.trim();
 
-        if (inputNombre.trim() !== nombreMedicamento) {
-            setMessageError(`El ${tipo === "medicamentos" ? "principio activo": "nombre"} no coincide con el del 
-                ${tipo === "medicamentos" ? "medicamento" : "dispositivo"} que desea eliminar.`);
+        if (inputNombre.trim() !== `eliminar ${tipo === "medicamentos"? "medicamento": "dispositivo"}`) {
+            setMessageError(`El texto ingresado no coincide con "${tipo === "medicamentos"? "medicamento": "dispositivo"}".`);
             return;
         }
         setMessageError("");
         setLoading(true);
 
         try {
-            await eliminarProducto(token, tipo, productoSeleccionado.id);
+            await eliminarProducto(tipo, productoSeleccionado.id);
             setProductos(prevProductos =>
                 prevProductos.filter(producto => producto.id !== productoSeleccionado.id) 
             )
@@ -45,13 +41,10 @@ const ModalEliminarProducto = (props) => {
           isOpenModal={true}
           setIsOpenModal={cerrarModal}
           title={`Eliminar ${tipo === "medicamentos"? "medicamento": "dispositivo"}`}
-          description={`Esta acción eliminará permanentemente al ${tipo === "medicamentos" ? "medicamento": "dispositivo"} de la plataforma.`}
           size="md"
         >
             <form onSubmit={handleSubmit}>
-                <p className="mb-2">
-                    Para confirmar la eliminación, escribe {tipo === "medicamentos"? "el principio activo del medicamento": "el nombre del dispositivo"} "<b>{productoSeleccionado?.nombre}</b>" en el campo a continuación:
-                </p>
+                <p>Para confirmar la eliminación, escribe <strong>“eliminar {tipo === "medicamentos"? "medicamento": "dispositivo"}”</strong> en el campo a continuación.</p>
                 <input 
                     type="text" 
                     className="input-form" 

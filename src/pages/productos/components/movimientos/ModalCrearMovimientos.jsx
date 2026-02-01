@@ -15,7 +15,6 @@ const ModalCrearMovimientos = (props) => {
     const [ loading, setLoading ] = useState(false);
     const { cerrarModal, setMovimientos, updateRefresh } = props;
     const { loteId } = useParams();
-    console.log(loteId)
 
      const onSubmit = async(values) => {
         setMessageError(false)

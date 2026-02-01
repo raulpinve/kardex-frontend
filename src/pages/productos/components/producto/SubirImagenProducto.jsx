@@ -90,7 +90,7 @@ const SubirImagenProducto = ({producto, tipo, setProducto, allowChangeImagen = t
             setSubiendoAvatar(false);
         }
     };
-
+    
     useEffect(() => {
         setImageSrc(producto?.avatar)
         setImageThumbnailSrc(producto?.avatarThumbnail)

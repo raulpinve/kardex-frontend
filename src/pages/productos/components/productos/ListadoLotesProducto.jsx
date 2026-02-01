@@ -99,7 +99,9 @@ const ListadoLotesProducto = ({ tipoProducto, updateRefresh, refresh }) => {
                             <TableTh className='text-center'>Acciones</TableTh>
                         </TableTr>
                     </TableThead>
+                    
                     {loading && <SkeletonTable rows={7} columns={5}/>}
+
                     <TableTbody>
                         {/* Display error */}
                         {!loading && error && (<TableTr>

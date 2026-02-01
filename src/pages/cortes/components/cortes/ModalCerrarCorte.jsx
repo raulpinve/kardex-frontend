@@ -1,19 +1,16 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import Modal from "@/shared/components/Modal";
 import Button from "@/shared/components/Button";
 import MessageError from "@/shared/components/MessageError";
 import { cerrarCorte } from "../../services/cortesServices";
-import { useNavigate } from "react-router-dom";
 import { handleErrorsBasic } from "@/utils/handleErrors";
 import { useForm } from "react-hook-form";
 
 const ModalCerrarCorte = ({ cerrarModal, corteSeleccionado, setCortes }) => {
-    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ mode: "onChange" })
+    const {register, handleSubmit, formState: { errors }, setValue} = useForm({ mode: "onChange" })
     const [messageError, setMessageError] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
 
     const onSubmit = async (values) => {
         try {
@@ -30,9 +27,10 @@ const ModalCerrarCorte = ({ cerrarModal, corteSeleccionado, setCortes }) => {
                 )
             );
             toast.success("Corte cerrado con éxito");
+            setValue("nombre");
+            setValue("fechaFin");
             cerrarModal();
         } catch (error) {
-            console.log(error)
             handleErrorsBasic(error, setMessageError);
         } finally {
             setLoading(false);
@@ -44,7 +42,6 @@ const ModalCerrarCorte = ({ cerrarModal, corteSeleccionado, setCortes }) => {
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
             title="Cerrar corte"
-            description="Esta acción cerrará permanentemente el corte."
             size="md"
         >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">

@@ -23,6 +23,7 @@ import TableTr from "@/shared/components/TableTr";
 import TableTh from "@/shared/components/TableTh";
 import TableTbody from "@/shared/components/TableTbody";
 import TableTd from "@/shared/components/TableTd";
+import { formatCantidad } from "@/utils/utilities";
 
 const ProductosPagina = ({ tipo }) => {
     const almacen = useSelector(state => state.almacen.almacen);
@@ -127,15 +128,16 @@ const ProductosPagina = ({ tipo }) => {
                         </div>
                     </div>
                 </div>
+
                 <div className="mt-6">
                     <Table>
                         <TableThead>
                             <TableTr>
                                 <TableTh>{ tipo === "medicamentos" ? "Principio activo": "Nombre" }</TableTh>
                                 <TableTh>Categoría</TableTh>
-                                <TableTh>Cód. barras</TableTh>
-                                <TableTh>Stock requerido</TableTh>
-                                <TableTh>Acciones</TableTh>
+                                <TableTh className="text-center">Cód. barras</TableTh>
+                                <TableTh className="text-center">Stock disponible</TableTh>
+                                <TableTh className="text-center">Acciones</TableTh>
                             </TableTr>
                         </TableThead>
 
@@ -165,7 +167,7 @@ const ProductosPagina = ({ tipo }) => {
                                         <TableTd>
                                             <div className="w-full flex items-center gap-3">
                                                 <img 
-                                                    src={`${host}${producto.avatarThumbnail}`}
+                                                    src={`${producto.avatarThumbnail}`}
                                                     onError={(e) => {
                                                         e.target.onerror = null;
                                                         e.target.src = imageDefault; 
@@ -181,9 +183,9 @@ const ProductosPagina = ({ tipo }) => {
                                                 <p className="text-gray-700 dark:text-gray-400"> {producto.nombre}</p>
                                             </div>
                                         </TableTd>
-                                        <TableTd>{producto?.categoriaNombre ? producto?.categoriaNombre : "N/A"}</TableTd>
+                                        <TableTd>{producto?.categoriaNombre ? producto?.categoriaNombre : "---"}</TableTd>
                                         <TableTd>
-                                            <p className="text-gray-700 dark:text-gray-400"> 
+                                            <p className="text-gray-700 dark:text-gray-400 text-center"> 
                                                 { producto?.codigoBarra }
                                                 <button 
                                                     className="cursor-pointer ml-2 p-1 rounded-[2px] bg-gray-700 text-white"
@@ -198,9 +200,9 @@ const ProductosPagina = ({ tipo }) => {
                                                 </button>
                                             </p>
                                         </TableTd>
-                                        <TableTd>{producto.stockRequerido}</TableTd>
+                                        <TableTd className="text-center">{ formatCantidad(producto.stockDisponible)}</TableTd>
                                         <TableTd>
-                                            <div className="flex gap-1">
+                                            <div className="flex justify-center gap-1">
                                                 <button 
                                                     className="cursor-pointer p-1"
                                                     title={`Editar ${tipo === "medicamentos" ? "medicamento": "dispositivo"}`}
@@ -274,11 +276,11 @@ const ProductosPagina = ({ tipo }) => {
                 tipo = {tipo}
             />
         )}
-
+            
         {modalActivo === "imagen-perfil" && (
             <ModalAbrirImagenPerfil 
                 cerrarModal={() => setModalActivo(null)}
-                urlImage = {`${productoSeleccionado.avatar}`}
+                urlImage = {productoSeleccionado?.avatar}
                 tipo={tipo}
             />
         )}

@@ -115,7 +115,7 @@ function App() {
 
               {/* Routes */}
               <Route path="/cortes" element={<ListadoCortesPagina />}/>
-              <Route path="/cortes/:corteId/productos" element={<CortesProductosPagina />}/>
+              <Route path="/cortes/:corteId" element={<CortesProductosPagina />}/>
               <Route path="/cortes/:tipo/:corteId/:productoId/producto" element={<CortesProductoPagina />}/>
               <Route path="/cortes/:corteId/:loteId/lote" element={<CortesLotePagina />}/>
             </Route>

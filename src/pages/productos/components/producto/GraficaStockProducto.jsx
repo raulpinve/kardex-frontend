@@ -18,7 +18,7 @@ import { obtenerEvolucionProducto } from "../../services/productoServices";
 
 const GraficaStockProducto = ({ refresh, tipoProducto }) => {
     const [mostrarBotones, setMostrarBotones] = useState(false);
-    const [tipoGrafica, setTipoGrafica] = useState("bar");
+    const [tipoGrafica, setTipoGrafica] = useState("area");
     const [messageError, setMessageError] = useState(null);
     const [rangoFechas, setRangoFechas] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -162,7 +162,9 @@ const GraficaStockProducto = ({ refresh, tipoProducto }) => {
                         })),
                     }
                 ]);
-                setMostrarBotones(true);
+                if(datosRespuestas.length > 0){
+                    setMostrarBotones(true)
+                }
             } catch (error) {
                 handleErrorsBasic(error, setMessageError)
             } finally {
@@ -170,7 +172,7 @@ const GraficaStockProducto = ({ refresh, tipoProducto }) => {
             }
         }
         if(productoId) fecthEvolucion();
-    }, [fechasFormateadas, productoId, refresh])
+    }, [fechasFormateadas, productoId, refresh, tipoProducto])
 
     return (
         <Card className={`relative`}>

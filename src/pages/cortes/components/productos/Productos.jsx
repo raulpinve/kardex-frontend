@@ -184,7 +184,7 @@ const Productos = ({ tipo, corteId }) => {
                                         <td className="py-3 px-4">
                                             <div className="w-full flex items-center gap-3">
                                                 <img 
-                                                    src={`${host}${producto.avatarThumbnail}`}
+                                                    src={`${producto.avatarThumbnail}`}
                                                     onError={(e) => {
                                                         e.target.onerror = null;
                                                         e.target.src = imageDefault; 

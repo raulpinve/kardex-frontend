@@ -15,14 +15,13 @@ const ModalEditarProducto = (props) => {
     const [messageError, setMessageError] = useState(false);
     const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(false);
-    const token = useSelector(state => state.auth.token);
     const [categoriasCargadas, setCategoriasCargadas] = useState(false);
 
     const onSubmit = async(values) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await editarProducto(token, tipo, productoSeleccionado.id, {
+            const result = await editarProducto(tipo, productoSeleccionado.id, {
                 ...values,
                 almacenId
             })
@@ -46,7 +45,7 @@ const ModalEditarProducto = (props) => {
     useEffect(() => {
         const fecthCategorias = async() => {
             try {
-                const result = await obtenerTodasCategorias(token, tipo === "medicamentos" ? "medicamento": "dispositivo");
+                const result = await obtenerTodasCategorias(tipo === "medicamentos" ? "medicamento": "dispositivo");
                 setCategorias(result.data);
                 setCategoriasCargadas(true);  // indicamos que ya se cargaron
             } catch (error) {

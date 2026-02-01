@@ -23,13 +23,12 @@ const authSlice = createSlice({
             localStorage.removeItem("token")
         },
         updateUser: (state, action) => {
-            const { token, ...usuario } = action.payload;
             state.usuario = {
-                ...usuario,
-                emailVerificado: true // No permite que aparezca mensaje de que usuario necesita verificar email cuando actualiza su información 
+                ...state.usuario,
+                ...action.payload
             };
-            state.token = token;
         },
+
         actualizarAvatar: (state, action) => {
             state.usuario.avatarThumbnail = action.payload.avatarThumbnail;
             state.usuario.avatar = action.payload.avatar;

@@ -51,7 +51,7 @@ const ListadoCortesPagina = () => {
     }, [almacenId, paginaActual])
 
     const redireccionarInventariosCorte = (corteId) => {
-        navigate(`/cortes/${corteId}/productos`)
+        navigate(`/cortes/${corteId}`)
     }
 
     return (

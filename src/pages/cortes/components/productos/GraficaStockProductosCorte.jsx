@@ -1,5 +1,5 @@
-import { LuCalendar, LuChartColumn, LuChartSpline, LuCloudDownload, LuRefreshCcw } from "react-icons/lu";
-import React, { useEffect, useMemo, useState } from "react";
+import { LuChartColumn, LuChartSpline, LuCloudDownload, LuRefreshCcw } from "react-icons/lu";
+import React, { useEffect, useState } from "react";
 import { handleErrorsBasic } from "@/utils/handleErrors";
 import { Spanish } from "flatpickr/dist/l10n/es";
 import ReactApexChart  from "react-apexcharts";
@@ -7,8 +7,6 @@ import { useParams } from "react-router-dom";
 import "flatpickr/dist/themes/airbnb.css";
 import Flatpickr from "react-flatpickr";
 import ApexCharts from "apexcharts"; 
-import { format } from  'date-fns';
-import { es } from "date-fns/locale/es";
 import { useDarkMode } from "@/shared/hooks/useDarkMode";
 import Card from "@/shared/components/Card";
 import CardTitulo from "@/shared/components/CardTitulo";
@@ -18,9 +16,8 @@ import { obtenerEvolucionProductoCorte } from "../../services/cortesServices";
 
 const GraficaStockProductosCorte = () => {
     const [mostrarBotones, setMostrarBotones] = useState(false);
-    const [tipoGrafica, setTipoGrafica] = useState("bar");
+    const [tipoGrafica, setTipoGrafica] = useState("area");
     const [messageError, setMessageError] = useState(null);
-    const [rangoFechas, setRangoFechas] = useState([]);
     const [loading, setLoading] = useState(false);
     const [series, setSeries] = useState();
     const [datos, setDatos] = useState([]);

@@ -12,7 +12,6 @@ const ModalEliminarCorte = (props) => {
     const [messageError, setMessageError] = useState("");
     const [loading, setLoading] = useState(false);
     const { cerrarModal, corteSeleccionado, setCortes } = props;
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -47,7 +46,6 @@ const ModalEliminarCorte = (props) => {
             isOpenModal={true}
             setIsOpenModal={cerrarModal}
             title="Eliminar corte"
-            description="Esta acción eliminará permanentemente el corte."
             size="md"
         >
             <form onSubmit={handleSubmit}>

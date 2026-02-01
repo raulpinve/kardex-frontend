@@ -10,13 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../../store/authSlice';
 
 const ModalEditarPerfil = (props) => {
+    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({  mode: "onChange" })
     const {cerrarModal} = props;
     const [loading, setLoading] = useState(false);
     const [messageError, setMessageError] = useState(false);
-    const token = useSelector(state => state.auth.token);
-    const {register, handleSubmit, setError, formState: { errors }, setValue} = useForm({ 
-        mode: "onChange"
-    })
     const dispatch = useDispatch();
     const usuario = useSelector(state => state.auth.usuario);
 
@@ -27,23 +24,20 @@ const ModalEditarPerfil = (props) => {
             setValue("email", usuario.email);
             setValue("username", usuario.username);
         }
-    }, [usuario])
+    }, [usuario, setValue])
 
     const onSubmit = async(values) => {
         setMessageError(false)
         setLoading(true)
         try {
-            const result = await actualizarPerfil(token, values)
+            const result = await actualizarPerfil(values)
             const data = result?.data
-            if(data){
-                cerrarModal()
-                setValue("primerNombre", "")
-                setValue("apellidos", "")
-                setValue("email", "")
-                setValue("username", "")
-                dispatch(updateUser(data));
-                localStorage.setItem("token", data.token)
-            } 
+            cerrarModal()
+            setValue("primerNombre", "")
+            setValue("apellidos", "")
+            setValue("email", "")
+            setValue("username", "")
+            dispatch(updateUser(data));
             toast.success('Perfil editado correctamente.');
         } catch (error) {
             handleErrors(error, setError, setMessageError);

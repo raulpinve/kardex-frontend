@@ -124,9 +124,7 @@ const LotesMovimientos = ({ loteId, updateRefresh}) => {
                             </TableTr>)}
 
                             {!loading && !error && movimientos.length === 0 && (<TableTr>
-                                <TableTd colSpan={5}>
-                                    {error}
-                                </TableTd>
+                                <TableTd colSpan={5}>No hay movimientos por mostrar</TableTd>
                             </TableTr>)}
 
                             {!loading && !error && movimientos.length > 0 && movimientos.map(movimiento => (

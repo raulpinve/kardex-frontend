@@ -53,7 +53,7 @@ const obtenerStockDisponible = (tipo, productoId) => {
         });
 }
 
-const editarProducto = (token, tipo, productoId, data) => {
+const editarProducto = (tipo, productoId, data) => {
     const request = api.put(`/${tipo}/${productoId}`, data);
     return request
         .then(response => response.data)
@@ -62,7 +62,7 @@ const editarProducto = (token, tipo, productoId, data) => {
         })
 }
 
-const eliminarProducto = (token, tipo, productoId) => {
+const eliminarProducto = (tipo, productoId) => {
     const request = api.delete(`/${tipo}/${productoId}`);
     return request
         .then(response => response.data)

@@ -122,7 +122,6 @@ const AlertasVencimiento = () => {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Alertas de Vencimiento</h2>
-                {almacen?.nombre && <span className="text-gray-600 text-sm relative -top-1">{almacen.nombre}</span>}
               </div>
               <button
                 onClick={closeDrawer}

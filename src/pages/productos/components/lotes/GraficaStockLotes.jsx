@@ -1,6 +1,5 @@
 import { LuCalendar, LuChartColumn, LuChartSpline, LuCloudDownload, LuRefreshCcw } from "react-icons/lu";
 import React, { useEffect, useMemo, useState } from "react";
-// import { formatDateCorte, formatFechaCorte } from "../../utils/utilities";
 import { handleErrorsBasic } from "@/utils/handleErrors";
 import { Spanish } from "flatpickr/dist/l10n/es";
 import ReactApexChart  from "react-apexcharts";
@@ -10,23 +9,21 @@ import Flatpickr from "react-flatpickr";
 import ApexCharts from "apexcharts"; 
 import { format } from  'date-fns';
 import { es } from "date-fns/locale/es";
-import { useDarkMode } from "@/shared/hooks/useDarkMode";
 import Card from "@/shared/components/Card";
 import CardTitulo from "@/shared/components/CardTitulo";
-import { dateColombiaFormat, formatCantidad, formatDateCorte, formatFechaCorte } from "@/utils/utilities";
+import { dateColombiaFormat, formatCantidad } from "@/utils/utilities";
 import { obtenerEvolucionLote } from "../../services/loteServices";
 import Loader from "@/shared/components/Loader";
 
 const GraficaStockLotes = ({ refresh }) => {
     const [mostrarBotones, setMostrarBotones] = useState(false);
-    const [tipoGrafica, setTipoGrafica] = useState("bar");
+    const [tipoGrafica, setTipoGrafica] = useState("area");
     const [messageError, setMessageError] = useState(null);
     const [rangoFechas, setRangoFechas] = useState([]);
     const [loading, setLoading] = useState(false);
     const {loteId} = useParams();
     const [series, setSeries] = useState();
     const [datos, setDatos] = useState([]);
-    const { darkMode } = useDarkMode();
 
     const options = {
         chart: {
@@ -38,9 +35,6 @@ const GraficaStockLotes = ({ refresh }) => {
                     show: false,
                 },
             stacked: false, 
-        },
-        theme: {
-            mode: darkMode ? 'dark' : 'light',
         },
         fill: {
             type: "solid",
@@ -163,7 +157,9 @@ const GraficaStockLotes = ({ refresh }) => {
                         })),
                     }
                 ]);
-                setMostrarBotones(true);
+                if(datosRespuestas.length > 0){
+                    setMostrarBotones(true)
+                }
             } catch (error) {
                 handleErrorsBasic(error, setMessageError)
             } finally {
