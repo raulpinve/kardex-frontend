@@ -88,7 +88,7 @@ const SeleccionarAlmacenPage = () => {
                     <p className="mb-2">
                         Por favor selecciona un almacén para continuar:
                     </p>
-                    <ul className="space-y-2 divide-y divide-gray-200 dark:text-gray-300 ">
+                    <ul className="space-y-2 divide-y divide-gray-200 dark:divide-gray-800 dark:text-gray-300 ">
                         {almacenes.map(almacen => (
                             <li
                                 key={almacen.id}

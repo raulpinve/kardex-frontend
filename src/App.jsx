@@ -30,6 +30,10 @@ import ListadoCortesPagina from "./pages/cortes/ListadoCortesPagina";
 import CortesProductosPagina from "./pages/cortes/CortesProductosPagina";
 import CortesProductoPagina from "./pages/cortes/CortesProductoPagina";
 import CortesLotePagina from "./pages/cortes/CortesLotePagina";
+import MiPlanPage from "./pages/miPlan/MiPlanPage";
+import { setSuscripcion } from "./store/suscripcionSlice";
+import RequireDesbloqueo from "./shared/components/RequireDesbloqueo";
+import SeleccionarAlmacenesUsuariosBloqueados from "./shared/components/SeleccionarAlmacenesUsuariosBloqueados";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,37 +41,51 @@ function App() {
 
   /* Validate the token */
   useEffect(() => {
-    const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-    if (token) {
-      axios
-        .get(`${host}/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        if (!token) {
+            dispatch(logout());
+            setLoading(false);
+            return;
+        }
+
+        axios.get(`${host}/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` }
         })
-        .then((result) => {
-          dispatch(login({ ...result.data.data, token }));
+        .then(async (result) => {
+            const { usuario, suscripcion, modoLectura } = result.data.data || {};
 
-          // ✅ Cargar almacén 
-          const almacenGuardado = localStorage.getItem("almacenSeleccionado");
-          if (almacenGuardado) {
-            dispatch(setAlmacen(JSON.parse(almacenGuardado)));
-          } else {
-            dispatch(deleteAlmacen());
-          }
+            if (!usuario) {
+                // Si por alguna razón no llega usuario
+                dispatch(logout());
+                return;
+            }
+
+            // Dispatch al slice de usuario
+            dispatch(login({ ...usuario, token }));
+
+            // Dispatch al slice de suscripción
+            dispatch(setSuscripcion({
+                suscripcion: suscripcion || null,
+                modoLectura: modoLectura ?? true // default true por seguridad
+            }));
+
+            // ✅ CARGAR EMPRESA 
+            const empresaGuardada = localStorage.getItem("empresaSeleccionada");
+            if (empresaGuardada) {
+              dispatch(setAlmacen(JSON.parse(empresaGuardada)));
+            } else {
+              dispatch(deleteAlmacen());
+            }
         })
         .catch(() => {
-          dispatch(logout());
+            dispatch(logout());
         })
         .finally(() => {
-          setLoading(false);
+            setLoading(false);
         });
-    } else {
-      dispatch(logout());
-      setLoading(false);
-    }
-  }, [dispatch]);
+
+    }, [dispatch]);
 
   // Configuración para toaster
   const [isDark, setIsDark] = useState();
@@ -96,31 +114,36 @@ function App() {
               </PrivateRoute>
             }
           >
-            <Route path="/editar-perfil" element={<PerfilEditarPagina/>}/>
-            <Route path="/perfil/:perfilId" element={<PerfilPagina/>}/>
-            <Route path="/configuracion" element={<ConfiguracionPage/>}/>
-            <Route path="/" element={<Navigate to="/medicamentos" replace />} />
+            <Route path={`/desbloquear-almacenes-usuarios`} element={<SeleccionarAlmacenesUsuariosBloqueados />}/>
+            <Route element={<RequireDesbloqueo />}>
+                <Route path="/editar-perfil" element={<PerfilEditarPagina/>}/>
+                <Route path="/perfil/:perfilId" element={<PerfilPagina/>}/>
+                <Route path="/configuracion" element={<ConfiguracionPage/>}/>
+                <Route path="/" element={<Navigate to="/medicamentos" replace />} />
+                <Route path="/mi-plan" element={<MiPlanPage />} />
 
-            {/* Rutas que requieren de empresa */}
-            <Route path={`/seleccionar-almacen`} element={<SeleccionarAlmacenPage />}/>
-            <Route element={<RequireAlmacen />}>
+                {/* Rutas que requieren de almacén */}
+                <Route path={`/seleccionar-almacen`} element={<SeleccionarAlmacenPage />}/>
+                <Route element={<RequireAlmacen />}>
+                    <Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
+                    <Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
+                    <Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>
+                    <Route path="/dispositivos/:productoId" element={<ProductoPagina tipo="dispositivos"/>} />
+                    <Route path="/medicamentos/lotes/:loteId" element={<LotePagina/>}/>
+                    <Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
+                    <Route path="/lotes/:loteId" element={< LotePagina/>}/>
 
-              <Route path="/medicamentos" element={<ProductosPagina tipo = "medicamentos"/>} />
-              <Route path="/dispositivos" element={<ProductosPagina tipo = "dispositivos"/>} />
-              <Route path="/medicamentos/:productoId" element={<ProductoPagina tipo="medicamentos"/>}/>
-              <Route path="/dispositivos/:productoId" element={<ProductoPagina tipo="dispositivos"/>} />
-              <Route path="/medicamentos/lotes/:loteId" element={<LotePagina/>}/>
-              <Route path="/dispositivos/lotes/:loteId" element={< LotePagina/>}/>
-              <Route path="/lotes/:loteId" element={< LotePagina/>}/>
-
-              {/* Routes */}
-              <Route path="/cortes" element={<ListadoCortesPagina />}/>
-              <Route path="/cortes/:corteId" element={<CortesProductosPagina />}/>
-              <Route path="/cortes/:tipo/:corteId/:productoId/producto" element={<CortesProductoPagina />}/>
-              <Route path="/cortes/:corteId/:loteId/lote" element={<CortesLotePagina />}/>
+                    {/* Routes */}
+                    <Route path="/cortes" element={<ListadoCortesPagina />}/>
+                    <Route path="/cortes/:corteId" element={<CortesProductosPagina />}/>
+                    <Route path="/cortes/:tipo/:corteId/:productoId/producto" element={<CortesProductoPagina />}/>
+                    <Route path="/cortes/:corteId/:loteId/lote" element={<CortesLotePagina />}/>
+                </Route>
             </Route>
+
             
           </Route>
+
           <Route path="/" element={<Navigate to="/inventarios" replace />} />
           <Route path="/:token/verificar-email" element={<VerificarEmailPage />} />
           <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />

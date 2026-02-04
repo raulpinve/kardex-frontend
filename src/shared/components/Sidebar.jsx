@@ -1,5 +1,5 @@
 import React from 'react';
-import { LuBox, LuListChecks, LuSettings, LuSyringe } from "react-icons/lu";
+import { LuBox, LuCreditCard, LuListChecks, LuSettings, LuSyringe } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { LuPill } from "react-icons/lu";
 import { NavLink } from 'react-router-dom';
@@ -74,6 +74,20 @@ const Sidebar = () => {
                         Cortes
                     </span>
                 </NavLink>
+
+                {/* Mi plan */}
+                {usuario?.rol === "superadmin" && (<>
+                    <NavLink 
+                        to="/mi-plan"
+                        onClick={handleSidebarLinkClick}
+                        className={({ isActive }) => `sidebar-li ${isActive ? "active" : ""}`}
+                    >
+                        <LuCreditCard className="text-xl min-w-[24px]" />
+                        <span className={`transition-all duration-200 ${sidebarOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden"}`}>
+                            Suscripción
+                        </span>
+                    </NavLink>
+                </>)}
 
                 {/* Configuración */}
                 {usuario?.rol === "superadmin" && (
