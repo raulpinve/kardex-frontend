@@ -145,10 +145,10 @@ const LoginPage = () => {
             </div>
             <div className="relative items-center hidden w-full h-full bg-blue-900 dark:bg-white/5 lg:grid lg:w-1/2">
                 <div className="absolute right-0 top-0 w-full max-w-[250px] xl:max-w-[450px]">
-                    <img src="/src/assets/images/shape/grid-01.svg" alt="grid" className="z-200" />
+                    <img src="/images/shape/grid-01.svg" alt="grid" className="z-200" />
                 </div>
                 <div className="absolute bottom-0 left-0 w-full max-w-[250px] rotate-180 xl:max-w-[450px]">
-                    <img src="src/assets/images/shape/grid-01.svg" alt="grid" />
+                    <img src="/images/shape/grid-01.svg" alt="grid" />
                 </div>
                 <div>
                     <h1 className="text-center text-6xl text-white font-semibold">Kardex</h1>
