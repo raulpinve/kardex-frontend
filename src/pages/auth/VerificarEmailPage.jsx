@@ -4,7 +4,6 @@ import { verificarEmail } from "../services/verificarEmailPage";
 // import { verificarEmail } from "../../services/authService"; // Asegúrate de que exista esta función
 
 const VerificarEmailPage = () => {
-    const { token } = useParams(); // Suponiendo que el token viene por la URL
     const [mensaje, setMensaje] = useState("");
     const [error, setError] = useState("");
     const {token: tokenVerificacion} = useParams();
@@ -20,7 +19,7 @@ const VerificarEmailPage = () => {
     useEffect(() => {
         const verificar = async () => {
             try {
-                await verificarEmail(token, {
+                await verificarEmail({
                     token: tokenVerificacion
                 });
                 setMensaje("¡Listo! Verificamos tu correo 🎉 Gracias por confirmar tu dirección. Ahora tienes acceso completo a tu cuenta.");
@@ -32,10 +31,10 @@ const VerificarEmailPage = () => {
             }
         };
 
-        if (token) {
+        if (tokenVerificacion) {
             verificar();
         }
-    }, [token]);
+    }, [tokenVerificacion]);
 
     return (
         <div className="w-screen h-screen bg-slate-100 dark:bg-slate-900 px-6 flex items-center">

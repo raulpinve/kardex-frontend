@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
 const RestablecerContrasena = () => {
-    const {token} = useParams()
+    const {token} = useParams();
     const [ loading, setLoading ] = useState(false)
     const [ messageError, setMessageError ] = useState(null)
     const { register, handleSubmit, setError, formState: { errors }, watch } = useForm({ mode: "onChange"})
@@ -16,11 +16,11 @@ const RestablecerContrasena = () => {
         setMessageError(false)
         setLoading(true)
         const data = {
-            ...values, 
-            token
+            ...values,
+            token 
         }
         try {
-            await restablecerContrasena(token, data)
+            await restablecerContrasena(data)
             setContrasenaRestablecida(true)
         } catch (error) {
             handleErrors(error, setError, setMessageError)

@@ -7,7 +7,6 @@ import { solicitarVerificarEmail } from '../services/verificarEmailService'
 
 const VerificarEmail = () => {
     const usuario = useSelector(state => state.auth.usuario);
-    const token = useSelector(state => state.auth.token);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [codigoEnviado, setCodigoEnviado] = useState(false);
@@ -22,7 +21,7 @@ const VerificarEmail = () => {
     const handleClick = async () => {
         try {
             setLoading(true)
-            await solicitarVerificarEmail(token)
+            await solicitarVerificarEmail()
             setCodigoEnviado(true)
         } catch (error) {
             handleErrorsBasic(error, setMessageError)

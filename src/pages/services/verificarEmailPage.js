@@ -1,7 +1,7 @@
 import {api}from '../../utils/authUtils'
 
-const verificarEmail = (token, data) => {
-    const request = api.post(`/verificar-email`, data)
+const verificarEmail = ( data) => {
+    const request = api.post(`/auth/verificar-email`, data)
     return request
     .then(response => response.data)
     .catch(err => {

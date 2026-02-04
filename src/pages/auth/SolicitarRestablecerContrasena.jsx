@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
 import { handleErrors } from '../../utils/handleErrors'
 import Button from '../../shared/components/Button'
 import { solicitarRestablecer } from '../services/restablecerContrasenaService'
 
 const SolicitarRestablecerContrasena = () => {
     const [ loading, setLoading ] = useState(false)
-    const token = useSelector(state => state.auth.token)
     const [ messageError, setMessageError ] = useState(null)
     const { register, handleSubmit, setError, formState: { errors }, setValue } = useForm({ mode: "onChange"})
     const [instruccionesEnviadas, setInstruccionesEnviadas] = useState(false);
@@ -16,7 +14,7 @@ const SolicitarRestablecerContrasena = () => {
         setMessageError(false)
         setLoading(true)
         try {
-            await solicitarRestablecer(token, data)
+            await solicitarRestablecer(data)
             setInstruccionesEnviadas(true);
         } catch (error) {
             handleErrors(error, setError, setMessageError)
