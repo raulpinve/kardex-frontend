@@ -70,10 +70,10 @@ function App() {
                 modoLectura: modoLectura ?? true // default true por seguridad
             }));
 
-            // ✅ CARGAR EMPRESA 
-            const empresaGuardada = localStorage.getItem("empresaSeleccionada");
-            if (empresaGuardada) {
-              dispatch(setAlmacen(JSON.parse(empresaGuardada)));
+            // ✅ cargar almacén 
+            const almacenSeleccionado = localStorage.getItem("almacenSeleccionado");
+            if (almacenSeleccionado) {
+              dispatch(setAlmacen(JSON.parse(almacenSeleccionado)));
             } else {
               dispatch(deleteAlmacen());
             }
