@@ -29,11 +29,6 @@ const SolicitarRestablecerContrasena = () => {
             document.body.classList.add('dark')
         }
     }, []);
-
-    useEffect(() => {
-        setValue("username", "raulpinve")
-    })
- 
     return (
         <div className='w-screen h-screen bg-slate-100 dark:bg-slate-900 px-6 flex items-center'>
             <div className='bg-white dark:bg-slate-800 dark:text-white p-8 w-full md:w-[400px] rounded-xl mx-auto border-lg shadow '>
