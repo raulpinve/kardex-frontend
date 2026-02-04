@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LuCamera, LuCloudUpload, LuRefreshCcw, LuTrash2 } from "react-icons/lu";
 import imageDefault from "../../../../assets/images/image-default.png";
+
 import ModalAbrirImagenPerfil from "../../../../shared/components/ModalAbrirImagenPerfil";
 import { eliminarAvatar, subirAvatar } from "../../services/productoServices";
 
@@ -139,6 +140,10 @@ const SubirImagenProducto = ({producto, tipo, setProducto, allowChangeImagen = t
                 src={imageThumbnailSrc}
                 onClick={() => {
                     setModalActivo("imagen-perfil");
+                }}
+                onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = imageDefault; 
                 }}
                 alt="Imagen de perfil del medicamento" 
                 className="w-12 h-12 object-cover rounded-full select-none cursor-pointer"  
