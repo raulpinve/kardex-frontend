@@ -1,7 +1,7 @@
 import SkeletonTable from '../../../../shared/components/SkeletonTable';
 import Pagination from '../../../../shared/components/Pagination';
 import CardTitulo from '../../../../shared/components/CardTitulo';
-import { formatCantidad, formatFechaCorte } from '../../../../utils/utilities';
+import { dateColombiaFormat, formatCantidad, formatFechaCorte } from '../../../../utils/utilities';
 import useDebounce from '../../../../shared/hooks/useDebounce';
 import { LuEraser, LuPencil, LuSearch } from 'react-icons/lu';
 import Card from '../../../../shared/components/Card';
@@ -124,7 +124,7 @@ const ProductosMovimientos = ({ refresh , updateRefresh}) => {
 
                             {!loading && !error && movimientos.length > 0 && movimientos.map(movimiento => (
                                 <TableTr key={movimiento.id} className="text-sm">
-                                    <TableTd>{formatFechaCorte(movimiento.fecha)}</TableTd>
+                                    <TableTd>{dateColombiaFormat(movimiento.fecha)}</TableTd>
                                     <TableTd>{movimiento.numeroLote}</TableTd>
                                     <TableTd className='capitalize'>{movimiento.tipo}</TableTd>
                                     <TableTd>{formatCantidad(movimiento.cantidad)}</TableTd>

@@ -13,7 +13,7 @@ import { LuSearch } from 'react-icons/lu';
 import { useParams } from 'react-router-dom';
 import { obtenerMovimientosProductosCorte } from '../../services/movimientosServices';
 import useDebounce from '@/shared/hooks/useDebounce';
-import { formatCantidad, formatFechaCorte } from '@/utils/utilities';
+import { dateColombiaFormat, formatCantidad, formatFechaCorte } from '@/utils/utilities';
 import Pagination from '@/shared/components/Pagination';
 
 const ListadoMovimientosProductosCorte = (props) => {
@@ -119,7 +119,7 @@ const ListadoMovimientosProductosCorte = (props) => {
                         )}
                         {!loading && !error && movimientos.length > 0 && movimientos.map(movimiento => (
                             <TableTr key={movimiento.id}>
-                                <TableTd>{ formatFechaCorte(movimiento.fecha) }</TableTd>
+                                <TableTd>{ dateColombiaFormat(movimiento.fecha) }</TableTd>
                                 <TableTd>{ movimiento.numeroLote }</TableTd>
                                 <TableTd className='capitalize'>{ movimiento.tipo }</TableTd>
                                 <TableTd>{ formatCantidad(movimiento.cantidad) }</TableTd>
