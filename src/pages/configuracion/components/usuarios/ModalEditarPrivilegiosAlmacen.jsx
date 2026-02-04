@@ -22,7 +22,7 @@ const ModalEditarPrivilegiosAlmacen = (props) => {
             try {
                 const [resAlmacenes, resPrivilegios] = await Promise.all([
                     obtenerAlmacenes(),
-                    obtenerPrivilegiosUsuario(usuarioSeleccionado.id + "f"),
+                    obtenerPrivilegiosUsuario(usuarioSeleccionado.id),
                 ]);
         
                 setAlmacenes(resAlmacenes?.data || []);
