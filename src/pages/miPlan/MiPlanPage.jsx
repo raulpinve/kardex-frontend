@@ -59,10 +59,31 @@ const PlanCard = ({
   }
 
   return (
-    <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 dark:border-gray-800 shadow xl:p-8 dark:bg-gray-900 dark:text-white relative">
+    <div className="
+      flex flex-col h-full
+      p-6 xl:p-8
+      mx-auto w-full max-w-lg
+      text-center text-gray-900
+      bg-white
+      rounded-lg
+      border border-gray-100
+      dark:border-gray-800
+      shadow
+      dark:bg-gray-900
+      dark:text-white
+      relative
+    ">
 
       {isCurrent && (
-        <span className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+        <span className="
+          absolute top-4 right-4
+          bg-green-500
+          text-white
+          text-xs
+          font-semibold
+          px-2 py-1
+          rounded-full
+        ">
           Actual
         </span>
       )}
@@ -71,23 +92,48 @@ const PlanCard = ({
         {name}
       </h3>
 
-      <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
+      <p className="
+        font-light
+        text-gray-500
+        sm:text-lg
+        dark:text-gray-400
+        min-h-[84px]
+      ">
         {description}
       </p>
 
-      <div className="flex justify-center items-baseline my-8">
-        <span className="mr-2 text-5xl font-extrabold">
+      <div className="
+        flex
+        justify-center
+        items-baseline
+        my-8
+        whitespace-nowrap
+      ">
+        <span className="
+          mr-2
+          text-4xl
+          sm:text-5xl
+          font-extrabold
+        ">
           ${PLANES[planKey]?.mensual?.toLocaleString("es-CO")}
         </span>
 
-        <span className="text-gray-500 dark:text-gray-400">
+        <span className="
+          text-gray-500
+          dark:text-gray-400
+        ">
           /mes
         </span>
       </div>
 
       <ul
         role="list"
-        className="mb-8 space-y-4 text-left"
+        className="
+          mb-8
+          space-y-4
+          text-left
+          flex-1
+        "
       >
         <li className="flex items-center space-x-3">
           <svg
@@ -113,7 +159,7 @@ const PlanCard = ({
           >
             <path
               fillRule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293 7.293-7.293a1 1 0 011.414 0z"
               clipRule="evenodd"
             />
           </svg>
@@ -124,8 +170,16 @@ const PlanCard = ({
 
       <button
         className={`
-          text-white font-medium rounded-lg text-sm px-5 py-2.5
-          text-center cursor-pointer
+          w-full
+          text-white
+          font-medium
+          rounded-lg
+          text-sm
+          px-5
+          py-2.5
+          text-center
+          cursor-pointer
+          transition-colors
           ${
             isCurrent
               ? "bg-gray-400 cursor-not-allowed"
@@ -232,14 +286,15 @@ const MiPlanPage = () => {
       <div className="py-8 px-4 mx-auto max-w-screen-xl">
 
         {suscripcion?.plan && suscripcion?.fechaFin && (
-          <div
-            className="
-              mb-8 px-4 py-3 rounded-lg
-              bg-gray-50 dark:bg-gray-800
-              border border-gray-200 dark:border-gray-700
-              text-sm text-gray-700 dark:text-gray-200
-            "
-          >
+          <div className="
+            mb-8
+            px-4 py-3
+            rounded-lg
+            bg-gray-50 dark:bg-gray-800
+            border border-gray-200 dark:border-gray-700
+            text-sm
+            text-gray-700 dark:text-gray-200
+          ">
             <span className="font-medium capitalize">
               Mi plan actual: {suscripcion.plan}
             </span>
@@ -265,18 +320,45 @@ const MiPlanPage = () => {
           </div>
         )}
 
-        <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
-          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+        <div className="
+          mx-auto
+          max-w-screen-md
+          text-center
+          mb-8
+          lg:mb-12
+        ">
+          <h2 className="
+            mb-4
+            text-3xl
+            sm:text-4xl
+            tracking-tight
+            font-extrabold
+            text-gray-900
+            dark:text-white
+          ">
             La solución ideal para gestionar tu kardex de medicamentos y dispositivos médicos.
           </h2>
 
-          <p className="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">
+          <p className="
+            mb-5
+            font-light
+            text-gray-500
+            sm:text-xl
+            dark:text-gray-400
+          ">
             Elige tu plan y mantén tu inventario siempre bajo control.
           </p>
         </div>
 
-        <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
-
+        <div className="
+          grid
+          grid-cols-1
+          sm:grid-cols-2
+          xl:grid-cols-4
+          gap-6
+          xl:gap-8
+          items-stretch
+        ">
           {infoPlanes.map((plan) => (
             <PlanCard
               setDrawerOpen={setDrawerOpen}
@@ -288,7 +370,6 @@ const MiPlanPage = () => {
               setPlanSeleccionado={setPlanSeleccionado}
             />
           ))}
-
         </div>
 
         <DrawerPlan
