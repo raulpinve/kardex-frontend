@@ -140,8 +140,6 @@ function App() {
                     <Route path="/cortes/:corteId/:loteId/lote" element={<CortesLotePagina />}/>
                 </Route>
             </Route>
-
-            
           </Route>
 
           <Route path="/" element={<Navigate to="/inventarios" replace />} />
