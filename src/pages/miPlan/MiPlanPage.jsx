@@ -175,7 +175,7 @@ const infoPlanes = [
     name: "Gold",
     description:
       "Pensado para entidades con alta demanda y mayor capacidad de gestión de auditorías e inventario.",
-    price: "2.990.000",
+    price: "299.000",
     companies: "Almacenes ilimitados",
     auditors: "Usuarios ilimitados",
   },
@@ -204,10 +204,10 @@ const PLANES = {
   },
 
   gold: {
-    mensual: 2990000,
-    trimestral: 2990000 * 3 * 0.90,
-    semestral: 2990000 * 6 * 0.85,
-    anual: 2990000 * 12 * 0.80
+    mensual: 299000,
+    trimestral: 299000 * 3 * 0.90,
+    semestral: 299000 * 6 * 0.85,
+    anual: 299000 * 12 * 0.80
   }
 };
 
@@ -275,7 +275,7 @@ const MiPlanPage = () => {
           </p>
         </div>
 
-        <div className="space-y-8 lg:grid lg:grid-cols-4 sm:gap-6 xl:gap-10 lg:space-y-0">
+        <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
 
           {infoPlanes.map((plan) => (
             <PlanCard
